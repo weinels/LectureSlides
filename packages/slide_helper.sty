@@ -1,1 +1,121 @@
-/Users/weinels/LaTeX/packages/slide_helper.sty
+% Slide helper
+% 
+% by Adam Wilson
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+% 
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{slide_helper}
+  [2016/09/30 v0.1 Package to provide standardization to the formatting of lecture slides.]
+  
+\RequirePackage{general_macros}
+\RequirePackage{environ}
+
+% Set style for slides
+\mode<presentation>
+{
+  \usetheme{Boadilla}
+  \usecolortheme{wolverine}
+  \usefonttheme{default}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{enumerate items}[circle]
+  \setbeamertemplate{itemize items}[circle]
+  
+} 
+
+% set author and school
+\author{Adam Wilson}
+\institute{Salt Lake Community College}
+\date{}
+
+% set slide footer
+\makeatother
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot} \insertshortinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatletter
+
+% optionally not compile asymptote graphs
+\newcommand{\hideasymptote}{\RenewEnviron{asy}{\fbox{Asymptote Graph}}{}}
+
+% redefine the proof block so that it doesn't have the square in the lower right corner
+\renewenvironment{proof}{\begin{block}{Proof}}{\end{block}}
+
+% makes a example, block, etc... use the entire frame, vertically centering the contents.
+% combine with \only<>{} commands to build a multistep example
+\newcommand{\usepercentframe}[2]{\parbox[c][#1\textheight][c]{\linewidth}{#2}}
+
+%allow split environments to progress over multiple slide-steps
+\newcommand{\nextslidesplit}[2]{\action<+->{#1}&\action<.->{#2}\\}
+\newcommand{\sameslidesplit}[2]{\action<.->{#1}&\action<.->{#2}\\}
+
+%enviroment and commands to handle multistep blocks in slides 
+\newcounter{stepslidenum}
+\newenvironment{multistepslide}%
+{% before
+\setcounter{stepslidenum}{1}
+\begin{overprint}
+\nextstep
+}
+{%after
+\end{overprint}
+}%
+\newcommand{\nextstep}{%
+\onslide<\value{stepslidenum}>
+\addtocounter{stepslidenum}{1}}
+
+\newenvironment{multistepgraph}%
+{\begin{multistepslide}}%
+{\end{multistepslide}}
+
+% use the same symbol enumerate uses in ref
+\newcommand\enumref[1]{%
+  \begingroup
+  \usebeamerfont*{item projected}%
+  \usebeamercolor[bg]{item projected}%
+  \begin{pgfpicture}{-1ex}{0ex}{1ex}{2ex}
+    \pgfpathcircle{\pgfpoint{0pt}{.75ex}}{1.2ex}
+    \pgfusepath{fill}
+    \pgftext[base]{\color{fg}\ref{#1}}
+  \end{pgfpicture}%
+  \endgroup
+}
+
+% environments for dynamic shading on itemize and enumerate
+\newenvironment<>{dynitemize}[0]%
+{%
+\setbeamercovered{dynamic}
+\begin{itemize}%#2[#1]
+}{%
+\end{itemize}
+\setbeamercovered{invisible}
+}
+\newenvironment<>{dynenumerate}[0]%
+{%
+\setbeamercovered{dynamic}
+\begin{enumerate}%#2[#1]
+}{%
+\end{enumerate}
+\setbeamercovered{invisible}
+}
+
+
+%%
+\endinput
+%%
+%% End of file

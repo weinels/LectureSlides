@@ -1,1 +1,363 @@
-/Users/weinels/LaTeX/packages/exam_helper.sty
+% Exam helper
+% 
+% by Adam Wilson
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+% 
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{exam_helper}
+  [2016/09/30 v0.1 Package to provide standardization to the formatting of exams.]
+  
+\RequirePackage{general_macros}
+
+\RequirePackage{multicol}
+\RequirePackage{etoolbox}
+\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage{hyperref}
+\RequirePackage{tabu}
+\RequirePackage{lastpage}
+\RequirePackage{calc}
+\RequirePackage{xstring}
+\RequirePackage{afterpage}
+
+% mock exam option
+\newif\ifmockexam
+\mockexamfalse
+\DeclareOption{mock}{
+  \mockexamtrue
+}
+\ProcessOptions\relax
+% exam info
+\newcommand{\exmName}{Exam Name}
+\newcommand{\exmDate}{Date Exam is given}
+\newcommand{\exmSemester}{Semester}
+\newcommand{\exmInstructor}{Instructor Name}
+\newcommand{\exmCourse}{MATH XXXX-XX}
+\newcommand{\exmSchoolName}{School Name}
+\newcommand{\exmNum}{}
+
+% to set course info
+\newcommand{\setExamName}[1]{\renewcommand{\exmName}{#1}}
+\newcommand{\setExamDate}[1]{\renewcommand{\exmDate}{#1}}
+\newcommand{\setSemester}[1]{\renewcommand{\exmSemester}{#1}}
+\newcommand{\setInstructor}[1]{\renewcommand{\exmInstructor}{#1}}
+\newcommand{\setCourse}[1]{\renewcommand{\exmCourse}{#1}}
+\newcommand{\setSchoolName}[1]{\renewcommand{\exmSchoolName}{#1}}
+\newcommand{\setExamNumber}[1]{\renewcommand{\exmNum}{#1}}
+
+% set solution styling
+\CorrectChoiceEmphasis{\bfseries\large\color{darkgray}}
+\SolutionEmphasis{\color{darkgray}}
+
+% set header and footer
+\newcommand{\pagetotaldisplay}[2]{\IfStrEq{#1}{0}{\IfStrEq{#2}{0}{}{\rule{1.25cm}{0.4pt} of #2\ bonus points}}{\rule{1.25cm}{0.4pt} of #1 points\IfStrEq{#2}{0}{}{\ (+ #2 bonus)}}}
+\pagestyle{headandfoot}
+\ifmockexam
+\header{\exmCourse}{\ifprtans{\exmName\ Solutions}{\exmName}}{\textbf{Practice Exam}}
+\footer{\exmNum}{Page \thepage\ of \pageref{LastPage}}{\exmDate}
+\coverheader{}{}{}
+\coverfooter{\exmNum}{}{}
+\else
+\header{\exmCourse}{\ifprtans{\exmName\ Solutions}{\exmName}}{\pagetotaldisplay{\pointsonpage{\thepage}}{\bonuspointsonpage{\thepage}}}
+\footer{\exmNum}{Page \thepage\ of \pageref{LastPage}}{\exmDate}
+\coverheader{}{}{}
+\coverfooter{\exmNum}{}{}
+\fi
+
+% spaces out problems
+\newcommand{\problemworkspace}[1]{\vspace*{\stretch{#1}}}
+
+% command check if the first argument contains text
+% arguments: < check if has text > < if empty > < if not empty>
+\newcommand{\ifnotext}[3]{%
+  \sbox0{#1}%
+  \ifdim\wd0=0pt
+    {#2}% if #1 is empty
+  \else
+    {#3}% if #1 is not empty
+  \fi
+}
+
+%% set the question format
+\newcommand{\pointsdisplay}[2]{\IfStrEq{#1}{0}{\IfStrEq{#2}{0}{}{#2\ bonus\ points}}{#1\ points\IfStrEq{#2}{0}{}{\ and\ #2\ bonus\ points}}}
+\ifmockexam
+\qformat{\textbf{Question \thequestion}\dotfill}
+\bonusqformat{\textbf{Question \thequestion}\dotfill\ Bonus Question}
+\else
+\qformat{\textbf{Question \thequestion}\dotfill\pointsdisplay{\pointsofquestion{\arabic{question}}}{\bonuspointsofquestion{\arabic{question}}}}
+\bonusqformat{\textbf{Question \thequestion}\dotfill\pointsdisplay{\pointsofquestion{\arabic{question}}}{\bonuspointsofquestion{\arabic{question}}}}
+\fi
+
+% quick print macro to print different things if printanswers is enabled
+\newcommand{\ifprtans}[2]{%
+\ifprintanswers
+#1
+\else
+#2
+\fi}
+
+% macro to make sure spacing is left when answers aren't being printed
+\newcommand{\answerphantom}[1]{%
+\ifprintanswers
+#1
+\else
+\phantom{#1}
+\fi}
+
+% environment to build answer boxes
+% arguments: <table width> <num columns> <row height (nonheader)>
+\newenvironment{answerboxes}[2]{%
+\everyrow{\tabucline-}
+\begin{tabu} to #1{|*#2{X[l,m]|}@{}m{0pt}@{}}%
+}{%
+\end{tabu}%
+}
+\newcommand{\answerbox}[2]{%
+	\ifprtans{{#2}}%
+	         {{#1}}% 
+	&%
+}
+\newcommand{\boxheader}[1]{\textbf{#1} &}
+\newcommand{\headerline}[1]{#1 \tabularnewline}
+\newcommand{\nextline}[2]{#2 \tabularnewline[#1]}
+
+% two choice MC problem
+% #1 - text of the first choice
+% #2 - text of the second choice
+\newtoggle{firstcorrect}
+\newcommand{\twochoices}[2]{%
+\begin{oneparcheckboxes}
+\iftoggle{firstcorrect}{%
+\correctchoice {#1}
+\choice {#2}
+}{%
+\choice {#1}
+\correctchoice {#2}}
+\end{oneparcheckboxes}}
+
+% yes/no MC problem
+\newcommand{\answerisyes}[0]{\toggletrue{firstcorrect}}
+\newcommand{\answerisno}[0]{\togglefalse{firstcorrect}}
+\newcommand{\yesnochoices}[1]{#1\twochoices{Yes}{No}}
+
+% true/false MC problem
+\newcommand{\answeristrue}[0]{\toggletrue{firstcorrect}}
+\newcommand{\answerisfalse}[0]{\togglefalse{firstcorrect}}
+\newcommand{\truefalsechoices}[1]{#1\twochoices{True}{False}}
+
+% exam instructions
+\newcommand{\examInstructions}[0]{%
+\fbox{\fbox{\parbox{14cm}{\centering
+This exam is closed book.
+
+You may use a scientific calculator.
+
+No notes or scratch paper are allowed. 
+
+Read the instructions for every problem. 
+
+Write your solutions in the space provided. 
+
+Clearly indicate your answer to each problem.
+
+If you need extra room, you may use the back of the page.
+
+Partial credit is possible on problems worth more then one point.
+
+If you have any questions during the exam, please raise your hand.}}}}
+
+% extra instructions for mock exams
+\newcommand{\examMockInstructions}[0]{%
+\fbox{\fbox{\parbox{14cm}{\centering
+{\LARGE This is a \textbf{Practice Exam}.}
+
+\vspace{0.5cm}
+These problems will be similar, but \underline{\textbf{different}}, from the problems on the actual exam.}}}}
+%coverpage
+\newcommand{\examCoverPages}{%
+\begin{coverpages}
+\begin{center}
+\exmSchoolName\\
+\exmCourse\\
+\exmSemester
+
+\vspace{4cm}
+{\Huge\textbf{\exmName}}
+
+\ifmockexam
+{\LARGE \vspace{1cm} Practice Exam}
+\fi 
+
+% only provide student name field if solutions aren't being printed and it's not a mock exam
+\ifprintanswers
+\vspace{1cm}
+{\Huge SOLUTIONS}
+\else
+\ifmockexam\else
+\vspace{5cm}
+\makebox[14cm]{\hrulefill}
+\makebox[\textwidth]{Student Name}
+\fi\fi
+\clearpage
+
+\ifmockexam
+\examMockInstructions
+\else
+\cvbpword{Bonus}
+\ifprintanswers
+\vspace{1cm}
+\ifthenelse{\equal{\numbonuspoints}{0}}
+{\pointtable[v][pages]}
+{\combinedpointtable[v][pages]}
+\else
+\vspace{1cm}
+\ifthenelse{\equal{\numbonuspoints}{0}}
+{\gradetable[v][pages]}
+{\combinedgradetable[v][pages]}
+
+\vspace{0.5cm}
+\def\arraystretch{1.5}%
+\begin{tabular}{|c|m{2cm}|}
+\hline
+Exam Grade&\\
+\hline
+\end{tabular}
+\def\arraystretch{1.0}%
+\fi
+\fi
+\vfill
+
+\examInstructions
+\end{center}
+\end{coverpages}
+\clearpage}
+
+% Compact Table of Integrals
+\newcommand{\examIntegrals}{%
+\begin{center}
+\large
+\textbf{Table of Integrals}
+\begin{framed}
+\begin{tabular}{ll}
+$\int x^n \hspace{2pt}dx = \tfrac{1}{n+1}x^{n+1}, \hspace{1ex} n\neq-1$
+&
+$\int \frac{1}{x}\hspace{2pt}dx=\ln\abs{x}$
+\\
+$\int u \hspace{2pt} \hspace{2pt}d{v} = uv - \int v du$
+&
+$\int e^x \hspace{2pt}dx = e^x$
+\\
+$\int a^x \hspace{2pt}dx = \tfrac{1}{\ln[a]} a^x$
+&
+$\int \ln[x] \hspace{2pt}dx = x \ln[x] - x$
+\\
+$\int \sin[x] \hspace{2pt}dx = -\cos[x]$
+&
+$\int \cos[x] \hspace{2pt}dx = \sin[x]$
+\\
+$\int \tan[x] \hspace{2pt}dx = -\frac{1}{a} \ln \cos[ax] $
+&
+$\int \sec[x] \hspace{2pt}dx = \ln[\abs{\sec[x] + \tan[x]}]$
+\\
+$\int \sec[x][2] \hspace{2pt}dx = \tan[x]$
+&
+$\int \sec[x] \tan[x] \hspace{2pt}dx = \sec[x]$
+\\
+$\int \tfrac{a}{a^2+x^2}\hspace{2pt}dx = \tan^{-1}\tfrac{x}{a}$
+&
+$\int \tfrac{a}{a^2-x^2}\hspace{2pt}dx = \tfrac{1}{2}\ln\abs{\tfrac{x+a}{x-a}}$
+\\
+$\int \tfrac{1}{\sqrt{a^2-x^2}} \hspace{2pt}dx = \sin^{-1} \tfrac{x}{a}$
+&
+$\int \tfrac{a}{x \sqrt{x^2-a^2}} \hspace{2pt}dx = \sec[\tfrac{x}{a}][-1]$
+\\
+$\int \tfrac{1}{\sqrt{x^2-a^2}} \hspace{2pt}dx = \cosh^{-1}\left( \tfrac{x}{a} \right)= \nonumber \ln (x+\sqrt{x^2-a^2})$
+&
+$\int \tfrac{1}{\sqrt{x^2+a^2}} \hspace{2pt}dx =\nonumber \ln (x+\sqrt{x^2+a^2})$
+\end{tabular}
+\end{framed}
+\end{center}
+}
+
+\newcommand{\examLaplace}{%
+\begin{center}
+\textbf{\large Table of Laplace Transformations}
+
+~
+
+\tabulinesep=1.5mm
+\begin{tabu} to \linewidth {|X[$c] | X[$c] X[$l]|}
+\hline
+f(t)			& \laplace\{f(t)\} 			& 					\\
+\hline
+1				& \dfrac{1}{s} 					& s>0			\\
+t^n				& \dfrac{n!}{s^{n+1}} 			& s>0,~n\in\N^+	\\
+e^{at}			& \dfrac{1}{s-a} 				& s>a			\\
+t^n e^{at}		& \dfrac{n!}{{(s-a)}^{n+1}}		& s>a,~n\in\N^+	\\
+\sin[bt]		& \dfrac{b}{s^2+b^2}			& s>0			\\
+\cos[bt]		& \dfrac{s}{s^2+b^2}			& s>0			\\
+e^{at}\sin[bt]	& \dfrac{b}{{(s-a)}^2+b^2}		& s>a			\\
+e^{at}\cos[bt]	& \dfrac{s-a}{{(s-a)}^2+b^2}	& s>a			\\
+\sinh[bt]		& \dfrac{b}{s^2-b^2}			& s>\abs{b}		\\
+\cosh[bt]		& \dfrac{s}{s^2-b^2}			& s>\abs{b}		\\
+\hline
+\end{tabu}
+\end{center}}
+
+% Reference sheet for Differential Equations and Linear Algebra
+\newcommand{\examDELARef}{%
+\thispagestyle{headandfoot}
+\rhead{Reference Sheet}
+\examIntegrals
+\examLaplace}
+
+% Reference Sheet for College Algebra
+%\newsavebox\ellipsebox
+%\savebox\ellipsebox{%
+\newcommand{\ellipsebox}{%
+\begin{tabular}{c}
+$\dfrac{{(x-h)}^2}{a^2}+\dfrac{{(y-k)}^2}{b^2}=1$\\\\
+$\dfrac{{(y-k)}^2}{a^2}+\dfrac{{(x-h)}^2}{b^2}=1$\\\\
+where\\
+$b^2=a^2-c^2$
+\end{tabular}%
+}
+	
+%\newsavebox\hyperbolabox
+%\savebox\hyperbolabox{%
+\newcommand{\hyperbolabox}{%
+\begin{tabular}{c}
+$\dfrac{{(x-h)}^2}{a^2}-\dfrac{{(y-k)}^2}{b^2}=1$\\\\
+$y-k=\pm\dfrac{b}{a}(h-h)$\\\\
+$\dfrac{{(y-k)}^2}{a^2}-\dfrac{{(x-h)}^2}{b^2}=1$\\\\
+$y-k=\pm\dfrac{a}{b}(x-h)$\\\\
+where\\\\
+$b^2=c^2-a^2$
+\end{tabular}%
+}
+
+%\newsavebox\parabolabox
+%\savebox\parabolabox{%
+\newcommand{\parabolabox}{%
+\begin{tabular}{c}
+${(y-k)}^2=4a(x-h)$\\\\
+${(x-h)}^2=4a(y-k)$
+\end{tabular}%
+}
+	
+\newcommand{\examCARef}{%
+\thispagestyle{headandfoot}
+\rhead{Reference Sheet}
+\begin{center}
+\tabulinesep=1mm
+\begin{tabu} to \linewidth {|X[c]|X[c]|X[c]|}
+\firsthline
+\ellipsebox & \hyperbolabox & \parabolabox\\\lasthline
+\end{tabu}
+\end{center}
+}
+\endinput
+%%
+%% End of file

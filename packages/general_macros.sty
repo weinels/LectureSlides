@@ -1,1 +1,191 @@
-/Users/weinels/LaTeX/packages/general_macros.sty
+% general macros
+% 
+% by Adam Wilson
+%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+% 
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{general_macros}
+  [2016/09/30 v0.1 Package to a general set of macros.]
+  
+\RequirePackage{xparse}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{etoolbox}
+\RequirePackage{mathtools}  
+
+% quote text in a consistent way
+\newcommand{\quotetext}[1]{``#1''}
+
+% phantom minus sign, to help with array alignment
+\newcommand{\+}{\phantom{-}}
+
+% number system shorthand
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\M}{\mathbb{M}}
+\newcommand{\Sol}{\mathbb{S}}
+\newcommand{\Poly}{\mathbb{P}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+
+% laplace transform symbol
+\newcommand{\laplace}{\mathcal{L}}
+
+% extends the amsmath matrix commands (for example augmented matrices)
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+% command to form a bracketed column vector
+\newif\iffirstitem
+\firstitemtrue
+
+\NewDocumentCommand\vectorlistA{>{\SplitList{,}}m}
+{%
+  \firstitemtrue
+  \ProcessList{#1}{\vectoritemA}%
+}
+\newcommand\vectoritemA[1]{#1\\}
+\NewDocumentCommand\vectorlistB{>{\SplitList{,}}m}
+{%
+  \firstitemtrue
+  \ProcessList{#1}{\vectoritemB}%
+}
+\newcommand\vectoritemB[1]{\iffirstitem #1\firstitemfalse \else ,#1 \fi}
+
+\newcommand{\bvector}[1]{\begin{bmatrix}\vectorlistA{#1}\end{bmatrix}}
+\newcommand{\cvector}[1]{\left<\vectorlistB{#1}\right>}
+
+%interval notation
+\newcommand{\open}[1]{\iffirstitem \left( #1 \else #1 \right) \fi}
+\newcommand{\closed}[1]{\iffirstitem \left[ #1 \else #1 \right] \fi}
+\newcommand{\interval}[2]{\firstitemtrue #1, \firstitemfalse #2}
+\newcommand{\union}[0]{\cup}
+\newcommand{\intersection}[0]{\cap}
+
+% define symbol for matrix size symbol
+\newcommand{\by}{\times}
+
+% define handlers for matrix operations
+\newcommand{\transposeof}[1]{#1^{\raisebox{.5ex}{$\scriptscriptstyle\intercal$}}}
+\newcommand{\inverseof}[1]{#1^{\raisebox{.3ex}{$\scriptscriptstyle-\!1$}}}
+
+% bold matrix and vector with overarrow
+\newcommand{\vect}[1]{{\vec{\boldsymbol{#1}}}}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+
+% underbrace two side-by-side items, ensuring the braces are at the same vertical level
+\newcommand{\underbracetwoitems}[4]{\underbrace{#1\vphantom{#3}}_{#2}\underbrace{#3\vphantom{#1}}_{#4}}
+
+% declare some new math operators
+\DeclareMathOperator{\spn}{\textbf{span}}
+\DeclareMathOperator{\rank}{\textbf{rank}}
+\DeclareMathOperator{\dimension}{\textbf{dim}}
+\renewcommand{\dim}{\dimension}
+\DeclareMathOperator{\kernel}{\textbf{ker}}
+\renewcommand{\ker}{\kernel}
+\DeclareMathOperator{\Col}{\textbf{Col}\ }
+\DeclareMathOperator{\im}{\textbf{Im}}
+\DeclareMathOperator{\trace}{\textbf{tr}}
+
+% declare some macros for special functions
+\DeclareMathOperator{\cosinesym}{cos}
+\DeclareMathOperator{\sinesym}{sin}
+\DeclareMathOperator{\tangentsym}{tan}
+\DeclareMathOperator{\secantsym}{sec}
+\DeclareMathOperator{\cosecantsym}{csc}
+\DeclareMathOperator{\cotangentsym}{cot}
+\DeclareMathOperator{\naturallogsym}{ln}
+\DeclareMathOperator{\logarithmsym}{log}
+\DeclareMathOperator{\cosinehypsym}{cosh}
+\DeclareMathOperator{\sinehypsym}{sinh}
+\DeclareMathOperator{\tangenthypsym}{tanh}
+\DeclareMathOperator{\secanthypsym}{sech}
+\DeclareMathOperator{\cosecanthypsym}{csch}
+\DeclareMathOperator{\cotangenthypsym}{coth}
+\newcommand{\supfunction}[3]{%
+\ifstrempty{#3}{#1}{#1^{#3}}
+\ifstrempty{#2}{}{\left(#2\right)}}
+\newcommand{\subfunction}[3]{%
+\ifstrempty{#3}{#1}{#1_{#3}}
+\ifstrempty{#2}{}{\left(#2\right)}}
+\DeclareDocumentCommand{\cos}{ O{} O{} }{\supfunction{\cosinesym}{#1}{#2}}
+\DeclareDocumentCommand{\sec}{ O{} O{} }{\supfunction{\secantsym}{#1}{#2}}
+\DeclareDocumentCommand{\sin}{ O{} O{} }{\supfunction{\sinesym}{#1}{#2}}
+\DeclareDocumentCommand{\csc}{ O{} O{} }{\supfunction{\cosecantsym}{#1}{#2}}
+\DeclareDocumentCommand{\tan}{ O{} O{} }{\supfunction{\tangentsym}{#1}{#2}}
+\DeclareDocumentCommand{\cot}{ O{} O{} }{\supfunction{\cotangentsym}{#1}{#2}}
+\DeclareDocumentCommand{\ln}{ O{} O{} }{\supfunction{\naturallogsym}{#1}{#2}}
+\DeclareDocumentCommand{\log}{ O{} O{} }{\subfunction{\logarithmsym}{#1}{#2}}
+\DeclareDocumentCommand{\cosh}{ O{} O{} }{\supfunction{\cosinehypsym}{#1}{#2}}
+\DeclareDocumentCommand{\sech}{ O{} O{} }{\supfunction{\secanthypsym}{#1}{#2}}
+\DeclareDocumentCommand{\sinh}{ O{} O{} }{\supfunction{\sinehypsym}{#1}{#2}}
+\DeclareDocumentCommand{\csch}{ O{} O{} }{\supfunction{\cosecanthypsym}{#1}{#2}}
+\DeclareDocumentCommand{\tanh}{ O{} O{} }{\supfunction{\tangenthypsym}{#1}{#2}}
+\DeclareDocumentCommand{\coth}{ O{} O{} }{\supfunction{\cotangenthypsym}{#1}{#2}}
+
+%\newcommand{\function}[2]{\ifstrempty{#2}{#1}{#1\left( #2 \right)}}
+%\renewcommand{\cos}[1][]{\function{\cosinesym}{#1}}
+%\renewcommand{\sin}[1][]{\function{\sinesym}{#1}}
+%\renewcommand{\tan}[1][]{\function{\tangentsym}{#1}}
+%\renewcommand{\sec}[1][]{\function{\secantsym}{#1}}
+%\renewcommand{\csc}[1][]{\function{\cosecantsym}{#1}}
+%\renewcommand{\cot}[1][]{\function{\cotangentsym}{#1}}
+
+% define special matrices
+\newcommand{\identmat}[1]{\mat{I}_{#1}}
+\newcommand{\zeromat}[1]{\mat{0}_{#1}}
+
+% uniform setbuilder notation
+\newcommand{\setbuilder}[2]{\left\{#1\ \middle|\ #2\right\}}
+
+% absolute value bars
+\newcommand{\abs}[1]{{\left\lvert #1\right\rvert}}
+\newcommand{\vabs}[1]{{\left\lVert #1\right\rVert}}
+
+% bigger center dot to represent dot products
+\makeatletter
+\newcommand*\pdot{\mathpalette\pdot@{.5}}
+\newcommand*\pdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+% styling for mappings
+\newcommand{\mapping}[3]{#1\ :\ #2\ \rightarrow\ #3}
+
+% command to place arrays of symbols above a letter
+\makeatletter
+\def\gsh#1{%
+  \vbox{\hbox{%
+    \let\\\cr
+    \offinterlineskip%
+    \valign{&\hb@xt@2\p@{\hss$##$\hss}\vskip.2ex\cr#1\crcr}%
+  }\vskip-.36ex}%
+}
+\def\gshsym{\@ifstar\gsh@ssym\gsh@sym}
+\def\gsh@sym#1#2{\mathrlap{\overset{#1}{\phantom{#2}}}#2}
+\def\gsh@ssym#1#2{\overset{#1}{#2}{\vphantom{#2}}}
+\makeatother
+
+\newcommand\gshone{\gsh{.}}
+\newcommand\gshtwo{\gsh{.&.}}
+\newcommand\gshthree{\gsh{.&.&.}}
+
+% command for newton's dot notation
+% #1 = letter to place dots above
+% #2 = number of dots (if #2 is too large, no dots are placed)
+\newcommand{\ndot}[2]{%
+\ifthenelse{\equal{#2}{0}}{#1}
+	{\ifthenelse{\equal{#2}{1}}{\dot{#1}}
+		{\ifthenelse{\equal{#2}{2}}{\ddot{#1}}
+			{\ifthenelse{\equal{#2}{3}}{\gshsym{\gshtwo\gshone}{#1}}
+				{\ifthenelse{\equal{#2}{4}}{\gshsym{\gshtwo\gshtwo}{#1}}
+					{#1}}}}}}
