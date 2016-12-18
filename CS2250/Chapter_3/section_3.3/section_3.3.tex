@@ -1,0 +1,563 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{slide_helper}
+
+\usepackage[customcolors, beamer]{hf-tikz}
+\tikzset{style green/.style={
+    set fill color=green!60!lime!50,
+    set border color=green!100,
+  },
+  style cyan/.style={
+    set fill color=cyan!50!blue!40,
+    set border color=cyan!100,
+  },
+  style orange/.style={
+    set fill color=orange!50!red!60,
+    set border color=red!80,
+  },
+  hor/.style={
+    above left offset={-0.15,0.35},
+    below right offset={0.15,-0.125},
+    #1
+  },
+  ver/.style={
+    above left offset={-0.38,0.35},
+    below right offset={0.15,-0.15},
+    #1
+  },
+  ver2/.style={
+    above left offset={-0.15,0.35},
+    below right offset={0.15,-0.15},
+    #1
+  }
+}
+
+\title[MATH 2250 - Section 3.3]{The Inverse of a Matrix}
+\author{Adam Wilson}
+\institute{Salt Lake Community College}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{The Inverse of a Matrix}
+\begin{block}{Inverse Matrix}
+If there exists, for an $n \by n$ matrix $\mat{A}$, another matrix $\inverseof{\mat{A}}$ of the same order such that
+\begin{equation*}
+\inverseof{\mat{A}}\mat{A}=\mat{A}\inverseof{\mat{A}}=\identmat{n}
+\end{equation*}
+then $\inverseof{\mat{A}}$ is called the \textbf{inverse} of matrix $\mat{A}$, and $\mat{A}$ is called \textbf{invertible}.
+\end{block}\pause
+\begin{block}{Vocabulary}
+\begin{itemize}
+\item A square matrix that is not invertible is called \textbf{singular}.
+\item A square matrix that is invertible is called \textbf{nonsingular}.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Properties of Invertible Matrices}
+\begin{block}{Invertible Matrix Properties}
+\begin{itemize}
+\item<+-> If $\mat{A}$ is invertible, then so is $\mat{A}^{-1}$ and 
+\begin{equation*}
+\inverseof{\left(\inverseof{\mat{A}}\right)}=\mat{A}
+\end{equation*}
+\item<+-> If $\mat{A}$ and $\mat{B}$ are invertible matrices of the same order, then their product $\mat{A}\mat{B}$ is invertible. In fact,
+\begin{equation*}
+\inverseof{\left(\mat{A}\mat{B}\right)}=\inverseof{\mat{B}}\inverseof{\mat{A}}
+\end{equation*}
+\item<+-> if $\mat{A}$ is invertible, then so is $\transposeof{\mat{A}}$, and
+\begin{equation*}
+\inverseof{\left(\transposeof{\mat{A}}\right)}=\transposeof{\left(\inverseof{\mat{A}}\right)}
+\end{equation*}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Inverses by Reduced Row Echelon Form}
+\begin{block}{Inverses by Reduced Row Echelon Form}
+For an $n\by n$ matrix $\mat{A}$, the following process will calculate $\inverseof{\mat{A}}$, or show that $\mat{A}$ is not invertible.
+\begin{description}
+\item<+->[Step 1:] Form the $n\by 2n$ augmented matrix $\mat{M}=[\mat{A}|\identmat{n}]$.
+\item<+->[Step 2:] Transform $\mat{M}$ into Reduced Row Echelon Form.
+\item<+->[Step 3:] 
+\begin{itemize}
+\item<.-> If the left hand side of $\mat{M}$ is the identity matrix, then the right hand side is $\inverseof{\mat{A}}$.
+\item<.-> Otherwise, $\mat{A}$ is a non-invertible matrix.
+\end{itemize}
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}{Inverses by Reduced Row Echelon Form}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>%
+Consider the matrix:
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+\+1 & \+1 & \+1 \\
+\+0 & \+2 & \+1 \\
+\+1 & \+0 & \+1 \\
+\end{bmatrix}
+\end{equation*}
+Find $\inverseof{\mat{A}}$
+
+\visible<2>{%
+Start by building the augmented matrix
+\begin{equation*}
+\mat{M_A}=
+\begin{bmatrix}[rrr|rrr]
+\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+\+1 & \+0 & \+1 & \+0 & \+0 & \+1\\
+\end{bmatrix}
+\end{equation*}
+
+Then transform $\mat{M_A}$ into Reduced Row Echelon Form.}
+\onslide<3-5>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+1 & \+0 & \+1 & \+0 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_3-r_1
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+0 &  -1 & \+0 &  -1 & \+0 & \+1\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+0 &  -1 & \+0 &  -1 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=-r_3\\
+				& R_3=r_2
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_3-2r_2
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& R_1=r_1-r_3\\
+				& \phantom{R_2}\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+0 & \+3 &  -1 &  -2\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15-17>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+0 & \+3 &  -1 &  -2\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}
+			\visible<16-17>{\begin{aligned}
+				& R_1=r_1-r_2\\
+				& \phantom{R_2}\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<17>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+0 & \+0 & \+2 &  -1 &  -1\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<18>
+\begin{equation*}
+\begin{bmatrix}[rrr|rrr]
+	\+1 & \+0 & \+0 & \+2 &  -1 &  -1\\
+	\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+	\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+\end{bmatrix}
+\end{equation*}
+Since the left hand side is $\identmat{3}$, we know the right hand side is the inverse:
+\begin{equation*}
+\inverseof{\mat{A}}=
+\begin{bmatrix}[rrr]
+\+2 &  -1 &  -1\\
+\+1 & \+0 &  -1\\
+ -2 & \+1 & \+2\\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Inverses by Reduced Row Echelon Form}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>%
+Consider the matrix:
+\begin{equation*}
+\mat{B}=
+\begin{bmatrix}
+\+3 & \+0 & \+3 \\
+ -1 & \+2 & \+1 \\
+\+1 & \+1 & \+2 \\
+\end{bmatrix}
+\end{equation*}
+Find $\inverseof{\mat{B}}$
+
+\visible<2>{%
+Start by building the augmented matrix
+\begin{equation*}
+\mat{M_B}=
+\begin{bmatrix}[rrr|rrr]
+\+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+ -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+\+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+\end{bmatrix}
+\end{equation*}
+
+Then transform $\mat{M_B}$ into Reduced Row Echelon Form.}
+\onslide<3-5>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& R_1=r_3\\
+				& \phantom{R_2}\\
+				& R_3=r_1
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=r_2+r_1\\
+				& R_3=r_2-3r_1
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+3 & \+3 & \+0 & \+1 & \+1\\
+				 \+0 &  -3 &  -3 & \+1 & \+0 &  -1\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-12>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+3 & \+3 & \+0 & \+1 & \+1\\
+				 \+0 &  -3 &  -3 & \+1 & \+0 &  -1\\
+			\end{bmatrix}
+			\visible<10-12>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=\tfrac{1}{3}r_2\\
+				& R_3=r_3+r_2
+			\end{aligned}}\\
+		\visible<11-12>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+1 & \+1 & \+0 & \+\frac{1}{3} & \+\frac{1}{3}\\
+				 \+0 & \+0 & \+0 & \+1 & \+1 &  0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\visible<12>{%
+\begin{center}
+This means that $\mat{B}$ is a non-invertible matrix.
+\end{center}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Invertibility and Solutions}
+\begin{block}{Invertibility and Solutions}
+Consider the matrix equation $\mat{A}\vect{x}=\vect{b}$.\\
+Where $\mat{A}$ is an $n \by n$ matrix, and $\vect{x}$ and $\vect{b}$ are of length $n$.
+\begin{itemize}
+\item<+-> A unique solution exists if and only if $\mat{A}$ is invertible.
+\item<+-> Otherwise there are either:
+\begin{itemize}
+\item No solutions.
+\item Infinitely many solutions.
+\end{itemize}
+(Another method must be used to determine which.)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Invertibility and Solutions}
+\begin{example}
+\usepercentframe{0.75}{
+\only<1-2>{
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$ & $+$ & $y$  & $+$ & $z$ & $=$ & $2$\\
+    &     & $2y$ & $+$ & $z$ & $=$ & $-1$\\
+$x$ &     &      & $+$ & $z$ & $=$ & $3$
+\end{tabular}
+\end{center}\pause
+
+We can can write this as the matrix equation:
+\begin{equation*}
+\underbrace{\begin{bmatrix}
+\+1 & \+1 & \+1 \\
+\+0 & \+2 & \+1 \\
+\+1 & \+0 & \+1 \\
+\end{bmatrix}}_{\mat{A}}
+\underbrace{\begin{bmatrix}
+x\\
+y\\
+z
+\end{bmatrix}}_{\vect{x}}
+=
+\underbrace{\begin{bmatrix}
+\+2\\
+-1\\
+\+3
+\end{bmatrix}}_{\vect{b}}
+\end{equation*}}
+\only<3-7>{
+So, if $\mat{A}$ is invertible, then we can solve the matrix equation for $\vect{x}$
+\begin{equation*}
+\begin{split}
+\mat{A}\vect{x}&=\vect{b}\\
+\visible<4->{\inverseof{\mat{A}}\mat{A}\vect{x}&=\inverseof{\mat{A}}\vect{b}}\\
+\visible<5->{\identmat{3}\vect{x}&=\inverseof{\mat{A}}\vect{b}}\\
+\visible<6->{\vect{x}&=\inverseof{\mat{A}}\vect{b}}
+\end{split}
+\end{equation*}
+\visible<7->{So, if we can compute $\inverseof{\mat{A}}\vect{b}$ we will have solved the system.}}
+\only<8->{
+\begin{center}
+\begin{tabular}{r|l}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<8-10>[ver2=style cyan]{col-a}\+2\\
+				-1 \\
+				\+0\tikzmarkend{col-a}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}\\\\
+\hline\\
+\begin{minipage}{3.1cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rrr}
+				\tikzmarkin<8>[hor=style orange]{row-a}\+2  & -1 & -1\tikzmarkend{row-a} \\
+				\tikzmarkin<9>[hor=style orange]{row-b}\+1 & \+0 & -1 \tikzmarkend{row-b}\\
+				\tikzmarkin<10>[hor=style orange]{row-c}-2 & \+1 & \+2 \tikzmarkend{row-c}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<8>[hor=style green]{end-a}\visible<8->{\+5} \tikzmarkend{end-a}\\
+				\tikzmarkin<9>[hor=style green]{end-b}\visible<9->{\+2}\tikzmarkend{end-b}\\
+				 \tikzmarkin<10>[hor=style green]{end-c}\visible<10->{-5}\tikzmarkend{end-c} 
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+\end{tabular}
+\end{center}
+\visible<11->{So, we have 
+\begin{equation*}
+\begin{bmatrix}
+x\\y\\z
+\end{bmatrix}
+=
+\begin{bmatrix}
+\+5\\\+2\\-5
+\end{bmatrix}
+\end{equation*}}}}
+\end{example}
+\end{frame}
+
+\begin{frame}{Singular Matrix Properties}
+\begin{block}{Invertible Matrix Characterization}
+Let $\mat{A}$ be a $n \by n$ matrix. The following are equivalent:
+\begin{itemize}
+\item<+-> $\mat{A}$ is an invertible matrix.
+\item<+-> $\transposeof{\mat{A}}$ is an invertible matrix.
+\item<+-> $\mat{A}$ is row equivalent to $\identmat{n}$.\\ (This means when you put $\mat{A}$ in RREF, you get $\identmat{n}$)
+\item<+-> The rank of $\mat{A}$ is $n$.
+\item<+-> The equation $\mat{A}\vect{x}=\vect{0}$ has only the trivial solution $\vect{x}=\vect{0}$.
+\item<+-> The equation $\mat{A}\vect{x}=\vect{b}$ has a unique solution for every $\vect{b}\in\R^n$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Third-Order Initial-Value Problem Example}
+\begin{example}
+\usepercentframe{0.77}{
+\only<1-2>{An engineering consultant finds that she must solve the following IVP\@:
+\begin{equation*}
+y^{\prime\prime\prime} - 2y^{\prime\prime}-y^\prime+2y=0,\quad y(0)=b_1,\ y^\prime(0)=b_2,\ y^{\prime\prime}(0)=b_3
+\end{equation*}
+She must solve this IVP for many different sets of initial conditions, and expects to do the same tomorrow.\pause
+
+The general solution is:
+\begin{equation*}
+y(t) = c_1 e^{2t}+c_2 e^{t} + c_3 e^{-t}
+\end{equation*}
+(We will talk about to solve this type of DE in Chapter 4.)}
+\only<3-4>{To determine $c_1$, $c_2$, and $c_3$, we must plug in each initial condition, giving the system:
+\begin{equation*}
+\begin{aligned}
+y(0)                &=  \phantom{2}c_1 + c_2 + c_3 &= b_1\\
+y^{\prime}(0)       &=           2 c_1 + c_2 - c_3 &= b_2\\
+y^{\prime\prime}(0) &=           4 c_1 + c_2 + c_3 &= b_3
+\end{aligned}
+\end{equation*}
+\visible<4>{
+We can write this as the matrix equation:
+\begin{equation*}
+\underbrace{\begin{bmatrix}
+\+1 & \+1 & \+1\\
+\+2 & \+1 &  -1\\
+\+4 & \+1 & \+1
+\end{bmatrix}}_{\mat{A}}
+\underbrace{\begin{bmatrix}
+c_1\\
+c_2\\
+c_3
+\end{bmatrix}}_{\vect{x}}
+=
+\underbrace{\begin{bmatrix}
+b_1\\
+b_2\\
+b_3
+\end{bmatrix}}_{\vect{b}}
+\end{equation*}}}
+\only<5->{If we can find the inverse of $\mat{A}$, then we can compute the constants for any set of initial conditions $\vect{b}$.
+
+\visible<6->{
+\begingroup
+\renewcommand*{\arraystretch}{1.5}
+\begin{equation*}
+\inverseof{\mat{A}}=\begin{bmatrix}
+ -\tfrac{1}{3} & \+0            & \+\tfrac{1}{3} \\
+\+1            & \+\tfrac{1}{2} &  -\tfrac{1}{2} \\
+\+\tfrac{1}{3} &  -\tfrac{1}{2} & \+\tfrac{1}{6}
+\end{bmatrix}
+\end{equation*}
+\endgroup
+\visible<7->{Thus, the solution for any $\vect{b}$ is:
+\begingroup
+\renewcommand*{\arraystretch}{1.5}
+\begin{equation*}
+\begin{bmatrix}
+c_1\\
+c_2\\
+c_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+ -\tfrac{1}{3} & \+0            & \+\tfrac{1}{3} \\
+\+1            & \+\tfrac{1}{2} &  -\tfrac{1}{2} \\
+\+\tfrac{1}{3} &  -\tfrac{1}{2} & \+\tfrac{1}{6}
+\end{bmatrix}
+\begin{bmatrix}
+b_1\\
+b_2\\
+b_3
+\end{bmatrix}
+\end{equation*}
+\endgroup}}}}
+\end{example}
+\end{frame}
+\end{document}

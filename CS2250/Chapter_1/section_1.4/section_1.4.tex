@@ -1,0 +1,663 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[inline]{asymptote}
+\newcommand{\dx}{\hspace{2pt}dx}
+\newcommand{\dd}[1]{\hspace{2pt}d#1}
+\usepackage{multicol}
+\usepackage{slide_helper}
+
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+
+
+\title[Section 1.4]{Approximation Methods\\Numerical Analysis}
+\author{Adam Wilson}
+\institute{Salt Lake Community College}
+\date{}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}[fragile]{Euler's Method}{Graphical Example}
+\[y^\prime = t - y,\ y(0)=1\]
+\begin{multistepslide}
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<2; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<3; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<4; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{multistepslide}
+\end{frame}
+
+\begin{frame}[fragile]{Euler's Method}{Graphical Example}
+\[\text{Reducing the step size improves our approximation.}\]
+\begin{multistepslide}
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.25;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<9; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.125;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<17; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=.0625;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<32; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{multistepslide}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Formal Approach}
+Consider the IVP
+\[y^\prime = f(t,y),\ y(t_0)=y_0\]
+We want to compute  approximate values for $y(t_n)$ at the (finite) set of points $t_1, t_2, t_3, \dots, t_k$.
+
+We can calculate the $t$-values, for $k=1,2,3,\dots,k$, with
+\[t_n=t_0 + n\cdot h\]
+Where $h$, called the \textbf{step size}, is the common difference between successive points.
+\end{frame}
+
+\begin{frame}{Euler's Method}{Formal Approach}
+Starting at $(t_0, y_0)$ we want to follow the tangent line determined by
+\[y-y_0 = (t - t_0)f(t_0, y_0)\]
+to find the approximate solution $\left(t_1, y(t_1)\right)$:
+\[y_1 = y_0 + h\cdot f(t_0, y_0)\]
+(Remember that $h = t_1 - t_0$.)
+\end{frame}
+
+\begin{frame}{Euler's Method}{Formal Approach}
+We can extend this process to find all $k$ points.
+\begin{align*}
+y_1 &= y_0 + h\cdot f(t_0, y_0)\\
+y_2 &= y_1 + h\cdot f(t_1, y_1)\\
+y_3 &= y_2 + h\cdot f(t_2, y_2)\\
+&\vdots\\
+y_k &= y_{k-1} + h\cdot f(t_{k-1}, y_{k-1})\\
+\end{align*}
+The resulting piecewise-linear function (i\@.e\@. play connect-the-dots) is called the \textbf{Euler-approximate} solution.
+\end{frame}
+
+\begin{frame}{Euler's Method}{Formal Approach}
+\begin{block}{Euler's Method}
+For the Initial-value problem
+\[y^\prime=f(t,y),\ y(t_0)=y_0\]
+use the formulas
+\begin{align*}
+t_{n+1} &= t_n + h\\
+y_{n+1} &= y_n+h\cdot f(t_n, y_n)
+\end{align*}
+to iteratively compute the points, using step size $h$, 
+\[(t_1, y_1), (t_2, y_2), \dots, (t_k, y_k).\]
+The piecewise-linear function connecting these points is the Euler approximtion to the solution $y(t)$ of the IVP for $t_0\leq t\leq t_k$.
+\end{block}
+\end{frame}
+
+\setbeamercovered{invisible}
+\begin{frame}{Euler's Method}{Example 1}
+Obtain the Euler-approximate solution of the IVP
+\[y^\prime = -2ty+t,\ y(0)=-1\]
+with step size 0.1 on $[0,0.4]$. \pause
+
+\vspace{1cm}
+In other words:
+\begin{align*}
+f(t,y) &= -2ty+t = t(1-2y)\\
+t_0 &= 0\\
+y_0 &= -1\\
+h&=0.1\\
+k&=1,2,3,4
+\end{align*}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Example 1}
+\begin{equation*}
+\begin{split}
+\nextslidesplit{t_1}{=t_0+h=0+0.1=0.1}
+\sameslidesplit{y_1}{=y_0+h\cdot f(t_0, y_0) = -1+(0.1)(0)(1-2(-1))=-1}
+\nextslidesplit{}{}
+\sameslidesplit{t_2}{=t_1+h=0.1+0.1=0.2}
+\sameslidesplit{y_2}{=y_1+h\cdot f(t_1, y_1) = -1+(0.1)(0.1)(1-2(-1))=-0.97}
+\nextslidesplit{}{}
+\sameslidesplit{t_3}{=t_2+h=0.2+0.1=0.3}
+\sameslidesplit{y_3}{=y_0+h\cdot f(t_2, y_2)= -0.97+(0.1)(0.2)(1-2(-0.97))=-0.9112}
+\nextslidesplit{}{}
+\sameslidesplit{t_4}{=t_3+h=0.3+0.1=0.4}
+\sameslidesplit{y_4}{=y_3+h\cdot f(t_3, y_3)}
+\sameslidesplit{}{= -0.9112+(0.1)(0.3)(1-2(-0.9112))=-0.82652}
+\end{split}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Example 1}
+How does this compare to the exact solution $y(t)=0.5 - 1.5e^{-t^2}$?\pause
+
+\begin{center}
+\begin{tabular}{rrrrr}
+\thead{$n$}&\thead{$t_n$}&\thead{$y_n$}&\thead{$y(t_n)$}&\thead{Error}\\
+\hline
+0&0.0&-1.000000&-1.000000&\textbf{0.000000}\\
+1&0.1&-1.000000&-0.985075&\textbf{-0.014925}\\
+2&0.2&-0.970000&-0.941184&\textbf{-0.028815}\\
+3&0.3&-0.911200&-0.870897&\textbf{-0.040303}\\
+4&0.4&-0.826528&-0.778216&\textbf{-0.048312}
+\end{tabular}
+\end{center}
+
+Notice how the error grows rapidly.
+\end{frame}
+
+\begin{frame}[fragile]{Euler's Method}{Example 1}
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return -2.0*x*y+x;}
+real xmin=-.1, xmax=0.5;
+real ymin=-1.1, ymax=-0.6;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.1;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=-1.0;
+
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Example 2}
+Find the Euler-approximation of 
+\[y^\prime=-2ty,\ y(0)=1\]
+using a step size of 0.2 over the range of $[0,2]$.
+
+\vspace{0.5cm}
+Compare it against the exact solution
+\[y=e^{-t^2}\]
+\end{frame}
+
+\begin{frame}{Euler's Method}{Example 2}
+\begin{center}
+\begin{tabular}{rrrrr}
+\thead{$n$}&\thead{$t_n$}&\thead{$y_n$}&\thead{$y(t_n)$}&\thead{Error}\\
+\hline
+0 &0.0&1.0000000&1.0000000&\textbf{0.000000}\\
+1 &0.2&1.0000000&0.9607894&\textbf{-0.039211}\\
+2 &0.4&0.9200000&0.8521437&\textbf{-0.067856}\\
+3 &0.6&0.7728000&0.6976763&\textbf{-0.075124}\\
+4 &0.8&0.5873280&0.5272925&\textbf{-0.060036}\\
+5 &1.0&0.3993830&0.3678794&\textbf{-0.031504}\\
+6 &1.2&0.2396298&0.2369277&\textbf{-0.002702}\\
+7 &1.4&0.1246075&0.1408584&\textbf{0.016251}\\
+8 &1.6&0.0548273&0.0773047&\textbf{0.022477}\\
+9 &1.8&0.0197378&0.0391639&\textbf{0.019426}\\
+10&2.0&0.0055265&0.0183156&\textbf{0.012789}
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Euler's Method}{Example 2}
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return -2.0*x*y;}
+real xmin=-.1, xmax=2.1;
+real ymin=-0.1, ymax=1.1;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.2;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<11; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Measuring Error}
+There are two types of error:
+
+\pause
+\begin{itemize}
+\item<2-> \textbf{Roundoff error} is the discrepancy arising from rounding numbers. This tends to snowball pretty fast when you have a great many calculations.
+\item<3-> \textbf{Discretization error} is the error that results from the approximation method itself. For Euler's method this is cause by using the linear tangent lines to approximate a nonlinear curve. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Euler's Method}{Measuring Error}
+It can be shown, using Taylor series expansions, that the error is proportional to the square of the step size.
+\[\abs{y_i-y(t_i)}\leq C\cdot h^2\]
+Where the constant $C$ depends of the size of the second derivative of the exact solution.
+
+We call this error the \textbf{local discretization error} because it estimates the error for a single step only.
+
+\pause
+After $n$ steps, we have $n$ times the error. Which we call the \textbf{global discretization error}. 
+
+(Note that the step size is inversely proportional to the step count.)
+\end{frame}
+
+\begin{frame}{Euler's Method}{Measuring Error}
+\begin{block}{Global Discretization Error in Euler's Method}
+If the solution of the IVP $y^\prime=f(t,y)$, $y(t_0)=y_0$ has a continuous second derivative on the interval $[t_0, t_k]$, and $y_n$ is the value of the Euler approximation at $t_n$, $t_0<t_1<\cdots<t_n\cdots<t_k$, then there exists a constant $C$ such that 
+\[\abs{y_n-y(t_n)}\leq C\cdot h,\ \ \ \ n=1,2,\dots,k.\]
+where step size $h=t_n-t_{n-1}$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Runge-Kutta Methods}{}
+\begin{block}{Second-Order Runge-Kutta Method}
+For the IVP $y^\prime=f(t,y)$, $y(t_0)=y_0$, use the following formulas to compute the points $(t_1,y_1), (t_2,y_2),\dots$ of the approximate solution, using step size $h$:
+\begin{align*}
+t_{n+1}&=t_n+h\\
+y_{n+1}&=y_n+h\cdot k_{n_1}
+\end{align*}
+where
+\begin{align*}
+k_{n_1}&=f(t_n,y_n)\\
+k_{n_2}&=f\left(t_n+\dfrac{h}{2},y_n+\dfrac{h}{2}\cdot k_{n_1}\right)
+\end{align*}
+\end{block}
+\end{frame}
+
+\setbeamerfont{block body}{size=\small}
+\begin{frame}{Runge-Kutta Methods}{}
+\begin{block}{Fourth-Order Runge-Kutta Method}
+For the IVP $y^\prime=f(t,y)$, $y(t_0)=y_0$, use the following formulas to compute the points $(t_1,y_1), (t_2,y_2),\dots$ of the approximate solution, using step size $h$:
+\begin{align*}
+t_{n+1}&=t_n+h\\
+y_{n+1}&=y_n+\dfrac{h}{6}(k_{n_1}+2k_{n_2}+2k_{n_3}+k_{n_4})
+\end{align*}
+where
+\begin{align*}
+k_{n_1}&=f(t_n,y_n)\\
+k_{n_2}&=f\left(t_n+\dfrac{h}{2},y_n+\dfrac{h}{2}\cdot k_{n_1}\right)\\
+k_{n_3}&=f\left(t_n+\dfrac{h}{2},y_n+\dfrac{h}{2}\cdot k_{n_2}\right)\\
+k_{n_2}&=f\left(t_n+h,y_n+h\cdot k_{n_3}\right)\\
+\end{align*}
+\end{block}
+\end{frame}
+\end{document}
