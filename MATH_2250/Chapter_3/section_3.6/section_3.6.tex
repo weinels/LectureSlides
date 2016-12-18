@@ -1,0 +1,944 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{mathtools}
+
+%\hideasymptote% uncomment to not compile asymptote graphs
+
+\title[MATH 2250 - Section 3.6]{Basis and Dimension}
+\author{Adam Wilson}
+\institute{Salt Lake Community College}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{definition}
+For a vector space $\V$, a \textbf{linear combination} of vectors is:
+\begin{equation*}
+c_1\vect{v_1}+c_2\vect{v_2}+\cdots+c_n\vect{v_k}
+\end{equation*}
+where $c_i\in\R$ and $\vect{v_i}\in\V$
+\end{definition}\pause
+\begin{block}{}
+This is the only way to form new vectors, since a vector space can only add two vectors and/or multiply by a scalar.
+\end{block}\pause
+\begin{definition}
+The \textbf{span} of a set $\left\{\vect{v_1}, \vect{v_2}, \ldots, \vect{v_k}\right\}$ of vectors in a vector space $\V$ is the set of all linear combinations of these vectors. Denoted $\spn\left\{\vect{v_1}, \vect{v_2}, \dots, \vect{v_k}\right\}$
+\end{definition}\pause
+\begin{block}{}
+If the $\spn\left\{\vect{v_1}, \vect{v_2}, \dots, \vect{v_k}\right\}=\V$ we say the set spans the vector space.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Spanning Sets}
+\begin{example}
+Consider $\spn\left\{{\color{blue}\bvector{3,2,0}},{\color{red}\bvector{0,2,2}}\right\}$.
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+settings.outformat = "pdf";
+settings.prc = false;
+settings.render = 0;
+
+import three;
+import graph3;
+size(4cm,0);
+
+currentprojection=perspective(5,2,2);
+
+draw((0,0,0)--(3,2,0),blue,  arrow=Arrow3());
+draw((3,0,0)--(3,2,0),blue+dashed);
+draw((0,2,0)--(3,2,0),blue+dashed);
+
+draw((0,0,0)--(0,2,2),red, arrow=Arrow3());
+draw((0,2,0)--(0,2,2),red+dashed);
+draw((0,0,2)--(0,2,2),red+dashed);
+
+xaxis3("$x$",0,4,black,OutTicks(2,2));
+yaxis3("$y$",0,4,black,OutTicks(2,2));
+zaxis3("$z$",0,4,black,OutTicks(beginlabel=false));
+\end{asy}
+\end{center}
+\onslide<2->
+\begin{center}
+\begin{asy}
+settings.outformat = "pdf";
+settings.prc = false;
+settings.render = 0;
+
+import three;
+import graph3;
+size(4cm,0);
+
+currentprojection=perspective(5,2,2);
+
+path3 p=(0,0,0)--(3,2,0)--(0,2,2)--cycle;
+draw(surface(p),yellow,light=nolight);
+draw(p,yellow);
+
+draw((0,0,0)--(3,2,0),blue,  arrow=Arrow3());
+draw((3,0,0)--(3,2,0),blue+dashed);
+draw((0,2,0)--(3,2,0),blue+dashed);
+
+draw((0,0,0)--(0,2,2),red, arrow=Arrow3());
+draw((0,2,0)--(0,2,2),red+dashed);
+draw((0,0,2)--(0,2,2),red+dashed);
+
+xaxis3("$x$",0,4,black,OutTicks(2,2));
+yaxis3("$y$",0,4,black,OutTicks(2,2));
+zaxis3("$z$",0,4,black,OutTicks(beginlabel=false));
+\end{asy}
+\end{center}
+\end{overprint}
+\onslide<2->{This spanning set is the plane defined by these two vectors.}
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{example}
+\begin{overprint}
+\onslide<1-4>
+Let up look closer at this spanning set. Where we give names to the two vectors:
+\begin{equation*}
+\begin{aligned}
+\vect{u}=
+\begin{bmatrix}
+3 \\
+2 \\
+0 \\
+\end{bmatrix} 
+& \quad\text{and} &
+\vect{v}=
+\begin{bmatrix}
+0 \\
+2 \\
+2 \\
+\end{bmatrix}
+\end{aligned}
+\end{equation*}
+\visible<2-5>{%
+We can then write a general vector in the spanning set as
+\begin{equation*}
+\bvector{x,y,z}=a\vect{u}+b\vect{v}
+\visible<3-5>{=a\bvector{3,2,0}+b\bvector{0,2,2}}
+\visible<4>{=\bvector{3a,2a+2b,2b}}
+\end{equation*}}
+\onslide<5->
+Equation the two vectors gives:
+\begin{equation*}
+\begin{aligned}
+x&=3a    & \Rightarrow &\ a=\dfrac{x}{3}\\
+y&=2a+2b &&\\
+z&=2b    & \Rightarrow &\ b=\dfrac{z}{2}\\
+\end{aligned}
+\end{equation*}
+\visible<6->{So, we can write $y$ as
+\begin{equation*}
+\begin{aligned}
+y &= 2a+2b\\
+  &\visible<7->{=2\left(\dfrac{x}{3}\right)+2\left(\dfrac{z}{2}\right)}\\
+  &\visible<8->{=\dfrac{2}{3}x+z}\\
+\end{aligned}
+\end{equation*}}
+\visible<9->{%
+
+Which is equivalent to $2x-3y+3z=0$, the equation of the yellow plane.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{theorem}
+An additional vector only changes a spanning set if and only if it is not a linear combination of the original vectors in the set.
+\end{theorem}\pause
+\begin{example}
+Consider adding $\bvector{-3, \+2, \+4}$ to $\spn\left\{\bvector{3,2,0},\bvector{0,2,2}\right\}$.\pause
+
+Since we can write 
+\begin{equation*}
+-1\cdot\bvector{3,2,0}+2\bvector{0,2,2}=\bvector{-3,-2,0}+\bvector{0,4,4}=\bvector{-3,\+2,\+4}
+\end{equation*}
+we see that this doesn't change to the spanning set.
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{example}
+Consider adding $\bvector{1, 1, 1}$ to $\spn\left\{\bvector{3,2,0},\bvector{0,2,2}\right\}$.\pause
+
+This would expand the spanning set.\\To show this, let us try to find $c_1, c_2\in\R$ such that
+\begin{equation*}
+\bvector{1,1,0}=c_1\bvector{3,2,0}+c_2\bvector{0,2,2}
+\end{equation*}\pause
+Which is equivalent to solving the inconsistent system
+\begin{equation*}
+\begin{aligned}
+1 & = & 3c_1 &   &      \\
+1 & = & 2c_1 & + & 2c_2 \\
+1 & = &      &   & 2c_2
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{example}
+What is $\spn\left\{\bvector{1,1,0},\bvector{3,2,0},\bvector{0,2,2}\right\}$?\ \pause
+It turns out the spanning set is $\R^3$.\pause
+
+To show this, we then need to find $c_1, c_2, c_3\in\R$ such that 
+\begin{equation*}
+\begin{aligned}
+c_1\bvector{1,1,0}+c_2\bvector{3,2,0}+c_3\bvector{0,2,2} &= \bvector{x,y,z} \\\pause
+\begin{bmatrix}
+3 & 0 & 1 \\
+2 & 2 & 1 \\
+0 & 2 & 0 \\
+\end{bmatrix}
+\bvector{c_1,c_2,c_3}&=\bvector{x,y,z}
+\end{aligned}
+\end{equation*}\pause
+Which has a unique solution for any $x,y,z\in\R$.
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+We have shown the general idea for:
+\begin{theorem}
+For $\vect{v_1},\vect{v_2},\dots,\vect{v_k}\in\R^n$, a vector $\vect{b}\in\R^n$ is in $\spn\left\{\vect{v_1},\vect{v_2},\dots,\vect{v_k}\right\}$ if and only if there is at least one solution to the matrix equation $\mat{A}\vect{x}=\vect{b}$. Where $\mat{A}$ is formed from the column vectors $\vect{v_1},\vect{v_2},\dots,\vect{v_k}$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{block}{}
+We can express spanning sets using set builder notation.
+\end{block}\pause
+
+\begin{example}
+\begin{equation*}
+\spn\left\{\bvector{2,1}\right\}=\setbuilder{c\bvector{2,1}}{c\in\R}
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+\begin{equation*}
+\begin{aligned}
+\spn\left\{\bvector{1,0,0},\bvector{0,1,0},\bvector{0,0,1}\right\} &= 
+\setbuilder{c_1\bvector{1,0,0}+c_2\bvector{0,1,0}+c_3\bvector{0,0,1}}{c_1,c_2,c_3\in\R}\\\pause
+&=\setbuilder{\bvector{c_1,c_2,c_3}}{c_1,c_2,c_3\in\R}
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\onslide<+->
+\begin{theorem}
+For $\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\in\V$, $\spn\left\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\right\}$ is a subspace of $\V$.
+\end{theorem}
+\onslide<+->
+
+\begin{block}{Proof}
+The proof comes from the subspace theorem we saw last section.
+
+\onslide<+->
+Let $\vect{u}$ and $\vect{w}$ be two vectors in the spanning set, which means there are scalars $r_i$ and $s_i$ such that
+\begin{equation*}
+\begin{aligned}
+\vect{u} & =r_1\vect{v_1}+ r_2\vect{v_2}+\cdots+r_n\vect{v_k} & \text{and } &
+\vect{w} & =s_1\vect{v_1}+ s_2\vect{v_2}+\cdots+s_n\vect{v_k}
+\end{aligned}
+\end{equation*}
+
+\onslide<+->
+So, for any $a,b\in\R$:
+\begin{equation*}
+\begin{split}
+a\vect{u}+b\vect{w} &\visible<+->{=a(r_1\vect{v_1}+ r_2\vect{v_2}+\cdots+r_n\vect{v_k}) + b(s_1\vect{v_1}+ s_2\vect{v_2}+\cdots+s_n\vect{v_k})}\\
+&\visible<+->{=(ar_1+bs_2)\vect{v_1}+ (ar_2+bs_2)\vect{v_2}+\cdots+(ar_n+bs_n)\vect{v_k}}
+\end{split}
+\end{equation*}
+
+\onslide<+->
+Which means $a\vect{u}+b\vect{w}$ is in the spanning set and we have closure.
+\end{block}
+\end{frame}
+
+\begin{frame}{Spanning Sets}
+\begin{definition}
+For any $m \by n$ matrix $\mat{A}$, the \textbf{column space}, denoted $\text{Col }\mat{A}$, is the span of the column vectors of $\mat{A}$, and is a subspace of $\R^m$.
+\end{definition}\pause
+
+\begin{example}
+Consider the matrix
+\begin{equation*}
+\mat{B}=
+\begin{bmatrix}
+\+1 & \+3 & \+0 & \+1 &  -2 \\
+\+2 & \+4 & \+1 & \+1 & \+5 \\
+\end{bmatrix}
+\end{equation*}\pause
+The column space of $\mat{B}$ is a subspace of $\R^2$ and defined:
+\begin{equation*}
+\text{Col }\mat{B} = 
+\setbuilder{c_1\bvector{1,2}+
+			c_2\bvector{3,4}+
+			c_3\bvector{0,1}+
+			c_4\bvector{1,1}+
+			c_5\bvector{-2,\+5}}
+			{c_1,\dots,c_5\in\R}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Independence}
+\begin{definition}
+A set $\left\{\vect{v_1},\vect{v_2},\dots,\vect{v_k}\right\}$ of vectors in a vector space $\V$ is \textbf{linearly independent} if no vector of the set can be written as a linear combination of the others. Otherwise it is \textbf{linearly dependent}.
+\end{definition}\pause
+\begin{block}{Testing for Linear Independence}
+To test for linear independence of a set of $k$ vectors $\vect{v_i}\in\R^n$, we consider the system:
+\begin{equation*}
+\begin{bmatrix}
+\mid       & \mid       &       & \mid       \\
+\vect{v_1} & \vect{v_2} & \cdots & \vect{v_k} \\
+\mid       & \mid       &       & \mid       \\
+\end{bmatrix}
+\bvector{c_1,c_2,\vdots,c_k}=\vect{0}
+\end{equation*}
+
+The column vectors of $A$ are linearly independent if and only if the solution $c_1=c_2=\cdots=c_k=0$ is unique.
+\end{block}
+\end{frame}
+
+\begin{frame}{Linear Independence}
+\begin{example}
+Are the vectors $\bvector{1,1,1}$, $\bvector{\+1,\+1, -1}$, and $\bvector{1,3,2}$ linearly independent?\pause
+
+To determine if they are, we need to look at the system
+\begin{equation*}
+\mat{A}\bvector{c_1,c_2,c_3}=
+\begin{bmatrix}
+\+1 & \+1 & \+1 \\
+\+1 & \+1 & \+3 \\
+\+1 &  -1 & \+2 \\
+\end{bmatrix}
+\bvector{c_1,c_2,c_3}=\bvector{0,0,0}
+\end{equation*}\pause
+Since $\abs{\mat{A}}=5$, we know that $\mat{A}$ is invertible and hence a unique solution exists. This means that these vectors are linearly independent.
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Independence}
+\begin{example}
+Are the vectors $\bvector{1,1,1}$, $\bvector{\+1,\+1, -1}$, $\bvector{1,3,2}$, and $\bvector{\+5,-1,\+0}$ linearly independent?\pause
+
+To determine if they are, we need to look at the system
+\begin{equation*}
+\mat{A}\bvector{c_1,c_2,c_3}=
+\begin{bmatrix}
+\+1 & \+1 & \+1 & \+5 \\
+\+1 & \+1 & \+3 &  -1 \\
+\+1 &  -1 & \+2 & \+0 \\
+\end{bmatrix}
+\bvector{c_1,c_2,c_3}=\bvector{0,0,0}
+\end{equation*}\pause
+
+We have more columns than rows, which means there will be at least one free variable. Thus, the solution (if one exists) won't be unique, so these vectors are not linearly independent.
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Independence}
+\begin{example}
+Are the vectors $\bvector{1,1,1}$, $\bvector{-1,\+0, \+1}$, and $\bvector{-2,\+1,\+4}$ linearly independent?
+\onslide<2->
+
+To determine if they are, we need to look at the system
+\begin{overprint}
+\onslide<2>
+\begin{equation*}
+\mat{A}\bvector{c_1,c_2,c_3}=
+\begin{bmatrix}
+\+1 &  -1 &  -2 \\
+\+1 & \+0 & \+1 \\
+\+1 & \+1 & \+4 \\
+\end{bmatrix}
+\bvector{c_1,c_2,c_3}=\bvector{0,0,0}
+\end{equation*}
+\onslide<3>
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+\+1 &  -1 &  -2 & \+0 \\
+\+1 & \+0 & \+1 & \+0 \\
+\+1 & \+1 & \+4 & \+0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<4->
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+\+1 & \+0 & \+1 & 0 \\
+\+0 & \+1 & \+3 & 0 \\
+\+0 & \+0 & \+0 & 0 \\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\onslide<5->
+
+And thus, these vectors are not linearly independent. \onslide<6->  Moreover, since
+\begin{equation*}
+\bvector{1,1,1} +3\bvector{-1,\+0,\+1}-\bvector{-2,\+1,\+4}=0
+\end{equation*}
+we can see that any one can be written as a combination of the others.
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Independence of Functions}
+\begin{definition}
+A set of vector functions $\left\{\vect{v_1}(t),\vect{v_2}(t),\dots,\vect{v_k}\right\}$ in a vector space $\V$ is \textbf{linearly independent} on an interval $I$ if, for \emph{all} $t\in I$, the equation
+\begin{equation*}
+c_1\vect{v_1}(t)+c_2\vect{v_2}(t)+\cdots+c_k\vect{v_k}(t)=\vect{0}\quad\left(\text{where $c_i\in\R$}\right)
+\end{equation*}
+has the only solution: $c_1=c_2=\cdots=c_k=0$.
+
+\vspace{.5cm}
+If for any value $t_0\in I$ there is any solution with $c_i\neq 0$, the vector functions $\vect{v_1}(t),\vect{v_2}(t),\dots,\vect{v_k}(t)$ are \textbf{linearly dependent}.
+\end{definition}
+\end{frame}
+
+\begin{frame}{Linear Independence of Functions}
+\begin{example}
+\onslide<1->
+Are the vectors
+\begin{equation*}
+\vect{v_1}(t)=\bvector{e^t,0,2e^t} \quad
+\vect{v_2}(t)=\bvector{e^{-t},3e^{-t},0} \quad
+\vect{v_3}(t)=\bvector{e^{2t},e^{2t},e^{2t}}
+\end{equation*}
+linearly independent on $(-\infty,\infty)$?\\
+\onslide<2->
+We need to see what the solution, for $c_1,c_2,c_3\in\R$, is:
+\begin{equation*}
+c_1\vect{v_1}(t)+c_2\vect{v_2}(t)+c_3\vect{v_3}(t)=\vect{0}
+\end{equation*}
+\onslide<3->
+Since this equation has to hold for all $t$, it has to hold for $t=0$:
+\begin{overprint}
+\onslide<3>
+\begin{equation*}
+c_1\bvector{e^{(0)},0,2e^{(0)}}+c_2\bvector{e^{-(0)},3e^{-(0)},0}+c_3\bvector{e^{2(0)},e^{2(0)},e^{2(0)}}=\bvector{0,0,0}
+\end{equation*}
+\onslide<4>
+\begin{equation*}
+c_1\bvector{1,0,2}+c_2\bvector{1,3,0}+c_3\bvector{1,1,1}=\bvector{0,0,0}
+\end{equation*}
+\onslide<5>
+\begin{equation*}
+\begin{bmatrix}
+1 & 1 & 1 \\
+0 & 3 & 1 \\
+2 & 0 & 1 \\
+\end{bmatrix}
+\bvector{c_1, c_2, c_3}=\bvector{0,0,0}
+\end{equation*}
+\onslide<6>
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+1 & 1 & 1 & \+0 \\
+0 & 3 & 1 & \+0 \\
+2 & 0 & 1 & \+0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<7>
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+1 & 0 & 0 & \+0 \\
+0 & 1 & 0 & \+0 \\
+0 & 0 & 1 & \+0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<8->
+\vspace{0.25cm}
+Since the unique solution is $c_1=c_2=c_3=0$, these vectors are linearly independent.
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Independence of Functions}
+\begin{example}
+Are the following functions linearly independent?
+\begin{overprint}
+\onslide<1>
+\begin{equation*}
+\vect{v_1}(t)=e^t,\quad
+\vect{v_2}(t)=5e^{-t},\quad
+\vect{v_3}(t)=e^{3t}
+\end{equation*}
+\onslide<2->
+\begin{equation*}
+\vect{v_1}(t)=\bvector{e^t},\quad
+\vect{v_2}(t)=\bvector{5e^{-t}},\quad
+\vect{v_3}(t)=\bvector{e^{3t}}
+\end{equation*}
+\end{overprint}
+\onslide<2->
+
+\vspace{0.25cm}
+We can think of each of these as one-dimensional vectors.
+\onslide<3->
+
+Which means we have to see if there exists $c_1,c_2,c_3\in\R$ such that
+\begin{equation*}
+c_1\vect{v_1}(t)+c_2\vect{v_2}(t)+c_3\vect{v_3}(t)=\vect{0}\quad (\text{for all $t\in\R$})
+\end{equation*}
+
+\onslide<4->
+\begin{overprint}
+\onslide<4-6>
+\begin{equation*}
+\begin{aligned}
+\visible<4-6>{\text{For }t&=\+0\text{:}&\quad c_1\cdot 5e^{(0)}&\ +&c_2\cdot e^{-(0)}&\ +&c_3\cdot e^{3(0)}=0\\}
+\visible<5-6>{\text{For }t&=\+1\text{:}&\quad c_1\cdot 5e^{(1)}&\ +&c_2\cdot e^{-(1)}&\ +&c_3\cdot e^{3(1)}=0\\}
+\visible<6>{\text{For }t&=-1\text{:}&\quad c_1\cdot 5e^{(-1)}&\ +&c_2\cdot e^{-(-1)}&\ +&c_3\cdot e^{3(-1)}=0\\}
+\end{aligned}
+\end{equation*}
+\onslide<7>
+\begin{equation*}
+\begin{aligned}
+\text{For }t&=\+0\text{:}&\quad c_1&\ +&5c_2&\ +&c_3&=0\\
+\text{For }t&=\+1\text{:}&\quad ec_1&\ +&\tfrac{5}{e}c_2&\ +&e^3c_3&=0\\
+\text{For }t&=-1\text{:}&\quad \tfrac{1}{e}c_1&\ +&ec_2&\ +&\tfrac{1}{e^3}c_3&=0\\
+\end{aligned}
+\end{equation*}
+\onslide<8>
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+1 & 5 & 1 & 0 \\
+e & \tfrac{5}{e} & e^3 & 0 \\
+\tfrac{1}{e} & e & \tfrac{1}{e^3} & 0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<9->
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+1&0&0&0\\
+0&1&0&0\\
+0&0&1&0
+\end{bmatrix}
+\end{equation*}
+\visible<9->{Since we have the unique solution $c_1=c_2=c_3=0$, these functions are linearly independent.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{The Wronskian and Linear Independence}
+\begin{definition}
+The \textbf{Wronskian} of functions $f_1,f_2,\dots,f_k$ on interval $I$ is the determinant:
+\begin{equation*}
+W[f_1,f_2,\dots,f_k](t)=
+\begin{vmatrix}
+f_1(t)                & f_2(t)                & \cdots  & f_k(t)                \\
+f_1^\prime(t)         & f_2^\prime(t)         & \cdots  & f_k^\prime(t)         \\
+%f_1^{\prime\prime}(t) & f_2^{\prime\prime}(t) & \cdots  & f_k^{\prime\prime}(t) \\
+\vdots                & \vdots                & \ddots & \vdots                \\
+f_1^{(k-1)}(t)        & f_2^{(k-1)}(t)        & \cdots  & f_k^{(k-1)}(t)        \\
+\end{vmatrix}
+\end{equation*}
+\end{definition}\pause
+\begin{theorem}
+If $W[f_1,f_2,\dots,f_k](t)\neq 0$ for all $t\in I$, then $\left\{f_1,f_2,\dots,f_k\right\}$ is a linearly independent set of functions on $I$.
+\end{theorem}\pause
+\begin{block}{}
+If $\left\{f_1,f_2,\dots,f_k\right\}$ are linearly dependent, then $W[f_1,f_2,\dots,f_k](t)=0$ for all $t\in I$. Thus, to show independence we only need to find a single $t$ that makes the Wronskian nonzero.
+\end{block}
+\end{frame}
+
+\begin{frame}{The Wronskian and Linear Independence}
+\begin{example}
+Use the Wronskian to check that
+\begin{equation*}
+\left\{t^2+1, t^2-1, 2t+5\right\}
+\end{equation*}
+are linearly independent on $\Poly_2$.\pause
+
+\begin{equation*}
+\begin{aligned}
+W(t)&=
+\begin{vmatrix}
+t^2+1 & t^2-1 & 2t+5 \\
+2t    & 2t    & 2    \\
+2     & 2     & 0    \\
+\end{vmatrix}\\\pause
+&=(t^2+1)
+\begin{vmatrix}
+2t & 2 \\
+2  & 0 \\
+\end{vmatrix}
+-(t^2-1)
+\begin{vmatrix}
+2t & 2 \\
+2  & 0 \\
+\end{vmatrix}
++(2t+5)
+\begin{vmatrix}
+2t & 2t \\
+2  & 2  \\
+\end{vmatrix}\\\pause
+&=(t^2+1)(0-4)-(t^2-1)(0-4)+(2t+5)(4t-4t)\\\pause
+&=-4t^2-4+4t^2-4\pause = -8
+\end{aligned}
+\end{equation*}
+Since $W(t)=-8\neq 0$, this is a set of linearly independent functions.
+\end{example}
+\end{frame}
+
+\begin{frame}{The Wronskian and Linear Independence}
+\begin{example}
+Let us consider the converse:\begin{center}Does the Wronskian being zero imply dependence?\end{center}\pause
+
+In general, the answer is no.\pause\ Consider the linearly independent functions:
+\begin{equation*}
+f_1(t)=
+\begin{cases}
+t^3, & t\geq 0 \\
+0,   & t<0     \\
+\end{cases}
+\quad\text{and}\quad
+f_2(t)=
+\begin{cases}
+0,   & t\geq 0 \\
+t^3, & t<0     \\
+\end{cases}
+\end{equation*}\pause
+Then
+\begin{equation*}
+f_1^\prime(t)=
+\begin{cases}
+3t^2, & t\geq 0 \\
+0,   & t<0     \\
+\end{cases}
+\quad\text{and}\quad
+f_2^\prime(t)=
+\begin{cases}
+0,   & t\geq 0 \\
+3t^2, & t<0     \\
+\end{cases}
+\end{equation*}\pause
+So,
+\begin{equation*}
+W(f_1,f_2) = 
+\begin{vmatrix}
+f_1        & f_2        \\
+f_1^\prime & f_2^\prime \\
+\end{vmatrix}
+=0
+\end{equation*}
+\end{example}
+\end{frame}
+
+
+\begin{frame}{Basis of a Vector Space}
+\begin{definition}
+The set $\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}$ is a \textbf{basis} for vector space $\V$, provided that
+\begin{itemize}
+\item $\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}$ is linearly independent
+\item $\spn\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}=\V$
+\end{itemize}
+\end{definition}\pause
+\begin{example}
+The vectors
+\begin{equation*}
+\vect{i}=\bvector{1,0,0},\quad
+\vect{j}=\bvector{0,1,0},\quad
+\vect{k}=\bvector{0,0,1}
+\end{equation*}
+are a basis for $\R^3$\pause
+
+We saw earlier that these vectors span $\R^3$.\pause
+
+It's easy to see that $c_1\vect{i}+c_2\vect{j}+c_3\vect{k}=\vect{0}$ has the unique solution $c_1=c_2=c_3=0$.
+\end{example}
+\end{frame}
+
+\begin{frame}{Basis of a Vector Space}
+\begin{definition}
+The \textbf{standard basis} for $\R^n$ is $\{\vect{e_1},\vect{e_2},\dots,\vect{e_n}\}$
+where
+\begin{equation*}
+\vect{e_1}=\bvector{1,0,\vdots,0},\ 
+\vect{e_2}=\bvector{0,1,\vdots,0},\ 
+\cdots,\ 
+\vect{e_n}=\bvector{0,0,\vdots,1}
+\end{equation*}
+are the column vectors of the identity matrix $\identmat{n}$.
+\end{definition}
+\end{frame}
+
+\begin{frame}{Basis of a Vector Space}
+\begin{example}
+Let us find a basis for the hyperplane in $\R^4$ that is the solution to
+\begin{equation*}
+2x_1+3x_2-4x_3-x_4=0
+\end{equation*}
+\onslide<2->
+\begin{overprint}
+\onslide<2-6>
+We will do so by arbitrarily choosing values for $x_1=a$, $x_2=b$, and $x_3=c$, we can then determine $x_4$ using the equation of the hyperplane.
+\visible<3->{\begin{equation*}
+\bvector{x_1,x_2,x_3,x_4}=
+\visible<4->{\bvector{a,b,c,2a+3b-4c}=}
+\visible<5->{a\bvector{1,0,0,2}+
+b\bvector{0,1,0,3}+
+c\bvector{\+0,\+0,\+1,-4}}
+\end{equation*}}
+\visible<6->{Since $a,b,c\in\R$ were arbitrary, we see these three vectors span the hyperplane.}
+\onslide<7>
+Now, we need to show that these vectors are linearly independent.
+\begin{equation*}
+\bvector{1,0,0,2},\quad
+\bvector{0,1,0,3},\quad
+\bvector{\+0,\+0,\+1,-4} 
+\end{equation*}
+\onslide<8>
+Which means, for $c_1,c_2,c_3\in\R$, solving the equation:
+\begin{equation*}
+c_1\bvector{1,0,0,2}+
+c_2\bvector{0,1,0,3}+
+c_3\bvector{\+0,\+0,\+1,-4}=
+\bvector{0,0,0,0}
+\end{equation*}
+\onslide<9>
+Which means, for $c_1,c_2,c_3\in\R$, solving the equation:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+2 & 3 & -4 & 0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<10-11>
+Which means, for $c_1,c_2,c_3\in\R$, solving the equation:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+\end{bmatrix}
+\end{equation*}
+\visible<11->{The (unique) solution is $c_1=c_2=c_3=0$, thus these vectors are linearly independent.}
+\onslide<12->
+\vspace{1cm}
+So, we see that the hyperplane has a basis of three vectors. 
+
+\vspace{0.5cm}
+It looks like this hyperplane is a three-dimensional subspace of a four-dimensional space.
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Dimension of a Vector Space}
+\begin{example}
+It is possible for a vector space to have multiple bases.\pause
+
+For $\R^2$, one is the standard basis
+\begin{equation*}
+\left\{\bvector{1,0},\bvector{0,1}\right\}
+\end{equation*}\pause
+but, another basis is given by
+\begin{equation*}
+\left\{\bvector{2,1},\bvector{1,2}\right\}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}{Dimension of a Vector Space}
+\begin{theorem}
+The number of vectors in a basis is always the same for a particular vector space
+\end{theorem}\pause
+\begin{proof}
+The proof is in Appendix LT of your textbook, on page 602.
+\end{proof}\pause
+\begin{definition}
+The \textbf{dimension} of a vector space $\V$ is the number of vectors in any basis of $\V$.
+\end{definition}\pause
+
+\begin{definition}
+If a vector space is so large that cannot be spanned by a finite set of vectors, it is called \textbf{infinite-dimensional}.
+\end{definition}
+\end{frame}
+
+\begin{frame}{Dimension of a Vector Space}
+\begin{example}
+The solution to the system
+\begin{equation*}
+\begin{aligned}
+x_1 &\phantom{x_1} + & 2x_2 &\phantom{x_2} - & x_3 &\phantom{x_3} + & \phantom{2}x_4 &\phantom{x_4} = & 0\\
+x_1 &\phantom{x_1} + & 3x_2 &\phantom{x_2} + & x_3 &\phantom{x_3} + & 2x_4 &\phantom{x_4} = & 0\\
+\end{aligned}
+\end{equation*}
+is a subspace of $\R^4$. (The intersection of two three-dimensional hyperplanes.) What is its dimension?
+\onslide<2->
+\begin{overprint}
+\onslide<2-3>
+Writing this system in RREF gives
+\begin{equation*}
+\begin{aligned}
+x_1 &\phantom{x_1} &  &\phantom{x_2} - & 5x_3 &\phantom{x_3} - & \phantom{2}x_4 &\phantom{x_4} = & 0\\
+ & & x_2 &\phantom{x_2} + & 2x_3 &\phantom{x_3} + & x_4 &\phantom{x_4} = & 0\\
+\end{aligned}
+\end{equation*}
+\visible<3>{The two free variables tell us that the solution to this system will be a two-parameter family.}
+\onslide<4-6>
+To find a basis, let $x_3=a$ and $x_4=b$, arbitrary real numbers.
+\visible<5->{
+\begin{equation*}
+\bvector{x_1,x_2,x_3,x_4}
+=\bvector{5a+b,-2a-b,a,b}
+\visible<6->{=a\bvector{\+5,-2,\+1,\+0}+b\bvector{\+1,-1,\+0,\+1}}
+\end{equation*}}
+\onslide<7->
+The two vectors
+\begin{equation*}
+\bvector{\+5,-2,\+1,\+0}\quad\text{and}\quad\bvector{\+1,-1,\+0,\+1}
+\end{equation*}
+span the subspace. 
+
+\visible<8->{They are also linearly independent, thus this a basis of the subspace.}
+
+\visible<9->{Which means the dimension is 2.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Dimension of the Column Space of a Matrix}
+\begin{block}{Properties of the Column Space of a Matrix}
+\begin{itemize}
+\item The pivot columns of a matrix $\mat{A}$ form a basis for Col $\mat{A}$.
+\begin{itemize}
+\item A pivot column is a column of $\mat{A}$ that corresponds to a column in the RREF of $\mat{A}$ with a leading 1.
+\end{itemize}
+\onslide<2->
+\item The dimension of the column space of $\mat{A}$ is the rank of $\mat{A}$.
+\begin{itemize}
+\item $\rank(\mat{A})=\dimension(\Col\mat{A})$
+\end{itemize}
+\end{itemize}
+\end{block}
+\onslide<3->
+
+\begin{example}
+Consider
+\begin{overprint}
+\onslide<3>
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+1 & 0 & 3 & 5 & 7\\
+0 & 2 & 4 & 6 & 8\\
+\end{bmatrix}
+\end{equation*}
+\onslide<4->
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+1 & 0 & 3 & 5 & 7\\
+0 & 1 & 2 & 3 & 4\\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\onslide<5->
+The pivot columns are $\bvector{1,0}$ and $\bvector{0,1}$, which means $\rank(\mat{A})=2$ and thus the dimension of the column space is 2.
+\end{example}
+\end{frame}
+
+\begin{frame}{Invertible Matrices and Dimension}
+\begin{block}{Invertible Matrix Characterization}
+Let $\mat{A}$ be a $n \by n$ matrix. The following statements are equivalent:
+\begin{dynitemize}[<+- | alert@+>]
+\item $\mat{A}$ is invertible.
+\item The column vectors of $\mat{A}$ are linearly independent.
+\item Every column of $\mat{A}$ is a pivot column.
+\item The column vectors of $\mat{A}$ form a basis for $\Col\mat{A}$
+\item $\rank\mat{A}=n$
+\end{dynitemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Invertible Matrices and Dimension}
+\begin{example}
+The set of polynomials $\{x^2,x,1\}$ span $\Poly_2$ since a typical vector is of the form $ax^2+bx+c$. 
+\onslide<2->
+
+So, if this set is linearly indenpendent, then it is a basis of $\Poly_2$.
+\onslide<3->
+\begin{overprint}
+\onslide<3-5>
+\begin{equation*}
+\begin{aligned}
+\visible<3->{\text{For }x&=-1\text{:}&\quad c_3{(-1)}^2&\ +&c_2(-1)&\ +&c_1 &=&0  \\}
+\visible<4->{\text{For }x&=\+0\text{:}&\quad c_3{(\+0)}^2&\ +&c_2(\+0)&\ +&c_1 &=&0  \\}
+\visible<5->{\text{For }x&=\+1\text{:}&\quad c_3{(\+1)}^2&\ +&c_2(\+1)&\ +&c_1 &=&0  \\}
+\end{aligned}
+\end{equation*}
+\onslide<6>
+\begin{equation*}
+\begin{aligned}
+\visible<6->{\text{For }x&= -1\text{:} & \quad c_3&\ -&c_2&\ +&c_1 &=&0  \\}
+\visible<6->{\text{For }x&=\+0\text{:} & \quad    &   &   &   &c_1 &=&0  \\}
+\visible<6->{\text{For }x&=\+1\text{:} & \quad c_3&\ +&c_2&\ +&c_1 &=&0  \\}
+\end{aligned}
+\end{equation*}
+\onslide<7>
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+\+1 &  -1 & \+1 & \+0 \\
+\+0 & \+0 & \+1 & \+0 \\
+\+1 & \+1 & \+1 & \+0 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<8->
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+\+1 & \+0 & \+0 & \+0 \\
+\+0 & \+1 & \+0 & \+0 \\
+\+0 & \+0 & \+1 & \+0 \\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\onslide<9->
+So, since we have the unique solution $c_1=c_2=c_3=0$, these functions are linearly independent and thus form a basis of $\Poly_2$. 
+
+\onslide<10->
+Which means $\dim\Poly_2=3$.
+\end{example}
+\end{frame}
+
+\begin{frame}{Invertible Matrices and Dimension}
+\begin{example}
+What is the dimension of $\Poly$, the space of all polynomials?\pause
+
+\vspace{0.25cm}
+Suppose we have a possible finite basis of $\Poly$, where the highest degree polynomial in this basis is $k$.\pause
+
+\vspace{0.25cm}
+But, there would be no way, using the basis to generate:
+\begin{equation*}
+t^{k+1}
+\end{equation*}\pause
+Thus, $\Poly$ is infinite-dimensional. ($\dim(\Poly)=\infty$).
+\end{example}\pause
+
+\begin{block}{}
+There are many infinite-dimensional spaces.\\We have seen $\Poly$, $\mathcal{C}(I)$, and $\mathcal{C}^n(I)$.
+\end{block}
+\end{frame}
+\end{document}

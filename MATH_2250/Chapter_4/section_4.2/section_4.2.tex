@@ -1,0 +1,998 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%\hideasymptote% uncomment to not compile asymptote graphs
+
+\title[MATH 2250 - Section 4.2]{Real Characteristic Roots}
+\author{Adam Wilson}
+\institute{Salt Lake Community College}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Constant Coefficient Second-Order DE}
+\begin{block}{}
+Consider the special case of a linear second-order homogeneous DE where all the coefficients are constant.
+\begin{equation*}
+ay^{\prime\prime}+by^{\prime}+cy=0,
+\quad a,b,c\in\R
+\quad\text{and}\quad a\neq 0
+\end{equation*}\pause
+Let us try an approach similar to that for first-order linear DEs.\pause
+
+If we let $y=e^{rt}$\pause, then $y^\prime=re^{rt}$\pause\  and $y^{\prime\prime}=r^2e^{rt}$.\pause
+
+Thus, the DE becomes:
+\begin{equation*}
+0=ar^2e^{rt}+bre^{rt}+ce^{rt}\pause=e^{rt}(ar^2+br+c)
+\end{equation*}\pause
+Because the range of $e^{rt}$ is $\interval{\open{0}}{\open{\infty}}$ this will be satisfied only when
+\begin{equation*}
+ar^2+br+c=0
+\end{equation*}
+We call this the \textbf{characteristic equation} of the DE and is key to finding the solutions that form a basis of the solution space.
+\end{block}
+\end{frame}
+
+\begin{frame}{Constant Coefficient Second-Order DE}
+\begin{block}{}
+We can solve the characteristic equation for r using the quadratic formula.
+\begin{equation*}
+ar^2+br+c=0
+\quad\Rightarrow\quad
+r=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}
+\end{equation*}\pause
+Recall that the \emph{discriminant} ($\Delta=b^2-4ac$) tells us which of the possibilities we have for the solutions:
+\begin{itemize}[<+- | alert@+>]
+\item $\Delta>0$: Two distinct real roots.
+\item $\Delta=0$: One real root.
+\item $\Delta<0$: Two conjugate complex roots. (Section 4.3.)
+\end{itemize}
+\onslide<+->
+These roots are called \textbf{characaristic roots} or \textbf{eigenvalues}. 
+
+(The term \emph{eigenvalue} is from Linear Algebra and we will talk more about them later in the semester.)
+\end{block}
+\end{frame}
+
+\begin{frame}{Real Unequal Characteristic Roots ($\Delta>0$)}
+\begin{block}{Solution for Distinct Real Characteristic Roots}
+For $\Delta>0$, the characteristic roots of the DE
+\begin{equation*}
+ay^{\prime\prime}+by^{\prime}+cy=0
+\end{equation*}
+are
+\begin{equation*}
+r_1=\dfrac{-b+\sqrt{b^2-4ac}}{2a}
+,\quad\text{and}\quad
+r_2=\dfrac{-b-\sqrt{b^2-4ac}}{2a}
+\end{equation*}\pause
+The functions $e^{r_1t}$ and $e^{r_2t}$ are linearly independent solutions, and the general solution is given by
+\begin{equation*}
+y(t)=c_1e^{r_1t}+c_2e^{r_2t}
+\end{equation*}
+where $c_1$ and $c_2$ are arbitrary constants determined by the initial conditions.\pause
+
+The set $\left\{e^{r_1t},e^{r_2t}\right\}$ forms a basis for the solution space $\Sol$.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Real Unequal Characteristic Roots ($\Delta>0$)}
+\begin{example}
+\begin{overprint}
+\onslide<1-6>
+Let us find the general solution of
+\begin{equation*}
+y^{\prime\prime}+5y^{\prime}+6y=0
+\end{equation*}
+\visible<2->{First, let us write the characteristic equation:
+\begin{equation*}
+0=r^2+5r+6
+\visible<3->{=(r+2)(r+3)}
+\end{equation*}}
+\visible<4->{which has solutions $r_1=-2$ and $r_2=-3$.}
+\visible<5->{
+
+Thus, the general solution is 
+\begin{equation*}
+y(t)=c_1e^{-2t}+c_2e^{-3t}
+\end{equation*}}
+\visible<6->{The set $\left\{e^{-2t},e^{-3t}\right\}$ is a basis of the solution space $\Sol$, and $\dim\Sol=2$.}
+\onslide<7->
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150,0);
+ngraph=1000;
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+
+real r_1=-2;
+real r_2=-3;
+pair[] curves = {	( 3.6, 0.0), 
+					( 2.4, 0.0), 
+					( 0.0, 2.0),
+					(-1.0, 1.4),
+					(-2.9, 3.4)};
+					
+for (pair k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=3*A+B;
+	real c_2=-B-2A;
+	real f(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	draw(graph(f,min_x, max_x),next_color()+0.75bp);
+}
+limits((min_x,min_y),(max_x,max_y),Crop);
+xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
+\end{asy}
+\caption{Time Series}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150);
+ngraph=1000;
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+// phase plot for ay''+by'+cy=0
+real a=1;
+real b=5;
+real c=6;
+real F(pair z) {return (-b*z.y-c*z.x)/a;}
+path vector(pair z) {return (0,0)--1/(2*length((z.y,F(z))))*(z.y, F(z));}
+
+add(vectorfield(vector,start,end,arrow=EndArrow(SimpleHead)));
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+
+// draw trajectories
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+real r_1=-2;
+real r_2=-3;
+real t_start=-1;
+real t_end=2;
+
+triple[] curves = {	( 3.6, 0.0, 0.97), 
+					( 2.4, 0.0, 0.965), 
+					( 0.0, 2.0, 0.97),
+					(-1.0, 1.4, 0.6),
+					(-2.9, 3.4, 0.9)};					
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=3*A+B;
+	real c_2=-B-2A;
+	real X(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	real Y(real t) {return c_1*r_1*exp(r_1*t)+c_2*r_2*exp(r_2*t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption{Phase Portrait}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]{Real Unequal Characteristic Roots ($\Delta>0$)}
+\begin{example}
+\begin{overprint}
+\onslide<1-6>
+Let us find the general solution of
+\begin{equation*}
+y^{\prime\prime}-y=0
+\end{equation*}
+\visible<2->{First, let us write the characteristic equation:
+\begin{equation*}
+0=r^2-1
+\visible<3->{=(r+1)(r-1)}
+\end{equation*}}
+\visible<4->{which has solutions $r_1=1$ and $r_2=-1$.}
+\visible<5->{
+
+Thus, the general solution is 
+\begin{equation*}
+y(t)=c_1e^{t}+c_2e^{-t}
+\end{equation*}}
+\visible<6->{The set $\left\{e^{t},e^{-t}\right\}$ is a basis of the solution space $\Sol$, and $\dim\Sol=2$.}
+\onslide<7->
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150,0);
+ngraph=1000;
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+
+real r_1=1;
+real r_2=-1;
+pair[] curves = {	( 1.0,  0.0), 
+					( 0.0,  3.0), 
+					( 0.0, -1.9),
+					(-4.8,  0.0)};
+					
+for (pair k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=(A+B)/2;
+	real c_2=(A-B)/2;
+	real f(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	draw(graph(f,min_x, max_x),next_color()+0.75bp);
+}
+limits((min_x,min_y),(max_x,max_y),Crop);
+xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
+\end{asy}
+\caption{Time Series}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150);
+ngraph=1000;
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+// phase plot for ay''+by'+cy=0
+real a=1;
+real b=0;
+real c=-1;
+real F(pair z) {return (-b*z.y-c*z.x)/a;}
+path vector(pair z) {return (0,0)--1/(2*length((z.y,F(z))))*(z.y, F(z));}
+
+add(vectorfield(vector,start,end,arrow=EndArrow(SimpleHead)));
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+
+// draw trajectories
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+real r_1=1;
+real r_2=-1;
+real t_start=-4;
+real t_end=4;
+
+triple[] curves = {	( 1.0,  0.0, 0.48), 
+					( 0.0,  3.0, 0.49), 
+					( 0.0, -1.9, 0.52),
+					(-4.8,  0.0, 0.5)};					
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=(A+B)/2;
+	real c_2=(A-B)/2;
+	real X(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	real Y(real t) {return c_1*r_1*exp(r_1*t)+c_2*r_2*exp(r_2*t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption{Phase Portrait}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Real Equal Characteristic Roots ($\Delta=0$)}
+\begin{block}{Solution for Equal Real Characteristic Roots}
+For $\Delta=0$, the characteristic roots of the DE
+\begin{equation*}
+ay^{\prime\prime}+by^{\prime}+cy=0
+\end{equation*}
+are
+\begin{equation*}
+r=-\dfrac{b}{2a}
+\end{equation*}\pause
+The functions $e^{rt}$ and $te^{rt}$ are linearly independent solutions, and the general solution is given by
+\begin{equation*}
+y(t)=c_1e^{rt}+c_2te^{t}
+\end{equation*}
+where $c_1$ and $c_2$ are arbitrary constants determined by the initial conditions.\pause
+
+The set $\left\{e^{rt},te^{rt}\right\}$ forms a basis for the solution space $\Sol$.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Real Equal Characteristic Roots ($\Delta=0$)}
+\begin{example}
+\begin{overprint}
+\onslide<1-6>
+Let us find the general solution of
+\begin{equation*}
+y^{\prime\prime}-4y^{\prime}+4y=0
+\end{equation*}
+\visible<2->{First, let us write the characteristic equation:
+\begin{equation*}
+0=r^2-4r+4
+\visible<3->{={(r-2)}^2}
+\end{equation*}}
+\visible<4->{which has solutions $r=2$.}
+\visible<5->{
+
+Thus, the general solution is 
+\begin{equation*}
+y(t)=c_1e^{2t}+c_2te^{2t}
+\end{equation*}}
+\visible<6->{The set $\left\{e^{2t},te^{2t}\right\}$ is a basis of the solution space $\Sol$, and $\dim\Sol=2$.}
+\onslide<7->
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150,0);
+ngraph=1000;
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+
+real r=2;
+pair[] curves = {	( 4.0,  0.0), 
+					( 1.0,  1.3), 
+					(-2.0,  0.0),
+					(-5.1,  0.0),
+					( 1.3,  0.0)};
+					
+for (pair k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=B-2A;
+	real f(real t) {return c_1*exp(r*t)+c_2*t*exp(r*t);}
+	draw(graph(f,min_x, max_x),next_color()+0.75bp);
+}
+limits((min_x,min_y),(max_x,max_y),Crop);
+xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
+\end{asy}
+\caption{Time Series}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150);
+ngraph=1000;
+real min_x=-8, max_x=8;
+real min_y=-8, max_y=8;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+// phase plot for ay''+by'+cy=0
+real a=1;
+real b=-4;
+real c=4;
+real F(pair z) {return (-b*z.y-c*z.x)/a;}
+path vector(pair z) {return (0,0)--1/(2*length((z.y,F(z))))*(z.y, F(z));}
+
+add(vectorfield(vector,start,end,arrow=EndArrow(SimpleHead)));
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+
+// draw trajectories
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+real r=2;
+real t_start=-3.0;
+real t_end=1.5;
+
+triple[] curves = {	( 4.0, 0.0, 0.025), 
+					( 1.0, 1.3, 0.35), 
+					(-2.0, 0.0, 0.02),
+					(-5.1, 0.0, 0.02),
+					( 1.3, 0.0, 0.02)};				
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=B-2A;
+	real X(real t) {return c_1*exp(r*t)+c_2*t*exp(r*t);}
+	real Y(real t) {return c_1*r*exp(r*t)+c_2*r*t*exp(r*t)+c_2*exp(r*t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption{Phase Portrait}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Damped Mass-Spring Systems}
+\begin{block}{Overdamped Mass-Spring System}
+The motion of a mass-spring system is called \textbf{overdamped} when we have $\Delta>0$. Both characteristic roots are negative and the solutions
+\begin{equation*}
+x(t)=c_1e^{r_1t}+c_2e^{r_2t}
+\end{equation*}
+tend towards zero with oscillation, crossing the $t$-axis at most once.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Damped Mass-Spring Systems}
+\begin{example}
+\begin{overprint}
+\onslide<1-6>
+Let us find the general solution of
+\begin{equation*}
+\ndot{x}{2}+3\ndot{x}{1}+2x=0
+\end{equation*}
+\visible<2->{First, let us write the characteristic equation:
+\begin{equation*}
+0=r^2+3r+2
+\visible<3->{=(r+1)(r+2)}
+\end{equation*}}
+\visible<4->{which has solutions $r_1=-1$ and $r_2=-2$.}
+\visible<5->{
+
+Thus, this system is overdamped and has general solution 
+\begin{equation*}
+x(t)=c_1e^{-t}+c_2e^{-2t}
+\end{equation*}}
+\visible<6->{The set $\left\{e^{-t},e^{-2t}\right\}$ is a basis of the solution space $\Sol$, and $\dim\Sol=2$.}
+\onslide<7->
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150,0);
+ngraph=1000;
+real min_x=0, max_x=5;
+real min_y=-3, max_y=3;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+
+real r_1=-1;
+real r_2=-2;
+pair[] curves = {	(1.0,  6.0), 
+					(1.0,  3.0), 
+					(1.0,  0.0),
+					(1.0, -10.0),
+					(1.0, -14.0)};
+					
+for (pair k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=2A+B;
+	real c_2=-A-B;
+	real f(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	draw(graph(f,min_x, max_x),next_color()+0.75bp);
+}
+limits((min_x,min_y),(max_x,max_y),Crop);
+xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
+yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
+\end{asy}
+\caption{Time Series}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150);
+ngraph=1000;
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+// phase plot for ay''+by'+cy=0
+real a=1;
+real b=+3;
+real c=2;
+real F(pair z) {return (-b*z.y-c*z.x)/a;}
+path vector(pair z) {return (0,0)--1/(2*length((z.y,F(z))))*(z.y, F(z));}
+
+add(vectorfield(vector,start,end,arrow=EndArrow(SimpleHead)));
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+
+// draw trajectories
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+real r_1=-1;
+real r_2=-2;
+real t_start=-1;
+real t_end=10;
+
+triple[] curves = {	(1.0,  6.0,  0.94), 
+					(1.0,  3.0,  0.92), 
+					(1.0,  0.0,  0.72),
+					(1.0, -10.0, 0.97),
+					(1.0, -14.0, 0.97)};			
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=2A+B;
+	real c_2=-A-B;
+	real X(real t) {return c_1*exp(r_1*t)+c_2*exp(r_2*t);}
+	real Y(real t) {return c_1*r_1*exp(r_1*t)+c_2*r_2*exp(r_2*t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption{Phase Portrait}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Damped Mass-Spring Systems}
+\begin{block}{Critically Damped Mass-Spring System}
+the motion of a mass-spring system is called \textbf{critically damped} when we have $\Delta=0$. The single characteristic root are negative and the solutions
+\begin{equation*}
+x(t)=c_1e^{rt}+c_2te^{rt}
+\end{equation*}
+tend towards zero, crossing the $t$-axis at most once.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Damped Mass-Spring Systems}
+\begin{example}
+\begin{overprint}
+\onslide<1-6>
+Let us find the general solution of
+\begin{equation*}
+\ndot{x}{2}+6\ndot{x}{1}+9x=0
+\end{equation*}
+\visible<2->{First, let us write the characteristic equation:
+\begin{equation*}
+0=r^2+6r+9
+\visible<3->{={(r+3)}^2}
+\end{equation*}}
+\visible<4->{which has solution $r=-3$.}
+\visible<5->{
+
+Thus, this system is critically damped and has general solution 
+\begin{equation*}
+x(t)=c_1e^{-3t}+c_2te^{-3t}
+\end{equation*}}
+\visible<6->{The set $\left\{e^{-3t},te^{-3t}\right\}$ is a basis of the solution space $\Sol$, and $\dim\Sol=2$.}
+\onslide<7->
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150,0);
+ngraph=1000;
+real min_x=0, max_x=4;
+real min_y=-2, max_y=3;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+
+real r=-3;
+pair[] curves = {	( 1.0, -20.0), 
+					( 1.0, -16.0), 
+					( 1.0, -12.0),
+					( 1.0,   7.0),
+					( 1.0,  16.0)};
+					
+for (pair k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=B+3*A;
+	real f(real t) {return c_1*exp(r*t)+c_2*t*exp(r*t);}
+	draw(graph(f,min_x, max_x),next_color()+0.75bp);
+}
+limits((min_x,min_y),(max_x,max_y),Crop);
+xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
+\end{asy}
+\caption{Time Series}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(150);
+ngraph=1000;
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+// phase plot for ay''+by'+cy=0
+real a=1;
+real b=6;
+real c=9;
+real F(pair z) {return (-b*z.y-c*z.x)/a;}
+path vector(pair z) {return (0,0)--1/(2*length((z.y,F(z))))*(z.y, F(z));}
+
+add(vectorfield(vector,start,end,arrow=EndArrow(SimpleHead)));
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+
+// draw trajectories
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+real r=-3;
+real t_start=-0.15;
+real t_end=3.0;
+
+triple[] curves = {	( 1.0, -20.0, 0.92), 
+					( 1.0, -16.0, 0.92), 
+					( 1.0, -12.0, 0.92),
+					( 1.0,   7.0, 0.4),
+					( 1.0,  16.0, 0.8)};			
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=B-2A;
+	real X(real t) {return c_1*exp(r*t)+c_2*t*exp(r*t);}
+	real Y(real t) {return c_1*r*exp(r*t)+c_2*r*t*exp(r*t)+c_2*exp(r*t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption{Phase Portrait}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{block}{Existence and Uniqueness Theorem (Second-Order)}
+Let $p(t)$ and $q(t)$ be continuous on the open interval $\interval{\open{a}}{\open{b}}$ contaning $t_0$. For \emph{any} $A,B\in\R$, there exists a unique solution $y(t)$ defined on $\interval{\open{a}}{\open{b}}$ to the IVP
+\begin{equation*}
+y^{\prime\prime}+p(t)y^{\prime}+q(t)y=0,
+\quad y(t_0)=A,
+\quad y^{\prime}(t_0)=B
+\end{equation*}
+\end{block}\pause
+\begin{proof}
+This is just an extension of Picard's Theorem.
+\end{proof}\pause
+\begin{block}{Solution Space Theorem (Second-Order)}
+The solution space $\Sol$ for a second-order homogeneous differential equation has dimension 2.
+\end{block}\pause
+\begin{proof}
+See Page 217 in your textbook
+\end{proof}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{block}{Solutions of Homogeneous Linear DE (Second-Order)}
+For any linear second-order homogeneous DE on $\interval{\open{a}}{\open{b}}$,
+\begin{equation*}
+y^{\prime\prime}+p(t)y^{\prime}+q(t)y=0
+\end{equation*}
+for which $p$ and $q$ are continuous on $\interval{\open{a}}{\open{b}}$, \emph{any} two linearly independent solutions $\{y_1,y_2\}$ form a basis of the solution space $\Sol$, and \emph{every} solution $y$ on $\interval{\open{a}}{\open{b}}$ can be written as
+\begin{equation*}
+y(t)=c_1y_1(t)+c_2y_2(t)
+\end{equation*}
+for some $c_1,c_2\in\R$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{block}{}
+We can generalize these ideas for $n$th-order DEs.
+\end{block}\pause
+\begin{block}{Existence and Uniqueness Theorem ($n$th-Order)}
+Let $p_1(t), p_2(t),\ldots,p_n(t)$ be continuous on the open interval $\interval{\open{a}}{\open{b}}$ contaning $t_0$. For any initial conditions $A_0,A_1,\ldots,A_{n-1}\in\R$, there exists a unique solution $y(t)$ defined on $\interval{\open{a}}{\open{b}}$ to the IVP
+\begin{equation*}
+y^{(n)}+p_1(t)y^{(n-1)}+p_2(t)y^{(n-3)}+\cdots+p_n(t)y=0
+\end{equation*}
+where
+\begin{equation*}
+y(t_0)=A_0,\quad
+y^{\prime}(t_0)=A_1,
+\ldots,\quad
+y^{(n-1)}(t_0)=A_{n-1}
+\end{equation*}
+\end{block}\pause
+\begin{block}{Solution Space Theorem ($n$th-Order)}
+The solution space $\Sol$ for a $n$th-order linear homogeneous differential equation has dimension $n$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{block}{Solutions of Homogeneous Linear DE ($n$th-Order)}
+For any linear $n$th-order homogeneous DE on $\interval{\open{a}}{\open{b}}$,
+\begin{equation*}
+y^{(n)}+p_1(t)y^{(n-1)}+\cdots+p_n(t)y=0
+\end{equation*}
+for which $p_1(t), p_2(t),\ldots,p_n(t)$ are continuous on $\interval{\open{a}}{\open{b}}$, \emph{any} $n$ linearly independent solutions $\{y_1,y_2,\ldots,y_2\}$ form a basis of the solution space $\Sol$, and \emph{every} solution $y$ on $\interval{\open{a}}{\open{b}}$ can be written as
+\begin{equation*}
+y(t)=c_1y_1(t)+c_2y_2(t)+\cdots+c_n y_n(t)
+\end{equation*}
+for some $c_1,c_2,\ldots,c_n\in\R$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{block}{}
+The Solution Space Theorem provides us with the number of solutions in a basis for all $n$-th order linear homogeneous DE\@.
+\onslide<+->
+If we start with $m$ solutions, then
+\begin{itemize}[<+- | alert@+>]
+\item if $m>n$, the solutions cannot be linearly independent.
+\item if $m=n$, we must test for linear independence.
+\item if $m<n$, the set of solutions does not span $\Sol$.
+\end{itemize}
+\end{block}
+\onslide<+->
+\begin{block}{}
+A Wronskian conveys more information in the test for linear independence when the functions are solutions to the same $n$th-order linear homogeneous DE\@.
+\end{block}
+\end{frame}
+
+\newcommand{\custdiff}[1]{a_{#1} (t)\dfrac{d^{#1}y}{dt^{#1}}}
+\begin{frame}{Theoretical Considerations}
+\begin{block}{The Wronskian Test for Linear Independence of DE Solutions}
+Suppose $\{y_1,y_2,\ldots,y_n\}$ is a set of solutions on $\interval{\open{a}}{\open{b}}$ of a $n$th-order linear homogeneous DE\@,
+\begin{equation*}
+L(y)=\custdiff{n}+\custdiff{n-1}+\cdots+\custdiff{1}+a_0y=0
+\end{equation*}
+\onslide<+->
+\begin{enumerate}[<+- | alert@+>]
+\item If $W[y_1,y_2,\ldots,y_n]\neq0$ at any point $t\in\interval{\open{a}}{\open{b}}$, the set $\{y_1,y_2,\ldots,y_n\}$ is linearly independent.
+\item If $W[y_1,y_2,\ldots,y_n]=0$ on all $t\in\interval{\open{a}}{\open{b}}$, the set is linearly dependent.
+\end{enumerate}
+\onslide<+->
+The Wronskian test works in \quotetext{both directions} only for $n$ solutions to an $n$th-order linear homogeneous DE\@.
+\end{block}
+\onslide<+->
+\begin{proof}
+See page 220 in your textbook
+\end{proof}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{example}
+Consider the set of solutions $A=\{2,t-1,t^2,t^3+t\}$ to $\dfrac{d^4y}{dy^4}=0$ on $\R$.\pause
+\begin{equation*}
+\begin{aligned}
+W &=
+\begin{vmatrix}
+2 & t-1 & t^2 & t^3+t  \\
+0 & 1   & 2t  & 3t^2+1 \\
+0 & 0   & 2   & 6t     \\
+0 & 0   & 0   & 6      \\
+\end{vmatrix}\\\pause
+&=2
+\begin{vmatrix}
+1   & 2t  & 3t^2+1 \\
+0   & 2   & 6t     \\
+0   & 0   & 6      \\
+\end{vmatrix}\\\pause
+&=2
+\begin{vmatrix}
+2   & 6t     \\
+0   & 6      \\
+\end{vmatrix}\\\pause
+&=24\pause
+\neq0
+\end{aligned}
+\end{equation*}
+
+\vspace{-3mm}
+$A$ is linearly independent and hence a basis of $\Sol$.
+\end{example}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{example}
+Consider the set of solutions $B=\{t,t+1,t^2-1,t^2\}$ to $\dfrac{d^4y}{dy^4}=0$ on $\R$.\pause
+\begin{equation*}
+\begin{aligned}
+W &=
+\begin{vmatrix}
+t & t+1 & t^2 -1 & t^2  \\
+1 & 1   & 2t     & 2t   \\
+0 & 0   & 2      & 2    \\
+0 & 0   & 0      & 0    \\
+\end{vmatrix}\\\pause
+&=0
+\end{aligned}
+\end{equation*}
+
+\vspace{-3mm}
+$B$ is linearly dependent.\pause\ (For example, $t=(t+1)+(t^2-1)-(t^2)$.)
+\end{example}
+\end{frame}
+
+\begin{frame}{Theoretical Considerations}
+\begin{example}
+Consider the set of solutions $C=\{1,t^2,t^3\}$ to $\dfrac{d^4y}{dy^4}=0$ on $\R$.\pause
+\begin{equation*}
+\begin{aligned}
+W &=
+\begin{vmatrix}
+1 & t^2 & t^3  \\
+0 & 2t  & 3t^2 \\
+0 & 2   & 6t   \\
+\end{vmatrix}\\\pause
+&=
+\begin{vmatrix}
+2t  & 3t^2 \\
+2   & 6t   \\
+\end{vmatrix}\\\pause
+&=6t^2\pause
+=0\text{ only when }t=0.
+\end{aligned}
+\end{equation*}
+
+\vspace{-3mm}
+$W$ is not identically zero, so we know $C$ is a linearly independent set.\pause
+
+But the strong conclusion of the Wronskian test did not occur here because $C$ contains only three solutions for a fourth-order DE\@.
+\end{example}
+\end{frame}
+\end{document}
