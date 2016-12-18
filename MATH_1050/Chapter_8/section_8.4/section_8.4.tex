@@ -1,0 +1,913 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{slide_helper}
+\usepackage{graphicx}
+
+\usepackage[customcolors, beamer]{hf-tikz}
+\tikzset{style green/.style={
+    set fill color=green!60!lime!50,
+    set border color=green!100,
+  },
+  style cyan/.style={
+    set fill color=cyan!50!blue!40,
+    set border color=cyan!100,
+  },
+  style orange/.style={
+    set fill color=orange!50!red!60,
+    set border color=red!80,
+  },
+  hor/.style={
+    above left offset={-0.15,0.35},
+    below right offset={0.15,-0.125},
+    #1
+  },
+  ver/.style={
+    above left offset={-0.38,0.35},
+    below right offset={0.15,-0.15},
+    #1
+  },
+  ver2/.style={
+    above left offset={-0.15,0.35},
+    below right offset={0.15,-0.15},
+    #1
+  }
+}
+
+\title[MATH 1050 - Section 8.4]{Matrix Algebra}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+ 
+\end{frame}
+
+\begin{frame}
+\begin{block}{Matrix}
+A \textbf{matrix} is a rectangular array of \textbf{elements} or \textbf{entries} (numbers or functions) arranged in \textbf{rows} (horizontal) and \textbf{columns} (vertical).
+\begin{equation*}
+\mat{A}=\begin{bmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+a_{21}&a_{22}&\cdots&a_{2n}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{m1}&a_{m1}&\cdots&a_{mn}
+\end{bmatrix}
+\end{equation*}
+The \textbf{order} of $\mat{A}$ is $m\times n$. If $m=n$, we call the matrix \textbf{square}.
+\end{block}\pause
+\begin{block}{Equal Matrices}
+Two matrices of the same order are \textbf{equal} if their corresponding entries are equal. If matrices $\mat{A}=[a_{ij}]$ and $\mat{B}=[a_{ij}]$ are both $m\times n$, then
+\[\mat{A}=\mat{B} \Leftrightarrow a_{ij}=b_{ij},\quad 1\leq i\leq m,\> 1\leq j\leq n\]
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Special Matrices}
+\begin{itemize}
+\item<+-> The $m\times n$ \textbf{zero matrix}, denoted $\textbf{0}_{mn}$, has all its entries equal to zero.
+\item<+->A \textbf{diagonal matrix} is:
+\begin{equation*}
+\mat{D}=\begin{bmatrix}
+a_{11}&0&\cdots&0\\
+0&a_{22}&\cdots&0\\
+\vdots&\vdots&\ddots&\vdots\\
+0&0&\cdots&a_{mn}
+\end{bmatrix}
+\end{equation*}
+\item<+->The $n\times n$ \textbf{identity matrix}, denoted $\identmat{n}$ is:
+ \begin{equation*}
+ \identmat{n}=\begin{bmatrix}
+1&0&\cdots&0\\
+0&1&\cdots&0\\
+\vdots&\vdots&\ddots&\vdots\\
+0&0&\cdots&1
+\end{bmatrix}
+\end{equation*}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Matrix Addition}
+Two matrices of the same order are added (or subtracted) by adding (or subtracting) corresponding entries and recording the results in a matrix of the same size. Using matrix notation, if $A=[a_{ij}]$ and $B=[b_{ij}]$ are both $m\times n$.
+\begin{equation*}
+\begin{split}
+\mat{A}+\mat{B}&=[a_{ij}]+[b_{ij}]=[a_{ij}+b_{ij}]\\
+\mat{A}-\mat{B}&=[a_{ij}]-[b_{ij}]=[a_{ij}-b_{ij}]
+\end{split}
+\end{equation*}
+\end{block}\pause
+\begin{block}{Multiplication by a Scalar}
+To find the product of a matrix and a scalar (a complex number), multiply each entry of the matrix by that number. This is called \textbf{multiplication by a scalar}. Using matrix notation, if $\mat{A}=[a_{ij}]$, then
+\[c\cdot \mat{A}=[c\cdot a_{ij}] = [a_{ij}\cdot c] = \mat{A}\cdot c\]
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose that
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rrr]
+3 & 1 & 5 \\
+-2 & 0 & 6 \\
+\end{bmatrix}\qquad
+\mat{B}=
+\begin{bmatrix}[rrr]
+4 & 1 & 0 \\
+8 & 1 & -3 \\
+\end{bmatrix}\qquad
+\mat{C}=
+\begin{bmatrix}[rr]
+9 & 0 \\
+-3 & 6 \\
+\end{bmatrix}
+\end{equation*}\pause
+
+\vspace{-5mm}
+What is $\mat{A}+\mat{B}$?\pause
+
+\vspace{-4mm}
+\begin{equation*}
+\begin{bmatrix}
+3+4 & 1+1 & 5+0 \\
+-2+8 & 0+1 & 6+-3 \\
+\end{bmatrix}\pause
+=
+\begin{bmatrix}
+7 & 2 & 5 \\
+6 & 1 & 3 \\
+\end{bmatrix}
+\end{equation*}\pause
+What is $\mat{A}+\mat{C}$?\pause
+
+\vspace{-3mm}
+\begin{center}
+$\mat{A}$ and $\mat{C}$ have different dimensions, so the sum cannot be performed.\pause
+\end{center}
+
+\vspace{-2mm}
+What is $3\mat{C}$?\pause
+\begin{equation*}
+\begin{bmatrix}[rr]
+3\cdot 9 & 3\cdot 0 \\
+3\cdot (-3) & 3\cdot 6 \\
+\end{bmatrix}\pause
+=
+\begin{bmatrix}[rr]
+27 & 0 \\
+-9 & 18 \\
+\end{bmatrix}
+\end{equation*}\pause
+
+\vspace{-3mm}
+\begin{overprint}
+\onslide<-10>
+\onslide<11>
+What is $3\mat{A}-2\mat{B}$?
+\onslide<12>
+What is $3\mat{A}-2\mat{B}$?
+\begin{equation*}
+3
+\begin{bmatrix}[rrr]
+3 & 1 & 5 \\
+-2 & 0 & 6 \\
+\end{bmatrix}
+-2
+\begin{bmatrix}[rrr]
+4 & 1 & 0 \\
+8 & 1 & -3 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<13>
+What is $3\mat{A}-2\mat{B}$?
+\begin{equation*}
+\begin{bmatrix}[ccc]
+3\cdot 3 & 3\cdot 1 & 3\cdot 5 \\
+3\cdot (-2) & 3\cdot 0 & 3\cdot 6 \\
+\end{bmatrix}
+-
+\begin{bmatrix}[ccc]
+2\cdot 4 & 2\cdot 1 & 2\cdot 0 \\
+2\cdot 8 & 2\cdot 1 & 2\cdot (-3) \\
+\end{bmatrix}
+\end{equation*}
+\onslide<14>
+What is $3\mat{A}-2\mat{B}$?
+\begin{equation*}
+\begin{bmatrix}[rrr]
+9 & 3 & 15 \\
+-6 & 0 & 18 \\
+\end{bmatrix}
+-
+\begin{bmatrix}[rrr]
+8 & 2 & 0 \\
+16 & 2 & -6 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<15>
+What is $3\mat{A}-2\mat{B}$?
+\begin{equation*}
+\begin{bmatrix}[ccc]
+9-8 & 3-2 & 15-0 \\
+(-6)-16 & 0-2 & 18-
+(-6) \\
+\end{bmatrix}
+\end{equation*}
+\onslide<16>
+What is $3\mat{A}-2\mat{B}$?
+
+\begin{equation*}
+\begin{bmatrix}[rrr]
+1 & 1 & 15 \\
+-22 & -2 & 24 \\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Properties of Matrix Addition and Scalar Multiplication}
+Suppose $\mat{A}$, $\mat{B}$, and $\mat{C}$ are $m\times n$ matrices and $c$ and $k$ are scalars. Then the following properties hold:
+\begin{itemize}
+\item<+->$\mat{A}+\mat{B}=\mat{B}+\mat{A}$\hfill(Commutativity)
+\item<+->$\mat{A}+(\mat{B}+\mat{C})=(\mat{A}+\mat{B})+\mat{C}$\hfill(Associativity)
+\item<+->$c(k\mat{A})=(ck)\mat{A}$\hfill(Associativity)
+\item<+->$\mat{A}+\textbf{0}=\mat{A}$\hfill(Zero Element)
+\item<+->$\mat{A}+(-\mat{A})=\textbf{0}$\hfill(Inverse Element)
+\item<+->$c(\mat{A}+\mat{B})=c\mat{A}+c\mat{B}$\hfill(Distributivity)
+\item<+->$(c+k)\mat{A}=c\mat{A}+k\mat{A}$\hfill(Distributivity)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Vectors}
+A vector $\vect{v}=< v_1,\dots,v_n >$ can be represented by either by a $1\times n$ row matrix, or a $n\times 1$ column matrix.
+\end{block}\pause
+\begin{block}{Vector addition and Scalar Multiplication}
+Let
+\[
+\vect{x}=\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}
+\quad\text{and}\quad
+\vect{y}=\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}
+\]
+be vectors in  $\mathbb{R}^n$ and $c$ be any scalar. Then, we have:
+\[
+\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}+
+\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}=
+\begin{bmatrix}x_1+y_1\\\vdots\\x_n+y_n\end{bmatrix}
+\quad\text{and}\quad
+c\cdot\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}=
+\begin{bmatrix} c\cdot x_1\\\vdots\\ c\cdot x_n\end{bmatrix}
+\]
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Properties of Vector Addition and Multiplication}
+For vectors $\vect{u}$, $\vect{v}$, and $\vect{w}$ in $\mathbb{R}^n$ and scalars $c$ and $k$.\begin{itemize}
+\item $\vect{u}+\vect{v}=\vect{v}+\vect{u}$\hfill(Commutativity)
+\item $\vect{u}+(\vect{v}+\vect{w})=(\vect{u}+\vect{v})+\vect{w}$\hfill(Associativity)
+\item $c(k\vect{v})=(ck)\vect{v}$\hfill(Associativity)
+\item $\vect{u}+\vect{0}=\vect{u}$\hfill(Zero Element)
+\item $\vect{u}+(-\vect{u})=\vect{0}$\hfill(Inverse Element)
+\item $c(\vect{u}+\vect{v})=c\vect{u}+c\vect{v}$\hfill(Distributivity)
+\item $(c+k)\vect{u}=c\vect{u}+k\vect{u}$\hfill(Distributivity)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Dot Product}
+The \textbf{dot product} of a row vector $\vect{x}$ and a column vector $\vect{y}$ of equal length $n$ is the result of adding the products of the corresponding entries as follows:
+
+\vspace{-10mm}
+\begin{equation*}
+\begin{split}
+\vect{x}\pdot\vect{y}&=\begin{bmatrix}x_1&\cdots&x_n\end{bmatrix}\pdot
+\begin{bmatrix}y_1\\\vdots\\y_n\end{bmatrix}\\
+&=x_1\cdot y_1+x_2\cdot y_2+\cdots +x_n\cdot y_n\\
+\end{split}
+\end{equation*}
+\end{block}\pause
+\begin{example}
+Consider
+
+\vspace{-5mm}
+\begin{equation*}
+\vect{r}=
+\begin{bmatrix}
+3 & -5 & 2
+\end{bmatrix}
+\quad\text{and}\quad
+\vect{c}=\bvector{\+3,\+4,-5}
+\end{equation*}
+
+\vspace{-6mm}
+What is $\vect{r}\pdot\vect{c}$?\pause
+\begin{equation*}
+\begin{bmatrix}
+3 & -5 & 2
+\end{bmatrix}
+\pdot\bvector{\+3,\+4,-5}\pause
+=3\cdot 3+(-5)\cdot 4+2\cdot(-5)\pause
+=9-20-10\pause
+=-21
+\end{equation*}
+
+\vspace{-4mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Matrix Product}
+The \textbf{matrix product} of a $m\times r$ matrix $\mat{A}$ and a $r\times n$ matrix $\mat{B}$ is denoted
+\begin{equation*}
+\mat{C}=\mat{A}\cdot \mat{B}=\mat{A}\mat{B}
+\end{equation*}
+where the $ij$th entry of $\mat{C}$ is the dot product of the $i$th row vector of $A$ and the $j$th column vector of $\mat{B}$:
+\begin{equation*}
+\begin{split}
+c_{ij}&=\begin{bmatrix}a_{i1}&a_{2j}&\cdots&a_{ir}\end{bmatrix}\pdot
+\begin{bmatrix}b_{1j}\\\vdots\\b_{rj}\end{bmatrix}\\
+\end{split}
+\end{equation*}
+The matrix $\mat{C}$ has order $m\times n$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\large
+\begin{example}
+Perform $\mat{A}\mat{B}$ where
+\begin{equation*}
+\mat{A}=
+	\begin{bmatrix}[rrr]
+		1 & -1 & 3 \\
+		0 & 4 & 2
+	\end{bmatrix}
+\quad\text{and}\quad
+\mat{B}=
+	\begin{bmatrix}[rr]
+		3 & 1 \\
+		2 & -4 \\
+		-1 & 0 
+	\end{bmatrix}
+\end{equation*}
+\visible<2->{
+\begin{center}
+\begin{tabular}{r|l}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<3,5>[ver=style cyan]{col-a-ex1}3  &\tikzmarkin<4,6>[ver=style cyan]{col-b-ex1} 1 \\
+				2 &\ \ \ \ -4 \\
+				-1\tikzmarkend{col-a-ex1} & 0\tikzmarkend{col-b-ex1} \\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}\\\\
+\hline\\
+\begin{minipage}{2.3cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rrr}
+				\tikzmarkin<3-4>[hor=style orange]{row-a-ex1}1  & -1 & 3\tikzmarkend{row-a-ex1} \\
+				\tikzmarkin<5-6>[hor=style orange]{row-b-ex1}0 & 4 & 2 \tikzmarkend{row-b-ex1}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<3>[hor=style green]{end-a-ex1}\onslide<3->{-2} \tikzmarkend{end-a-ex1}
+				& \tikzmarkin<4>[hor=style green]{end-b-ex1}\onslide<4->{5}\tikzmarkend{end-b-ex1}   \\
+				 \tikzmarkin<5>[hor=style green]{end-c-ex1}\onslide<5->{6}\tikzmarkend{end-c-ex1} 
+				 & \tikzmarkin<6>[hor=style green]{end-d-ex1}\onslide<6>{-16}\tikzmarkend{end-d-ex1}  \\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+\end{tabular}
+\end{center}}
+\vspace{0.05cm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\large
+\begin{example}
+Perform $\mat{A}\mat{B}$ where
+\begin{equation*}
+\mat{A}=
+	\begin{bmatrix}[rrr]
+		2 & 4 & -1 \\
+		5 & 8 & 0
+	\end{bmatrix}
+\quad\text{and}\quad
+\mat{B}=
+	\begin{bmatrix}[rrrr]
+		2 & 5 & 1 & 4 \\
+		4 & 8 & 0 & 6 \\
+		-3 & 1 & -2 & -1 \\
+	\end{bmatrix}
+\end{equation*}
+\visible<2->{
+\begin{center}
+\begin{tabular}{r|l}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rrrr}
+				\tikzmarkin<3,7>[ver=style cyan]{col-a-ex2}2  &\tikzmarkin<4,8>[ver=style cyan]{col-b-ex2}5 & \tikzmarkin<5,9>[ver=style cyan]{col-c-ex2}1 & \tikzmarkin<6,10>[ver=style cyan]{col-d-ex2}4 \\
+		4 & 8 & 0 & 6 \\
+				-3\tikzmarkend{col-a-ex2} & \+1\tikzmarkend{col-b-ex2} & -2\tikzmarkend{col-c-ex2} & -1\tikzmarkend{col-d-ex2} \\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}\\\\
+\hline\\
+\begin{minipage}{2.3cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rrr}
+				\tikzmarkin<3-6>[hor=style orange]{row-a-ex2}2 & 4 & -1\tikzmarkend{row-a-ex2} \\
+				\tikzmarkin<7-10>[hor=style orange]{row-b-ex2}5 & 8 & 0 \tikzmarkend{row-b-ex2}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+	$\left[
+		\begin{array}{rrrr}
+			\hspace{1.9mm}\tikzmarkin<3>[hor=style green]{end-a-ex2}\visible<3->{23}   \tikzmarkend{end-a-ex2}
+			& \hspace{0.9mm}\tikzmarkin<4>[hor=style green]{end-b-ex2}\visible<4->{41}  \tikzmarkend{end-b-ex2} 
+			& \hspace{3.4mm}\tikzmarkin<5>[hor=style green]{end-c-ex2}\visible<5->{4} \tikzmarkend{end-c-ex2}
+			& \hspace{1.5mm}\tikzmarkin<6>[hor=style green]{end-d-ex2}\visible<6->{33}  \tikzmarkend{end-d-ex2}   \\
+			  \tikzmarkin<7>[hor=style green]{end-e-ex2}\visible<7->{42}  \tikzmarkend{end-e-ex2} 
+			& \tikzmarkin<8>[hor=style green]{end-f-ex2}\visible<8->{89} \tikzmarkend{end-f-ex2}
+			& \tikzmarkin<9>[hor=style green]{end-g-ex2}\visible<9->{5}  \tikzmarkend{end-g-ex2} 
+			& \tikzmarkin<10>[hor=style green]{end-h-ex2}\visible<10->{68} \tikzmarkend{end-h-ex2}  \\
+		\end{array}
+	\right]$
+%	\end{equation*}
+\end{minipage}
+\end{tabular}
+\end{center}}
+\vspace{0.05cm}
+\end{example}
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Properties of Matrix Multiplication}
+\begin{itemize}
+\item $(\mat{A}\mat{B})\mat{C}=\mat{A}(\mat{B}\mat{C})$\hfill (Associativity)
+\item $\mat{A}(\mat{B}+\mat{C})=\mat{A}\mat{B}+\mat{A}\mat{C}$\hfill (Distributivity)
+\item $(\mat{B}+\mat{C})\mat{A}=\mat{B}\mat{A}+\mat{C}\mat{A}$\hfill (Distributivity)\pause
+\item $\mat{A}\mat{B}\neq \mat{B}\mat{A}$\hfill (Generally Noncommutative)
+\end{itemize}
+\end{block}\pause
+\begin{block}{Properties of Identity Matrices}
+For a $m\times n$ matrix $\mat{A}$:
+\begin{itemize}
+\item $\mat{A}\cdot I_n = \mat{A}$\quad\text{and}\quad$I_m\cdot \mat{A} = \mat{A}$
+\item $\mat{A}\cdot\zeromat{n} = \zeromat{mn}$\quad\text{and}\quad$\zeromat{m}\cdot \mat{A}=\zeromat{mn}$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Inverse Matrix}
+If there exists, for an $n \by n$ matrix $\mat{A}$, another matrix $\inverseof{\mat{A}}$ of the same order such that
+\begin{equation*}
+\inverseof{\mat{A}}\mat{A}=\mat{A}\inverseof{\mat{A}}=\identmat{n}
+\end{equation*}
+then $\inverseof{\mat{A}}$ is called the \textbf{inverse} of matrix $\mat{A}$, and $\mat{A}$ is called \textbf{invertible}.
+\end{block}\pause
+\begin{block}{Vocabulary}
+\begin{itemize}
+\item A square matrix that is not invertible is called \textbf{singular}.
+\item A square matrix that is invertible is called \textbf{nonsingular}.
+\end{itemize}
+\end{block}\pause
+\begin{block}{Invertible Matrix Properties}
+\begin{itemize}
+\item<+-> If $\mat{A}$ is invertible, then so is $\mat{A}^{-1}$ and $\inverseof{\left(\inverseof{\mat{A}}\right)}=\mat{A}$
+\item<+-> If $\mat{A}$ and $\mat{B}$ are invertible matrices of the same order, then their product $\mat{A}\mat{B}$ is invertible. In fact, $\inverseof{\left(\mat{A}\mat{B}\right)}=\inverseof{\mat{B}}\inverseof{\mat{A}}$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Inverses by Reduced Row Echelon Form}
+For an $n\by n$ matrix $\mat{A}$, the following process will calculate $\inverseof{\mat{A}}$, or show that $\mat{A}$ is not invertible.
+\onslide<+->
+\begin{description}[<+- | alert@+>]
+\item[Step 1:] Form the $n\by 2n$ augmented matrix $\mat{M}=[\mat{A}|\identmat{n}]$.
+\item[Step 2:] Transform $\mat{M}$ into Reduced Row Echelon Form.
+\item[Step 3:] 
+\begin{itemize}
+\item<.-> If the left hand side of $\mat{M}$ is the identity matrix, then the right hand side is $\inverseof{\mat{A}}$.
+\item<.-> Otherwise, $\mat{A}$ is a non-invertible matrix.
+\end{itemize}
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>%
+Consider the matrix:
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+\+1 & \+1 & \+1 \\
+\+0 & \+2 & \+1 \\
+\+1 & \+0 & \+1 \\
+\end{bmatrix}
+\end{equation*}
+Find $\inverseof{\mat{A}}$
+
+\visible<2>{%
+Start by building the augmented matrix
+\begin{equation*}
+\mat{M_A}=
+\begin{bmatrix}[rrr|rrr]
+\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+\+1 & \+0 & \+1 & \+0 & \+0 & \+1\\
+\end{bmatrix}
+\end{equation*}
+
+Then transform $\mat{M_A}$ into Reduced Row Echelon Form.}
+\onslide<3-5>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+1 & \+0 & \+1 & \+0 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_3-r_1
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+0 &  -1 & \+0 &  -1 & \+0 & \+1\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				\+0 &  -1 & \+0 &  -1 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=-r_3\\
+				& R_3=r_2
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+2 & \+1 & \+0 & \+1 & \+0\\
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_3-2r_2
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+1 & \+1 & \+0 & \+0\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& R_1=r_1-r_3\\
+				& \phantom{R_2}\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+0 & \+3 &  -1 &  -2\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15-17>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+1 & \+0 & \+3 &  -1 &  -2\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}
+			\visible<16-17>{\begin{aligned}
+				& R_1=r_1-r_2\\
+				& \phantom{R_2}\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<17>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				\+1 & \+0 & \+0 & \+2 &  -1 &  -1\\
+				\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+				\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<18>
+\begin{equation*}
+\begin{bmatrix}[rrr|rrr]
+	\+1 & \+0 & \+0 & \+2 &  -1 &  -1\\
+	\+0 & \+1 & \+0 & \+1 & \+0 &  -1\\
+	\+0 & \+0 & \+1 &  -2 & \+1 & \+2\\
+\end{bmatrix}
+\end{equation*}
+Since the left hand side is $\identmat{3}$, we know the right hand side is the inverse:
+\begin{equation*}
+\inverseof{\mat{A}}=
+\begin{bmatrix}[rrr]
+\+2 &  -1 &  -1\\
+\+1 & \+0 &  -1\\
+ -2 & \+1 & \+2\\
+\end{bmatrix}
+\end{equation*}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>%
+Consider the matrix:
+\begin{equation*}
+\mat{B}=
+\begin{bmatrix}
+\+3 & \+0 & \+3 \\
+ -1 & \+2 & \+1 \\
+\+1 & \+1 & \+2 \\
+\end{bmatrix}
+\end{equation*}
+Find $\inverseof{\mat{B}}$
+
+\visible<2>{%
+Start by building the augmented matrix
+\begin{equation*}
+\mat{M_B}=
+\begin{bmatrix}[rrr|rrr]
+\+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+ -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+\+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+\end{bmatrix}
+\end{equation*}
+
+Then transform $\mat{M_B}$ into Reduced Row Echelon Form.}
+\onslide<3-5>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& R_1=r_3\\
+				& \phantom{R_2}\\
+				& R_3=r_1
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				  -1 & \+2 & \+1 & \+0 & \+1 & \+0\\
+				 \+3 & \+0 & \+3 & \+1 & \+0 & \+0\\
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=r_2+r_1\\
+				& R_3=r_2-3r_1
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+3 & \+3 & \+0 & \+1 & \+1\\
+				 \+0 &  -3 &  -3 & \+1 & \+0 &  -1\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-12>
+\Large
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+3 & \+3 & \+0 & \+1 & \+1\\
+				 \+0 &  -3 &  -3 & \+1 & \+0 &  -1\\
+			\end{bmatrix}
+			\visible<10-12>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=\tfrac{1}{3}r_2\\
+				& R_3=r_3+r_2
+			\end{aligned}}\\
+		\visible<11-12>{\Rightarrow
+		&	\begin{bmatrix}[rrr|rrr]
+				 \+1 & \+1 & \+2 & \+0 & \+0 & \+1\\
+				 \+0 & \+1 & \+1 & \+0 & \+\frac{1}{3} & \+\frac{1}{3}\\
+				 \+0 & \+0 & \+0 & \+1 & \+1 &  0\\
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\visible<12>{%
+\begin{center}
+This means that $\mat{B}$ is a non-invertible matrix.
+\end{center}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Invertibility and Solutions}
+Consider the matrix equation $\mat{A}\vect{x}=\vect{b}$.\\
+Where $\mat{A}$ is an $n \by n$ matrix, and $\vect{x}$ and $\vect{b}$ are of length $n$.
+\begin{itemize}
+\item<+-> A unique solution exists if and only if $\mat{A}$ is invertible.
+\item<+-> Otherwise there are either:
+\begin{itemize}
+\item No solutions.
+\item Infinitely many solutions.
+\end{itemize}
+(Another method must be used to determine which.)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\usepercentframe{0.75}{
+\only<1-2>{
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$ & $+$ & $y$  & $+$ & $z$ & $=$ & $2$\\
+    &     & $2y$ & $+$ & $z$ & $=$ & $-1$\\
+$x$ &     &      & $+$ & $z$ & $=$ & $3$
+\end{tabular}
+\end{center}\pause
+
+We can can write this as the matrix equation:
+\begin{equation*}
+\underbrace{\begin{bmatrix}
+\+1 & \+1 & \+1 \\
+\+0 & \+2 & \+1 \\
+\+1 & \+0 & \+1 \\
+\end{bmatrix}}_{\mat{A}}
+\underbrace{\begin{bmatrix}
+x\\
+y\\
+z
+\end{bmatrix}}_{\vect{x}}
+=
+\underbrace{\begin{bmatrix}
+\+2\\
+-1\\
+\+3
+\end{bmatrix}}_{\vect{b}}
+\end{equation*}}
+\only<3-7>{
+So, if $\mat{A}$ is invertible, then we can solve the matrix equation for $\vect{x}$
+\begin{equation*}
+\begin{split}
+\mat{A}\vect{x}&=\vect{b}\\
+\visible<4->{\inverseof{\mat{A}}\mat{A}\vect{x}&=\inverseof{\mat{A}}\vect{b}}\\
+\visible<5->{\identmat{3}\vect{x}&=\inverseof{\mat{A}}\vect{b}}\\
+\visible<6->{\vect{x}&=\inverseof{\mat{A}}\vect{b}}
+\end{split}
+\end{equation*}
+\visible<7->{So, if we can compute $\inverseof{\mat{A}}\vect{b}$ we will have solved the system.}}
+\only<8->{
+\begin{center}
+\begin{tabular}{r|l}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<8-10>[ver2=style cyan]{col-a}\+2\\
+				-1 \\
+				\+0\tikzmarkend{col-a}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}\\\\
+\hline\\
+\begin{minipage}{3.1cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rrr}
+				\tikzmarkin<8>[hor=style orange]{row-a}\+2  & -1 & -1\tikzmarkend{row-a} \\
+				\tikzmarkin<9>[hor=style orange]{row-b}\+1 & \+0 & -1 \tikzmarkend{row-b}\\
+				\tikzmarkin<10>[hor=style orange]{row-c}-2 & \+1 & \+2 \tikzmarkend{row-c}\\
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+&
+\begin{minipage}{2.4cm}
+%	\begin{equation*}
+		$\left[
+			\begin{array}{rr}
+				\tikzmarkin<8>[hor=style green]{end-a}\visible<8->{\+5} \tikzmarkend{end-a}\\
+				\tikzmarkin<9>[hor=style green]{end-b}\visible<9->{\+2}\tikzmarkend{end-b}\\
+				 \tikzmarkin<10>[hor=style green]{end-c}\visible<10->{-5}\tikzmarkend{end-c} 
+			\end{array}
+		\right]$
+%	\end{equation*}
+\end{minipage}
+\end{tabular}
+\end{center}
+\visible<11->{So, we have 
+\begin{equation*}
+\begin{bmatrix}
+x\\y\\z
+\end{bmatrix}
+=
+\begin{bmatrix}
+\+5\\\+2\\-5
+\end{bmatrix}
+\end{equation*}}}}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Invertible Matrix Characterization}
+Let $\mat{A}$ be a $n \by n$ matrix. The following are equivalent:
+\begin{itemize}
+\item<+-> $\mat{A}$ is an invertible matrix.
+\item<+-> $\mat{A}$ is row equivalent to $\identmat{n}$.\\ (This means when you put $\mat{A}$ in RREF, you get $\identmat{n}$)
+\item<+-> The equation $\mat{A}\vect{x}=\vect{0}$ has only the trivial solution $\vect{x}=\vect{0}$.
+\item<+-> The equation $\mat{A}\vect{x}=\vect{b}$ has a unique solution for every $\vect{b}\in\R^n$.
+\end{itemize}
+\end{block}
+\end{frame}
+\end{document}
