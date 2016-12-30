@@ -12,4 +12,137 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{block}{}
+Models, a hallmark of the scientific method, are the way we understand the world around us. A model is not intended to be the \quotetext{real thing}, but instead a representation that selects features or aspects of the real thing.
+\end{block}\pause
+
+\begin{block}{Types of Models}
+The most common type of model is a \textbf{continuous-time} system, which are modeled by \textbf{differential equations}.\pause
+
+\vspace{2mm}
+It can often be useful to think of changes to a system as happening in separate jumps, such as daily, weekly, etc\ldots Such systems are called \textbf{discrete-time} or \textbf{sampled-data} systems.
+\end{block}\pause
+
+\begin{block}{}
+We use \textbf{scalar} models when a system is described by a single measurement and \textbf{vector} models for systems with several varying components. \pause
+
+\vspace{2mm}
+The study of multidimensional systems will be aided by the study of \textbf{linear algebra} in chapters 3 and 5.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+In this class, we will study mathematical models applied to \textbf{dynamical systems}, which are systems that change over time.\pause
+
+\vspace{1mm}
+Dynamical systems are used to model many physical systems, such as earthquakes, turbulence around a wing, electrical circuits, and so many more.
+\end{block}\pause
+
+\begin{block}{}
+The phenomena we study are found in different \textbf{states}, characterized by a set of measurements and which evolve with the passage of time.
+\end{block}\pause
+
+\begin{example}
+A cup of coffee sitting on a desk seems like a simple physical system. To understand completely the coffee's interactions with the air, the cup, the table, or your digestive, circulatory, and nervous system would involve all fields of science.\pause
+
+\vspace{1mm}
+But, if all we care about is the temperature of the coffee, we can use a limited model called Newton's Law of Cooling, which incorporates the surrounding temperature to give an accurate description of the coffee's temperature.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Differential Equations}
+A \textbf{differential equation (DE)} is an equation that contains \emph{derivatives} of one or more dependent variables with respect to time.
+\onslide<+->
+\begin{itemize}[<+- | alert@+>]
+\item An \textbf{ordinary differential equation (ODE)} contains only ordinary derivatives.
+\item A \textbf{partial differential equation (PDE)} contains partial derivaties. 
+\end{itemize}
+\onslide<+->
+The \textbf{order} of a differential equation refers to the highest-order derivatives that appears in the equation. 
+\end{block}
+\onslide<+->
+\begin{block}{Note}
+We will only be studying ODE's in this class.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{itemize}[<+- | alert@+>]
+\item $\dfrac{dy}{dt}=f(t,y)$ is a first-order ODE with independent variable $t$ and dependent variable $y$.
+\item $\dfrac{d^2 y}{d t^2}=f(t,y,y^\prime)$ is a second-order ODE with independent variable $t$ and dependent variable $y$.
+\item $2\dfrac{d^2 y}{d t^2}+y\dfrac{dy}{dt}+ty^2=0$ is a second-order ODE with independent variable $t$ and dependent variable $y$.
+\item $\dfrac{d^5 y}{d t^5}-\dfrac{dy}{dt}=4yt$ is a fifth-order ODE with independent variable $t$ and dependent variable $y$.
+\item $\dfrac{\partial^2 y}{\partial x^2}+\dfrac{\partial^2 z}{\partial t^2}=xyz$ is a second-order PDE with independent variables $x$ and $t$ and dependent variables $y$ and $z$.
+\end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Constants of Proportionality}
+Let $y$ be an unknown differentiable function of time. We can express each of the following statements as an equation, using $k$ as a constant of proportionality.
+\onslide<+->
+\begin{itemize}[<+- | alert@+>]
+\item The rate of change of $y$ is \textbf{(directly) proportional} to $y$:
+
+\vspace{-3mm}
+\begin{equation*}
+\dfrac{dy}{dt}=ky
+\end{equation*}
+
+\vspace{-2mm}
+\item The rate of change of $y$ is \textbf{proportional} to the product of $y^2$ and $t$:
+
+\vspace{-3mm}
+\begin{equation*}
+\dfrac{dy}{dt}=ky^2 t
+\end{equation*}
+
+\vspace{-2mm}
+\item The rate of change of $y$ is \textbf{inversely proportional} to $y$:
+
+\vspace{-3mm}
+\begin{equation*}
+\dfrac{dy}{dt}=\dfrac{k}{y}
+\end{equation*}
+
+\vspace{-2mm}
+\item The rate of change of $y$ is \textbf{directly proportional} to $y^2$ and \textbf{inversely proportional} to $\sqrt{t}$:
+
+\vspace{-3mm}
+\begin{equation*}
+\dfrac{dy}{dt}=k\dfrac{y^2}{\sqrt{t}}
+\end{equation*}
+
+\vspace{-2mm}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\textbf{Exponential Growth} The population $P$ is growing at a rate proportional to the population at any time $t$:
+\begin{equation*}
+\dfrac{dP}{dt}=kP,\quad k>0
+\end{equation*}
+\end{example}\pause
+\begin{example}
+\textbf{Exponential Decay} Let $A$ be the amount of radioactive material in a sample at any time $t$. The amount $A$ is decreasing at a rate proportional to the amount at any time $t$:
+\begin{equation*}
+\dfrac{dA}{dt}=kA,\quad k<0
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\textbf{Newton's Law of Cooling or Heating} the rate of change of temperature $T$ of an object is proportional to the difference between the temperature $M$ of the surroundings and the temperature of the object:
+\begin{equation*}
+\dfrac{dT}{dt}=k(M-T),\quad k>0
+\end{equation*}
+\end{example}
+\end{frame}
 \end{document}
