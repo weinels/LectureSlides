@@ -139,9 +139,99 @@ Let $y$ be an unknown differentiable function of time. We can express each of th
 
 \begin{frame}
 \begin{example}
-\textbf{Newton's Law of Cooling or Heating} the rate of change of temperature $T$ of an object is proportional to the difference between the temperature $M$ of the surroundings and the temperature of the object:
+\textbf{Newton's Law of Cooling or Heating} The rate of change of temperature $T$ of an object is proportional to the difference between the temperature $M$ of the surroundings and the temperature of the object:
 \begin{equation*}
 \dfrac{dT}{dt}=k(M-T),\quad k>0
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+\textbf{Logistic Growth} The rate a which a disease is spread (i.e\@. the rate of increase of the number $N$ of people infected) in a fixed population $L$ is proportional to the product of the number of people infected and the number of people not yet infected:
+\begin{equation*}
+\dfrac{dN}{dt}=kN(L-N),\quad k>0
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\textbf{Voltage Across an Inductor} The voltage drop $V$ is proportional to the rate of current $I$ in the inductor:
+\begin{equation*}
+V=L\dfrac{dI}{dt}
+\end{equation*}
+(The proportionality constant is this instance is written as $L$ (instead of $k$) and is called the \textbf{inductance}.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{The Malthus Model for Population Growth}
+In 1798 an English clergyman Thomas Malthus argued that the worlds population was growing geometrically, while the world's food supply was growing arithmetically. From this, he concluded that the end result would be mass starvation.\pause
+
+\vspace{1mm}
+Using these assumptions, he constructed one of the first mathematical models for population growth. (Sparking class, social, and religious controversy along the way.)\pause
+
+\vspace{1mm}
+Malthus assumed that the rate of increase of the worlds population, $y(t)$, was proportional to it's size. We can state this as a DE\@:
+
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{dy}{dt}=ky
+\end{equation*}
+
+\vspace{-1mm}
+where the positive number $k$ is called the \textbf{growth} or \textbf{rate} constant.\pause
+
+\vspace{1mm}
+In 1798, the population was about 0.9 million people. Malthus assumed the growth rate was a 3\% annual increase. Giving the DE\@:
+
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{dy}{dt}=0.03y,\quad y(0)=0.9
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Accuracy of the Malthus Model}
+\begin{center}
+\begin{tabular}{cccc|cccc}
+\textbf{Year} & \textbf{t} & \textbf{Malthus} & \textbf{Actual} &
+\textbf{Year} & \textbf{t} & \textbf{Malthus} & \textbf{Actual} \\\hline
+1800 & 0   & \phantom{1}0.90 & 0.9 & 1910 & 110 & \phantom{1}24.42 & 1.8 \\  
+1810 & 10  & \phantom{1}1.21 & 0.9 & 1920 & 120 & \phantom{1}32.98 & 1.9 \\
+1820 & 20  & \phantom{1}1.64 & 1.0 & 1930 & 130 & \phantom{1}44.52 & 2.1 \\
+1830 & 30  & \phantom{1}2.21 & 1.0 & 1940 & 140 & \phantom{1}60.10 & 2.3 \\
+1840 & 40  & \phantom{1}2.99 & 1.1 & 1950 & 150 & \phantom{1}81.13 & 2.7 \\
+1850 & 50  & \phantom{1}4.03 & 1.2 & 1960 & 160 &           109.53 & 3.0 \\
+1860 & 60  & \phantom{1}5.45 & 1.3 & 1970 & 170 &           147.87 & 3.5 \\
+1870 & 70  & \phantom{1}7.35 & 1.4 & 1980 & 180 &           199.62 & 4.2 \\
+1880 & 80  & \phantom{1}9.93 & 1.5 & 1990 & 190 &           269.49 & 5.1 \\
+1890 & 90  &           13.40 & 1.6 & 2000 & 200 &           363.81 & 6.0 \\
+1900 & 100 &           18.09 & 1.7 &      &     &                  &
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\textbf{Hooke's Law} The restoring force on a spring is proportional to the displacement $x$ but opposite in direction:
+\begin{equation*}
+F_{res}=-kx,\quad k>0
+\end{equation*}
+If friction is negligible, we can assume Newton's First Law of Motion:
+\begin{equation*}
+m\dfrac{d^2 x}{dt^2} = -kx
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+\textbf{Hooke's Law as a System} If we substitute $dx/dt=y$ into the previous example, we can convert it to an equivalent system of first-order equations:
+\begin{equation*}
+\begin{aligned}
+\dfrac{dx}{dt} & =y \\
+\dfrac{dy}{dt} & =-\dfrac{k}{m}x
+\end{aligned}
 \end{equation*}
 \end{example}
 \end{frame}
