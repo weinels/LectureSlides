@@ -5,9 +5,6 @@
 \usepackage{slide_helper}
 
 \title[MATH 2250 - Section 3.2]{Systems of Linear Equations}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
-\date{}
 
 \begin{document}
 
@@ -15,7 +12,7 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Linear Systems of Equations}
+\begin{frame}
 \begin{block}{System of Linear Equations}
 A $m\times n$ \textbf{system of linear equations} is a set of $m$ equations in $n$ variables $x_1,x_2,\dots,x_n$ of the form
 \begin{center}
@@ -30,8 +27,10 @@ $a_{m1}x_1$&$+$&$a_{m2}x_2$&$+$&$\dots$&$+$&$a_{mn}x_n$&$=$&$b_m$\\
 \end{block}
 \end{frame}
 
-\begin{frame}{Linear System of Equations}{Notation}
-There are two primary ways of writing a linear systems using matrices:\pause
+\begin{frame}
+\begin{block}{}
+There are two primary ways of writing a linear systems using matrices.
+\end{block}\pause
 \begin{block}{An Augmented Matrix}
 \begin{equation*}
 \begin{bmatrix}[cccc|c]
@@ -60,20 +59,25 @@ b_1\\\vdots\\b_m
 \end{block}
 \end{frame}
 
-\begin{frame}{Row Operations}{(for Augmented Matrices)}
-\begin{block}{Elementary Row Operations} 
+\begin{frame}
+\begin{block}{Row Operation Notation} 
 \begin{itemize}
-\item<+-> $r_i$ denotes row $i$ \emph{before} the row operation is applied
-\item<.-> $R_i$ denotes row $i$ \emph{after} the row operation is applied
-\item<+-> Swap row $i$ and row $j$:
+\item $r_i$ denotes row $i$ \emph{before} the row operation is applied
+\item $R_i$ denotes row $i$ \emph{after} the row operation is applied
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Elementary Row Operations} 
+\begin{itemize}[<+- | alert@+>]
+\item Swap row $i$ and row $j$:
 \begin{equation*}
 R_i\leftrightarrow R_j \quad\left(\text{or}\ R_i=r_j\text{, } R_j=r_i\right)
 \end{equation*}
-\item<+-> Multiply row $i$ by a nonzero constant:
+\item Multiply row $i$ by a nonzero constant:
 \begin{equation*}
 R_i=c\cdot r_i
 \end{equation*}
-\item<+-> Add row $j$ to row $i$ (leaving row $j$ unchanged):
+\item Add row $j$ to row $i$ (leaving row $j$ unchanged):
 \begin{equation*}
 R_i=r_i+r_j
 \end{equation*}
@@ -81,10 +85,10 @@ R_i=r_i+r_j
 \end{block}
 \end{frame}
 
-\begin{frame}{Solving Augmented Matrices}{Row Echelon Form}
+\begin{frame}
 \begin{block}{Gaussian Elimination}
 \small
-Use row operations until in REF\@:
+Use row operations until the augmented matrix is in \textbf{R}ow \textbf{E}chelon \textbf{F}orm\@:
 \begin{equation*}
 \begin{bmatrix}[ccccc|c]
 1         & c_{12} & c_{13} & \cdots & c_{1n} & d_1\\
@@ -106,7 +110,7 @@ x_1 + c_{12}x_2+c_{13}x_3+\cdots+c_{1n}x_n  &= d_1\\
 \end{block}
 \end{frame}
 
-\begin{frame}{Gaussian Elimination}{Example}
+\begin{frame}
 \begin{example}
 \begin{overprint}
 \onslide<1-2>
@@ -239,9 +243,9 @@ x+(4)+(-2)=3\quad\Rightarrow\quad x=1
 \end{example}
 \end{frame}
 
-\begin{frame}{Existence and Uniqueness of Solutions}
-\begin{block}{}
-During Gaussian Elimination:\pause
+\begin{frame}
+\begin{block}{Existence and Uniqueness of Solutions}
+During Gaussian Elimination:
 \begin{itemize}
 \item<+->If a row of the form
 \begin{equation*}
@@ -272,9 +276,9 @@ Some vocabulary:
 \end{block}
 \end{frame}
 
-\begin{frame}{Matrix Rank}
+\begin{frame}
 \begin{block}{Reduced Row Echelon Form}
-An augmented matrix is said to be in \textbf{Reduced Row Echelon Form} if:
+An augmented matrix is said to be in \textbf{R}educed \textbf{R}ow \textbf{E}chelon \textbf{F}orm if:
 \begin{equation*}
 \begin{bmatrix}[ccc|c]
 1&\cdots&0&k_1\\

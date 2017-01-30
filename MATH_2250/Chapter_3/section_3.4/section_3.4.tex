@@ -37,11 +37,91 @@
   }
 }
 
+\begin{asydef}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+
+void draw_approx(int li, bool lbl=true)
+{
+	real a=0.746429;
+	real b=0.565357;
+	real f(real x) {return a*x+b;}
+	real a=-0.080943178;
+    real c=0.2409038;
+    real b=1.130531112;
+    real g(real x) {return a*x^2+b*x+c;}
+    real a=0.30717;
+    real b=-2.142883;
+    real c=5.05044;
+    real d=-1.749631;
+    real h(real x) {return a*x^3+b*x^2+c*x+d;}
+    real A=0.685989041;
+    real B=0.43570003291;
+    real i(real x) {return A*exp(B*x);}
+    real min_x=0, max_x=4;
+    real min_y=0, max_y=4;
+    
+    // draw data points
+    
+    dot((0.7,1.4),black);
+    dot((0.9,0.5),black);
+    dot((1.8,2.1),black);
+    dot((2.0,2.9),black);
+    dot((3.8,3.4),black);
+    dot((2.6,1.9),black);
+    
+    // linear best-fit
+    if (li >= 1)
+	    draw(graph(f,min_x,max_x),red+1bp);
+	    
+	if (li >= 2)
+	    draw(graph(g,min_x,max_x),blue+1bp);
+	    
+	if (li >= 3)
+	    draw(graph(h,min_x,max_x),heavygreen+1bp);
+	    
+	if (li >= 4)
+	    draw(graph(i,min_x,max_x),orange+1bp);
+    
+    limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
+    
+    for(real gx=min_x; gx<=max_x; gx+=0.5)
+    	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+        
+    for(real gy=min_y; gy<=max_y; gy+=0.5)
+    	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
+    
+    xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
+    //xaxis(YEquals(min_y),min_x,max_x);
+    yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
+    //yaxis(XEquals(min_x),min_y,max_y);
+    
+    // draw labels
+    real base_x=3.5;
+    real base_y=1.75;
+    real step=-0.5;
+    
+    if (lbl)
+    {
+    	unfill(box((3,2),(4,2-(0.5*li))));
+    
+    	if (li >= 1)
+	    	label("Linear",(base_x,base_y),red);
+	    
+		if (li >= 2)
+	    	label("Quadratic",(base_x,base_y+step),blue);
+	    
+		if (li >= 3)
+	    	label("Cubic",(base_x,base_y+(2*step)),heavygreen);
+	    
+		if (li >= 4)
+	    	label("Exponential",(base_x,base_y+(3*step)),orange);
+	}
+}
+\end{asydef}
 
 \title[MATH 2250 - Section 3.4]{The Determinant of a Matrix}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
-\date{}
 
 \begin{document}
 
@@ -49,9 +129,9 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Determinants}
+\begin{frame}
 \begin{block}{Determinant of a $2 \by 2$ Matrix}
-The \textbf{determinant of a $2 \by 2$ matrix} is defined to be:
+The \textbf{determinant of a $2 \by 2$ matrix} is defined:
 \begin{equation*}
 \abs{\mat{A}} = 
 \begin{vmatrix}
@@ -72,9 +152,9 @@ c & d
 \end{example}
 \end{frame}
 
-\begin{frame}{Minors and Cofactors}
+\begin{frame}
 \begin{block}{Minors of a Matrix}
-For very element $a_{ij}$ of a $n \by n$ matrix $\mat{A}$, the \textbf{minor} $\mat{M_{ij}}$ is an $(n-1) \by (n-1)$ matrix obtained by deleting the $i$th row and the $j$th column of $\mat{A}$.
+For every element $a_{ij}$ of a $n \by n$ matrix $\mat{A}$, the \textbf{minor} $\mat{M_{ij}}$ is an $(n-1) \by (n-1)$ matrix obtained by deleting the $i$th row and the $j$th column of $\mat{A}$.
 \end{block}\pause
 \begin{example}
 \begin{equation*}
@@ -93,14 +173,14 @@ For very element $a_{ij}$ of a $n \by n$ matrix $\mat{A}$, the \textbf{minor} $\
 \end{equation*}
 \end{example}\pause
 \begin{block}{Cofactors of a Matrix}
-For very element $a_{ij}$ of a $n \by n$ matrix $\mat{A}$, the \textbf{cofactor} of $a_{ij}$ is the scalar
+For every element $a_{ij}$ of a $n \by n$ matrix $\mat{A}$, the \textbf{cofactor} of $a_{ij}$ is the scalar
 \begin{equation*}
 C_{ij}={(-1)}^{(i+j)}\abs{\mat{M_{ij}}}
 \end{equation*}
 \end{block}
 \end{frame}
 
-\begin{frame}{Determinants}
+\begin{frame}
 \begin{block}{Determinants of a $n \by n$ Matrix}
 For a $n \by n$ matrix $\mat{A}$, choose any row or column.
 \begin{description}
@@ -115,14 +195,16 @@ For a $n \by n$ matrix $\mat{A}$, choose any row or column.
               = \sum_{i=1}^{n} a_{ij}{(-1)}^{(i+j)}\abs{\mat{M_{ij}}}
 \end{equation*}
 \end{description}
+\end{block}
 \onslide<4->
-I recommend you always expand across the first row.
+\begin{block}{}
+I recommend expanding across the first row.
 \end{block}
 \end{frame}
 
-\begin{frame}{Determinants}
+\begin{frame}
 \begin{example}
-Compute the determinant
+Compute the determinant:
 \begin{equation*}
 \begin{vmatrix}
 \+3 & \+1 &  -1 \\
@@ -150,15 +232,15 @@ Expanding across the first row gives:
 \end{example}
 \end{frame}
 
-\begin{frame}{Determinants}
+\begin{frame}
 \begin{block}{Properties of Determinants}
-\begin{itemize}
-\item<+-> $\abs{\transposeof{\mat{A}}}=\abs{\mat{A}}$
-\item<+-> If $\abs{\mat{A}}\neq 0$, then $\mat{A}$ is nonsingular.
-\item<+-> If $\abs{\mat{A}}\neq 0$, then $\abs{\inverseof{\mat{A}}}=\dfrac{1}{\abs{\mat{A}}}$
-\item<+-> If a row (or column) of $\mat{A}$ contains all zeros, then $\abs{\mat{A}}=0$
-\item<+-> If two rows (or two columns) of $\mat{A}$ are equal, then $\abs{\mat{A}}=0$
-\item<+-> If $\mat{A}$ is an diagonal, upper triangular, or lower triangular matrix, the determinant is the product of the diagonal elements:
+\begin{itemize}[<+- | alert@+>]
+\item $\abs{\transposeof{\mat{A}}}=\abs{\mat{A}}$
+\item If $\abs{\mat{A}}\neq 0$, then $\mat{A}$ is invertable.
+\item If $\abs{\mat{A}}\neq 0$, then $\abs{\inverseof{\mat{A}}}=\dfrac{1}{\abs{\mat{A}}}$
+\item If a row (or column) of $\mat{A}$ contains all zeros, then $\abs{\mat{A}}=0$
+\item If two rows (or two columns) of $\mat{A}$ are equal, then $\abs{\mat{A}}=0$
+\item If $\mat{A}$ is an diagonal, upper triangular, or lower triangular matrix, the determinant is the product of the diagonal elements:
 \begin{equation*}
 \abs{\mat{A}}=\prod_{i=1}^{m} a_{ii}
 \end{equation*}
@@ -166,20 +248,23 @@ Expanding across the first row gives:
 \end{block}
 \end{frame}
 
-\begin{frame}{Cramer's Rule}
+\begin{frame}
 \begin{block}{Cramer's Rule}
 Consider the matrix equation:
 \begin{equation*}
 \mat{A}\vect{x}=\vect{b}\quad \text{where}\quad\abs{\mat{A}}\neq0
 \end{equation*}
-Denote $\mat{A_j}$ the matrix obtained by replacing the $j$th column with $\vect{b}$. Then the $j$th solution is
+The matrix $\mat{A_j}$ is obtained by replacing the $j$th column of $\mat{A}$ with $\vect{b}$. 
+
+\vspace{2mm}
+The $j$th solution is:
 \begin{equation*}
 x_j = \dfrac{\abs{\mat{A_j}}}{\abs{\mat{A}}}
 \end{equation*}
 \end{block}
 \end{frame}
 
-\begin{frame}{Cramer's Rule}
+\begin{frame}
 \begin{example}
 Consider the system
 \begin{center}
@@ -222,90 +307,31 @@ We can now find $x$ \visible<9->{and $y$}
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Least Squares Approximation}
+\begin{frame}[fragile]
+\begin{example}
+The \textbf{line of best fit} is the line that gets \quotetext{closest} to every point.
+
 \begin{multistepslide}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.3),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-//draw(graph(f,min_x,max_x),red+1bp);
-
-//limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
+draw_approx(0, false);
 \end{asy}
 \end{center}
 \nextstep
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-draw(graph(f,min_x,max_x),red+1bp);
-
-//limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
+draw_approx(1, false);
 \end{asy}
 \end{center}
 \end{multistepslide}
+\end{example}
 \end{frame}
 
-\begin{frame}{Least Squares Approximation}
-A general strategy for finding the line $y=mx+b$ that best describes a data set is to find $b$ and $m$ at minimize the sums of the squares of the vertical distances between the data points an the line, given by $F(b,m)$
+\begin{frame}
+\begin{block}{Least Squares Approximation}
+A general strategy for finding the line $y=mx+b$ that best describes a data set is to find $b$ and $m$ that minimizes the sums of the squares of the vertical distances between the data points and the line, given by $F(b,m)$
 \begin{equation*}
 F(b,m)=\sum\limits_{i=1}^{n}{\left(y_i-(b+mx_i)\right)}^2
 \end{equation*}\pause
@@ -315,9 +341,10 @@ To find such a $b$ and $m$, we need to solve the system:
 \quad\text{and}\quad
 \dfrac{\partial F}{\partial m}=0
 \end{equation*}
+\end{block}
 \end{frame}
 
-\begin{frame}{Least Squares Approximation}
+\begin{frame}
 \begin{block}{Least Squares Method}
 The best-fit straight line for $n$ data points $(x_i, y_i)$, $i=1,2,\dots,n$, has y-intercept $b$ and slope $m$ as determined by the system
 \begin{equation*}
@@ -338,7 +365,7 @@ m
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Least Squares Approximation}
+\begin{frame}[fragile]
 \begin{example}
 Consider the data comparing the high school and college GPA for four students.
 
@@ -352,6 +379,7 @@ $\boldsymbol{i}$ & $\boldsymbol{x_i}$ & $\boldsymbol{y_i}$ \\
 3 & 3.1 & 2.3 \\
 4 & 4.0 & 3.8
 \end{tabular}
+\vspace{5mm}
 
 \vspace{0.25cm}
 %\caption{Picture 1}
@@ -364,7 +392,7 @@ $\boldsymbol{i}$ & $\boldsymbol{x_i}$ & $\boldsymbol{y_i}$ \\
 import graph;
 import fontsize;
 defaultpen(fontsize(9pt));
-size(75);
+size(100);
 real a=0.746429;
 real b=0.565357;
 real f(real x) {return a*x+b;}
@@ -399,7 +427,7 @@ yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
 import graph;
 import fontsize;
 defaultpen(fontsize(9pt));
-size(75);
+size(100);
 real a=0.92;
 real b=0.023;
 real f(real x) {return a*x+b;}
@@ -464,269 +492,39 @@ So, the line of best fit is $y=0.92x+0.023$.
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Nonlinear Approximations}
+\begin{frame}[fragile]
+\begin{example}
+Let us consider some nonlinear approximations.
+
 \begin{multistepslide}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-//draw(graph(f,min_x,max_x),red+1bp);
-
-//limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
+draw_approx(1);
 \end{asy}
 \end{center}
 \nextstep
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-draw(graph(f,min_x,max_x),red+1bp);
-
-//limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
-
-fill(box((3,2),(4,1.5)),white);
-
-// draw labels
-real base_x=3.5;
-real base_y=1.75;
-real step=-0.5;
-label("Linear",(base_x,base_y),red);
+draw_approx(2);
 \end{asy}
 \end{center}
 \nextstep
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real a=-0.080943178;
-real c=0.2409038;
-real b=1.130531112;
-real g(real x) {return a*x^2+b*x+c;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-draw(graph(f,min_x,max_x),red+1bp);
-draw(graph(g,min_x,max_x),blue+1bp);
-
-limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
-
-fill(box((3,2),(4,1)),white);
-// draw labels
-real base_x=3.5;
-real base_y=1.75;
-real step=-0.5;
-label("Linear",(base_x,base_y),red,UnFill(1mm));
-label("Quadratic",(base_x,base_y+step),blue,UnFill(1mm));
+draw_approx(3);
 \end{asy}
 \end{center}
 \nextstep
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real a=-0.080943178;
-real c=0.2409038;
-real b=1.130531112;
-real g(real x) {return a*x^2+b*x+c;}
-real a=0.30717;
-real b=-2.142883;
-real c=5.05044;
-real d=-1.749631;
-real h(real x) {return a*x^3+b*x^2+c*x+d;}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-draw(graph(f,min_x,max_x),red+1bp);
-draw(graph(g,min_x,max_x),blue+1bp);
-draw(graph(h,min_x,max_x),heavygreen+1bp);
-
-limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
-
-fill(box((3,2),(4,0.5)),white);
-// draw labels
-real base_x=3.5;
-real base_y=1.75;
-real step=-0.5;
-label("Linear",(base_x,base_y),red);
-label("Quadratic",(base_x,base_y+step),blue);
-label("Cubic",(base_x,base_y+(2*step)),heavygreen);
-\end{asy}
-\end{center}
-\nextstep
-\begin{center}
-\begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(200);
-real a=0.746429;
-real b=0.565357;
-real f(real x) {return a*x+b;}
-real a=-0.080943178;
-real c=0.2409038;
-real b=1.130531112;
-real g(real x) {return a*x^2+b*x+c;}
-real a=0.30717;
-real b=-2.142883;
-real c=5.05044;
-real d=-1.749631;
-real h(real x) {return a*x^3+b*x^2+c*x+d;}
-real A=0.685989041;
-real B=0.43570003291;
-real i(real x) {return A*exp(B*x);}
-real min_x=0, max_x=4;
-real min_y=0, max_y=4;
-
-// draw data points
-
-dot((0.7,1.4),black);
-dot((0.9,0.5),black);
-dot((1.8,2.1),black);
-dot((2.0,2.9),black);
-dot((3.8,3.4),black);
-dot((2.6,1.9),black);
-
-// linear best-fit
-draw(graph(f,min_x,max_x),red+1bp);
-draw(graph(g,min_x,max_x),blue+1bp);
-draw(graph(h,min_x,max_x),heavygreen+1bp);
-draw(graph(i,min_x,max_x),orange+1bp);
-
-limits((min_x-0.1,min_y-0.1),(max_x+0.1,max_y+0.1),Crop);
-
-for(real gx=min_x; gx<=max_x; gx+=0.5)
-	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
-    
-for(real gy=min_y; gy<=max_y; gy+=0.5)
-	draw((min_y,gy)--(max_x,gy),dotted+darkgray); 
-
-xaxis(YEquals(min_y),min_x,max_x,LeftTicks(NoZero));
-//xaxis(YEquals(min_y),min_x,max_x);
-yaxis(XEquals(min_x),min_y,max_y,RightTicks(NoZero));
-//yaxis(XEquals(min_x),min_y,max_y);
-
-fill(box((3,2),(4,0)),white);
-
-// draw labels
-real base_x=3.5;
-real base_y=1.75;
-real step=-0.5;
-label("Linear",(base_x,base_y),red);
-label("Quadratic",(base_x,base_y+step),blue);
-label("Cubic",(base_x,base_y+(2*step)),heavygreen);
-label("Exponential",(base_x,base_y+(3*step)),orange);
+draw_approx(4);
 \end{asy}
 \end{center}
 \end{multistepslide}
+\end{example}
 \end{frame}
 \end{document}
