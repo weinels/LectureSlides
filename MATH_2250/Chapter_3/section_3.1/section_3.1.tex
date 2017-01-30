@@ -36,11 +36,9 @@
 }
 
 \title[MATH 2250 - Section 3.1]{Matrices: Sum and Products}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
 \date{ \begin{center}
   \includegraphics[width=0.9\textwidth]{xkcd_matrix_revisted_partial.png}\\
-  \tiny{Source: http://xkcd.com/566/}
+  \tiny{\href{http://xkcd.com/566/}{Matrix Revisited} by \href{https://xkcd.com}{Randall Munroe} is licensed under \href{https://creativecommons.org/licenses/by-nc/2.5/}{CC BY-NC 2.5}}
   \end{center}}
 
 \begin{document}
@@ -50,7 +48,7 @@
  
 \end{frame}
 
-\begin{frame}{Basic Terminology}
+\begin{frame}
 \begin{block}{Matrix}
 A \textbf{matrix} is a rectangular array of \textbf{elements} or \textbf{entries} (numbers or functions) arranged in \textbf{rows} (horizontal) and \textbf{columns} (vertical).
 \begin{equation*}
@@ -69,7 +67,7 @@ Two matrices of the same order are \textbf{equal} if their corresponding entries
 \end{block}
 \end{frame}
 
-\begin{frame}{Basic Terminology}
+\begin{frame}
 \begin{block}{Special Matrices}
 \begin{itemize}
 \item<+-> The $m\times n$ \textbf{zero matrix}, denoted $\textbf{0}_{mn}$, has all its entries equal to zero.
@@ -95,8 +93,7 @@ a_{11}&0&\cdots&0\\
 \end{block}
 \end{frame}
 
-\begin{frame}{Basic Terminology}
-
+\begin{frame}
 \begin{block}{Matrix Addition}
 Two matrices of the same order are added (or subtracted) by adding (or subtracting) corresponding entries and recording the results in a matrix of the same size. Using matrix notation, if $A=[a_{ij}]$ and $B=[b_{ij}]$ are both $m\times n$.
 \begin{equation*}
@@ -112,23 +109,25 @@ To find the product of a matrix and a scalar (a complex number), multiply each e
 \end{block}
 \end{frame}
 
-\begin{frame}{Basic Properties}
+\begin{frame}
 \begin{block}{Properties of Matrix Addition and Scalar Multiplication}
 Suppose $A$, $B$, and $C$ are $m\times n$ matrices and $c$ and $k$ are scalars. Then the following properties hold:
-\begin{itemize}
-\item<+->$A+B=B+A$\hfill(Commutativity)
-\item<+->$A+(B+C)=(A+B)+C$\hfill(Associativity)
-\item<+->$c(kA)=(ck)A$\hfill(Associativity)
-\item<+->$A+\textbf{0}=A$\hfill(Zero Element)
-\item<+->$A+(-A)=\textbf{0}$\hfill(Inverse Element)
-\item<+->$c(A+B)=cA+cB$\hfill(Distributivity)
-\item<+->$(c+k)A=cA+kA$\hfill(Distributivity)
+\begin{itemize}[<+- | alert@+>]
+\item$A+B=B+A$\hfill(Commutativity)
+\item$A+(B+C)=(A+B)+C$\hfill(Associativity)
+\item$c(kA)=(ck)A$\hfill(Associativity)
+\item$A+\textbf{0}=A$\hfill(Zero Element)
+\item$A+(-A)=\textbf{0}$\hfill(Inverse Element)
+\item$c(A+B)=cA+cB$\hfill(Distributivity)
+\item$(c+k)A=cA+kA$\hfill(Distributivity)
 \end{itemize}
 \end{block}
 \end{frame}
 
-\begin{frame}{Vectors}{(are just tiny matrices)}
-A vector $\vect{v}=< v_1,\dots,v_n >$ can be represented by either by a $1\times n$ row matrix, or a $n\times 1$ column matrix.\pause
+\begin{frame}
+\begin{block}{Vectors (are just tiny matrices)}
+A vector $\vect{v}=< v_1,\dots,v_n >$ can be represented by either by a $1\times n$ row matrix, or a $n\times 1$ column matrix.
+\end{block}\pause
 \begin{block}{Vector addition and Scalar Multiplication}
 Let
 \[
@@ -148,7 +147,7 @@ c\cdot\begin{bmatrix}x_1\\\vdots\\x_n\end{bmatrix}=
 \end{block}
 \end{frame}
 
-\begin{frame}{Vector Properties}
+\begin{frame}
 \begin{block}{Properties of Vector Addition and Multiplication}
 For vectors $\vect{u}$, $\vect{v}$, and $\vect{w}$ in $\mathbb{R}^n$ and scalars $c$ and $k$.\begin{itemize}
 \item $\vect{u}+\vect{v}=\vect{v}+\vect{u}$\hfill(Commutativity)
@@ -162,8 +161,8 @@ For vectors $\vect{u}$, $\vect{v}$, and $\vect{w}$ in $\mathbb{R}^n$ and scalars
 \end{block}
 \end{frame}
 
-\begin{frame}{Dot Product}{(also called the Scalar Product)}
-\begin{block}{Dot Product}
+\begin{frame}
+\begin{block}{Dot Product (also called the Scalar Product)}
 The \textbf{dot product} of a row vector $\vect{x}$ and a column vector $\vect{y}$ of equal length $n$ is the result of adding the products of the corresponding entries as follows:
 \begin{equation*}
 \begin{split}
@@ -176,7 +175,7 @@ The \textbf{dot product} of a row vector $\vect{x}$ and a column vector $\vect{y
 \end{block}
 \end{frame}
 
-\begin{frame}{Dot Product}{Some Properties}
+\begin{frame}
 \begin{block}{Orthogonality}
 Two vectors $\vect{x}$ and $\vect{y}$ in $\mathbb{R}^n$ are called \textbf{orthogonal} when:
 \begin{equation*}
@@ -190,11 +189,11 @@ For any vector $\vect{v}$ in $\mathbb{R}^n$ the \textbf{length}, or \textbf{magn
 \end{equation*}
 \end{block}\pause
 \begin{block}{Unit Vectors}
-Vectors of length one are called \textbf{unit vectors}.
+Vectors of unit length are called \textbf{unit vectors}.
 \end{block}
 \end{frame}
 
-\begin{frame}{Matrix Multiplication}
+\begin{frame}
 \begin{block}{Matrix Product}
 The \textbf{matrix product} of a $m\times r$ matrix $A$ and a $r\times n$ matrix $B$ is denoted
 \begin{equation*}
@@ -204,15 +203,15 @@ where the $ij$th entry of $C$ is the dot product of the $i$th row vector of $A$ 
 \begin{equation*}
 \begin{split}
 c_{ij}&=\begin{bmatrix}a_{i1}&a_{2j}&\cdots&a_{ir}\end{bmatrix}\pdot
-\begin{bmatrix}b_{1j}\\\vdots\\b_{rj}\end{bmatrix}\\
-&=\sum_{k=1}^{r}a_{ik}b_{kj}
+\begin{bmatrix}b_{1j}\\\vdots\\b_{rj}\end{bmatrix}
+=\sum_{k=1}^{r}a_{ik}b_{kj}
 \end{split}
 \end{equation*}
 The matrix $C$ has order $m\times n$.
 \end{block}
 \end{frame}
 
-\begin{frame}{Matrix Multiplication}{The Good Notation}
+\begin{frame}
 \begin{example}
 Perform $AB$ where
 \begin{equation*}
@@ -272,12 +271,20 @@ B=	\begin{bmatrix}
 \end{example}
 \end{frame}
 
-\begin{frame}{Matrix Multiplication}{Properties}
+\begin{frame}
 \begin{block}{Properties of Matrix Multiplication}
 \begin{itemize}
 \item $(AB)C=A(BC)$\hfill (Associativity)
 \item $A(B+C)=AB+AC$\hfill (Distributivity)
-\item $(B+C)A=BA+CA$\hfill (Distributivity)\pause
+\item $(B+C)A=BA+CA$\hfill (Distributivity)
+\end{itemize}
+\end{block}\pause
+\begin{block}{Note}
+Commutativity is not present in the above list.
+
+\vspace{2mm}
+In general, matrix multiplication does not commute:
+\begin{itemize}
 \item $AB\neq BA$\hfill (Generally Noncommutative)
 \end{itemize}
 \end{block}\pause
@@ -290,7 +297,7 @@ For a $m\times n$ matrix $A$:
 \end{block}
 \end{frame}
 
-\begin{frame}{Matrix Transpose}
+\begin{frame}
 \begin{block}{Transpose}
 For a matrix $A=[a_{ij}]$ the \textbf{transpose} of  the $m \by n$ matrix $A$ is defined as the $n \by m$ matrix:
 \begin{equation*}
@@ -308,9 +315,8 @@ a_{12}&a_{22}&\cdots&a_{m2}\\
 a_{1n}&a_{2n}&\cdots&a_{mn}
 \end{bmatrix}
 \end{equation*}
-\end{block}
-\end{frame}
-\begin{frame}{Matrix Transpose}{Examples}
+\end{block}\pause
+
 \begin{example}
 \centering
 $\left[
@@ -346,9 +352,10 @@ $=
 \end{example}
 \end{frame}
 
-\begin{frame}{Matrices with Function Entries}
+\begin{frame}
+\begin{block}{Matrices with Function Entries}
 Matrices can have functions as entries, not just real numbers.
-\begin{example}
+
 \begin{equation*}
 A(t)=\begin{bmatrix}
 a_{11}(t)&a_{12}(t)&\cdots&a_{1n}(t)\\
@@ -357,11 +364,36 @@ a_{21}(t)&a_{22}(t)&\cdots&a_{2n}(t)\\
 a_{m1}(t)&a_{m1}(t)&\cdots&a_{mn}(t)
 \end{bmatrix}
 \end{equation*}
+\end{block}\pause
+
+\begin{example}
+\begin{equation*}
+A(t)=
+\begin{bmatrix}
+t^2 & \sin[2t] & 5t-1 \\
+t^3 & \tfrac{1}{3t} & \ln[t+1]
+\end{bmatrix}
+\end{equation*}
+Where,
+\begin{equation*}
+A(1)=\pause
+\begin{bmatrix}
+{(1)}^2 & \sin[2(1)] & 5(1)-1 \\
+{(1)}^3 & \tfrac{1}{3(1)} & \ln[(1)+1]
+\end{bmatrix}\pause
+=
+\begin{bmatrix}
+1 & \sin[2] & 4 \\
+1 & \tfrac{1}{3} & \ln[2]
+\end{bmatrix}
+\end{equation*}
 \end{example}
 \end{frame}
 
-\begin{frame}{Derivative of a Matrix}
-We say that a matrix is \textbf{continuous}, \textbf{piecewise continuous}, or \textbf{differentiable} if every element in the matrix has that property.\pause
+\begin{frame}
+\begin{block}{}
+We say that a matrix is \textbf{continuous}, \textbf{piecewise continuous}, or \textbf{differentiable} if every element in the matrix has that property.
+\end{block}\pause
 \begin{block}{Derivative of a Matrix}
 For a differentiable matrix $A$, the derivative of $A$ is defined as:
 \begin{equation*}
@@ -384,7 +416,7 @@ For differentiable matrices $A(t)$ and $B(t)$ and scalar constant $c$.
 \end{block}
 \end{frame}
 
-\begin{frame}{Derivative of a Matrix}{Examples}
+\begin{frame}
 \begin{example}
 \centering
 \begin{equation*}
