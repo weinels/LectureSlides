@@ -8,11 +8,9 @@
 %\hideasymptote % uncomment to not compile asymptote graphs
 
 \title[MATH 2250 - Section 3.5]{Vector Spaces}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
 \date{ \begin{center}
   \includegraphics[width=\textwidth]{proofs.png}\\
-  \tiny{Source: https://xkcd.com/1724/}
+  \tiny{\href{http://xkcd.com/1724/}{Proofs} by \href{https://xkcd.com}{Randall Munroe} is licensed under \href{https://creativecommons.org/licenses/by-nc/2.5/}{CC BY-NC 2.5}}
   \end{center}}
 
 \begin{document}
@@ -21,18 +19,18 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Vector Spaces}
+\begin{frame}
 \begin{definition}
 A \textbf{vector space} $\V$ is a nonempty collection of objects called \textbf{vectors} for which the following operations
 \begin{itemize}
 \item Vector addition, denoted $\vect{x}+\vect{y}$
 \item Scalar multiplication, denoted $c\vect{x}$
 \end{itemize} 
-satisfy the following nine properties. (For all $\vect{x}, \vect{y}, \vect{z} \in\V$ and all $c,d\in\R$)
+satisfy the nine properties on the following slide. (For all $\vect{x}, \vect{y}, \vect{z} \in\V$ and all $c,d\in\R$)
 \end{definition}
 \end{frame}
 
-\begin{frame}{Vector Spaces}
+\begin{frame}
 \begin{block}{Closure}
 \begin{dynenumerate}[<+- | alert@+>]
 \item c$\vect{x}+d\vect{y}\in\V$
@@ -62,7 +60,7 @@ satisfy the following nine properties. (For all $\vect{x}, \vect{y}, \vect{z} \i
 \end{block}
 \end{frame}
 
-\begin{frame}{Vector Spaces}
+\begin{frame}
 \begin{example}
 All vectors $<x_1,x_2,\dots,x_n>$ in $\R^n$ satisfy these properties.\\(It doesn't matter if you think of them as row or column vectors.)
 \end{example}\pause
@@ -76,7 +74,7 @@ Thinking back, we can see that the properties for addition and scalar multiplica
 \end{example}
 \end{frame}
 
-\begin{frame}{Vector Function Spaces}
+\begin{frame}
 \begin{definition}
 A \textbf{function space} is a vector space where the ``vectors'' are functions defined on an interval $I$. The addition and scalar multiplication operations are defined in the usual way:
 \begin{itemize}
@@ -85,12 +83,12 @@ A \textbf{function space} is a vector space where the ``vectors'' are functions 
 \end{itemize}
 \end{definition}\pause
 
-\begin{block}{}
+\begin{block}{Note}
 Solutions to \emph{linear homogeneous} DEs form a vector space.
 \end{block}
 \end{frame}
 
-\begin{frame}{Vector Function Spaces}
+\begin{frame}
 \begin{example}
 The set of all solutions of the first order linear homogeneous DE
 \begin{equation*}
@@ -116,7 +114,7 @@ For solutions $u(t)$ and $v(t)$, as well as scalars $a$ and $b$, we need to veri
 \end{example}
 \end{frame}
 
-\begin{frame}{Vector Function Spaces}
+\begin{frame}
 \begin{example}
 The set of all solutions of the second order linear homogeneous DE
 \begin{equation*}
@@ -142,7 +140,7 @@ For solutions $u(t)$ and $v(t)$, as well as scalars $a$ and $b$, we need to veri
 \end{example}
 \end{frame}
 
-\begin{frame}{Vector Function Spaces}
+\begin{frame}
 \begin{example}
 The set of all solutions of the first-order linear (but not homogeneous) DE
 \begin{equation*}
@@ -151,7 +149,7 @@ y^\prime+2ty=1
 is \textbf{not} a vector space. Why?\pause
 
 \vspace{0.25cm}
-There is no zero vector. There is no solution $z(t)$ such that, for all solutions $u(t)$, $u(t)+z(t)=0$.
+There is no zero vector. That is, there is no solution $z(t)$ such that, for all solutions $u(t)$, $u(t)+z(t)=u(t)$.
 \end{example}\pause
 
 \begin{example}
@@ -159,11 +157,11 @@ Consider the collection of all polynomials of degree $\leq 3$. A vector in this 
 \begin{equation*}
 P(t)=a_3x^3+a_2x^2+a_1x+a_0
 \end{equation*}
-where $a_3,a_2,a_1,a_0\in\R$.\\This collection is a vector space, verified using basic algebra.
+where $a_3,a_2,a_1,a_0\in\R$.\\This collection is a vector space, verifiable using basic algebra.
 \end{example}
 \end{frame}
 
-\begin{frame}{Vector Spaces}
+\begin{frame}
 \begin{block}{Prominent Vector Spaces}
 \begin{dynitemize}[<+- | alert@+>]
 \item $\R^2$, the space of all real ordered pairs.
@@ -180,7 +178,7 @@ where $a_3,a_2,a_1,a_0\in\R$.\\This collection is a vector space, verified using
 \end{block}
 \end{frame}
 
-\begin{frame}{Vector Subspaces}
+\begin{frame}
 \begin{theorem}
 A \emph{nonempty} subset, $\W$, of a vector space $\V$ is a \textbf{subspace} of $\V$ if
 \begin{itemize}
@@ -198,12 +196,12 @@ Since $\W\subseteq\V$ we have $\vect{u}+\vect{v}=\vect{v}+\vect{u}$.\pause
 
 But, since $\vect{u}+\vect{v}\in\W$ we must have $\vect{v}+\vect{u}\in\W$.
 \end{block}\pause
-\begin{block}{}
+\begin{block}{Note}
 A vector space is a subspace of itself.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Subspaces of $\R^2$}
+\begin{frame}[fragile]
 \begin{example}
 \begin{columns}[c]
 \begin{column}{.5\textwidth}
@@ -279,7 +277,7 @@ fill(circle((-1,-1),0.1),red);
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Subspaces of $\R^2$}
+\begin{frame}[fragile]
 \begin{example}
 \begin{columns}[c]
 \begin{column}{.5\textwidth}
@@ -360,7 +358,7 @@ fill(circle((-1,1),0.1),red);
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Subspaces of $\R^2$}
+\begin{frame}[fragile]
 \begin{example}
 \begin{columns}[c]
 \begin{column}{.5\textwidth}
@@ -399,7 +397,7 @@ draw(graph(f,min_x,max_x),lightblue+1bp, Arrows(1.5mm));
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Subspaces of $\R^2$}
+\begin{frame}[fragile]
 \begin{example}
 \begin{columns}[c]
 \begin{column}{.5\textwidth}
@@ -453,7 +451,7 @@ fill(circle((0,0),0.1),red);
 \end{example}
 \end{frame}
 
-\begin{frame}{Subspaces of $\R^2$}
+\begin{frame}
 \begin{corollary}
 The only subspaces of $\R^2$ are
 \begin{itemize}
@@ -464,10 +462,8 @@ The only subspaces of $\R^2$ are
 \end{corollary}\pause
 \begin{block}{}
 We call a subspace of $\V$ \textbf{trivial} if it is the subspace containing just the zero vector, or $\V$ itself. All other subspaces are called \textbf{nontrivial}.
-\end{block}
-\end{frame}
+\end{block}\pause
 
-\begin{frame}{Vector Spaces}
 \begin{theorem}
 The set of solutions of the linear system $A\vect{x}=\vect{0}$ is a subspace of $\R^m$, where $A$ is a $m \by n$ matrix and $\vect{x}\in\R^m$, is a subspace of $\R^m$.
 \end{theorem}\pause

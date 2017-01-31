@@ -9,9 +9,6 @@
 %\hideasymptote% uncomment to not compile asymptote graphs
 
 \title[MATH 2250 - Section 3.6]{Basis and Dimension}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
-\date{}
 
 \begin{document}
 
@@ -19,7 +16,7 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{definition}
 For a vector space $\V$, a \textbf{linear combination} of vectors is:
 \begin{equation*}
@@ -27,18 +24,18 @@ c_1\vect{v_1}+c_2\vect{v_2}+\cdots+c_n\vect{v_k}
 \end{equation*}
 where $c_i\in\R$ and $\vect{v_i}\in\V$
 \end{definition}\pause
-\begin{block}{}
-This is the only way to form new vectors, since a vector space can only add two vectors and/or multiply by a scalar.
+\begin{block}{Note}
+This is the only way to form new vectors, since in a vector space we can only add two vectors or multiply a vector by a scalar.
 \end{block}\pause
 \begin{definition}
 The \textbf{span} of a set $\left\{\vect{v_1}, \vect{v_2}, \ldots, \vect{v_k}\right\}$ of vectors in a vector space $\V$ is the set of all linear combinations of these vectors. Denoted $\spn\left\{\vect{v_1}, \vect{v_2}, \dots, \vect{v_k}\right\}$
 \end{definition}\pause
-\begin{block}{}
+\begin{block}{Note}
 If the $\spn\left\{\vect{v_1}, \vect{v_2}, \dots, \vect{v_k}\right\}=\V$ we say the set spans the vector space.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Spanning Sets}
+\begin{frame}[fragile]
 \begin{example}
 Consider $\spn\left\{{\color{blue}\bvector{3,2,0}},{\color{red}\bvector{0,2,2}}\right\}$.
 \begin{overprint}
@@ -103,7 +100,7 @@ zaxis3("$z$",0,4,black,OutTicks(beginlabel=false));
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{example}
 \begin{overprint}
 \onslide<1-4>
@@ -133,7 +130,7 @@ We can then write a general vector in the spanning set as
 \visible<4>{=\bvector{3a,2a+2b,2b}}
 \end{equation*}}
 \onslide<5->
-Equation the two vectors gives:
+We can write the vector equation as the system:
 \begin{equation*}
 \begin{aligned}
 x&=3a    & \Rightarrow &\ a=\dfrac{x}{3}\\
@@ -156,7 +153,7 @@ Which is equivalent to $2x-3y+3z=0$, the equation of the yellow plane.}
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{theorem}
 An additional vector only changes a spanning set if and only if it is not a linear combination of the original vectors in the set.
 \end{theorem}\pause
@@ -171,13 +168,17 @@ we see that this doesn't change to the spanning set.
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{example}
 Consider adding $\bvector{1, 1, 1}$ to $\spn\left\{\bvector{3,2,0},\bvector{0,2,2}\right\}$.\pause
 
-This would expand the spanning set.\\To show this, let us try to find $c_1, c_2\in\R$ such that
+\vspace{2mm}
+This would expand the spanning set.\pause
+
+\vspace{2mm}
+To show this, let us try to find $c_1, c_2\in\R$ such that
 \begin{equation*}
-\bvector{1,1,0}=c_1\bvector{3,2,0}+c_2\bvector{0,2,2}
+\bvector{1,1,1}=c_1\bvector{3,2,0}+c_2\bvector{0,2,2}
 \end{equation*}\pause
 Which is equivalent to solving the inconsistent system
 \begin{equation*}
@@ -190,11 +191,14 @@ Which is equivalent to solving the inconsistent system
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{example}
 What is $\spn\left\{\bvector{1,1,0},\bvector{3,2,0},\bvector{0,2,2}\right\}$?\ \pause
+
+\vspace{2mm}
 It turns out the spanning set is $\R^3$.\pause
 
+\vspace{2mm}
 To show this, we then need to find $c_1, c_2, c_3\in\R$ such that 
 \begin{equation*}
 \begin{aligned}
@@ -211,18 +215,16 @@ Which has a unique solution for any $x,y,z\in\R$.
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
-We have shown the general idea for:
+\begin{frame}
 \begin{theorem}
 For $\vect{v_1},\vect{v_2},\dots,\vect{v_k}\in\R^n$, a vector $\vect{b}\in\R^n$ is in $\spn\left\{\vect{v_1},\vect{v_2},\dots,\vect{v_k}\right\}$ if and only if there is at least one solution to the matrix equation $\mat{A}\vect{x}=\vect{b}$. Where $\mat{A}$ is formed from the column vectors $\vect{v_1},\vect{v_2},\dots,\vect{v_k}$.
-\end{theorem}
+\end{theorem}\pause
+\begin{block}{Note}
+We can write spanning sets using set builder notation.
+\end{block}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
-\begin{block}{}
-We can express spanning sets using set builder notation.
-\end{block}\pause
-
+\begin{frame}
 \begin{example}
 \begin{equation*}
 \spn\left\{\bvector{2,1}\right\}=\setbuilder{c\bvector{2,1}}{c\in\R}
@@ -240,7 +242,7 @@ We can express spanning sets using set builder notation.
 \end{example}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \onslide<+->
 \begin{theorem}
 For $\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\in\V$, $\spn\left\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\right\}$ is a subspace of $\V$.
@@ -273,9 +275,9 @@ Which means $a\vect{u}+b\vect{w}$ is in the spanning set and we have closure.
 \end{block}
 \end{frame}
 
-\begin{frame}{Spanning Sets}
+\begin{frame}
 \begin{definition}
-For any $m \by n$ matrix $\mat{A}$, the \textbf{column space}, denoted $\text{Col }\mat{A}$, is the span of the column vectors of $\mat{A}$, and is a subspace of $\R^m$.
+For any $m \by n$ matrix $\mat{A}$, the \textbf{column space}, denoted $\Col{\mat{A}}$, is the span of the column vectors of $\mat{A}$, and is a subspace of $\R^m$.
 \end{definition}\pause
 
 \begin{example}
@@ -289,7 +291,7 @@ Consider the matrix
 \end{equation*}\pause
 The column space of $\mat{B}$ is a subspace of $\R^2$ and defined:
 \begin{equation*}
-\text{Col }\mat{B} = 
+\Col{\mat{B}} = 
 \setbuilder{c_1\bvector{1,2}+
 			c_2\bvector{3,4}+
 			c_3\bvector{0,1}+
@@ -300,7 +302,7 @@ The column space of $\mat{B}$ is a subspace of $\R^2$ and defined:
 \end{example}
 \end{frame}
 
-\begin{frame}{Linear Independence}
+\begin{frame}
 \begin{definition}
 A set $\left\{\vect{v_1},\vect{v_2},\dots,\vect{v_k}\right\}$ of vectors in a vector space $\V$ is \textbf{linearly independent} if no vector of the set can be written as a linear combination of the others. Otherwise it is \textbf{linearly dependent}.
 \end{definition}\pause
@@ -319,7 +321,7 @@ The column vectors of $A$ are linearly independent if and only if the solution $
 \end{block}
 \end{frame}
 
-\begin{frame}{Linear Independence}
+\begin{frame}
 \begin{example}
 Are the vectors $\bvector{1,1,1}$, $\bvector{\+1,\+1, -1}$, and $\bvector{1,3,2}$ linearly independent?\pause
 
@@ -337,7 +339,7 @@ Since $\abs{\mat{A}}=5$, we know that $\mat{A}$ is invertible and hence a unique
 \end{example}
 \end{frame}
 
-\begin{frame}{Linear Independence}
+\begin{frame}
 \begin{example}
 Are the vectors $\bvector{1,1,1}$, $\bvector{\+1,\+1, -1}$, $\bvector{1,3,2}$, and $\bvector{\+5,-1,\+0}$ linearly independent?\pause
 
@@ -356,7 +358,7 @@ We have more columns than rows, which means there will be at least one free vari
 \end{example}
 \end{frame}
 
-\begin{frame}{Linear Independence}
+\begin{frame}
 \begin{example}
 Are the vectors $\bvector{1,1,1}$, $\bvector{-1,\+0, \+1}$, and $\bvector{-2,\+1,\+4}$ linearly independent?
 \onslide<2->
@@ -392,15 +394,18 @@ To determine if they are, we need to look at the system
 \end{overprint}
 \onslide<5->
 
-And thus, these vectors are not linearly independent. \onslide<6->  Moreover, since
+And thus, these vectors are not linearly independent. \onslide<6-> 
+
+\vspace{2mm}
+Moreover, since
 \begin{equation*}
 \bvector{1,1,1} +3\bvector{-1,\+0,\+1}-\bvector{-2,\+1,\+4}=0
 \end{equation*}
-we can see that any one can be written as a combination of the others.
+we can see that any vector can be written as a combination of the others.
 \end{example}
 \end{frame}
 
-\begin{frame}{Linear Independence of Functions}
+\begin{frame}
 \begin{definition}
 A set of vector functions $\left\{\vect{v_1}(t),\vect{v_2}(t),\dots,\vect{v_k}\right\}$ in a vector space $\V$ is \textbf{linearly independent} on an interval $I$ if, for \emph{all} $t\in I$, the equation
 \begin{equation*}
@@ -413,7 +418,7 @@ If for any value $t_0\in I$ there is any solution with $c_i\neq 0$, the vector f
 \end{definition}
 \end{frame}
 
-\begin{frame}{Linear Independence of Functions}
+\begin{frame}
 \begin{example}
 \onslide<1->
 Are the vectors
@@ -471,7 +476,7 @@ Since the unique solution is $c_1=c_2=c_3=0$, these vectors are linearly indepen
 \end{example}
 \end{frame}
 
-\begin{frame}{Linear Independence of Functions}
+\begin{frame}
 \begin{example}
 Are the following functions linearly independent?
 \begin{overprint}
@@ -490,8 +495,8 @@ Are the following functions linearly independent?
 \end{overprint}
 \onslide<2->
 
-\vspace{0.25cm}
-We can think of each of these as one-dimensional vectors.
+\vspace{2mm}
+We can think of each of these as a one-dimensional vector.
 \onslide<3->
 
 Which means we have to see if there exists $c_1,c_2,c_3\in\R$ such that
@@ -533,12 +538,12 @@ e & \tfrac{5}{e} & e^3 & 0 \\
 0&0&1&0
 \end{bmatrix}
 \end{equation*}
-\visible<9->{Since we have the unique solution $c_1=c_2=c_3=0$, these functions are linearly independent.}
+\visible<10->{Since we have a unique solution, $c_1=c_2=c_3=0$, these functions are linearly independent.}
 \end{overprint}
 \end{example}
 \end{frame}
 
-\begin{frame}{The Wronskian and Linear Independence}
+\begin{frame}
 \begin{definition}
 The \textbf{Wronskian} of functions $f_1,f_2,\dots,f_k$ on interval $I$ is the determinant:
 \begin{equation*}
@@ -555,12 +560,12 @@ f_1^{(k-1)}(t)        & f_2^{(k-1)}(t)        & \cdots  & f_k^{(k-1)}(t)        
 \begin{theorem}
 If $W[f_1,f_2,\dots,f_k](t)\neq 0$ for all $t\in I$, then $\left\{f_1,f_2,\dots,f_k\right\}$ is a linearly independent set of functions on $I$.
 \end{theorem}\pause
-\begin{block}{}
+\begin{block}{Note}
 If $\left\{f_1,f_2,\dots,f_k\right\}$ are linearly dependent, then $W[f_1,f_2,\dots,f_k](t)=0$ for all $t\in I$. Thus, to show independence we only need to find a single $t$ that makes the Wronskian nonzero.
 \end{block}
 \end{frame}
 
-\begin{frame}{The Wronskian and Linear Independence}
+\begin{frame}
 \begin{example}
 Use the Wronskian to check that
 \begin{equation*}
@@ -599,11 +604,14 @@ Since $W(t)=-8\neq 0$, this is a set of linearly independent functions.
 \end{example}
 \end{frame}
 
-\begin{frame}{The Wronskian and Linear Independence}
+\begin{frame}
 \begin{example}
 Let us consider the converse:\begin{center}Does the Wronskian being zero imply dependence?\end{center}\pause
 
-In general, the answer is no.\pause\ Consider the linearly independent functions:
+In general, the answer is no.\pause
+
+\vspace{2mm}
+Consider the linearly independent functions:
 \begin{equation*}
 f_1(t)=
 \begin{cases}
@@ -644,11 +652,11 @@ f_1^\prime & f_2^\prime \\
 \end{frame}
 
 
-\begin{frame}{Basis of a Vector Space}
+\begin{frame}
 \begin{definition}
 The set $\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}$ is a \textbf{basis} for vector space $\V$, provided that
 \begin{itemize}
-\item $\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}$ is linearly independent
+\item $\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}$ is a linearly independent set
 \item $\spn\{\vect{v_1},\vect{v_2},\ldots,\vect{v_k}\}=\V$
 \end{itemize}
 \end{definition}\pause
@@ -667,7 +675,7 @@ It's easy to see that $c_1\vect{i}+c_2\vect{j}+c_3\vect{k}=\vect{0}$ has the uni
 \end{example}
 \end{frame}
 
-\begin{frame}{Basis of a Vector Space}
+\begin{frame}
 \begin{definition}
 The \textbf{standard basis} for $\R^n$ is $\{\vect{e_1},\vect{e_2},\dots,\vect{e_n}\}$
 where
@@ -681,14 +689,14 @@ are the column vectors of the identity matrix $\identmat{n}$.
 \end{definition}
 \end{frame}
 
-\begin{frame}{Basis of a Vector Space}
+\begin{frame}
 \begin{example}
 Let us find a basis for the hyperplane in $\R^4$ that is the solution to
 \begin{equation*}
 2x_1+3x_2-4x_3-x_4=0
 \end{equation*}
-\onslide<2->
 \begin{overprint}
+\onslide<1>
 \onslide<2-6>
 We will do so by arbitrarily choosing values for $x_1=a$, $x_2=b$, and $x_3=c$, we can then determine $x_4$ using the equation of the hyperplane.
 \visible<3->{\begin{equation*}
@@ -698,9 +706,10 @@ We will do so by arbitrarily choosing values for $x_1=a$, $x_2=b$, and $x_3=c$, 
 b\bvector{0,1,0,3}+
 c\bvector{\+0,\+0,\+1,-4}}
 \end{equation*}}
+
 \visible<6->{Since $a,b,c\in\R$ were arbitrary, we see these three vectors span the hyperplane.}
 \onslide<7>
-Now, we need to show that these vectors are linearly independent.
+Now, we need to show that the vectors are linearly independent.
 \begin{equation*}
 \bvector{1,0,0,2},\quad
 \bvector{0,1,0,3},\quad
@@ -745,7 +754,7 @@ It looks like this hyperplane is a three-dimensional subspace of a four-dimensio
 \end{example}
 \end{frame}
 
-\begin{frame}{Dimension of a Vector Space}
+\begin{frame}
 \begin{example}
 It is possible for a vector space to have multiple bases.\pause
 
@@ -760,7 +769,7 @@ but, another basis is given by
 \end{example}
 \end{frame}
 
-\begin{frame}{Dimension of a Vector Space}
+\begin{frame}
 \begin{theorem}
 The number of vectors in a basis is always the same for a particular vector space
 \end{theorem}\pause
@@ -776,7 +785,7 @@ If a vector space is so large that cannot be spanned by a finite set of vectors,
 \end{definition}
 \end{frame}
 
-\begin{frame}{Dimension of a Vector Space}
+\begin{frame}
 \begin{example}
 The solution to the system
 \begin{equation*}
@@ -785,9 +794,14 @@ x_1 &\phantom{x_1} + & 2x_2 &\phantom{x_2} - & x_3 &\phantom{x_3} + & \phantom{2
 x_1 &\phantom{x_1} + & 3x_2 &\phantom{x_2} + & x_3 &\phantom{x_3} + & 2x_4 &\phantom{x_4} = & 0\\
 \end{aligned}
 \end{equation*}
-is a subspace of $\R^4$. (The intersection of two three-dimensional hyperplanes.) What is its dimension?
-\onslide<2->
+is a subspace of $\R^4$. (The intersection of two 3D hyperplanes.) 
+
+\vspace{2mm}
+What is its dimension?
+
+\vspace{2mm}
 \begin{overprint}
+\onslide<1>
 \onslide<2-3>
 Writing this system in RREF gives
 \begin{equation*}
@@ -798,7 +812,7 @@ x_1 &\phantom{x_1} &  &\phantom{x_2} - & 5x_3 &\phantom{x_3} - & \phantom{2}x_4 
 \end{equation*}
 \visible<3>{The two free variables tell us that the solution to this system will be a two-parameter family.}
 \onslide<4-6>
-To find a basis, let $x_3=a$ and $x_4=b$, arbitrary real numbers.
+To find a basis, let $x_3=a$ and $x_4=b$, be arbitrary real numbers.
 \visible<5->{
 \begin{equation*}
 \bvector{x_1,x_2,x_3,x_4}
@@ -812,16 +826,18 @@ The two vectors
 \end{equation*}
 span the subspace. 
 
+\vspace{2mm}
 \visible<8->{They are also linearly independent, thus this a basis of the subspace.}
 
+\vspace{2mm}
 \visible<9->{Which means the dimension is 2.}
 \end{overprint}
 \end{example}
 \end{frame}
 
-\begin{frame}{Dimension of the Column Space of a Matrix}
+\begin{frame}
 \begin{block}{Properties of the Column Space of a Matrix}
-\begin{itemize}
+\begin{enumerate}
 \item The pivot columns of a matrix $\mat{A}$ form a basis for Col $\mat{A}$.
 \begin{itemize}
 \item A pivot column is a column of $\mat{A}$ that corresponds to a column in the RREF of $\mat{A}$ with a leading 1.
@@ -831,7 +847,7 @@ span the subspace.
 \begin{itemize}
 \item $\rank(\mat{A})=\dimension(\Col\mat{A})$
 \end{itemize}
-\end{itemize}
+\end{enumerate}
 \end{block}
 \onslide<3->
 
@@ -860,7 +876,7 @@ The pivot columns are $\bvector{1,0}$ and $\bvector{0,1}$, which means $\rank(\m
 \end{example}
 \end{frame}
 
-\begin{frame}{Invertible Matrices and Dimension}
+\begin{frame}
 \begin{block}{Invertible Matrix Characterization}
 Let $\mat{A}$ be a $n \by n$ matrix. The following statements are equivalent:
 \begin{dynitemize}[<+- | alert@+>]
@@ -873,12 +889,13 @@ Let $\mat{A}$ be a $n \by n$ matrix. The following statements are equivalent:
 \end{block}
 \end{frame}
 
-\begin{frame}{Invertible Matrices and Dimension}
+\begin{frame}
 \begin{example}
-The set of polynomials $\{x^2,x,1\}$ span $\Poly_2$ since a typical vector is of the form $ax^2+bx+c$. 
+The set of polynomials $\{x^2,x,1\}$ span $\Poly_2$, since a typical vector is of the form $ax^2+bx+c$. 
 \onslide<2->
 
-So, if this set is linearly indenpendent, then it is a basis of $\Poly_2$.
+\vspace{2mm}
+So, if this set is linearly independent, then it is a basis of $\Poly_2$.
 \onslide<3->
 \begin{overprint}
 \onslide<3-5>
@@ -913,16 +930,15 @@ So, if this set is linearly indenpendent, then it is a basis of $\Poly_2$.
 \+0 & \+0 & \+1 & \+0 \\
 \end{bmatrix}
 \end{equation*}
-\end{overprint}
-\onslide<9->
-So, since we have the unique solution $c_1=c_2=c_3=0$, these functions are linearly independent and thus form a basis of $\Poly_2$. 
+\visible<9->{So, since we have the unique solution $c_1=c_2=c_3=0$, these functions are linearly independent and thus form a basis of $\Poly_2$.}
 
-\onslide<10->
-Which means $\dim\Poly_2=3$.
+\vspace{2mm}
+\visible<10->{Which means $\dim\Poly_2=3$.}
+\end{overprint}
 \end{example}
 \end{frame}
 
-\begin{frame}{Invertible Matrices and Dimension}
+\begin{frame}
 \begin{example}
 What is the dimension of $\Poly$, the space of all polynomials?\pause
 
@@ -937,8 +953,11 @@ t^{k+1}
 Thus, $\Poly$ is infinite-dimensional. ($\dim(\Poly)=\infty$).
 \end{example}\pause
 
-\begin{block}{}
-There are many infinite-dimensional spaces.\\We have seen $\Poly$, $\mathcal{C}(I)$, and $\mathcal{C}^n(I)$.
+\begin{block}{Note}
+There are many infinite-dimensional spaces.
+
+\vspace{2mm}
+We have seen $\Poly$, $\mathcal{C}(I)$, and $\mathcal{C}^n(I)$.
 \end{block}
 \end{frame}
 \end{document}
