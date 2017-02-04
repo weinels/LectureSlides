@@ -11,9 +11,6 @@
 %\hideasymptote% uncomment to not compile asymptote graphs
 
 \title[MATH 2250 - Section 4.1]{The Harmonic Oscillator}
-\author{Adam Wilson}
-\institute{Salt Lake Community College}
-\date{}
 
 \begin{document}
 
@@ -21,9 +18,9 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Damped Harmonic Oscillators}
+\begin{frame}
 \begin{block}{Newton's Dot Notation}
-Scientists and Engineers who work with many variables where the independent variables is always $t$ commonly use the notation:
+Scientists and Engineers who work with many variables where the independent variables is always $t$ commonly use dot notation:
 \begin{equation*}
 \ndot{x}{1}=\dfrac{dx}{dt}
 \quad\text{and}\quad
@@ -42,11 +39,11 @@ m\ndot{x}{2}+b\ndot{x}{1}+kx=0
 \end{equation*}
 where $m>0$, $b$, and $k$ are constants.
 
-This models a class of phenomena called \textbf{damped harmonic oscillators}.  
+This models a class of phenomena called \textbf{damped harmonic oscillation}.  
 \end{definition}
 \end{frame}
 
-\begin{frame}{Damped Harmonic Oscillators}
+\begin{frame}
 \begin{block}{The Mass-Spring System}
 \begin{columns}
 \begin{column}{0.4\textwidth}
@@ -79,7 +76,7 @@ This models a class of phenomena called \textbf{damped harmonic oscillators}.
 \end{tikzpicture}
 \end{column}
 \begin{column}{0.55\textwidth}
-We will model the Mass-Sprint system using Newton's Second Law of Motion, $F=m\ndot{x}{2}$, where $F$ is the sum of the following forces:
+We will model the Mass-Spring system using Newton's Second Law of Motion, $F=m\ndot{x}{2}$, where $F$ is the sum of the following forces:
 \onslide<+->
 \begin{itemize}[<+- | alert@+>]
 \item The restoring force of the spring. \\ $F_{\text{restoring}}=-kz$ where $k>0$
@@ -89,6 +86,7 @@ We will model the Mass-Sprint system using Newton's Second Law of Motion, $F=m\n
 \end{column}
 \end{columns}
 \onslide<+->
+\vspace{4mm}
 Summing these forces gives:
 \begin{tabular}{rlll}
 mass $\times$ acceleration &= $F_{\text{restoring}}$ &+ $F_{\text{damping}}$ &+ $F_{\text{external}}$\\
@@ -97,7 +95,7 @@ $m\ndot{x}{2}$ &= $-kx$ &- $b\ndot{x}{1}$ &+ $f(t)$
 \end{block}
 \end{frame}
 
-\begin{frame}{Damped Harmonic Oscillators}
+\begin{frame}
 \begin{block}{Simple Harmonic Oscillator}
 The simple harmonic oscillator equation is
 \begin{equation*}
@@ -117,36 +115,34 @@ and the motion is called \textbf{unforced}, \textbf{undriven}, or \textbf{free};
 \end{block}
 \end{frame}
 
-\begin{frame}{Damped Harmonic Oscillators}
+\begin{frame}
 \begin{example}
 \begin{overprint}
 \onslide<1-3>
-Let us consider a mass of 1kg resting on a table that is attached to the wall by a spring.
+Let us consider a mass of 1~kg resting on a table that is attached to the wall by a spring.
 \visible<2->{
 
+\vspace{2mm}
 We discover that it takes a force of 1 newton to push the mass 0.25 meters from it's resting position.
 \begin{equation*}
-k=\dfrac{1\text{ newton}}{0.25\text{ meter}}=4\dfrac{\text{newton}}{\text{meter}}
+k=\dfrac{1~\text{newton}}{0.25~\text{meter}}=4~\dfrac{\text{newton}}{\text{meter}}
 \end{equation*}}
-\visible<3->{
-
-We also measure the damping force of the object sliding on the table to be 0.5 newtons when the velocity is 0.25 meters per second.
+\visible<3->{We also measure the damping force of the object sliding on the table to be 0.5 newtons when the velocity is 0.25 meters per second.
 \begin{equation*}
-b=\dfrac{0.5\text{ newton}}{0.25\dfrac{\text{meter}}{second}}=2\dfrac{\text{newton second}}{\text{meter}}
+b=\dfrac{0.5~\text{newton}}{0.25~\dfrac{\text{meter}}{second}}=2~\dfrac{\text{newton second}}{\text{meter}}
 \end{equation*}}
 \onslide<4->
 The object is pulled to the right until the spring is stretched 0.5 meters and then released. (The motion is unforced.)
-\visible<5->{
+\visible<5->{%
 
+\vspace{2mm}
 So, the initial conditions are
 \begin{equation*}
-x(0)=0.5\text{ meters}
+x(0)=0.5~\text{meters}
 \quad\text{and}\quad
-\ndot{x}{1}(0)=0\dfrac{\text{meter}}{\text{second}}
+\ndot{x}{1}(0)=0~\dfrac{\text{meter}}{\text{second}}
 \end{equation*}}
-\visible<6->{
-
-We can now formulate the IVP that describes this system
+\visible<6->{We can now formulate the IVP that describes this system
 \begin{center}
 \begin{tabular}{rlllll}
 $m\ndot{x}{2}$&$+b\ndot{x}{1}$&$+kx$&$=f(t)$&&\\
@@ -158,7 +154,7 @@ $m\ndot{x}{2}$&$+b\ndot{x}{1}$&$+kx$&$=f(t)$&&\\
 \end{example}
 \end{frame}
 
-\begin{frame}{Systems of Units}
+\begin{frame}
 \begin{block}{Systems of Units}
 There are three systems of units you are likely to encounter:
 \onslide<+->
@@ -186,14 +182,15 @@ Gravity (Earth) & 9.8 $\dfrac{\text{m}}{{\text{s}}^2}$ & 980.665 $\dfrac{\text{c
 \end{block}
 \end{frame}
 
-\begin{frame}{Undamped Unforced Harmonic Oscillators}
-\begin{block}{}
-We can easily guess a solution to
+\begin{frame}
+\begin{example}
+We can guess a solution to
 \begin{equation*}
 m\ndot{x}{2}+kx=0
 \end{equation*}\pause
 We know that ${\left(\sin[t]\right)}^{\prime\prime}=-\sin[t]$ and ${\left(\cos[t]\right)}^{\prime\prime}=-\cos[t]$. So, a solution to the DE is probably going to contain sines and cosines.\pause
 
+\vspace{2mm}
 Comparing
 \begin{equation*}
 {\left(\sin[\omega_0 t]\right)}^{\prime\prime}=-\omega_0^2\sin[\omega_0 t]
@@ -201,13 +198,13 @@ Comparing
 \ndot{x}{2}=-\dfrac{k}{m}x
 \end{equation*}
 we see that if $\omega_0=\sqrt{\dfrac{k}{m}}$, then $x(t)=\sin[\omega_0 t]$ is a solution.
-\end{block}\pause
-\begin{block}{}
+\end{example}\pause
+\begin{block}{Note}
 Another solutions is $x(t)=\cos[\omega_0 t]$.
 \end{block}
 \end{frame}
 
-\begin{frame}{Undamped Unforced Harmonic Oscillators}
+\begin{frame}
 \begin{block}{Solution of the Undamped Unforced Oscillator}
 For the undamped unforced oscillator
 \begin{equation*}
@@ -226,12 +223,12 @@ The Superposition Principle tells us that any linear combination of these two so
 x(t)=c_1\cos[\omega_0 t]+c_2\sin[\omega_0 t]
 \end{equation*}
 \end{block}\pause
-\begin{block}{}
-We will see next section that these are all of the solutions.
+\begin{block}{Note}
+We will see next section that these cover all solutions.
 \end{block}
 \end{frame}
 
-\begin{frame}{Undamped Unforced Harmonic Oscillators}
+\begin{frame}
 \onslide<+->
 \begin{block}{Alternate Form of the Undamped Unforced Oscillator Solution}
 Solutions to the undamped unforced oscillator may also be expressed as
@@ -251,8 +248,8 @@ x(t)=A\cos[\omega_0 t-\delta]
 \end{block}
 \end{frame}
 
-\begin{frame}{Undamped Unforced Harmonic Oscillators}
-\begin{block}{Converting from one form to the other}
+\begin{frame}
+\begin{block}{Converting Between the Two Forms}
 The translation is given by
 \begin{equation*}
 A=\sqrt{c_1^2+c_2^2},\qquad\tan[\delta]=\dfrac{c_2}{c_1}
@@ -264,7 +261,7 @@ c_1=A\cos[\delta],\qquad c_2=A\sin[\delta]
 \end{block}
 \end{frame}
 
-\begin{frame}{Undamped Unforced Harmonic Oscillators}
+\begin{frame}
 \begin{example}
 Let us solve the following second-order IVP\@.
 \begin{equation*}
@@ -274,11 +271,12 @@ x(0)=0,\quad
 \end{equation*}\pause
 So, $m=1$, $k=1$, and $\omega_0=\sqrt{\dfrac{1}{1}}=1$.\pause
 
+\vspace{2mm}
 The general solution is
 \begin{equation*}
 x(t)=c_1\cos[t]+c_2\sin[t]
-\end{equation*}
-and differentitating gives
+\end{equation*}\pause
+Differentiating gives
 \begin{equation*}
 \ndot{x}{1}=-c_1\sin[t]+c_2\cos[t]
 \end{equation*}\pause
@@ -286,7 +284,7 @@ Substituting $t=0$, $x(0)=0$, and $\ndot{x}{1}(0)=1$ into this system gives the 
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Plane Description}
+\begin{frame}[fragile]
 \begin{example}
 Let us look at some plots concerning $\ndot{x}{2}+0.25x=0$:
 
@@ -298,7 +296,7 @@ Let us look at some plots concerning $\ndot{x}{2}+0.25x=0$:
 import graph;
 import fontsize;
 defaultpen(fontsize(9pt));
-size(150);
+size(170);
 real min_x=-pi/2, max_x=7pi;
 real min_y=-5, max_y=5;
 
@@ -321,7 +319,7 @@ yaxis("$x$",XEquals(0),min_y,max_y,NoTicks());
 import graph;
 import fontsize;
 defaultpen(fontsize(9pt));
-size(150);
+size(170);
 real min_x=-pi/2, max_x=7pi;
 real min_y=-5, max_y=5;
 
@@ -344,7 +342,7 @@ import graph;
 import slopefield;
 import fontsize;
 defaultpen(fontsize(9pt));
-size(120);
+size(145);
 real min_x=-6, max_x=6;
 real min_y=-6, max_y=6;
 pair a=(min_x,min_y);
@@ -372,7 +370,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}{Plane Description}
+\begin{frame}
 \begin{block}{Phase Portraits}
 For any autonomous second-order differential equation
 \begin{equation*}
@@ -380,6 +378,7 @@ For any autonomous second-order differential equation
 \end{equation*}
 the \textbf{phase plane} is the two-dimensional graph with $x$ and $\ndot{x}{1}$ axes.\pause
 
+\vspace{2mm}
 The phase plane has a \textbf{vector field} specified by the DE, which at any point in the phase plane gives a direction vector with
 \begin{center}
 \begin{tabular}{rl}
@@ -391,12 +390,12 @@ vertical component & $d\ndot{x}{1}/dt=\ndot{x}{2}$
 \vspace{-2mm}
 A \textbf{trajectory} is a path formed parametrically by the DE solutions $x(t)$ and $\ndot{x}{1}(t)$ as they follow the vector field. A graph showing phase plane trajectories is called a \textbf{phase portrait}.
 \end{block}\pause
-\begin{block}{}
-Note: Phase portraits can be graphed \emph{without} solving the DE\@.
+\begin{block}{Note}
+Phase portraits can be graphed \emph{without} solving the DE\@.
 \end{block}
 \end{frame}
 
-\begin{frame}{Second-Order Linear DE}
+\begin{frame}
 \begin{definition}
 The second-order differential equation
 \begin{equation*}
@@ -424,7 +423,7 @@ Then, pplane may be used to plot the phase portrait.
 \end{example}
 \end{frame}
 
-\begin{frame}{Modeling Electrical Circuits}
+\begin{frame}
 \begin{block}{Electrical Circuits}
 \usepercentframe{0.7}{%
 \begin{columns}
@@ -446,19 +445,20 @@ I(t)=\ndot{Q}{1}(t)
 \end{equation*}
 \visible<2->{
 
+\vspace{-4mm}
 \textbf{Kirchoff's Voltage Law} tell us that the input voltage $V(t)$ is the sum of voltage drops around the circuit. In our circuit, we have three such voltage drops.}}
 \only<3>{
 
 \textbf{Drop across a Resistor:} By \textbf{Ohm's Law}, the voltage drop across a resistor is proportional to the current passing through it.
 \begin{equation*}
-V_R(t)=RI(t)
+V_R(t)=R\cdot I(t)
 \end{equation*}
 Where $R$ is the \textbf{resistance} of the resistor and is measured in \emph{ohms}.}
 \only<4>{
 
 \textbf{Drop across an Inductor:} By \text{Faraday's Law}, the voltage drop across an inductor is proportional to the time rate of change of the current passing through it.
 \begin{equation*}
-V_L(t)=L\ndot{I}{1}(t)
+V_L(t)=L\cdot\ndot{I}{1}(t)
 \end{equation*}
 where $L$ is the \textbf{inductance} and is measured in \emph{henries}.}
 \only<5>{
@@ -472,7 +472,7 @@ where $C$ is the \textbf{capacitance} of the capacitor and is measured in \emph{
 
 Thus, the voltage drop across the circuit is
 \begin{equation*}
-V(t)=RI+L\ndot{I}{1}+\dfrac{1}{C}\int I(t)dt
+V(t)=R\cdot I+L\cdot\ndot{I}{1}+\dfrac{1}{C}\int I(t)dt
 \end{equation*}
 This is called an \textbf{integro-differential equation} because it contains both a derivative and an integral.}
 \end{column}
@@ -480,7 +480,7 @@ This is called an \textbf{integro-differential equation} because it contains bot
 \end{block}
 \end{frame}
 
-\begin{frame}{Modeling Electrical Circuits}
+\begin{frame}
 \begin{block}{}
 Using the fact that $I(t)=\ndot{Q}{1}(t)$ we can build the following equations.
 \end{block}\pause
@@ -508,7 +508,7 @@ L\ndot{I}{2}+R\ndot{I}{1}+\dfrac{1}{C}I=0
 \end{block}
 \end{frame}
 
-\begin{frame}{Modeling Electrical Circuits}
+\begin{frame}
 \begin{example}
 \begin{columns}
 \begin{column}{0.25\textwidth}
@@ -523,6 +523,7 @@ L\ndot{I}{2}+R\ndot{I}{1}+\dfrac{1}{C}I=0
 \begin{column}{0.55\textwidth}
 Consider a circuit composed of a capacitor and inductor hooked up in series. Suppose that at $t=0$ a charge $Q_0$ is put on the capacitor.\pause
 
+\vspace{2mm}
 The IVP is
 \begin{equation*}
 L\ndot{Q}{2}+\dfrac{1}{C}=0,\quad Q(0)=Q_0,\quad \ndot{Q}{1}(0)=0
