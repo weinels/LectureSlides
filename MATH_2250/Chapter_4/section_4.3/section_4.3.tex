@@ -10,6 +10,20 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,patterns,decorations.pathmorphing,decorations.markings}
 
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+
+pen next_color() {return pens[++pen_pos];}
+\end{asydef}
+
 \title[MATH 2250 - Section 4.3]{Complex Characteristic Roots}
 
 \begin{document}
@@ -18,7 +32,7 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Complex Characteristic Roots ($\Delta<0$)}
+\begin{frame}
 \begin{block}{Solution for Complex Characteristic Roots}
 For $\Delta<0$, the characteristic roots of the DE
 
@@ -41,11 +55,12 @@ y(t)=e^{\alpha t}\left(c_1\cos[\beta t]+c_2\sin[\beta t]\right)
 \end{equation*}
 where $c_1$ and $c_2$ are arbitrary constants determined by the initial conditions.\pause
 
+\vspace{2mm}
 The set $\left\{e^{\alpha t}\cos[\beta t],e^{\alpha t}\sin[\beta t]\right\}$ forms a basis for the solution space $\Sol$.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Complex Characteristic Roots ($\Delta<0$)}
+\begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
 \onslide<1-5>
@@ -57,32 +72,27 @@ y^{\prime\prime}-4y^{\prime}+13y=0
 \begin{equation*}
 0=r^2-4r+13
 \end{equation*}}
-\visible<3->{which has solutions $r=2\pm3i$. So $\alpha=2$ and $\beta=3$.}
-\visible<4->{
 
+\visible<3->{\vspace{-5mm}
+which has solutions $r=2\pm3i$. So $\alpha=2$ and $\beta=3$.}
+
+\visible<4->{\vspace{2mm}
 Thus, the general solution is 
 \begin{equation*}
 y(t)=e^{2 t}\left(c_1\cos[3 t]+c_2\sin[3 t]\right)
 \end{equation*}}
-\visible<5->{The set $\left\{e^{2 t}\cos[3 t],e^{\alpha t}\sin[3 t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
+
+\visible<5->{\vspace{-5mm}
+The set $\left\{e^{2 t}\cos[3 t],e^{\alpha t}\sin[3 t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
 \onslide<6->
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(150,150,IgnoreAspect);
+size(160, 160, IgnoreAspect);
 ngraph=1000;
 real min_x=-1, max_x=3;
 real min_y=-300, max_y=300;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 real alpha=2;
 real beta=3;
@@ -106,14 +116,9 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \caption{Time Series}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-600, max_x=600;
 real min_y=-600, max_y=600;
 
@@ -138,10 +143,6 @@ for(real gy=min_y+1; gy<=max_y-1; gy+=100)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
 
 // draw trajectories
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
 
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
@@ -180,7 +181,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Complex Characteristic Roots ($\Delta<0$)}
+\begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
 \onslide<1-5>
@@ -192,32 +193,26 @@ y^{\prime\prime}+2y^{\prime}+4y=0
 \begin{equation*}
 0=r^2+2r+4
 \end{equation*}}
-\visible<3->{which has solutions $r=-1\pm i\sqrt{3}$. So $\alpha=-1$ and $\beta=\sqrt{3}$.}
-\visible<4->{
 
+\visible<3->{\vspace{-5mm}
+which has solutions $r=-1\pm i\sqrt{3}$. So $\alpha=-1$ and $\beta=\sqrt{3}$.}
+
+\visible<4->{\vspace{2mm}
 Thus, the general solution is 
 \begin{equation*}
 y(t)=e^{- t}\left(c_1\cos[\sqrt{3} t]+c_2\sin[\sqrt{3} t]\right)
 \end{equation*}}
-\visible<5->{The set $\left\{e^{- t}\cos[\sqrt{3} t],e^{-t}\sin[\sqrt{3} t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
+
+\visible<5->{\vspace{-5mm}
+The set $\left\{e^{- t}\cos[\sqrt{3} t],e^{-t}\sin[\sqrt{3} t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
 \onslide<6->
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(150,0);
-ngraph=1000;
+size(160,0);
 real min_x=0, max_x=4;
 real min_y=-2.5, max_y=2.5;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 real alpha=-1;
 real beta=sqrt(3);
@@ -241,14 +236,9 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \caption{Time Series}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-12, max_x=12;
 real min_y=-12, max_y=12;
 
@@ -273,11 +263,6 @@ for(real gy=min_y+1; gy<=max_y-1; gy+=2)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
 
 // draw trajectories
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
-
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
 real alpha=-1;
@@ -315,7 +300,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}[fragile]{Complex Characteristic Roots ($\Delta<0$)}
+\begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
 \onslide<1-5>
@@ -327,32 +312,26 @@ y^{\prime\prime}+y=0
 \begin{equation*}
 0=r^2+1
 \end{equation*}}
-\visible<3->{which has solutions $r=\pm i$. So $\alpha=0$ and $\beta=1$.}
-\visible<4->{
 
+\visible<3->{\vspace{-5mm}
+which has solutions $r=\pm i$. So $\alpha=0$ and $\beta=1$.}
+
+\visible<4->{\vspace{2mm}
 Thus, the general solution is 
 \begin{equation*}
 y(t)=c_1\cos[t]+c_2\sin[t]
 \end{equation*}}
-\visible<5->{The set $\left\{\cos[t],\sin[t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
+
+\visible<5->{\vspace{-5mm}
+The set $\left\{\cos[t],\sin[t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
 \onslide<6->
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150,0);
-ngraph=1000;
 real min_x=-3*pi, max_x=3*pi;
 real min_y=-8, max_y=8;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 real alpha=0;
 real beta=-1;
@@ -371,22 +350,11 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \caption{Time Series}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-6, max_x=6;
 real min_y=-6, max_y=6;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
@@ -439,7 +407,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}{Damped Mass-Spring Systems}
+\begin{frame}
 \begin{block}{Underdamped Mass-Spring System}
 The motion of a mass-spring system is called \textbf{underdamped} when we have $\Delta=b^2-4mk<0$. Both characteristic roots are complex and the solutions are given by
 \begin{equation*}
@@ -450,7 +418,7 @@ x(t)=e^{-\tfrac{b}{2m}}\left(c_1\cos[\omega_d t]+c_2\sin[\omega_d t]\right)
 \end{block}
 \end{frame}
 
-\begin{frame}{Damped Mass-Spring Systems}
+\begin{frame}
 \begin{block}{Alternate Solution to the Underdamped Unforced Oscillator}
 \begin{equation*}
 x(t)=A(t)\cos[\omega_d t - \delta]
@@ -470,15 +438,11 @@ Where $A$ and $\delta$ are determined by initial conditions, the following hold:
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Damped Mass-Spring Systems}
-\begin{block}{Alternate Solution to the Underdamped Unforced Oscillator}
+\begin{frame}[fragile]
+\begin{block}{Alternate Solution Visual Example}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(400, 180);
-ngraph=1000;
 real min_x=-2, max_x=20;
 real min_y=-6, max_y=6;
 
@@ -489,7 +453,6 @@ real m=5;
 real b=0.75;
 real k=2;
 real A=5;
-//real delta=0;
 
 real omega=sqrt(4*m*k-b*b)/(2*m);
 real delta=omega+0.5;
@@ -547,7 +510,7 @@ label("$(\delta+3\pi)/\omega_d$", (xtick(4), +0.75), text_pen, UnFill);
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Underdamped Mass-Spring System}
+\begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
 \onslide<1-4>
@@ -645,21 +608,11 @@ Has the following properties:
 \onslide<16->
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(120);
-ngraph=1000;
+size(150);
 real min_x=-6, max_x=6;
 real min_y=-6.5, max_y=6.5;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 real alpha=-1/2;
 real beta=sqrt(3)/2;
@@ -677,22 +630,11 @@ yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \caption{Time Series}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(120);
-ngraph=1000;
+size(150);
 real min_x=-7, max_x=7;
 real min_y=-7, max_y=7;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
@@ -735,6 +677,7 @@ xaxis("$x$",YEquals(min_y),min_x,max_x,LeftTicks());
 xaxis(YEquals(max_y),min_x,max_x);
 yaxis("$x^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
 yaxis(XEquals(max_x),min_y,max_y);
+
 \end{asy}
 \caption{Phase Portrait}
 \end{subfigure}
@@ -743,9 +686,10 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}{The Guitar String: A Qualitative Analysis}
-\begin{block}{}
+\begin{frame}
+\begin{block}{The Guitar String: A Qualitative Analysis}
 The vibration of a guitar string can be described as a damped oscillator.
+\vspace{2mm}
 \begin{columns}
 \begin{column}{0.4\textwidth}
 \begin{tikzpicture}[every node/.style={outer sep=0pt,thick}]
@@ -797,8 +741,10 @@ The motion of this spring is given by
 \end{equation*}
 where $\omega_0$ is the circular frequency at which the string vibrates. (In music, the frequency $f_0=\tfrac{\omega_o}{2\pi}$ is often used. A middle C has 512 vibrations per second.)\pause
 
+\vspace{2mm}
 Because there is no damping in this model, the sound will last forever.\pause
 
+\vspace{2mm}
 When a guitar string is plucked, it has the $x(0)=x_0$ and $\ndot{x}{1}(0)=0$ for initial conditions.
 \end{column}
 \end{columns}
@@ -809,7 +755,7 @@ Let use next consider a guitar string with damping.
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{The Guitar String: A Qualitative Analysis}
+\begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
 \onslide<1-5>
@@ -821,9 +767,10 @@ Consider the underdamped guitar string
 \begin{equation*}
 0=r^2+2r+26
 \end{equation*}}
-\visible<3->{which has solutions $r=-1\pm5i$. So $\alpha=-1$ and $\beta=5$.}
-\visible<4->{
 
+\visible<3->{\vspace{-5mm}which has solutions $r=-1\pm5i$. So $\alpha=-1$ and $\beta=5$.}
+
+\visible<4->{\vspace{2mm}
 Thus, the general solution is 
 \begin{equation*}
 x(t)=e^{- t}\left(c_1\cos[5 t]+c_2\sin[5 t]\right)
@@ -834,21 +781,11 @@ If we pluck the string, which means $x(0)=5$ and $\ndot{x}{1}(0)=0$, we find tha
 \onslide<6->
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(0,150);
-ngraph=1000;
+size(0,160);
 real min_x=-1, max_x=8;
 real min_y=-4, max_y=6;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 real alpha=-1;
 real beta=5;
@@ -866,22 +803,11 @@ yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \caption{Time Series}
 \end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{subfigure}[b]{0.49\textwidth}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(0,150);
-ngraph=1000;
 real min_x=-11, max_x=11;
 real min_y=-11, max_y=11;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
@@ -932,27 +858,27 @@ yaxis(XEquals(max_x),min_y,max_y);
 \end{example}
 \end{frame}
 
-\begin{frame}{Real and Complex Characteristic Roots}
+\begin{frame}
 \begin{block}{Solutions to the Second-Order Linear DE with Constant Coefficients}
 The differential equation
 
-\vspace{-4mm}
+\vspace{-3mm}
 \begin{equation*}
 ay^{\prime\prime}+by^{\prime}+cy=0
 \end{equation*}
 
-\vspace{-3mm}
+\vspace{-2mm}
 has the characteristic equation
 
-\vspace{-4mm}
+\vspace{-3mm}
 \begin{equation*}
 ar^2+br+c=0
 \end{equation*}
 
-\vspace{-3mm}
+\vspace{-2mm}
 The quadratic formula gives rise to three different general solutions, depending on the discriminant $\Delta=b^2-4ac$.
 
-\vspace{-4mm}
+\vspace{-3mm}
 \begin{center}
 \def\arraystretch{1.8}%
 \begin{tabular}{ccc}
@@ -966,7 +892,7 @@ $\Delta<0$ & $r_1,r_2=\alpha\pm\beta$ & $y=e^{\alpha t}\left(c_1\cos[\beta t]+c_
 \end{block}
 \end{frame}
 
-\begin{frame}{Extensions to Higher-Order DE}
+\begin{frame}
 \begin{example}
 Consider the fourth-order DE
 
@@ -999,7 +925,7 @@ y=c_1e^{2t}+c_2e^{-2t}+c_3\cos[2t]+c_4\sin[2t]
 \end{example}
 \end{frame}
 
-\begin{frame}{Extensions to Higher-Order DE}
+\begin{frame}
 \begin{example}
 Consider the third-order DE
 
@@ -1032,7 +958,7 @@ y=c_1e^{t}+c_2te^{t}+c_3e^{-3t}
 \end{example}
 \end{frame}
 
-\begin{frame}{Extensions to Higher-Order DE}
+\begin{frame}
 \begin{example}
 Consider the fifth-order DE
 
@@ -1073,7 +999,7 @@ y=\underset{\text{\tiny for triple root}}{(c_1+c_2t+c_3t^2)}e^{-t}
 \end{example}
 \end{frame}
 
-\begin{frame}{Extensions to Higher-Order DE}
+\begin{frame}
 \begin{example}
 Consider the fourth-order DE
 
