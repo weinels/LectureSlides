@@ -13,8 +13,8 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Superposition}
-\begin{block}{}
+\begin{frame}
+\begin{block}{Remember}
 If $L$ is a linear differential operator defined by
 \begin{equation*}
 L(y)=a_n(t)y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y^\prime+a_0(t)y
@@ -34,7 +34,7 @@ L(y)=c_1 f_1(t) + c_2 f_2(t) + \cdots + c_n f_n(t)
 \end{block}
 \end{frame}
 
-\begin{frame}{Superposition}
+\begin{frame}
 \begin{block}{Nonhomogeneous Principle for Linear DEs}
 The general solution of the nonhomogeneous linear DE $L(y)=f$ is
 \begin{equation*}
@@ -47,12 +47,12 @@ where
 \end{itemize}
 \end{block}\pause
 
-\begin{block}{}
+\begin{block}{Note}
 This is just applying the superposition principle for $f_1(t)=0$ and $f_2(t)=f$.
 \end{block}
 \end{frame}
 
-\begin{frame}{Superposition}
+\begin{frame}
 \begin{example}
 Consider the nonhomogeneous second-order DE
 
@@ -115,7 +115,7 @@ y=y_h+y_p=c_1e^{2t}+c_2e^{-t}-t+e^t
 \end{example}
 \end{frame}
 
-\begin{frame}{Superposition}
+\begin{frame}
 \begin{example}
 Consider the nonhomogeneous second-order DE
 
@@ -144,12 +144,12 @@ y=y_h+y_p=c_1e^{2t}+c_2e^{-t}-\tfrac{1}{2}t-4e^t
 \end{equation*}
 \end{example}
 \onslide<6->
-\begin{block}{}
+\begin{block}{Note}
 After accumulating some experience, a solution can be guessed by just \quotetext{inspecting} the equation. By recognizing the patterns.
 \end{block}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
 Consider the second-order DE 
 \begin{equation*}
@@ -157,9 +157,10 @@ ay^{\prime\prime}+by^{\prime}+cy=d
 \end{equation*}
 where all the coefficients and forcing term are constant.\pause
 
+\vspace{2mm}
 We can see that, when $c\neq 0$, $y_p=\tfrac{d}{c}$ is a particular solution.
 \end{example}\pause
-\begin{block}{}
+\begin{block}{Note}
 This idea works well for the $n$th-order equation
 \begin{equation*}
 a_n(t)y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y^\prime+a_0(t)y=d
@@ -168,63 +169,66 @@ provided that $a_0\neq 0$.
 \end{block}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
 Inspection of
 \begin{equation*}
 y^{\prime\prime}+y^{\prime}=1
-\end{equation*}
-leads to the solution\pause\ $y_p=t$.
+\end{equation*}\pause 
+leads to the solution $y_p=t$.
 \end{example}\pause
 
 \begin{example}
 Inspection of
 \begin{equation*}
 y^{\prime\prime}-y=\sin[t]
-\end{equation*}
-leads to the solution\pause\  $y_p=-\tfrac{1}{2}\sin[t]$
+\end{equation*}\pause
+leads to the solution $y_p=-\tfrac{1}{2}\sin[t]$
 \end{example}\pause
 
 \begin{example}
 Inspection of
 \begin{equation*}
 y^{\prime\prime}+y^{\prime}-3y=9e^{3t}
-\end{equation*}
-leads to the solution\pause\  $y_p=e^{3t}$
+\end{equation*}\pause
+leads to the solution $y_p=e^{3t}$
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
-\begin{block}{}
+\begin{frame}
+\begin{block}{Note}
 There are a few limitations of this method:\\ It only works for linear differential equations with specific forcing terms.
 \end{block}\pause
 
 \begin{block}{Forcing Terms That Work With Undetermined Coefficients}
+Any finite products or sums of:
 \begin{itemize}
 \item Polynomials in $t$.
 \item Exponentials $e^{at}$.
 \item Sinusoidal functions of the form $\cos[kt]$ and $\sin[kt]$.
-\item Any finite products or sums of these functions.
 \end{itemize}
 \end{block}\pause
-\begin{block}{}
+\begin{block}{Note}
 Even with these limitations, undetermined coefficients is widely used, given that many functions are built from the above parts.
 \end{block}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-3>
 Consider
 \begin{equation*}
 y^{\prime\prime}-y^{\prime}-2y=3t^2-1
 \end{equation*}
-\visible<2->{Let us look for $y_p$ in $\Poly_2$. Which means $y_p$ will be in the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ in $\Poly_2$. Which means $y_p$ will be of the form
 \begin{equation*}
 y_p=At^2+Bt+C
-\end{equation*}}
-\visible<3->{We can then calculate:
+\end{equation*}
+
+\visible<3->{%
+We can then calculate:
 \begin{equation*}
 \begin{aligned}
 y_p^{\prime}&=2At+B\\
@@ -272,18 +276,19 @@ y=c_1e^{2t}+c_2e^{-t}-\dfrac{3}{2}t^2+\dfrac{3}{2}t+\dfrac{7}{4}
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-3>
 Consider
 \begin{equation*}
 y^{\prime\prime}-y^{\prime}-2y=2e^{-3t}
 \end{equation*}
-\visible<2->{Let us look for $y_p$ of the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=Ae^{-3t}
-\end{equation*}}
+\end{equation*}
 \visible<3->{We can then calculate:
 \begin{equation*}
 \begin{aligned}
@@ -327,18 +332,20 @@ y=c_1e^{2t}+c_2e^{-t}+\dfrac{1}{5}e^{-3t}
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-3>
 Consider
 \begin{equation*}
 y^{\prime\prime}-y^{\prime}-2y=2\cos[3t]
 \end{equation*}
-\visible<2->{Let us look for $y_p$ of the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=A\cos[3t]+B\sin[3t]
-\end{equation*}}
+\end{equation*}
+
 \visible<3->{We can then calculate:
 \begin{equation*}
 \begin{aligned}
@@ -385,18 +392,20 @@ y=c_1e^{2t}+c_2e^{-t}-\dfrac{11}{65}\cos[3t]-\dfrac{3}{65}\sin[3t]\end{equation*
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-3>
 Consider
 \begin{equation*}
 y^{\prime\prime}-y^{\prime}-2y=t^2 e^t
 \end{equation*}
-\visible<2->{Let us look for $y_p$ of the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=\left(At^2+Bt+C\right)e^t
-\end{equation*}}
+\end{equation*}
+
 \visible<3->{We can then calculate:
 \begin{equation*}
 \begin{aligned}
@@ -446,18 +455,20 @@ y=c_1e^{2t}+c_2e^{-t}+\left(-\dfrac{1}{2}t^2-\dfrac{1}{2}t-\dfrac{3}{4}\right)e^
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
+\begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-6>
 Consider
 \begin{equation*}
 y^{\prime\prime}-y^{\prime}-2y=5e^{2t}
 \end{equation*}
-\visible<2->{Let us look for $y_p$ of the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=Ae^{2t}
-\end{equation*}}
+\end{equation*}
+
 \visible<3->{We can then calculate:
 \begin{equation*}
 \begin{aligned}
@@ -476,10 +487,6 @@ y_p^{\prime\prime}&=4Ae^{2t}
 \vspace{-4mm}
 \visible<6->{Thats not good. We'll have to try something else.}
 \onslide<7-8>
-Consider
-\begin{equation*}
-y^{\prime\prime}-y^{\prime}-2y=5e^{2t}
-\end{equation*}
 Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=Ate^{2t}
@@ -509,18 +516,18 @@ y_p=\dfrac{5}{3}te^{2t}
 \end{example}
 \end{frame}
 
-\begin{frame}{Method of Undetermined Coefficients}
-\begin{example}
-\begin{overprint}
-\onslide<1-6>
-Consider
+\begin{frame}
+\begin{example}Consider
 \begin{equation*}
 y^{\prime\prime}-2y^{\prime}+y=3e^{t}
 \end{equation*}
-\visible<2->{Let us look for $y_p$ of the form
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=Ae^{t}
-\end{equation*}}
+\end{equation*}
 \visible<3->{We can then calculate:
 \begin{equation*}
 \begin{aligned}
@@ -540,10 +547,6 @@ Ae^{t}-2Ae^{t}+Ae^{2t}&=3e^{t}\\
 \visible<6->{Thats not good. We'll have to try something else.}
 
 \onslide<7-11>
-Consider
-\begin{equation*}
-y^{\prime\prime}-2y^{\prime}+y=3e^{t}
-\end{equation*}
 Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=Ate^{t}
@@ -564,12 +567,8 @@ y_p^{\prime\prime}&=2Ae^t+Ate^t
 \end{equation*}}
 
 \vspace{-4mm}
-\visible<11->{This is also a problem. We'll have to try something else.}
+\visible<11->{This too is a problem. We'll have to try something else.}
 \onslide<12-13>
-Consider
-\begin{equation*}
-y^{\prime\prime}-y^{\prime}-2y=3e^{t}
-\end{equation*}
 Let us look for $y_p$ of the form
 \begin{equation*}
 y_p=At^2e^{t}
@@ -591,7 +590,8 @@ Substituting into the DE gives
 \end{equation*}
 \visible<16->{When we equate both sides we get $2A=5$ and so $A=\dfrac{5}{2}$.}
 
-\visible<17->{And so, the particular solution is
+\visible<17->{\vspace{2mm}
+And so, the particular solution is
 \begin{equation*}
 y_p=\dfrac{5}{2}te^{2t}
 \end{equation*}}
