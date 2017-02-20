@@ -7,6 +7,13 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\begin{asydef}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+\end{asydef}
+
 \title[MATH 2250 - Section 4.6]{Forced Oscillations}
 
 \begin{document}
@@ -41,7 +48,7 @@ x=c_1\cos[t]+c_2\sin[t]-\dfrac{1}{4}\cos[3t]
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
+\begin{block}{General Solution}
 We can now look at the general solution for the undamped system
 \begin{equation*}
 m\ndot{x}{2}+kx=F_0\cos[\omega_f t]
@@ -91,11 +98,8 @@ where $C=\sqrt{c_1^2+c_2^2}$ and $\tan[\delta]=\dfrac{c_2}{c_1}$.
 An example of $\omega_f\neq\omega_0$ being different, but close, is
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(300,180,IgnoreAspect);
-ngraph=1000;
+
 real min_x=0, max_x=4;
 real min_y=-0.2, max_y=0.2;
 
@@ -163,14 +167,12 @@ We can see an example of resonance
 \end{equation*}\pause
 Since $\dfrac{F_0}{2m\omega_0}=\dfrac{2}{2\cdot 1\cdot 1}=1$, we have $x_p=t\sin[t]$.\pause
 
+\vspace{2mm}
 So, given that $x(0)=0$ and $\ndot{x}{1}(0)=0$ we have $x=t\sin[t]$.\pause
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(300,135,IgnoreAspect);
-ngraph=1000;
+size(300,130,IgnoreAspect);
+
 real min_x=0, max_x=100;
 real min_y=-100, max_y=100;
 
@@ -200,9 +202,9 @@ yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
-\usepercentframe{0.9}{\only<1-4>{%
-As we saw earlier when $\omega_f$ is close to $\omega_0$, though still not equal, there is a clear periodic behavior. 
+\begin{block}{Beats}
+\usepercentframe{0.87}{\only<1-4>{%
+As we saw earlier when $\omega_f$ is close to $\omega_0$, though still not equal, there is clearly periodic behavior. 
 \onslide<2->
 
 \vspace{2mm}
@@ -218,7 +220,7 @@ x(t)=-\dfrac{F_0}{m\left(\omega_0^2-\omega_f^2\right)}\cos[\omega_0 t] + \dfrac{
 So, we can simplify using the trigonometric identity
 \begin{equation*}
 \cos[u]-\cos[v]=-2\sin[\dfrac{u-v}{2}]\sin[\dfrac{u+v}{2}]
-\end{equation*}}
+\end{equation*}\vspace{1cm}}
 \only<5->{%
 \begin{equation*}
 \begin{aligned}
@@ -249,12 +251,12 @@ form an envelope of the more rapid oscillation and is called the \textbf{sinusoi
 For
 \begin{equation*}
 m\ndot{x}{2}+kx=F_0\cos[\omega_f t]
-\end{equation*}
+\end{equation*}\pause
 The general solution is
 \begin{equation*}
 x(t)=c_1\cos[\omega_0 t]+c_2\cos[\omega_0 t] + \dfrac{F_0}{m\left(\omega_0^2-\omega_f^2\right)}\cos[\omega_f t]
 \end{equation*}
-where $c_1$ and $c_2$ are determined by initial conditions and $\omega_0=\sqrt{\tfrac{k}{m}}$.
+where $c_1$ and $c_2$ are determined by initial conditions and $\omega_0=\sqrt{\tfrac{k}{m}}$.\pause
 
 \vspace{2mm}
 If the system starts from rest ($x(0)=0$ and $\ndot{x}{1}(0)=0$), the solution can be written as
@@ -268,42 +270,45 @@ x(t)=\underbrace{\dfrac{2F_0}{m\left(\omega_0^2-\omega_f^2\right)}\sin[\dfrac{\o
 \begin{frame}[fragile]
 \begin{example}
 \begin{overprint}
-\onslide<1-8>
-Suppose we have an oscillator where $\omega_0=22\pi$ and $\omega_f=20\pi$ (as well as $m=1$, and $F_0=42\pi^2$).
+\onslide<1-9>
+Given an oscillator with $\omega_0=22\pi$, $\omega_f=20\pi$, $m=1$, and $F_0=42\pi^2$.
 \visible<2->{
 
 \vspace{2mm}
-Then, we can calculate $k$
+We can then calculate $k$:
+\visible<3->{%
 \begin{equation*}
 \omega_0=\sqrt{\dfrac{k}{m}}
-\visible<3->{\quad\rightarrow\quad
-\omega_0^2=\dfrac{k}{m}}
 \visible<4->{\quad\rightarrow\quad
+\omega_0^2=\dfrac{k}{m}}
+\visible<5->{\quad\rightarrow\quad
 k=m\omega_0^2
-\visible<5->{=484\pi^2}}
-\end{equation*}}
-\visible<6->{Since
+\visible<6->{=484\pi^2}}
+\end{equation*}}}
+
+\visible<7->{\vspace{-5mm}
+Since
 \begin{equation*}
 \dfrac{\omega_0-\omega_f}{2}=\pi
-\quad\text{and}\quad
+\qquad\text{and}\qquad
 \dfrac{\omega_0+\omega_f}{2}=21\pi
 \end{equation*}
-\visible<7->{the solution is 
+\visible<8->{The solution is 
 \begin{equation*}
 x(t)=1\cdot\sin[\pi t]\sin[21\pi t]
 \end{equation*}}}
-\visible<8->{The envelope curves are
+
+\visible<9->{\vspace{-5mm}
+Thus, envelope curves are
 \begin{equation*}
-\pm 1\cdot\sin[\pi t]
+y=\pm 1\cdot\sin[\pi t]
 \end{equation*}}
-\onslide<9->
+\onslide<10->
+\vspace{1mm}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(300,220,IgnoreAspect);
-ngraph=1000;
+
 real min_x=0, max_x=3;
 real min_y=-1.1, max_y=1.1;
 
@@ -338,36 +343,42 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \end{center}
+\vspace{-6mm}
 \end{overprint}
 \end{example}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \begin{example}
-\usepercentframe{0.87}{\only<1-4>{%
+\begin{overprint}
+\onslide<1-5>
 Let us consider the damped forced oscillator
 \begin{equation*}
 \ndot{x}{2}+4\ndot{x}{1}+5x=10\cos[3t]
 ,\qquad x(0)=\ndot{x}{1}(0)=0
-\end{equation*}\pause
-First, we need to find the solution to the associated homogeneous equation.\pause
+\end{equation*}
+\visible<2->{First, we need to find the solution to the associated homogeneous equation.}
 
-\vspace{2mm}
+\visible<3->{\vspace{2mm}
 The characteristic equation $r^2+4r+5=0$ has solutions $r=-2\pm i$, so we have
 \begin{equation*}
 x_h=e^{-2t}\left(c_1\cos[t]+c_2\sin[t]\right)
-\end{equation*}\pause
+\end{equation*}}
+
+\visible<4->{\vspace{-5mm}
 Next we need to find a particular solution.}
-\only<5-7>{%
+
+\visible<5->{\vspace{2mm}
 We can use the method of undetermined coefficients:
 \begin{equation*}
-\begin{aligned}
-x(t)        &= \+\phantom{3}A\cos[3t]+\phantom{3}B\sin[3t]\\
-\dot{x}(t)  &= -3A\sin[3t]+3B\cos[3t]\\
-\ddot{x}(t) &= -9A\cos[3t]-9B\sin[3t]\\
-\end{aligned}
-\end{equation*}
-\onslide<6->
+\begin{matrix}[rrlrl]
+x(t)        &=& \phantom{-3}A\cos[3t]   &+& \phantom{3}B\sin[3t]\\
+\dot{x}(t)  &=& -3A\sin[3t] &+& 3B\cos[3t]\\
+\ddot{x}(t) &=& -9A\cos[3t] &-& 9B\sin[3t]\\
+\end{matrix}
+\end{equation*}}
+
+\onslide<6-9>
 Substituting into the DE gives
 \begin{equation*}
 \begin{aligned}
@@ -376,33 +387,34 @@ Substituting into the DE gives
 +5\left(A\cos[3t]+B\sin[3t]\right)&=10\cos[3t]
 \end{aligned}
 \end{equation*}
-\onslide<7->
-Which gives the system
+\visible<7->{Which gives the system
 \begin{equation*}
 \begin{aligned}
 -9A &+ 12B &+ 5A &=10\\
 -9B &- 12A &+ 5B &=0
 \end{aligned}
 \end{equation*}}
-\only<8-11>{%
+
+\visible<8->{\vspace{-5mm}
 Which has solution
 \begin{equation*}
 A=-\dfrac{1}{4}
 \quad\text{and}\quad
 B=\dfrac{3}{4}
-\end{equation*}
-\onslide<9->
-and so
+\end{equation*}}
+
+\visible<9->{\vspace{-5mm}
+Thus,
 \begin{equation*}
 x_p=-\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]
-\end{equation*}
-\onslide<10->
-Thus, the general solution is
+\end{equation*}}
+
+\onslide<10-14>
+The general solution is
 \begin{equation*}
 x=e^{-2t}\left(c_1\cos[t]+c_2\sin[t]\right) -\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]
 \end{equation*}
-\onslide<11->
-To solve the IVP, we need to calculate
+\visible<11->{To solve the IVP, we need to calculate
 \begin{equation*}
 \begin{aligned}
 \dot{x}&=-2e^{-2t}\left(c_1\cos[t]+c_2\sin[t]\right) \\
@@ -410,8 +422,8 @@ To solve the IVP, we need to calculate
 &\qquad\qquad+ \dfrac{1}{4}\sin[3t]-\dfrac{3}{4}\cos[3t]
 \end{aligned}
 \end{equation*}}
-\only<12->{%
-Next, we need to plug in our initial conditions
+\visible<12->{%
+Next, we need to plug in the initial conditions
 \begin{equation*}
 \begin{aligned}
 x(0)=0
@@ -421,32 +433,26 @@ x(0)=0
 \visible<13->{&\quad\Rightarrow\quad c_2+\dfrac{7}{4}=0}
 \visible<14->{&\quad\Rightarrow\quad c_2=-\dfrac{7}{4}}\\
 \end{aligned}
-\end{equation*}
-\visible<15->{%
-Thus, the solution to the IVP is
-\begin{equation*}
-\only<15>{x=e^{-2t}\left(\dfrac{1}{4}\cos[t]-\dfrac{7}{4}\sin[t]\right) -\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]}
-\only<16->{x=\underbrace{e^{-2t}\left(\dfrac{1}{4}\cos[t]-\dfrac{7}{4}\sin[t]\right)}_{\text{Transient}}\underbrace{-\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]}_{\text{Steady-State}}}
 \end{equation*}}
-\visible<16->{%
-We call $x_h$ \textbf{transient}, because for $b>0$ the solution tends towards zero.
 
-\vspace{2mm}
-The particular solution $x_p$ may either be constant or a periodic \textbf{steady-state} solution.}}}
-\end{example}
-\end{frame}
+\onslide<15-17>
+The solution to the IVP is
+\begin{equation*}
+\only<15>{x={e^{-2t}\left(\dfrac{1}{4}\cos[t]-\dfrac{7}{4}\sin[t]\right)}{-\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]}}
+\only<16->{x=\underbrace{e^{-2t}\left(\dfrac{1}{4}\cos[t]-\dfrac{7}{4}\sin[t]\right)}_{\text{Transient}}\underbrace{-\dfrac{1}{4}\cos[3t]+\dfrac{3}{4}\sin[3t]}_{\text{Steady-State}}}
+\end{equation*}
+\visible<16->{We call $x_h$ \textbf{transient}, because for $b>0$ the solution tends towards zero.}
 
-\begin{frame}[fragile]
-\begin{example}
+\visible<17->{\vspace{2mm}
+The particular solution $x_p$ may either be constant or a periodic \textbf{steady-state} solution.}
+
+\onslide<18->
+\vspace{1cm}
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.29\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100,150,IgnoreAspect);
-ngraph=1000;
 
 real min_x=-1, max_x=8;
 real min_y=-1, max_y=1;
@@ -469,11 +475,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{subfigure}
 \begin{subfigure}[b]{0.29\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100,150,IgnoreAspect);
-ngraph=1000;
 
 real min_x=-1, max_x=8;
 real min_y=-1, max_y=1;
@@ -495,11 +497,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{subfigure}
 \begin{subfigure}[b]{0.29\textwidth}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100,150,IgnoreAspect);
-ngraph=1000;
 
 real min_x=-1, max_x=8;
 real min_y=-1, max_y=1;
@@ -523,6 +521,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \caption{IVP Solution}
 \end{subfigure}
 \end{figure}
+\end{overprint}
 \end{example}
 \end{frame}
 
@@ -548,7 +547,7 @@ B=\dfrac%
 \end{equation*}
 with natural circular frequency $\omega_0=\sqrt{\tfrac{k}{m}}$.
 \end{block}\pause
-\begin{block}{}
+\begin{block}{Note}
 You will verify this in the homework.
 \end{block}
 \end{frame}
