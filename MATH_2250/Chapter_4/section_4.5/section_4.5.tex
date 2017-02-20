@@ -13,82 +13,87 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Variation of Parameters}
-\begin{block}{}
+\begin{frame}
+\begin{block}{Variation of Parameters}
+\begin{overprint}
+\onslide<1-4>
 Let us extend Variation of Parameters to solve
 \begin{equation*}
 y^{\prime\prime}+p(t)y^{\prime}+q(t)y=f(t)
-\end{equation*}\pause
-We first need to find two linearly independent solutions to the associated homogeneous equation
+\end{equation*}
+\visible<2->{We first need to find two linearly independent solutions to the associated homogeneous equation
 \begin{equation*}
 y^{\prime\prime}+p(t)y^{\prime}+q(t)y=0
-\end{equation*}\pause
+\end{equation*}}
+
+\visible<3->{\vspace{-5mm}
 Which gives the general solution
 \begin{equation*}
 y_h=c_1 y_1(t) + c_2 y_2(t)
 \end{equation*}
-where $c_1$ and $c_2$ are arbitrary constants.
-\end{block}
-\end{frame}
+where $c_1$ and $c_2$ are arbitrary constants.}
 
-\begin{frame}{Variation of Parameters}
-\begin{block}{}
-Just like with single order equations, we want to perturb the homogeneous solution into a particular solution to the nonhomogeneous DE.\pause
+\visible<4->{\vspace{2mm}
+Just like with single order equations, we want to perturb the homogeneous solution into a particular solution to the nonhomogeneous DE\@.}
 
-\vspace{2mm}
+\onslide<5-9>
+\visible<5->{\vspace{2mm}
 We do so by replacing the constants $c_1$ and $c_2$ with unknown functions. 
 \begin{equation*}
 y_p=v_1(t) y_1(t) + v_2(t) y_2(t)
-\end{equation*}\pause
-To find $v_1(t)$ and $v_2(t)$ we substitute $y_p$ into the nonhomogeneous DE\@.\pause
+\end{equation*}}
 
-\vspace{2mm}
-But, we need two equations and we only have $L(y)=f$. Thus, we must choose an auxiliary condition.\pause 
+\visible<6->{\vspace{-5mm}
+To find $v_1(t)$ and $v_2(t)$ we substitute $y_p$ into the nonhomogeneous DE\@.}
 
-\vspace{2mm}
+\visible<7->{\vspace{2mm}
+But, we need two equations and we only have $L(y)=f$. Thus, we must choose an auxiliary condition.}
+
+\visible<8->{\vspace{2mm}
 Let us calculate
 \begin{equation*}
 y_p^\prime=v_1 y_1^\prime + v_2 y_2^\prime + v_1^\prime y_1 + v_2^\prime y_2
-\end{equation*}\pause
-So, we can choose $v_1 y_1^\prime + v_2 y_2^\prime=0$ as our auxiliary conditions, which reduces $y_p^\prime$ to:
+\end{equation*}}
+
+\visible<9->{\vspace{-5mm}
+So, we can choose $v_1 y_1^\prime + v_2 y_2^\prime=0$ as our auxiliary condition, which reduces $y_p^\prime$ to:
 \begin{equation*}
 y_p^\prime=v_1^\prime y_1 + v_2^\prime y_2
-\end{equation*}
-\end{block}
-\end{frame}
+\end{equation*}}
 
-\begin{frame}{Variation of Parameters}
-\begin{block}{}
+\onslide<10-15>
 We can then obtain
 \begin{equation*}
 y_p^{\prime\prime}=v_1 y_1^{\prime\prime} + v_2 y_2^{\prime\prime} + v_1^\prime y_1^\prime + v_2^\prime y_2^\prime
-\end{equation*}\pause
-We then substitute $y_p$, $y_p^\prime$, and $y_p^{\prime\prime}$ into $L(y)=f$.
+\end{equation*}
+\visible<11->{We then substitute $y_p$, $y_p^\prime$, and $y_p^{\prime\prime}$ into $L(y)=f$.
 \begin{equation*}
 \begin{aligned}
-(v_1 y_1^{\prime\prime} + v_2 y_2^{\prime\prime} + v_1^\prime y_1^\prime + v_2^\prime y_2^\prime) + p\cdot (v_1^\prime y_1 + v_2^\prime y_2) + q\cdot (v_1 y_1 + v_2 y_2)&=f\\\pause
-v_1(y_1^{\prime\prime}+p y_1^\prime+q y_1) + 
-v_2(y_2^{\prime\prime}+p y_2^\prime+q y_2) +
-(v_1^\prime y_1^\prime + v_2^\prime y_2^\prime) &=f\\\pause
-v_1\cdot 0 + v_2\cdot 0 + v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &=f\\\pause
-v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &=f
+(v_1 y_1^{\prime\prime} + v_2 y_2^{\prime\prime} + v_1^\prime y_1^\prime + v_2^\prime y_2^\prime) + p\cdot (v_1^\prime y_1 + v_2^\prime y_2) + q\cdot (v_1 y_1 + v_2 y_2) &= f \\
+\visible<12->{v_1(y_1^{\prime\prime}+p y_1^\prime+q y_1) + v_2(y_2^{\prime\prime}+p y_2^\prime+q y_2) +
+(v_1^\prime y_1^\prime + v_2^\prime y_2^\prime) &= f \\}
+\visible<13->{v_1\cdot 0 + v_2\cdot 0 + v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &= f \\}
+\visible<14->{v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &= f}
 \end{aligned}
-\end{equation*}
-\end{block}
-\end{frame}
+\end{equation*}}
 
-\begin{frame}{Variation of Parameters}
-\begin{block}{}
-So, we have the system
+\visible<15->{So, we have the system
 \begin{equation*}
 \begin{aligned}
 v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &=f\\
 v_1^\prime y_1 + v_2^\prime y_2&=0
 \end{aligned}
-\end{equation*}\pause
-Which, using Cramer's Rule, has solution
+\end{equation*}}
 
-\vspace{-3mm}
+\onslide<16->
+Using Cramer's Rule, the system
+\begin{equation*}
+\begin{aligned}
+v_1^\prime y_1^\prime + v_2^\prime y_2^\prime &=f\\
+v_1^\prime y_1 + v_2^\prime y_2&=0
+\end{aligned}
+\end{equation*}
+has solution
 \begin{equation*}
 v_1^\prime=\dfrac{%
 \begin{vmatrix}
@@ -109,24 +114,25 @@ y_1^\prime & f \\
 y_1        & y_2        \\
 y_1^\prime & y_2^\prime \\
 \end{vmatrix}}
-\end{equation*}\pause
-The denominator is just the Wronskian $W(y_1, y_2)=y_1 y_2^\prime-y_2 y_1^\prime\neq 0$, because $y_1$ and $y_2$ are linearly independent.\pause
+\end{equation*}
+\visible<17->{The denominator is just the Wronskian $W(y_1, y_2)=y_1 y_2^\prime-y_2 y_1^\prime\neq 0$, because $y_1$ and $y_2$ are linearly independent.}
 
-\vspace{2mm}
-Thus, we can integrate to find $v_1$ and $v_2$.
+\visible<18->{\vspace{2mm}
+Thus, we can integrate to find $v_1$ and $v_2$.}
 
-\vspace{-3mm}
+\visible<19->{\vspace{-3mm}
 \begin{equation*}
 v_1=-\int\dfrac{y_2 f}{W(y_1, y_2)}
 \quad\text{and}\quad
 v_2=\int\dfrac{y_1 f}{W(y_1, y_2)}
-\end{equation*}
+\end{equation*}}
+\end{overprint}
 \end{block}
 \end{frame}
 
 
 
-\begin{frame}{Variation of Parameters}
+\begin{frame}
 \begin{example}
 Consider
 \begin{equation*}
@@ -147,18 +153,18 @@ W(y_1, y_2)=
 =\cos[t][2]+\sin[t][2]=1
 \end{equation*}\pause
 
-\vspace{-6mm}
+\vspace{-3mm}
 So,
 
-\vspace{-8mm}
+\vspace{-5mm}
 \begin{equation*}
-\small
-v_1^\prime = -\dfrac{y_2 f}{1} = -\sin[t]\sec[t]=-\dfrac{\sin[t]}{\cos[t]}
-\ \text{and}\ 
-v_2^\prime = \dfrac{y_1 f}{1} = \cos[t]\sec[t] = 1
+\begin{aligned}
+v_1^\prime &= -\dfrac{y_2 f}{1} = -\sin[t]\sec[t]=-\dfrac{\sin[t]}{\cos[t]} \\
+v_2^\prime &= \dfrac{y_1 f}{1} = \cos[t]\sec[t] = 1
+\end{aligned}
 \end{equation*}\pause
 
-\vspace{-4mm}
+\vspace{-2mm}
 Integrating gives $v_1=\ln[\cos[t]]$ and $v_2=t$.\pause
 
 \vspace{2mm}
@@ -171,7 +177,7 @@ y=c_1\cos[t]+c_2\sin[t]+\ln[\cos[t]]\cos[t]+t\sin[t]
 \end{example}
 \end{frame}
 
-\begin{frame}{Variation of Parameters}
+\begin{frame}
 \begin{example}
 Consider
 \begin{equation*}
@@ -184,31 +190,25 @@ The Wronskian is $W(y_1,y_2)=1$.\pause
 
 \vspace{2mm}
 So,
-
-\vspace{-4mm}
 \begin{equation*}
 v_1^\prime = -\dfrac{y_2 f}{1} = -2(1-\cos[2t])
 \quad\text{and}\quad
 v_2^\prime = \dfrac{y_1 f}{1} = 2\sin[2t]
 \end{equation*}\pause
-
-\vspace{-4mm}
 Integrating gives $v_1=-2t+2\sin[t]\cos[t]$ and $v_2=1-2\cos[t][2]$.\pause
 
 \vspace{2mm}
 Thus, the particular solution is
-
-\vspace{-2mm}
 \begin{equation*}
 \begin{aligned}
-y_p&=(-2t+2\sin[t]\cos[t])(\cos[t])+(1-2\cos[t][2])(\sin[t])\\
+y_p&=(-2t+2\sin[t]\cos[t])(\cos[t])+(1-2\cos[t][2])(\sin[t])\\\pause
 &=-2t\cos[t]+\sin[t]
 \end{aligned}
 \end{equation*}
 \end{example}
 \end{frame}
 
-\begin{frame}{Variation of Parameters}
+\begin{frame}
 \begin{block}{Method for Determining a General Solution of $L(y)=f(t)$}
 \begin{enumerate}[<+- | alert@+>]
 \item Determine two linearly independent solutions, $y_1$ and $y_2$, of $L(y)=0$.
@@ -224,19 +224,17 @@ v_1^\prime y_1 + v_2^\prime y_2&=0
 \end{enumerate}
 \onslide<+->
 \end{block}
-\begin{block}{}
+\begin{block}{Note}
 This method can be extended to higher orders.
 \end{block}
 \end{frame}
 
-\begin{frame}{Variation of Parameters}
+\begin{frame}
 \begin{example}
 Consider
 \begin{equation*}
 y^{\prime\prime}-2y^\prime+y=\dfrac{e^t}{t^2+1}
 \end{equation*}\pause
-
-\vspace{-3mm}
 The associated homogeneous system has solutions $y_1=e^t$ and $y_2=te^t$.\pause
 
 \vspace{2mm}
@@ -249,39 +247,29 @@ e^t & (t+1)e^t \\
 
 \vspace{2mm}
 So, using the Cramer's Rule formulas from before
-
-\vspace{-2mm}
 \begin{equation*}
 v_1^\prime=-\dfrac{y_2 f}{W(y_1,y_2)}=-\dfrac{t}{t^2+1}
 \quad\text{and}\quad
 v_2^\prime=\dfrac{y_1 f}{W(y_1,y_2)}=\dfrac{1}{t^2+1}
 \end{equation*}\pause
-
-\vspace{-4mm}
 Integrating gives
-
-\vspace{-4mm}
 \begin{equation*}
 v_1=-\tfrac{1}{2}\ln[t^2+1]
 \quad\text{and}\quad
 v_2=\tan[t][-1]
 \end{equation*}\pause
-
-\vspace{-6mm}
 Thus, the general solution is
 
-\vspace{-4mm}
+\vspace{-3mm}
 \begin{equation*}
 y=c_1e^t+c_2te^t-\tfrac{1}{2}\ln[t^2+1]e^t+\tan[t][-1]te^t
 \end{equation*}
 \end{example}
 \end{frame}
 
-\begin{frame}{Variation of Parameters}
+\begin{frame}
 \begin{example}
 Consider
-
-\vspace{-6mm}
 \begin{equation*}
 \begin{aligned}
 t^2 y^{\prime\prime}-2t y^\prime+2y&=t\ln[t]
@@ -299,10 +287,8 @@ t & t^2 \\
 \end{vmatrix}
 =2t^2-t^2=t^2$\pause
 
-\vspace{1mm}
+\vspace{2mm}
 So, using Cramer's Rule
-
-\vspace{-4mm}
 \begin{equation*}
 \begin{aligned}
 v_1^\prime &= -\dfrac{y_2 f}{W(y_1, y_2)}=-\dfrac{\ln[t]}{t} 
@@ -311,11 +297,9 @@ v_2^\prime &= \dfrac{y_1 f}{W(y_1, y_2)}=\dfrac{\ln[t]}{t^2}
 &\rightarrow v_2 &= -\dfrac{\ln[t]+1}{t}
 \end{aligned}
 \end{equation*}\pause
-
-\vspace{-3mm}
 The general solution is
 
-\vspace{-4mm}
+\vspace{-3mm}
 \begin{equation*}
 y=c_1t+c_2t^2-\tfrac{t}{2}\ln[t][2]-t\ln[t]-t
 \end{equation*}
