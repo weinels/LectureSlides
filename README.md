@@ -14,4 +14,4 @@ All these slides are written using [Beamer](https://bitbucket.org/rivanvx/beamer
 
 The files in the packages directory will also need to be in your LaTeX search path.
 
-These slides contain copious amount of inline [Asymptote](http://asymptote.sourceforge.net/). You can use either [latexmk](https://www.ctan.org/pkg/latexmk/) or the [scripts](https://github.com/weinels/LaTeX/tree/master/scripts) I have written.
+These slides contain copious amounts of inline [Asymptote](http://asymptote.sourceforge.net/). You can use either [latexmk](https://www.ctan.org/pkg/latexmk/) or the [scripts](https://github.com/weinels/LaTeX/tree/master/scripts) I have written.
