@@ -1,5 +1,5 @@
 # Lecture Slides
-This repository contains lecture slides I created for various classes I have taught.
+This repository contains lecture slides I created for various classes I teach.
 
 ## Using these slides
 Each presentation is a self contained PDF file. To use the slides, you will need a PDF viewer capable of displaying fullscreen. I will also upload the PDF to canvas so my students have access to the slides.
@@ -7,7 +7,7 @@ Each presentation is a self contained PDF file. To use the slides, you will need
 **Note: Powerpoint will not work on these slides.**
 
 ### Mac Users 
-I use the wonderful [Présentation](http://iihm.imag.fr/blanch/software/osx-presentation/). It provides slide preview and presentation timers, among other nice features.
+I recommend the wonderful [Présentation](http://iihm.imag.fr/blanch/software/osx-presentation/). It provides slide preview and presentation timers, among other nice features. It's what I use when giving these lectures.
 
 ## Compiling the slides
 All these slides are written using [Beamer](https://bitbucket.org/rivanvx/beamer/wiki/Home) and [LaTeX](https://www.latex-project.org/).
