@@ -7,6 +7,13 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\begin{asydef}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+\end{asydef}
+
 \title[MATH 2250 - Section 5.2]{Properties of Linear Transformations}
 
 \begin{document}
@@ -25,11 +32,7 @@ A function $\mapping{f}{\mathbb{X}}{\mathbb{Y}}$ is \textbf{one-to-one}, or \tex
 \begin{subfigure}[b]{0.45\textwidth}
 \centering
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(130);
-ngraph=1000;
 real min_x=-1, max_x=1;
 real min_y=-1, max_y=1;
 
@@ -56,11 +59,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \begin{subfigure}[b]{0.45\textwidth}
 \centering
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(130);
-ngraph=1000;
 real min_x=-1, max_x=1;
 real min_y=-1, max_y=1;
 
@@ -98,11 +97,7 @@ The set of output values of a function $\mapping{f}{\mathbb{X}}{\mathbb{Y}}$ is 
 \begin{subfigure}[b]{0.45\textwidth}
 \centering
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(130);
-ngraph=1000;
 real min_x=-1, max_x=1;
 real min_y=-1, max_y=1;
 
@@ -123,11 +118,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \begin{subfigure}[b]{0.45\textwidth}
 \centering
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(130);
-ngraph=1000;
 real min_x=-1, max_x=1;
 real min_y=-1, max_y=1;
 
@@ -244,7 +235,8 @@ Which means
 \begin{equation*}
 \im(T)=\spn\left\{\bvector{\+2,-1}, \bvector{-4,\+2}, \bvector{\+3,-2}, \bvector{\+6,-3}\right\}
 \end{equation*}
-which is a subset of $\R^2$.\pause To determine the dimension we need to determine how many pivot columns $\mat{A}$ has:
+which is a subset of $\R^2$.\pause 
+~To determine the dimension we need to determine how many pivot columns $\mat{A}$ has:
 
 \vspace{-2mm}
 \begin{equation*}
@@ -287,8 +279,8 @@ The basis of $\Col\mat{A}$ must come from $\mat{A}$, \emph{not} from the RREF of
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
-Recall that a linear transformation $\mapping{T}{\V}{\W}$ must map the zero vector of $\V$ to the zero vector of $\W$.
+\begin{block}{Recall}
+A linear transformation $\mapping{T}{\V}{\W}$ must map the zero vector of $\V$ to the zero vector of $\W$.
 \end{block}\pause
 \begin{block}{Kernel of a Linear Transformation}
 The \textbf{kernel} (or \textbf{nullspace}) of a linear transformation $\mapping{T}{\V}{\W}$, denoted $\ker(T)$, is the set of vectors in $\V$ that are mapped by $T$ to the zero vector of $\W$.
@@ -296,6 +288,12 @@ The \textbf{kernel} (or \textbf{nullspace}) of a linear transformation $\mapping
 \ker(T)=\setbuilder{\vect{v}\in\V}{T(\vect{v})=\vect{0}}
 \end{equation*}
 \end{block}\pause
+\begin{block}{Note}
+The kernel always contains at least one element.
+\end{block}
+\end{frame}
+
+\begin{frame}
 \begin{example}
 Consider the projection $\mapping{T}{\R^3}{\R^3}$ defined by
 \begin{equation*}
@@ -441,7 +439,7 @@ Thus,
 \ker(T)=\R^2
 \end{equation*}
 \end{example}\pause
-\begin{block}{}
+\begin{block}{Note}
 These examples seem to suggest that the kernel of the linear transformation $\mapping{T}{\V}{\W}$ is a subspace of $\W$.
 \end{block}
 \end{frame}

@@ -5,6 +5,25 @@
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
 
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+path box(pair l, pair r) 
+{
+	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
+}
+path pbox(pair p)
+{
+	pair l = (p.x - 0.5, p.y - 0.5);
+	pair r = (p.x + 0.5, p.y + 0.5);
+	return box(l,r);
+}
+\end{asydef}
+
 \title[MATH 2250 - Section 5.1]{Linear Transformations}
 
 \begin{document}
@@ -61,8 +80,8 @@ T(\vect{v})-T(\vect{v}) &= T(\vect{0})\\\pause
 \end{aligned}
 \end{equation*}
 \end{example}\pause
-\begin{block}{}
-Note: Linear transformations may map nonzero vectors from the domain into the zero vector of the codomain. We will talk more about this in the next section.
+\begin{block}{Note}
+Linear transformations may map nonzero vectors from the domain into the zero vector of the codomain.
 \end{block}
 \end{frame}
 
@@ -146,12 +165,7 @@ defines a \textbf{shear} of 1-unit in the $x$-direction.
 \onslide<3>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-1, max_x=2;
 real min_y=-1, max_y=2;
 
@@ -169,12 +183,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=fals
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-1, max_x=2;
 real min_y=-1, max_y=2;
 
@@ -195,12 +204,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=fals
 \onslide<4>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -219,12 +223,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=fals
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -246,12 +245,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=fals
 \onslide<5>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -267,12 +261,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=fals
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(-1,0,1)), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -306,12 +295,7 @@ The \emph{Counterclockwise} rotation about the origin by angle $\theta$ is given
 \onslide<2>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-1, max_x=2;
 real min_y=-1, max_y=2;
 
@@ -329,12 +313,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=fals
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-1, max_x=2;
 real min_y=-1, max_y=2;
 
@@ -355,12 +334,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=fals
 \onslide<3>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -379,12 +353,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=fals
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -406,12 +375,7 @@ yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=fals
 \onslide<4>
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(100);
-ngraph=1000;
 real min_x=-2, max_x=2;
 real min_y=-2, max_y=2;
 
@@ -465,12 +429,7 @@ Reflection about the $x$-axis
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -523,12 +482,7 @@ Reflection about the $y$-axis
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -581,12 +535,7 @@ Rotation clockwise about the origin of $\tfrac{\pi}{4}$
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -604,12 +553,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
 yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -639,12 +583,7 @@ Rotation counterclockwise about the origin of $\tfrac{3\pi}{4}$
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -662,12 +601,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
 yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -697,12 +631,7 @@ Reflection about the line $y=x$
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -721,12 +650,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
 yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -757,12 +681,7 @@ Reflection about the line $y=2x$
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -782,12 +701,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
 yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -819,12 +733,7 @@ Shear of 2 in the $y$-direction
 \end{equation*}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -842,12 +751,7 @@ xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
 yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -986,28 +890,12 @@ Which gives us a matrix that satisfies:
 Linear transforms are used extensively in computer graphics, where images or models are just collections of points and line segments. Let us look at a simple example, where we can think of each pixel as a point at it's center:
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
-
-path box(pair l, pair r) 
-{
-	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
-}
-path pbox(pair p)
-{
-	pair l = (p.x - 0.5, p.y - 0.5);
-	pair r = (p.x + 0.5, p.y + 0.5);
-	return box(l,r);
-}
 	
 pair A = (0,0);
 pair B = (0,1);
@@ -1034,12 +922,7 @@ path g = A -- B -- D -- B -- C -- E;
 limits(start,end,Crop);
 \end{asy}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(160);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -1140,17 +1023,6 @@ real min_y=-3, max_y=3;
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
-
-path box(pair l, pair r) 
-{
-	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
-}
-path pbox(pair p)
-{
-	pair l = (p.x - 0.5, p.y - 0.5);
-	pair r = (p.x + 0.5, p.y + 0.5);
-	return box(l,r);
-}
 	
 pair A = (0,0);
 pair B = (0,1);
@@ -1200,17 +1072,6 @@ real min_y=-3, max_y=3;
 
 pair start=(min_x,min_y);
 pair end=(max_x,max_y);
-
-path box(pair l, pair r) 
-{
-	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
-}
-path pbox(pair p)
-{
-	pair l = (p.x - 0.5, p.y - 0.5);
-	pair r = (p.x + 0.5, p.y + 0.5);
-	return box(l,r);
-}
 	
 pair A = (0,0);
 pair B = (1,0);

@@ -7,6 +7,13 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\begin{asydef}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+\end{asydef}
+
 \title[MATH 2250 - Section 5.3]{Eigenvalues and Eigenvectors}
 
 \begin{document}
@@ -41,11 +48,7 @@ T\left(\bvector{1,0}\right)=\bvector{1,2}
 \begin{column}{0.55\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -80,11 +83,7 @@ T\left(\bvector{0,1}\right)=\bvector{\+2,-2}
 \begin{column}{0.55\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -119,11 +118,7 @@ T\left(\bvector{-1,-1}\right)=\bvector{-3,\+0}
 \begin{column}{0.55\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -158,11 +153,7 @@ T\left(\bvector{2,1}\right)=\bvector{4,2}=2\bvector{2,1}
 \begin{column}{0.55\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150,IgnoreAspect);
-ngraph=1000;
 real min_x=-1, max_x=5;
 real min_y=-1, max_y=5;
 
@@ -197,11 +188,7 @@ T\left(\bvector{\+1,-2}\right)=\bvector{-3,\+6}=-3\bvector{\+1,-2}
 \begin{column}{0.55\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(150,IgnoreAspect);
-ngraph=1000;
 real min_x=-6, max_x=3;
 real min_y=-2, max_y=7;
 
@@ -234,10 +221,10 @@ T(\vect{v})=\lambda\vect{v}
 \end{equation*}
 Such a nonzero vector $\vect{v}$ is called an \textbf{eigenvector} of $T$ corresponding to $\lambda$.
 \end{block}\pause
-\begin{block}{}
+\begin{block}{Note}
 Eigenvalues are also called \textbf{proper values} or \textbf{characteristic values}.
 \end{block}\pause
-\begin{block}{}
+\begin{block}{Note}
 If the linear transformation $T$ is represented by an $n\by n$ matrix $\mat{A}$, where $\V=\R^n$ and $T(\vect{v})=\mat{A}\vect{v}$, then $\lambda$ and $\vect{v}$ are characterized by the equation
 \begin{equation*}
 \mat{A}\vect{v}=\lambda\vect{v}
@@ -283,8 +270,8 @@ is called the \textbf{characteristic polynomial} of $\mat{A}$.
 \begin{block}{Note}
 Eigenvectors are \emph{not} unique. An eigenvector is just a direction, any nonzero multiple of $\vect{v_i}$ works just as well.
 \end{block}\pause
-\begin{block}{}
-For large matrices they steps become cumbersome, so computer algebra systems are often employed.
+\begin{block}{Note}
+For large matrices these steps become cumbersome, so computer algebra systems are often employed.
 \end{block}
 \end{frame}
 
@@ -460,7 +447,9 @@ The characteristic equation is:
 \visible<4->{(\lambda-2)(\lambda-1)(\lambda+1)&=0}\\
 \end{aligned}
 \end{equation*}}
-\visible<5->{So, the eigenvalues are $\lambda_1=2$, $\lambda_2=1$, and $\lambda_3=-1$.}
+
+\visible<5->{\vspace{-5mm}
+So, the eigenvalues are $\lambda_1=2$, $\lambda_2=1$, and $\lambda_3=-1$.}
 \onslide<6-11>
 To find the eigenvector for $\lambda_1=2$ we need to solve the system:
 \begin{equation*}
@@ -596,11 +585,7 @@ is a subspace of $\V$.
 \begin{example}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(125);
-ngraph=1000;
 real min_x=-4, max_x=4;
 real min_y=-4, max_y=4;
 
@@ -703,6 +688,11 @@ To find the eigenvector for $\lambda_1=0$ we need to solve the system:
 \+1 & -2-\alt<5>{\lambda}{(0)} & \+1 \\
 \+1 & \+1 & -2-\alt<5>{\lambda}{(0)} \\
 \end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\vphantom{\begin{bmatrix}[rrr]
+-2 &  1 &  1 \\
+ 1 & -2 &  1 \\
+ 1 &  1 & -2 \\
+\end{bmatrix}}
 \only<7>{%
 \begin{bmatrix}[rrr]
 -2 &  1 &  1 \\
@@ -735,6 +725,11 @@ To find the eigenvector for $\lambda_2=-3$ we need to solve the system:
 \+1 & -2-\alt<11>{\lambda}{(-3)} & \+1 \\
 \+1 & \+1 & -2-\alt<11>{\lambda}{(-3)} \\
 \end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\vphantom{\begin{bmatrix}[rrr]
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+\end{bmatrix}}
 \only<13>{%
 \begin{bmatrix}[rrr]
  1 &  1 &  1 \\
@@ -788,6 +783,11 @@ Since this is an upper diagonal matrix, we know that the eigenvalue\\ is $\lambd
 \onslide<3->
 To find the eigenvector for $\lambda=1$ we need to solve the system:
 \begin{equation*}
+\vphantom{\begin{bmatrix}[rrr]
+0 & 1 & 1 \\
+0 & 0 & 1 \\
+0 & 0 & 0 \\
+\end{bmatrix}}
 \only<3-4>{%
 \begin{bmatrix}
  1-\alt<3>{\lambda}{(1)} & 1 & 1 \\
@@ -812,7 +812,7 @@ To find the eigenvector for $\lambda=1$ we need to solve the system:
 \vect{v}=\bvector{s,0,0}=s\bvector{1,0,0}
 \end{equation*}}
 
-\vspace{2mm}
+\vspace{-3mm}
 \visible<8->{Which means the eigenspace has dimension 1.}
 \end{overprint}
 \end{example}
@@ -854,7 +854,7 @@ We can continue in the same way and find that the eigenvectors are
 \end{example}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \begin{example}
 Consider the rotation transformation
 \begin{equation*}
@@ -863,39 +863,34 @@ Consider the rotation transformation
 \cos[\theta] & -\sin[\theta] \\
 \sin[\theta] &  \cos[\theta] \\
 \end{bmatrix}
-\end{equation*}\pause
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-8>
 The characteristic equation is 
 \begin{equation*}
 \begin{aligned}
-\abs{\mat{A}-\lambda\mat{I}}=0\pause
-\quad&\rightarrow\quad
+\abs{\mat{A}-\lambda\mat{I}}=0
+\visible<3->{\quad&\rightarrow\quad
 \begin{vmatrix}
 \cos[\theta]-\lambda & -\sin[\theta] \\
 \sin[\theta] &  \cos[\theta]-\lambda \\
-\end{vmatrix}=0\\\pause
-\quad&\rightarrow\quad
-{(\cos[\theta]-\lambda)}^2+\sin[\theta][2]=0\\\pause
-\quad&\rightarrow\quad
-{(\cos[\theta]-\lambda)}^2=\sin[\theta][2]\\\pause
-\quad&\rightarrow\quad
-\cos[\theta]-\lambda=\pm i\sin[\theta]\\\pause
-\quad&\rightarrow\quad
-\lambda = \cos[\theta]\pm i \sin[\theta]
+\end{vmatrix}=0\\}
+\visible<4->{\quad&\rightarrow\quad
+{(\cos[\theta]-\lambda)}^2+\sin[\theta][2]=0\\}
+\visible<5->{\quad&\rightarrow\quad
+{(\cos[\theta]-\lambda)}^2=\sin[\theta][2]\\}
+\visible<6->{\quad&\rightarrow\quad
+\cos[\theta]-\lambda=\pm i\sin[\theta]\\}
+\visible<7->{\quad&\rightarrow\quad
+\lambda = \cos[\theta]\pm i \sin[\theta]}
 \end{aligned}
-\end{equation*}\pause
-Which means these eigenvalues rotate a vector, instead of scaling it.
-\end{example}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{example}
+\end{equation*}
+\visible<8->{Which means these eigenvalues rotate a vector, instead of scaling it.}
+\onslide<9>
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
-size(150);
-ngraph=1000;
+size(160);
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -924,6 +919,8 @@ xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
 \end{asy}
 \end{center}
+\end{overprint}
+\vspace{-45mm}
 \end{example}
 \end{frame}
 
@@ -942,11 +939,11 @@ Let $\mat{A}$ be an $n\by n$ matrix
 
 \begin{frame}
 \onslide<+->
-\begin{block}{}
-Characteristic roots of a linear homogeneous DE are eigenvalues.
+\begin{block}{Note}
+Characteristic roots of a linear homogeneous DEs are eigenvalues.
 \end{block}
 \onslide<+->
-\begin{block}{Properties of Linear Homogeneous Differential Equations with Distinct Eigenvalues}
+\begin{block}{Properties of Linear Homogeneous DEs with Distinct Eigenvalues}
 For the DE $\vect{x^\prime}=\mat{A}\vect{x}$ with distinct eigenvalues, the following hold:
 \begin{itemize}[<+- | alert@+>]
 \item The domain of the linear transformation is a vector space of vector functions.
@@ -955,8 +952,8 @@ For the DE $\vect{x^\prime}=\mat{A}\vect{x}$ with distinct eigenvalues, the foll
 \end{itemize}
 \end{block}
 \onslide<+->
-\begin{block}{}
-We will explore the connection between eigenvalues and solutions to differential equations in chapter 6
+\begin{block}{Note}
+We will explore the connection between eigenvalues and solutions to differential equations next chapter.
 \end{block}
 \end{frame}
 \end{document}
