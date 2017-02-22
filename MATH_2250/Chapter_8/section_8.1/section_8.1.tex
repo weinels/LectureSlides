@@ -34,8 +34,8 @@ DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
 \begin{frame}
 \begin{block}{}
-In this chapter we shall study the Laplace transformation, which will allow us to reframe some hard problems into equivalent easier problems.
-\end{block}\pause
+In this chapter we shall study the Laplace transformation, which will allow us to reframe some types of hard problems \visible<2>{into equivalent easier problems.}
+\end{block}
 \begin{block}{}
 \begin{center}
 \begin{tikzpicture}
@@ -43,7 +43,7 @@ In this chapter we shall study the Laplace transformation, which will allow us t
 \node (DESol) [draw,minimum width=5cm, minimum height=1cm,yshift=-3cm] at (DE.south) {Solution $x(t)$};
 \node (Hard) [dashed,minimum width=1cm,minimum height=1cm,yshift=-1.25cm] at (DE.south) {Hard};
 
-\visible<3>{%
+\visible<2>{%
 \node (DELap) [draw,minimum width=5cm, minimum height=1cm,xshift=4cm] at (DE.east) {Algebraic equation in $X(s)$};
 \node (DELapSol) [draw,minimum width=5cm, minimum height=1cm,yshift=-3cm] at (DELap.south) {Solution $X(s)$};
 \node (Easy) [dashed,minimum width=1cm,minimum height=1cm,yshift=-1.25cm] at (DELap.south) {Easier};
@@ -278,7 +278,7 @@ Let us calculate the inverse Laplace transform for
 \begin{equation*}
 F(s)=\dfrac{2s-14}{(s+1)(s-3)}
 \end{equation*}\pause
-the Partial Fractions Decomposition of $F(s)$ is
+The Partial Fractions Decomposition of $F(s)$ is
 \begin{equation*}
 F(s)=\dfrac{4}{s+1}-2\dfrac{2}{s-3}=4\cdot\dfrac{1}{s+1}-2\cdot\dfrac{1}{s-3}
 \end{equation*}\pause

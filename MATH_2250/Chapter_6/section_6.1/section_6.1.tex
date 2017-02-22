@@ -9,6 +9,19 @@
 
 \title[MATH 2250 - Section 6.1]{Linear Systems of Differential Equations}
 
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+\end{asydef}
+
 \begin{document}
 
 \begin{frame}
@@ -171,7 +184,7 @@ So, the general solution is $\vect{x}=c_1\vect{x_1}+c_2\vect{x_2}+c_3\vect{x_3}$
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
+\begin{block}{Note}
 We have a few ways to express solutions:
 \begin{equation*}
 \vect{x}=
@@ -247,12 +260,7 @@ y(t) &= x^\prime(t)=-c_1\sqrt{0.1}\sin[t\sqrt{0.1}]+c_2\sqrt{0.1}\cos[t\sqrt{0.1
 \begin{subfigure}{0.5\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(200);
-ngraph=1000;
 real min_x=-10, max_x=10;
 real min_y=-10, max_y=10;
 
@@ -277,11 +285,6 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
 
 // draw trajectories
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
-
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
 real t_start=0;
@@ -313,19 +316,9 @@ yaxis(XEquals(max_x),min_y,max_y);
 \begin{subfigure}{0.45\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115);
-ngraph=1000;
 real min_x=0, max_x=20;
 real min_y=-10, max_y=10;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 pair[] curves = {	( 0.0, 1.0), 
 					( 0.0, 2.0), 
@@ -346,19 +339,9 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115);
-ngraph=1000;
 real min_x=0, max_x=20;
 real min_y=-10, max_y=10;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 pair[] curves = {	( 0.0, 1.0), 
 					( 0.0, 2.0), 
@@ -421,12 +404,7 @@ y(t) &\approx e^{-0.025t}\left(-0.32c_1\sin[0.32t]+0.32c_2\cos[0.23t]\right)\\
 \begin{subfigure}{0.5\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(190);
-ngraph=1000;
 real min_x=-8, max_x=10;
 real min_y=-9, max_y=9;
 
@@ -451,11 +429,6 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
 
 // draw trajectories
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
-
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
 real t_start=0;
@@ -487,19 +460,9 @@ yaxis(XEquals(max_x),min_y,max_y);
 \begin{subfigure}{0.45\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=100;
 real min_y=-10, max_y=10;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( -1.0, 3.5, 0.05), 
 					( -0.5, 2.0, 0.05), 
@@ -519,19 +482,9 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=100;
 real min_y=-10, max_y=10;
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( -1.0, 3.5, 0.05), 
 					( -0.5, 2.0, 0.05), 
@@ -616,12 +569,7 @@ $t_n$ & $x_n$ & $y_n$ & $x^\prime$ & $y^\prime$\\\hline
 \begin{subfigure}{0.5\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(180);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -643,11 +591,6 @@ for(real gx=min_x+1; gx<=max_x-1; ++gx)
     
 for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
 
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
@@ -676,11 +619,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \begin{subfigure}{0.45\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=1;
 real min_y=-3, max_y=3;
 
@@ -693,12 +632,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
@@ -715,11 +648,7 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=1;
 real min_y=-3, max_y=3;
 
@@ -732,12 +661,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
@@ -761,12 +684,7 @@ yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \begin{subfigure}{0.5\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(180);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -788,11 +706,6 @@ for(real gx=min_x+1; gx<=max_x-1; ++gx)
     
 for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
 
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
@@ -821,11 +734,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \begin{subfigure}{0.45\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=35;
 real min_y=-3, max_y=3;
 
@@ -838,12 +747,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
@@ -860,11 +763,7 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=35;
 real min_y=-3, max_y=3;
 
@@ -877,12 +776,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
@@ -906,12 +799,7 @@ yaxis("$x$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \begin{subfigure}{0.5\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import slopefield;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(180);
-ngraph=1000;
 real min_x=-3, max_x=3;
 real min_y=-3, max_y=3;
 
@@ -933,11 +821,6 @@ for(real gx=min_x+1; gx<=max_x-1; ++gx)
     
 for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-pen next_color() {return pens[++pen_pos];}
 
 DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 
@@ -966,11 +849,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 \begin{subfigure}{0.45\textwidth}
 \begin{center}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=100;
 real min_y=-3, max_y=3;
 
@@ -983,12 +862,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
@@ -1005,11 +878,7 @@ xaxis("$t$",YEquals(0),min_x,max_x,Ticks(NoZero));
 yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero));
 \end{asy}
 \begin{asy}
-import graph;
-import fontsize;
-defaultpen(fontsize(9pt));
 size(115,87,IgnoreAspect);
-ngraph=1000;
 real min_x=0, max_x=100;
 real min_y=-3, max_y=3;
 
@@ -1022,12 +891,6 @@ real wo=sqrt(k/m);
 real wdiff=wo*wo-wf*wf;
 real A=(m*wdiff*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
 real B=(b*wf*Fo)/(m*m*wdiff*wdiff+b*wf*b*wf);
-
-int pen_pos=-1;
-pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
-pens.cyclic=true;
-
-pen next_color() {return pens[++pen_pos];}
 
 triple[] curves = {	( 1.0, 0.0, 0.05)};					
 for (triple k : curves)
