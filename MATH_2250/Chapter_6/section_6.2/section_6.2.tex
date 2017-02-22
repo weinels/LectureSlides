@@ -79,6 +79,7 @@ We know that when the second-order equation is converted to a system, the charac
 
 \vspace{2mm}
 If $r_1$ and $r_2$ are the characteristic roots, then solutions are build from $e^{r_1 t}$ and $e^{r_2 t}$. So, we need to find similar building blocks for the system.}
+\only<1-4>{\vspace{1.5cm}}
 \only<5->{Given that solutions to the matrix-vector equation must be vectors:
 \begin{equation*}
 \vect{x}=e^{\lambda t}\vect{v}
@@ -155,7 +156,9 @@ and eigenvectors
 \quad\text{and}\quad
 \vect{v_2}=\bvector{1,2}
 \end{equation*}}
-\visible<3->{Thus, the general solution must be
+
+\visible<3->{\vspace{-2mm}
+Thus, the general solution must be
 \begin{equation*}
 \vect{x}=c_1 e^{-t}\bvector{\+1,-2}+c_2 e^{3t}\bvector{1,2}
 \end{equation*}}
@@ -246,7 +249,9 @@ and eigenvectors
 \quad\text{and}\quad
 \vect{v_2}=\bvector{\+2,-1}
 \end{equation*}}
-\visible<3->{Thus, the general solution must be
+
+\visible<3->{\vspace{-2mm}
+Thus, the general solution must be
 \begin{equation*}
 \vect{x}=c_1 e^{-4t}\bvector{1,1}+c_2 e^{t}\bvector{\+2,-1}
 \end{equation*}}
@@ -337,7 +342,9 @@ and eigenvectors
 \quad\text{and}\quad
 \vect{v_2}=\bvector{\+1,-1}
 \end{equation*}}
-\visible<3->{Thus, the general solution must be
+
+\visible<3->{\vspace{-2mm}
+Thus, the general solution must be
 \begin{equation*}
 \vect{x}=c_1 e^{-t}\bvector{1,1}+c_2 e^{-3t}\bvector{\+1,-1}
 \end{equation*}}
@@ -424,8 +431,8 @@ For an autonomous and homogeneous two-dimensional DE system:
 
 \begin{frame}
 \onslide<+->
-\begin{block}{}
-Recall that the magnitude of a vector is:
+\begin{block}{Recall}
+The magnitude of a vector is defined as:
 \begin{equation*}
 \vabs{\vect{v}}=\vabs{\bvector{a,b}}=\sqrt{a^2+b^2}
 \end{equation*}
@@ -468,7 +475,9 @@ and two linearly independent eigenvectors
 \quad\text{and}\quad
 \vect{v_2}=\bvector{0,1}
 \end{equation*}}
-\visible<3->{Thus, the general solution must be
+
+\visible<3->{\vspace{-2mm}
+Thus, the general solution must be
 \begin{equation*}
 \vect{x}=c_1 e^{3t}\bvector{1,0}+c_2 e^{3t}\bvector{0,1}
 \end{equation*}}
@@ -536,8 +545,6 @@ drawequilibrium((0,0),0.1,false);
 
 \begin{frame}[fragile]
 \begin{example}
-\begin{overprint}
-\onslide<1-4>
 Consider the system
 \begin{equation*}
 \vect{x^\prime}=\mat{A}\vect{x}=
@@ -547,6 +554,8 @@ Consider the system
 \end{bmatrix}
 \vect{x}
 \end{equation*}
+\begin{overprint}
+\onslide<1-4>
 \visible<2->{The matrix $\mat{A}$ has a (repeated) eigenvalue
 \begin{equation*}
 \lambda_1=4
@@ -557,11 +566,15 @@ and only one eigenvector
 \begin{equation*}
 \vect{v}=\bvector{\+1,-2}
 \end{equation*}}
-\visible<3->{Thus, one solution is
+
+\visible<3->{\vspace{-2mm}
+Thus, one solution is
 \begin{equation*}
 \vect{x_1}=e^{4t}\bvector{\+1,-2}
 \end{equation*}}
-\visible<4->{But, we need two solutions to form a basis of the solution space!}
+
+\visible<4->{\vspace{-2mm}
+But, we need two solutions to form a basis of the solution space!}
 \onslide<5-8>
 Let us try the same trick we used for second-order systems:
 \begin{equation*}
@@ -574,8 +587,12 @@ Let us try the same trick we used for second-order systems:
 \visible<7->{e^{4t}\vect{v}+4te^{4t}\vect{v}&=te^{4t}\mat{A}\vect{v}\\}
 \end{aligned}
 \end{equation*}}
-\visible<8->{Which is true if and only if $\vect{v}=\vect{0}$. But this contradicts that $\vect{v}$ is an eigenvector. We will need to try something else.}
+
+\visible<8->{\vspace{-8mm}
+Which is true if and only if $\vect{v}=\vect{0}$. But this contradicts that $\vect{v}$ is an eigenvector. We will need to try something else.}
 \onslide<9-14>
+
+\vspace{-2mm}
 Let us instead try to introduce a second vector $\vect{u}$, that multiplies the \\ troublesome $e^{4t}$ term:
 \begin{equation*}
 \vect{x_2}=te^{4t}\vect{v}+e^{4t}\vect{u}
@@ -587,7 +604,9 @@ Let us instead try to introduce a second vector $\vect{u}$, that multiplies the 
 \visible<11->{e^{4t}\vect{v}+4te^{4t}\vect{v}+4e^{4t}\vect{u}&=\mat{A}\left(te^{4t}\vect{v}+e^{4t}\vect{u}\right)}
 \end{aligned}
 \end{equation*}}
-\visible<12->{Equating coefficients gives the system or equations:
+
+\visible<12->{\vspace{-2mm}
+Equating coefficients gives the system or equations:
 \begin{equation*}
 \begin{matrix}[lll]
 4\vect{v}&=&\mat{A}\vect{v}\\
@@ -600,8 +619,10 @@ Let us instead try to introduce a second vector $\vect{u}$, that multiplies the 
 (\mat{A}-4\mat{I})\vect{u}&=&\vect{v}
 \end{matrix}}
 \end{equation*}}
-\visible<14->{Since $\vect{v}$ is an eigenvector, we only need to find a solution for $\vect{u}$.}
-\onslide<15-20>
+
+\visible<14->{\vspace{-2mm}
+Since $\vect{v}$ is an eigenvector, we only need to find a solution for $\vect{u}$.}
+\onslide<15-19>
 Which means we need to solve:
 \begin{equation*}
 \begin{bmatrix}[rr]
@@ -624,18 +645,22 @@ Which means we need to solve:
 \begin{equation*}
 \vect{u}=\bvector{k,-2k-1}=k\bvector{\+1,-2}+\bvector{\+0,-1}
 \end{equation*}}
-\visible<19->{And,
+
+\visible<19->{\vspace{-5mm}
+And,
 \begin{equation*}
 \vect{x_2}=te^{4t}\bvector{\+1,-2}+ke^{4t}\bvector{\+1,-2}+e^{4t}\bvector{\+0,-1}=te^{4t}\bvector{\+1,-2}+e^{4t}\bvector{\+0,-1}
 \end{equation*}}
-\visible<20->{Thus, the general solution is
+
+\onslide<20>
+Thus, the general solution is
 \begin{equation*}
 \vect{x}=c_1 e^{4t}\bvector{\+1,-2}+c_2\left(te^{4t}\bvector{\+1,-2}+e^{4t}\bvector{\+0,-1}\right)
-\end{equation*}}
+\end{equation*}
 \onslide<21>
 \begin{center}
 \begin{asy}
-size(230);
+size(180);
 
 real min_x=-4, max_x=4;
 real min_y=-4, max_y=4;
@@ -688,7 +713,7 @@ drawequilibrium((0,0),0.1,false);
 \end{asy}
 \end{center}
 \end{overprint}
-\vspace{-83.5mm}
+\vspace{-63mm}
 \end{example}
 \end{frame}
 
