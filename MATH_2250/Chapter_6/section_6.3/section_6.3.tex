@@ -117,12 +117,13 @@ Alternately, we can write
 
 \begin{frame}
 \begin{example}
-\begin{overprint}
-\onslide<1-4>
-Let us consider the DE system:
+Consider the DE system:
 \begin{equation*}
 \vect{x}^\prime=\mat{A}\vect{x}
 \end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
 Which has nonreal eigenvalues $\lambda_1,\lambda_2=\alpha\pm\beta i$ and corresponding eigenvectors $\vect{v_1}$ and $\vect{v_2}$. We can then write:
 \begin{equation*}
 \vect{x}=c_1 e^{\lambda_1 t}\vect{v_1}+c_2 e^{\lambda_2 t}\vect{v_2}.
@@ -134,7 +135,9 @@ Which has nonreal eigenvalues $\lambda_1,\lambda_2=\alpha\pm\beta i$ and corresp
 \begin{equation*}
 \vect{x_1}(t)=e^{\lambda_1 t}\vect{v_1}=e^{\alpha+\beta i}\left(\vect{p}+\vect{q}i\right)
 \end{equation*}}
-\visible<4->{Just like with second-order systems, we shall find that the real and imaginary parts of the complex solution above are both real and linearly independent solutions of the system.}
+
+\visible<4->{\vspace{-5mm}
+Just like with second-order systems, we shall find that the real and imaginary parts of the complex solution above are both real and linearly independent solutions of the system.}
 \onslide<5-11>
 Suppose that
 \begin{equation*}
@@ -151,13 +154,17 @@ is a complex vector solution to the system, with $\xImag\neq\vect{0}$.
 \visible<8->{=\mat{A}\xReal(t)+i\mat{A}\xImag(t)}
 \visible<9>{=\mat{A}\vect{x}(t)}
 \end{equation*}}
-\visible<10->{Separately equating the real and imaginary parts, we get:
+
+\visible<10->{\vspace{-2mm}
+Separately equating the real and imaginary parts, we get:
 \begin{equation*}
 \xReal^\prime(t)=\mat{A}\xReal(t)
 \quad\text{and}\quad
 \xImag^\prime(t)=\mat{A}\xImag(t)
 \end{equation*}}
-\visible<11->{Thus, $\xReal(t)$ and $\xImag(t)$ are separate real solutions to the system.}
+
+\visible<11->{\vspace{-2mm}
+Thus, $\xReal(t)$ and $\xImag(t)$ are separate real solutions to the system.}
 \onslide<12-18>
 For the complex solution
 \begin{equation*}
@@ -167,16 +174,19 @@ we can determine the real and imaginary parts by using Euler's formula:
 \begin{equation*}
 e^{i\theta}=\cos[\theta]+i\sin[\theta]
 \end{equation*}
-\visible<13->{to write:
+
+\visible<13->{\vspace{-6mm}
+to write:
 \begin{equation*}
 \begin{aligned}
 e^{\lambda_1 t}\vect{v_1}&=e^{\alpha t+\beta t i}\left(\vect{p}+\vect{q}i\right)\\
 \visible<14->{&=e^{\alpha t}e^{\beta t i}\left(\vect{p}+\vect{q}i\right)}\\
 \visible<15->{&=e^{\alpha t}\left(\cos[\beta t]+i\sin[\beta t]\right)\left(\vect{p}+\vect{q}i\right)}\\
 \visible<16->{&=e^{\alpha t}\left(\cos[\beta t]\left(\vect{p}+\vect{q}i\right)+i\sin[\beta t]\left(\vect{p}+\vect{q}i\right)\right)}\\
-&\only<13-16>{\phantom{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}}%
-\only<17>{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}%
-\only<18->{=\underbrace{e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)}_{\xReal(t)}+i \underbrace{e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}_{\xImag(t)}}\\
+&\vphantom{=\underbrace{e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)}_{\xReal(t)}+i \underbrace{e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}_{\xImag(t)}}
+\temporal<17>{\phantom{{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}}}%
+{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}%
+{=\underbrace{e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)}_{\xReal(t)}+i \underbrace{e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}_{\xImag(t)}}\\
 \end{aligned}
 \end{equation*}}
 \onslide<19->
@@ -186,6 +196,7 @@ Since $\xReal(t)$ and $\xImag(t)$ are linearly independent solutions they must s
 \end{equation*}
 \visible<20->{Any solutions derived from $\lambda_2$ and $\vect{v_2}$ will be linear combinations \\ of $\xReal(t)$ and $\xImag(t)$.}
 \end{overprint}
+\vspace{-5mm}
 \end{example}
 \end{frame}
 
@@ -237,7 +248,9 @@ Consider the system
 \xImag(t)&=e^{5t}\sin[2t]\bvector{1,1}+e^{5t}\cos[2t]\bvector{\+0,-2}=e^{5t}\bvector{\sin[2t],\sin[2t]-2\cos[2t]}\\
 \end{aligned}
 \end{equation*}}
-\visible<4->{And general solution
+
+\visible<4->{\vspace{-2mm}
+And general solution
 \begin{equation*}
 \vect{x}(t)=e^{5t}\left(c_1 \bvector{\cos[2t],\cos[2t]+2\sin[2t]}+c_2 \bvector{\sin[2t],\sin[2t]-2\cos[2t]}\right)
 \end{equation*}}
@@ -289,7 +302,7 @@ for (triple k : curves)
 	real c_2=A-B/2;
 	real X(real t) {return c_1*Xreal(t)+c_2*Ximag(t);}
 	real Y(real t) {return c_1*Yreal(t)+c_2*Yimag(t);}
-	draw(graph(X,Y,t_start,t_end),black+1.0bp,Arrow(Relative(k.z)));
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
 }
 
 limits(start,end,Crop);
@@ -334,7 +347,9 @@ Consider the system
 \xImag(t)&=e^{-t}\sin[2t]\bvector{\+1,-1}+e^{-t}\cos[2t]\bvector{0,2}\\
 \end{aligned}
 \end{equation*}}
-\visible<4->{And general solution
+
+\visible<4->{\vspace{-2mm}
+And general solution
 \begin{equation*}
 \vect{x}(t)=e^{-t}\left(c_1 \bvector{\cos[2t],-\cos[2t]-2\sin[2t]}+c_2 \bvector{\sin[2t],-\sin[2t]+2\cos[2t]}\right)
 \end{equation*}}
@@ -423,7 +438,9 @@ Consider the system
 \xImag(t)&=\sin[3t]\bvector{5,4}+\cos[3t]\bvector{\+0,-3}=\bvector{5\sin[3t],4\sin[3t]-3\cos[3t]}\\
 \end{aligned}
 \end{equation*}}
-\visible<4->{And general solution
+
+\visible<4->{\vspace{-2mm}
+And general solution
 \begin{equation*}
 \vect{x}(t)=c_1 \bvector{5\cos[3t],4\cos[3t]+3\sin[3t]}+c_2 \bvector{5\sin[3t],4\sin[3t]-3\cos[3t]}
 \end{equation*}}
