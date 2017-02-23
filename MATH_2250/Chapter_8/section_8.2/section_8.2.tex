@@ -33,60 +33,58 @@ DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
+\begin{example}
 Consider the second-order IVP\@.
 \begin{equation*}
 a y^{\prime\prime}+b y^{\prime}+c y=f(t)
 \quad
 y(0)=y_0,~y^{\prime}(0)=y^\prime_0
-\end{equation*}\pause
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-5>
 The Laplace transform of this DE is
 \begin{equation*}
 a\laplace\{y^{\prime\prime}\}+b\laplace\{y^\prime\}+c\laplace\{y\}=\laplace\{f\}
-\end{equation*}\pause
-If we assume that both $f$ and $f^\prime$ have Laplace transforms, then we get
+\end{equation*}
+\visible<3->{If we assume that both $f$ and $f^\prime$ have Laplace transforms, then we get
 \begin{equation*}
-\laplace\{f^\prime(t)\}\pause
-=\int_0^\infty e^{-st} f^\prime(t) dt\pause
-=\lim_{b\rightarrow\infty} \int_0^b e^{-st} f^\prime(t) dt
-\end{equation*}\pause
-
-\vspace{-4mm}
-and integrating by parts gives
-
-\vspace{-2mm}
+\laplace\{f^\prime(t)\}
+\visible<4->{=\int_0^\infty e^{-st} f^\prime(t) dt}
+\visible<5->{=\lim_{b\rightarrow\infty} \int_0^b e^{-st} f^\prime(t) dt}
+\end{equation*}}
+\onslide<6-8>
+Integrating by parts gives
 \begin{equation*}
 \begin{aligned}
-\int_0^b \underbracetwoitems{e^{-st}}{u}{f^\prime(t) dt}{dv}\pause
-&={\left[\underbracetwoitems{e^{-st}}{u}{f(t)}{v}\right]}^b_0
--\int_0^b\underbracetwoitems{f(t)}{v}{\left(-s e^{-st} dt\right)}{du}\\\pause
-&=e^{-sb} f(b) - f(0) + s\int_0^b e^{-st} f(t) dt
+\int_0^b \underbracetwoitems{e^{-st}}{u}{f^\prime(t) dt}{dv}
+\visible<7->{&={\left[\underbracetwoitems{e^{-st}}{u}{f(t)}{v}\right]}^b_0
+-\int_0^b\underbracetwoitems{f(t)}{v}{\left(-s e^{-st} dt\right)}{du}\\}
+\visible<8->{&=e^{-sb} f(b) - f(0) + s\int_0^b e^{-st} f(t) dt}
 \end{aligned}
 \end{equation*}
-\end{block}
-\end{frame}
-
-\begin{frame}
-\begin{block}{}
+\onslide<9->
 Taking the limit $b \rightarrow \infty$, we get
 \begin{equation*}
 \begin{aligned}
-\laplace\{f^\prime (t)\} &= \lim_{b\rightarrow\infty} \left(e^{-sb} f(b) - f(0) + s\int_0^b e^{-st} f(t) dt\right)\\\pause
-&= \lim_{b\rightarrow\infty} \left(s\int_0^b e^{-st} f(t) dt-f(0)\right)\\\pause
-&=s\laplace\{f(t)\}-f(0)
+\laplace\{f^\prime (t)\} &= 
+\visible<10->{\lim_{b\rightarrow\infty} \left(e^{-sb} f(b) - f(0) + s\int_0^b e^{-st} f(t) dt\right)\\}
+\visible<11->{&= \lim_{b\rightarrow\infty} \left(s\int_0^b e^{-st} f(t) dt-f(0)\right)\\}
+\visible<12->{&=s\laplace\{f(t)\}-f(0)}
 \end{aligned}
-\end{equation*}\pause
-We can easily use this result to calculate
+\end{equation*}
+\visible<13->{We can easily use this result to calculate
 \begin{equation*}
 \begin{aligned}
-\laplace\{f^{\prime\prime}\}(t)\pause
-=s\laplace\{f^\prime (t)\}-f^\prime (0)\pause
-&=s\left(s\laplace\{f(t)\}-f(0)\right)-f^\prime (0)\\\pause
-&=s^2\laplace\{f(t)\} - sf(0) - f^\prime (0)
+\laplace\{f^{\prime\prime}\}(t)=
+\visible<14->{s\laplace\{f^\prime (t)\}-f^\prime (0)}
+\visible<15->{&=s\left(s\laplace\{f(t)\}-f(0)\right)-f^\prime (0)\\}
+\visible<16->{&=s^2\laplace\{f(t)\} - sf(0) - f^\prime (0)}
 \end{aligned}
-\end{equation*}\pause
-This process can be repeated to determine the Laplace transform for any derivative of $f$.
-\end{block}
+\end{equation*}}
+%This process can be repeated to determine the Laplace transform for any derivative of $f$.
+\end{overprint}
+\end{example}
 \end{frame}
 
 \begin{frame}
@@ -337,6 +335,8 @@ We will prove the result for $n=1$.
 &=-\laplace\{t f(t)\}
 \end{aligned}
 \end{equation*}
+
+\vspace{-2mm}
 This process can be repeated for an arbitrary $n$.
 \end{proof}
 \end{frame}
