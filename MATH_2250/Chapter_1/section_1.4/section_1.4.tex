@@ -477,44 +477,51 @@ yaxis(XEquals(xmax),ymin,ymax);
 \end{frame}
 
 \begin{frame}
-\begin{block}{}
-Consider the IVP
+\begin{block}{Consider}
+Given the IVP
 \begin{equation*}
 y^\prime = f(t,y),\ y(t_0)=y_0
-\end{equation*}\pause
-We want to compute  approximate values for $y(t_n)$ at the (finite) set of points $t_1, t_2, t_3, \dots, t_k$.\pause
+\end{equation*}
+We want to compute  approximate values for $y(t_n)$ at the (finite) set of points $t_1, t_2, t_3, \dots, t_k$.
 
 \vspace{2mm}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
 We can calculate the $t$-values, for $1,2,3,\dots,k$, with $t_n=t_0 + n\cdot h$.
 
 \vspace{2mm}
-Where $h$, called the \textbf{step size}, is the common difference between successive points.\pause
+Where $h$, called the \textbf{step size}, is the common difference between successive points.
 
-\vspace{2mm}
+\visible<3->{\vspace{2mm}
 So, starting at $(t_0, y_0)$ we want to follow the tangent line determined by
 \begin{equation*}
 y-y_0 = (t - t_0)f(t_0, y_0)
-\end{equation*}\pause
+\end{equation*}}
+\visible<4->{%
+
+\vspace{-5mm}
 to find the approximate solution $\left(t_1, y(t_1)\right)$:
 \begin{equation*}
 y_1 = y_0 + h\cdot f(t_0, y_0)
-\end{equation*}
-\end{block}
-\end{frame}
+\end{equation*}}
 
-\begin{frame}
-\begin{block}{}
+\onslide<5->
 We can extend this process to find all $k$ points.
 \begin{equation*}
 \begin{aligned}
-y_1 &= y_0 + h\cdot f(t_0, y_0)\\\pause
-y_2 &= y_1 + h\cdot f(t_1, y_1)\\\pause
-y_3 &= y_2 + h\cdot f(t_2, y_2)\\\pause
-&\vdots\\
-y_k &= y_{k-1} + h\cdot f(t_{k-1}, y_{k-1})\\
+y_1 &= y_0 + h\cdot f(t_0, y_0)\\
+\visible<6->{y_2 &= y_1 + h\cdot f(t_1, y_1)\\}
+\visible<7->{y_3 &= y_2 + h\cdot f(t_2, y_2)\\}
+\visible<8->{&\vdots\\
+y_k &= y_{k-1} + h\cdot f(t_{k-1}, y_{k-1})\\}
 \end{aligned}
-\end{equation*}\pause
-The resulting piecewise-linear function (i\@.e\@. play connect-the-dots) is called the \textbf{Euler-approximate} solution.
+\end{equation*}
+
+\vspace{-5mm}
+\visible<9->{The resulting piecewise-linear function (i\@.e\@. play connect-the-dots) is called the \textbf{Euler-approximate} solution.}
+\end{overprint}
+\vspace{-3mm}
 \end{block}
 \end{frame}
 
