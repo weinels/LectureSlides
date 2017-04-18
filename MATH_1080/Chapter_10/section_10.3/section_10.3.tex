@@ -1,0 +1,874 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{slide_helper}
+
+\title[MATH 1080 - Section 10.3]{Matrices and Systems of Linear Equations}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Matrices and System of Linear Equations}
+A $m\times n$ \textbf{system of linear equations} is a set of $m$ equations in $n$ variables:
+
+\vspace{-3mm}
+\begin{center}
+\begin{tabular}{ccccccccc}
+$a_{11}x_1$&$+$&$a_{12}x_2$&$+$&$\dots$&$+$&$a_{1n}x_n$&$=$&$b_1$\\
+$a_{21}x_1$&$+$&$a_{22}x_2$&$+$&$\dots$&$+$&$a_{2n}x_n$&$=$&$b_2$\\
+$a_{31}x_1$&$+$&$a_{32}x_2$&$+$&$\dots$&$+$&$a_{3n}x_n$&$=$&$b_3$\\
+$\vdots$&&$\vdots$&&&&$\vdots$&&$\vdots$\\
+$a_{m1}x_1$&$+$&$a_{m2}x_2$&$+$&$\dots$&$+$&$a_{mn}x_n$&$=$&$b_m$\\
+\end{tabular}
+\end{center}
+\end{block}\pause
+\begin{block}{Matricies}
+A \textbf{matrix} is a rectangular array of numbers
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1j} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2j} & \cdots & a_{2n} \\
+\vdots & \vdots &        & \vdots &        & \vdots \\
+a_{i1} & a_{i2} & \cdots & a_{ij} & \cdots & a_{in} \\
+\vdots & \vdots &        & \vdots &        & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mj} & \cdots & a_{mn} \\
+\end{bmatrix}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+There are two primary ways of writing a linear systems using matrices.
+\end{block}\pause
+\begin{block}{An Augmented Matrix}
+\begin{equation*}
+\begin{bmatrix}[cccc|c]
+a_{11}&a_{12}&\cdots&a_{1n}&b_1\\
+\vdots&\vdots&\ddots&\vdots&\\
+a_{m1}&a_{m2}&\cdots&a_{mn}&b_m
+\end{bmatrix}
+\end{equation*}
+\end{block}\pause
+\begin{block}{A Matrix Equation (We will look at these in section 10.4)}
+As the matrix equation $A\vect{x}=\vect{b}$, where:
+\begin{equation*}
+\underbrace{\begin{bmatrix}
+a_{11}&a_{12}&\cdots&a_{1n}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{m1}&a_{m2}&\cdots&a_{mn}
+\end{bmatrix}}_A
+\underbrace{\begin{bmatrix}
+x_1\\\vdots\\x_n
+\end{bmatrix}}_\vect{x}
+=
+\underbrace{\begin{bmatrix}
+b_1\\\vdots\\b_m
+\end{bmatrix}}_\vect{b}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the system of linear equations:
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{aligned}
+3x -4y &= -6 \\
+2x -3y &= -5 \\
+\end{aligned}
+\end{equation*}\pause
+The augmented matrix for this system is:
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+3 & -4 & -6 \\
+2 & -3 & -5 \\
+\end{bmatrix}
+\end{equation*}
+\end{example}\pause
+\begin{example}
+Consider the augmented matrix:
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+5 & 2 & 13 \\
+-3 & 1 & -10 \\
+\end{bmatrix}
+\end{equation*}\pause
+This matrix corresponds to the system of linear equations:
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{aligned}
+\+5x + 2y           &= \+13 \\
+ -3x + \phantom{2}y &=  -10 \\
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the system of linear equations:
+\begin{equation*}
+\begin{aligned}
+2x           - \phantom{2}y + z &= 0 \\
+\phantom{2}x + \phantom{2}z - 1 &= 0 \\
+\phantom{2}x + 2y           - 8 &= 0 \\
+\end{aligned}
+\end{equation*}\pause
+{\small The system must be in standard form before we can write the augmented matrix.}\pause
+\begin{equation*}
+\begin{aligned}
+2x           - \phantom{2}y + \phantom{0}z &= 0 \\\pause
+\phantom{2}x + 0y           + \phantom{0}z &= 1 \\\pause
+\phantom{2}x + 2y           + 0z           &= 8 \\
+\end{aligned}
+\end{equation*}\pause
+Thus, the augmented matrix is:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+2 & -1 & 1 & 0 \\
+1 &  0 & 1 & 1 \\
+1 &  2 & 0 & 8 \\
+\end{bmatrix}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Notation} 
+\begin{itemize}
+\item<+-> $r_i$ denotes row $i$ \emph{before} the row operation is applied
+\item<.-> $R_i$ denotes row $i$ \emph{after} the row operation is applied
+\end{itemize}
+\end{block}
+\onslide<+->
+\begin{block}{Elementary Row Operations} 
+\begin{itemize}
+\item<.- | alert@.> Swap row $i$ and row $j$:
+\begin{equation*}
+R_i\leftrightarrow R_j \quad\left(\text{or}\ R_i=r_j\text{, } R_j=r_i\right)
+\end{equation*}
+\item<+- | alert@+> Multiply row $i$ by a nonzero constant:
+\begin{equation*}
+R_i=c\cdot r_i
+\end{equation*}
+\item<+- | alert@+> Add row $j$ to row $i$ (leaving row $j$ unchanged):
+\begin{equation*}
+R_i=r_i+r_j
+\end{equation*}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us apply the row operation $R_2=-3r_1+r_2$ to the matrix
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+1 & -2 & 2 \\
+3 & -5 & 9 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<2->
+
+\vspace{-4mm}
+We want to work one column at a time:
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+\phantom{(}1 & -2\phantom{)} & 2 \\  							% chktex 9 chktex 10
+\visible<3-4>{-3(1)}\visible<4>{+}\only<1-4>{\visible<4>{3}}\only<5->{0} & 	% chktex 9 chktex 10
+\visible<6-7>{(-3)(-2)}\visible<7>{+(-}\only<1-7>{\visible<7>{5}}\only<8->{1}\visible<7>{)} & 					% chktex 9 chktex 10
+\visible<9-10>{-3(2)}\visible<10>{+}\only<1-10>{\visible<10>{9}}\only<11->{3} \\ 							% chktex 9 chktex 10
+\end{bmatrix}
+\end{equation*}
+\end{example}
+\onslide<12->
+\begin{example}
+Let us apply the row operation $R_1=2r_2+r_1$ to the matrix
+
+\vspace{-2mm}
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+2 & -2 & 1 \\
+3 & 1 & 4 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<13->
+
+\vspace{-4mm}
+We want to work one column at a time:
+\begin{equation*}
+\begin{bmatrix}[rr|r]
+\visible<14-15>{2(3)}\visible<15>{+}\only<12-15>{\visible<15>{2}}\only<16->{8} & % chktex 9 chktex 10
+\visible<17-18>{2(1)}\visible<18>{+(-}\only<12-18>{\visible<18>{2}}\only<19->{0}\visible<18>{)} & % chktex 9 chktex 10
+\visible<20-21>{2(4)}\visible<21>{+}\only<12-21>{\visible<21>{1}}\only<22->{9} \\ % chktex 9 chktex 10
+\phantom{(}3 & 1\phantom{)} & 4 \\ % chktex 9 chktex 10
+\end{bmatrix}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Gaussian Elimination}
+\small
+Use row operations until in \textbf{Row Echelon Form}\@:
+\begin{equation*}
+\begin{bmatrix}[ccccc|c]
+1         & c_{12} & c_{13} & \cdots & c_{1n} & d_1\\
+0         & 1         & c_{23} & \cdots & c_{2n} & d_2\\
+0         & 0         & 1         & \cdots & c_{3n} & d_2\\
+\vdots & \vdots  & \vdots &\ddots & \vdots & \vdots\\
+0         & 0         & 0         & \cdots  & 1         & d_m
+\end{bmatrix}
+\end{equation*}\pause
+Then back solve the system:
+\begin{equation*}
+\begin{aligned}
+x_1 + c_{12}x_2+c_{13}x_3+\cdots+c_{1n}x_n  &= d_1\\
+                    x_2+c_{23}x_3+\cdots+c_{2n}x_n  &= d_2\\
+                                                                          &\vdots\\
+                                                                   x_n &= d_m          
+\end{aligned}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$&$+$&$y$&$+$&$z$&$=$&$3$\\
+$2x$&$-$&$3y$&$-$&$z$&$=$&$-8$\\
+$-x$&$+$&$2y$&$+$&$2z$&$=$&$3$
+\end{tabular}
+\end{center}
+\visible<2>{
+We can write this as the augmented matrix:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+ 1 &  1 &  1 &  3\\
+ 2 & -3 & -1 & -8\\
+-1 &  2 &  2 &  3
+\end{bmatrix}
+\end{equation*}
+We now want to use row operations to transform this augmented matrix into Row Echelon Form.}
+\onslide<3-5>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+2 &  -3 &  -1 &  -8\\
+				  -1 & \+2 & \+2 & \+3
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=r_2+2r_3\\
+				& \phantom{R_2}
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				  -1 & \+2 & \+2 & \+3
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+0 & \+1 & \+3 & -2\\
+				   -1 & \+2 & \+2 & \+3
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_1+r_3
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				 \+0 & \+3 & \+3 & \+6
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+\phantom{1}3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				 \+0 & \+3 & \+3 & \+6
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=r_3-3r_2
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				 \+0 & \+0 &  -6 & \+12
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				 \+0 & \+0 &  -6 & \+12
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& \phantom{R}\\
+				& \phantom{R}\\
+				& R_3=-\tfrac{1}{6}r_3
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 & \+1 & \+1 & \+\phantom{1}3\\
+				 \+0 & \+1 & \+3 &  -2\\
+				 \+0 & \+0 &  1   &  -2
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15->
+Now, back solve the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$&$+$&$y$&$+$&$  z$&$=$&$3$\\
+      &      &$y$&$+$&$3z$&$=$&$-2$\\
+      &      &      &      &$  z$&$=$&$-2$
+\end{tabular}
+\end{center}
+\visible<16->{Start with the third equation: $z=-2$}
+
+\visible<17->{Plug it into the second equation and solve for $y$:
+\begin{equation*}
+y+3(-2)=-2\quad\Rightarrow\quad y=4
+\end{equation*}}
+\visible<18->{Plug both into the first equation and solve for $x$:
+\begin{equation*}
+x+(4)+(-2)=3\quad\Rightarrow\quad x=1
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$2x$ & $+$ & $2y$ &     &     & $=$ &  $6$ \\
+ $x$ & $+$ &  $y$ & $+$ & $z$ & $=$ &  $1$ \\
+$3x$ & $+$ & $4y$ & $-$ & $z$ & $=$ &  $13$
+\end{tabular}
+\end{center}
+\visible<2>{
+We can write this as the augmented matrix:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+ 2 &  2 &  0 &  6\\
+ 1 &  1 &  1 &  1\\
+ \+3 &  \+4 & -1 &  13
+\end{bmatrix}
+\end{equation*}
+We now want to use row operations to transform this augmented matrix into Row Echelon Form.}
+\onslide<3-5>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+2 &  \+2 &  \+0 &  6\\
+ 				1 &  1 &  1 &  1\\
+				3 &  4 &  -1 &  13
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& R_1=r_2\\
+				& R_2=r_1\\
+				& \phantom{R_2}
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 2 &  2 &  0 &  6\\
+				 3 &  4 &  -1 &  13
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 2 &  2 &  0 &  6\\
+				 3 &  4 &  -1 &  13
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=-2r_1+r_2\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  0 &  -2 &  4\\
+				 3 &  4 &  -1 &  13
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  0 &  -2 &  4\\
+				 3 &  4 &  -1 &  13
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=-3r_1+r_3
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  0 &  -2 &  4\\
+				 0 &  1 &  -4 &  10
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  0 &  -2 &  4\\
+				 0 &  1 &  -4 &  10
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=r_3\\
+				& R_3=r_2
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  1 &  -4 &  10\\
+				 0 &  0 &  -2 &  4
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15-17>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  1 &  -4 &  10\\
+				 0 &  0 &  -2 &  4
+			\end{bmatrix}
+			\visible<16-17>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=-\tfrac{1}{2}r_3
+			\end{aligned}}\\
+		\visible<17>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &  \+1 &  \+1 &  1\\
+				 0 &  1 &  -4 &  10\\
+				 0 &  0 &  1 &  -2
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<18->
+Now, back solve the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$&$+$&$y$&$+$&$  z$&$=$&$1$\\
+      &      &$y$&$-$&$4z$&$=$&$10$\\
+      &      &      &      &$  z$&$=$&$-2$
+\end{tabular}
+\end{center}
+\visible<19->{Start with the third equation: $z=-2$}
+
+\visible<20->{Plug it into the second equation and solve for $y$:
+\begin{equation*}
+y-4(-2)=10\quad\Rightarrow\quad y=2
+\end{equation*}}
+\visible<21->{Plug both into the first equation and solve for $x$:
+\begin{equation*}
+x+(2)+(-2)=1\quad\Rightarrow\quad x=1
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+  $6x$ & $-$ &  $y$ & $-$ &  $z$ & $=$ &  $4$ \\
+$-12x$ & $+$ & $2y$ & $+$ & $2z$ & $=$ & $-8$ \\
+  $5x$ & $+$ &  $y$ & $-$ &  $z$ & $=$ &  $3$
+\end{tabular}
+\end{center}
+\visible<2>{
+We can write this as the augmented matrix:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+  6 &   -1 &  -1 &  4\\
+-12 &    2 &   2 & -8\\
+  5 &  \+1 &  -1 &  3
+\end{bmatrix}
+\end{equation*}
+We now want to use row operations to transform this augmented matrix into Row Echelon Form.}
+\onslide<3-5>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				  6 &   -1 &  -1 &  4\\
+				-12 &    2 &   2 & -8\\
+				  5 &  \+1 &  -1 &  3
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& R_1=-r_3+r_1\\
+				& \phantom{R_2}\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				  1 &   -2 &   0 &  1\\
+				-12 &    2 &   2 & -8\\
+				  5 &  \+1 &  -1 &  3
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				  1 &   -2 &   0 &  1\\
+				-12 &    2 &   2 & -8\\
+				  5 &  \+1 &  -1 &  3
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=12r_1+r_2\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 &   -2 &   0 &\+1\\
+				  0 &  -22 &   2 &  4\\
+				  5 &  \+1 &  -1 &  3
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 &   -2 &   0 &\+1\\
+				  0 &  -22 &   2 &  4\\
+				  5 &  \+1 &  -1 &  3
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=-5r_1+r_3
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 &   -2 &   0 &\+1\\
+				  0 &  -22 &   2 &  4\\
+				  0 &   11 &  -1 & -2
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 &   -2 &   0 &\+1\\
+				  0 &  -22 &   2 &  4\\
+				  0 &   11 &  -1 & -2
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=-\tfrac{1}{22}r_2\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 &   -2 &   0 &\+1\\
+				  0 &    1 &   -\tfrac{1}{11} &  -\tfrac{2}{11}\\
+				  0 &   11 &  -1 & -2
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15-17>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &   -2 &   0 &\+1\\
+				  0 &    1 &   -\tfrac{1}{11} &  -\tfrac{2}{11}\\
+				  0 &   11 &  -1 & -2
+			\end{bmatrix}
+			\visible<16-17>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=-11r_2+r_3
+			\end{aligned}}\\
+		\visible<17>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				 \+1 &   -2 &   0 &\+1\\
+				  0 &    1 &   -\tfrac{1}{11} &  -\tfrac{2}{11}\\
+				  0 &    0 &   0 & 0
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<18->
+Now, back solve the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$&$-$&$2y$&&&$=$&$1$\\
+      &      &$y$&$-$&$\tfrac{1}{11}z$&$=$&$-\tfrac{2}{11}$\\
+      &      &      &      &$  0$&$=$&$0$
+\end{tabular}
+\end{center}
+\visible<19->{This system of equations has an infinite number of solutions.}
+\visible<20->{%
+
+\vspace{2mm}
+For any choice of $z$, we can calculate values for $x$ and $y$ that work:
+\begin{equation*}
+\begin{aligned}
+x&=\tfrac{2}{11}z+\tfrac{7}{11}\\
+y&=\tfrac{1}{11}z-\tfrac{2}{11}
+\end{aligned}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<1-2>
+Consider the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+  $x$ & $+$ &  $y$ & $+$ &  $z$ & $=$ & $6$ \\
+ $2x$ & $-$ &  $y$ & $-$ &  $z$ & $=$ & $3$ \\
+  $x$ & $+$ & $2y$ & $+$ & $2z$ & $=$ & $0$
+\end{tabular}
+\end{center}
+\visible<2>{
+We can write this as the augmented matrix:
+\begin{equation*}
+\begin{bmatrix}[rrr|r]
+1 & 1 &  1 &  6\\
+2 & -1 &  -1 & 3\\
+1 & 2 &  2 &  0
+\end{bmatrix}
+\end{equation*}
+We now want to use row operations to transform this augmented matrix into Row Echelon Form.}
+\onslide<3-5>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				2 & -1 &  -1 & 3\\
+				1 & 2 &  2 &  0
+			\end{bmatrix}
+			\visible<4-5>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=-2r_1+r_2\\
+				& \phantom{R_3}
+			\end{aligned}}\\
+		\visible<5>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & -3 &  -3 & -9\\
+				1 & 2 &  2 &  0
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<6-8>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & -3 &  -3 & -9\\
+				1 & 2 &  2 &  0
+			\end{bmatrix}
+			\visible<7-8>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=-r_1+r_3
+			\end{aligned}}\\
+		\visible<8>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & -3 &  -3 & -9\\
+				0 & 1 &  1 &  -6
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<9-11>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & -3 &  -3 & -9\\
+				0 & 1 &  1 &  -6
+			\end{bmatrix}
+			\visible<10-11>{\begin{aligned}
+				& \phantom{R_1}\\
+				& R_2=r_3\\
+				& R_3=r_2
+			\end{aligned}}\\
+		\visible<11>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & 1 &  1 &  -6\\
+				0 & -3 &  -3 & -9
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<12-14>%
+\LARGE
+\begin{equation*}
+	\begin{aligned}
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & 1 &  1 &  -6\\
+				0 & -3 &  -3 & -9
+			\end{bmatrix}
+			\visible<13-14>{\begin{aligned}
+				& \phantom{R_1}\\
+				& \phantom{R_2}\\
+				& R_3=3r_2+r_3
+			\end{aligned}}\\
+		\visible<14>{\Rightarrow
+		&	\begin{bmatrix}[rrr|r]
+				\+1 & \+1 &  \+1 &  \+6\\
+				0 & 1 &  1 &  -6\\
+				0 & 0 &  0 & -27
+			\end{bmatrix}}
+	\end{aligned}
+\end{equation*}
+\onslide<15->
+Now, back solve the system
+\begin{center}
+\begin{tabular}{rcrcrcr}
+$x$&$+$&$y$&$+$&$z$&$=$&$6$\\
+      &      &$y$&$+$&$z$&$=$&$-6$\\
+      &      &      &      &$  0$&$=$&$-27$
+\end{tabular}
+\end{center}
+\visible<16->{This system of equations has no solutions.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Gauss-Jordan Elimination}
+Use row operations until in \textbf{Reduced Row Echelon Form}\@:
+\begin{equation*}
+\begin{bmatrix}[ccccc|c]
+1         & 0 &0 & \cdots & 0 & d_1\\
+0         & 1         & 0 & \cdots & 0 & d_2\\
+0         & 0         & 1         & \cdots & 0 & d_2\\
+\vdots & \vdots  & \vdots &\ddots & \vdots & \vdots\\
+0         & 0         & 0         & \cdots  & 1         & d_m
+\end{bmatrix}
+\end{equation*}\pause
+Then the solution is:
+\begin{equation*}
+\left(d_1, d_2, \ldots, d_m\right)
+\end{equation*}\pause
+\end{block}
+\begin{block}{Note}
+Gaussian Elimination is often preferred when working by hand. Gauss-Jordan works better when programming a computer to solve a system of equations.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{The Solutions of a Linear System of Equations}
+During Gaussian or Gauss-Jordan Elimination:\pause
+\begin{itemize}
+\item<+->If a row is of the form
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+0 & \cdots & 0 & k\neq 0
+\end{bmatrix}
+\end{equation*}
+is encountered, then the system has \emph{no solutions}.
+\item<+->
+If a row is of the form
+\begin{equation*}
+\begin{bmatrix}[ccc|c]
+0 & \cdots & 0 & 0
+\end{bmatrix}
+\end{equation*}
+is encountered, then the system has \emph{infinitely many solutions}.
+\end{itemize}
+\onslide<+->
+Some vocabulary:
+\begin{itemize}
+\item<.-> If a system has no solutions, it is called \textbf{inconsistent}.
+\item<+-> If a system has at least one solution, it is called \textbf{consistent}.
+\begin{itemize}
+\item<+-> A system with exactly one solution is called \textbf{independent}.
+\item<+-> A system with more than one solution is called \textbf{dependent}.
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+\end{document}
