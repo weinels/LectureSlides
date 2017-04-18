@@ -12,4 +12,33 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{block}{Why Study Theory?}
+When considering a mathematical model two important questions are often considered:
+\begin{itemize}
+\item Does a solution actually exist? (Existence Theorems.)
+\item Is that solution unique? (Uniqueness Theorems.)
+\end{itemize}
+The theorems we will study can answer both of these questions, without actually needing to find any solutions.
+\end{block}\pause
+\begin{block}{Note}
+Questions of existence and uniqueness are not limited to the study of differential equations. All branches of mathematics ask these questions, as well as many other fields such as philosophy and physics.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the polynomial
+\begin{equation*}
+f(x)=x^5+x-1
+\end{equation*}\pause
+We know, from the Intermediate Value Theorem, that on the interval $\interval{\closed{0}}{\closed{1}}$ at least one root of $f(x)$ exists. Thus, the IVT gives us existence.\pause
+
+Further, given that
+\begin{equation*}
+f^\prime (x) = 5x^4+1
+\end{equation*}
+we know, from Rolle's theorem, that there can't exist more than one root in $\interval{\closed{0}}{\closed{1}}$. Thus, Rolle gives us uniqueness.
+\end{example}
+\end{frame}
 \end{document}
