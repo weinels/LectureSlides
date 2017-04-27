@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
+\usepackage{asy_helper}
 
 \title[Section 1.5]{Picard's Theorem: Theoretical Analysis}
 
@@ -39,6 +40,404 @@ Further, given that
 f^\prime (x) = 5x^4+1
 \end{equation*}
 we know, from Rolle's theorem, that there can't exist more than one root in $\interval{\closed{0}}{\closed{1}}$. Thus, Rolle gives us uniqueness.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{What about Differential Equations?}
+Many of the differential equations we encounter have solutions. What we will be concerned with solving are Initial Value Problems.\pause
+
+\vspace{2mm}
+To this end we will need to check that a family of solutions actually exist, then the we can focus our efforts on finding the particular unique member that solves our IVP\@.\pause
+
+\vspace{2mm}
+It will often be useful to look at the direction field first, as some pretty obvious information may be gleamed.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+What can we determine from the direction field for $y^\prime = y$?
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(185);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return y; }
+
+add(slopefield(yp, start, end, 20));
+
+//draw(curve((0,-2.5), yp, start, end), next_color()+1bp);
+//draw(curve((0,-1), yp, start, end), next_color()+1bp);
+//draw(curve((0,0), yp, start, end), next_color()+1bp);
+//draw(curve((0,1), yp, start, end), next_color()+1bp);
+//draw(curve((0,2.5), yp, start, end), next_color()+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(185);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return y; }
+
+add(slopefield(yp, start, end, 20));
+
+draw(curve((0,-2.5), yp, start, end), next_color()+1bp);
+draw(curve((0,-1), yp, start, end), next_color()+1bp);
+draw(curve((0,0), yp, start, end), next_color()+1bp);
+draw(curve((0,1), yp, start, end), next_color()+1bp);
+draw(curve((0,2.5), yp, start, end), next_color()+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+
+\vspace{-3mm}
+The direction field suggests that a unique solution exists for every point, and these solutions are defined for all $t$-values.
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+What can we determine from the direction field for $y^\prime = \sqrt{y}$?
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(185);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return sqrt(y); }
+
+add(slopefield(yp, (min_x,0), end, 20));
+
+//draw(curve((0,1), yp, (-1.8,0), end), next_color()+1bp);
+//draw(curve((0,2), yp, (-2.55,0), end), next_color()+1bp);
+//draw(curve((0,3), yp, start, end), next_color()+1bp);
+//draw(curve((1,1), yp, (-0.7,0), end), next_color()+1bp);
+//draw(curve((0,0), yp, start, end), next_color()+1bp);
+
+
+//label("?", (-1.8,-0.2));
+//label("?", (-2.55,-0.2));
+//label("?", (-2.9,-0.2));
+//label("?", (-0.7,-0.2));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(185);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return sqrt(y); }
+
+add(slopefield(yp, (min_x,0), end, 20));
+
+draw(curve((0,1), yp, (-1.8,0), end), next_color()+1bp);
+draw(curve((0,2), yp, (-2.55,0), end), next_color()+1bp);
+draw(curve((0,3), yp, start, end), next_color()+1bp);
+draw(curve((1,1), yp, (-0.7,0), end), next_color()+1bp);
+//draw(curve((0,0), yp, start, end), next_color()+1bp);
+
+
+label("?", (-1.8,-0.2));
+label("?", (-2.55,-0.2));
+//label("?", (-2.95,-0.2));
+label("?", (-0.7,-0.2));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+
+\vspace{-3mm}
+The direction field suggests that a unique solution exists for every point in the upper half place, and that initial points on the $t$-axis need a closer look.
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Let us look at the direction field for $y^\prime = \sqrt{y}+\sqrt{-y}+\dfrac{1}{y}$
+\begin{center}
+\begin{asy}
+size(180);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return sqrt(y) + sqrt(-y) + 1/y; }
+
+//add(slopefield(yp, start, end, 20));
+
+//draw(curve((0,-2.5), yp, start, end), next_color()+1bp);
+//draw(curve((0,-1), yp, start, end), next_color()+1bp);
+//draw(curve((0,0), yp, start, end), next_color()+1bp);
+//draw(curve((0,1), yp, start, end), next_color()+1bp);
+//draw(curve((0,2.5), yp, start, end), next_color()+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+
+\end{asy}
+\end{center}\pause
+
+\vspace{-3mm}
+There is no $y$-value for which this DE is defined, hence no solutions exist.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us look a bit closer at:
+\begin{equation*}
+y^\prime=\sqrt{y}
+,\quad
+y(0)=y_0
+\end{equation*}\pause
+We know that for $y_0<0$, no solutions exist, and for $y_0>0$ things look unique. But what about $y_0=0$?\pause
+
+\vspace{2mm}
+Obviously $y(t)=0$ is a solution, but is it the only solution?\pause
+
+\vspace{2mm}
+Separation of Variables gives us:
+
+\vspace{-3mm}
+\begin{equation*}
+y(t)=
+\begin{cases}
+0 & \text{if}~t\leq 0 \\
+\tfrac{1}{4}t^2 & \text{if}~t\geq 0
+\end{cases}
+\end{equation*}
+Thus, $y(t)=0$ is not the only solution that passes through the origin!\pause
+
+\vspace{2mm}
+In fact, the situation is even worse. For any $t$-value $c>0$, we have the following solution.
+
+\vspace{-4mm}
+\begin{equation*}
+y(t)=
+\begin{cases}
+0 & \text{if}~t\leq c \\
+\tfrac{1}{4}{(t-c)}^2 & \text{if}~t\geq c
+\end{cases}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+We can now introduce the theorem we will mainly use, thanks to the French mathematician Charles \'{E}mile Picard (1856 - 1941).
+\end{block}
+
+\begin{block}{Picard's Existence and Uniqueness Theorem}
+Suppose that the function $f(t,y)$ is continuous on the region
+\begin{equation*}
+R=\setbuilder{(t,y)}{a<t<b, c<y<d}
+\end{equation*}
+and $(t_0, y_0)\in\R$. 
+
+\vspace{2mm}
+Then there exists a positive number $h$ such that the initial-value problem
+\begin{equation*}
+y^\prime = f(t,y),\quad y(t_0)=y_0
+\end{equation*}
+has a solution for $t$ in the interval $\interval{\open{t_0-h}}{\open{t_0+h}}$.
+
+\vspace{2mm}
+More over, if $f_y(t,y)$ is also continuous in $R$, that solution is unique.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+For the simple initial-value problem
+\begin{equation*}
+y^\prime = 1 + y^2,\quad y(0)=0
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
+we have 
+\begin{equation*}
+f(t,y) = 1+y^2
+\quad\text{and}\quad
+f_y(t,y) = 2y
+\end{equation*}
+\visible<3->{Both of these are polynomials, which are continuous on any open rectangle. 
+
+\vspace{2mm}
+This means that Picard's theorem guarantees a unique solution exists for\\ the initial point $(t_0, y_0)=(0,0)$ on \emph{some} interval (though we don't know\\ how large) around $t=0$.}
+
+\visible<4->{\vspace{2mm}
+We could, if so desired, use Separation of Variables to solve this IVP\@.\\ Doing so, we find that the solution is $y(t)=\tan[t]$, which is defined on\\ the interval $\interval{\open{-\tfrac{\pi}{2}}}{\open{\tfrac{\pi}{2}}}$.}
+\onslide<5->
+\begin{center}
+\begin{asy}
+size(170);
+
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return 1+y*y; }
+
+add(slopefield(yp, start, end, 20));
+
+draw(curve((0,0), yp, start, end), next_color()+1bp);
+draw(curve((-3.9,0), yp, start, end), next_color()+1bp);
+draw(curve((-1.5,0), yp, start, end), next_color()+1bp);
+draw(curve((2.1,0), yp, start, end), next_color()+1bp);
+draw(curve((4.3,0), yp, start, end), next_color()+1bp);
+
+dot((0,0));
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-45mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+For the not-so-simple initial-value problem
+\begin{equation*}
+y^\prime = t^2 + ty^2,\quad y(-4)=-2
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+we have 
+\begin{equation*}
+f(t,y) = t^2+ty^2
+\quad\text{and}\quad
+f_y(t,y) = 2ty
+\end{equation*}
+\visible<3->{Both of these are polynomials, which are continuous on any open rectangle. 
+
+\vspace{2mm}
+This means that Picard's theorem guarantees a unique solution exists for\\ the initial point $(t_0, y_0)=(-4,-2)$ on \emph{some} interval (though again we don't\\ know how large) around $t=0$.}
+\onslide<4->
+\begin{center}
+\begin{asy}
+size(180);
+
+real min_x=-6, max_x=6;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y); 
+	
+real yp (real t, real y) { return t*t+t*y*y; }
+
+add(slopefield(yp, start, end, 20));
+
+//draw(curve((-3.1,-2), yp, start, end), next_color()+1bp);
+//draw(curve((-4.6,-2), yp, start, end), next_color()+1bp);
+//draw(curve((-4,-2.1), yp, start, end), next_color()+1bp);
+//draw(curve((-4,-1.8), yp, start, end), next_color()+1bp);
+
+for(real x = min_x; x <= max_x; x = x + 1.1)
+{
+	for(real y = min_y; y <= max_y; y = y + 2.1)
+	{
+		draw(curve((x,y), yp, start, end), grey);
+	}
+}
+
+draw(curve((-4,-2), yp, start, end), next_color()+1bp);
+
+dot((-4,-2));
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-26mm}
 \end{example}
 \end{frame}
 \end{document}
