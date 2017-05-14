@@ -4,6 +4,33 @@
 \usepackage[T1]{fontenc}
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
+\usepackage{asy_helper}
+
+\usepackage{mathptmx} % To emulate your `font`
+\usepackage{siunitx} % To write units correctly 
+\usepackage{tikz} % Obvious
+\usetikzlibrary{decorations.pathmorphing} % To decorate the surface of water
+\usetikzlibrary{arrows.meta} % The newer options for arrows (PGF 3.0)
+\colorlet{water}{cyan!25} % Define color for the water
+
+\tikzset{
+    faucet/.pic={ % Define a 'pic' for the water inlet and outlet (PGF 3.0)
+        \fill[water] (-0.26,-0.25) rectangle (0.26,0.25);
+        \draw[line width=1pt] (-0.25,-0.25) -- (0.25,-0.25) (-0.25,0.25) -- (0.25,0.25); % chktex 8
+    },
+    myarrow/.tip={Stealth[scale=1.5]}, % Define a style for the tip of arrow
+    surface water/.style= % style for border of water surface
+    {decoration={random steps,segment length=1mm,amplitude=0.5mm}, decorate}
+}
+
+\tikzset{
+   ragged border/.style={ decoration={random steps, segment length=1mm, amplitude=0.5mm},
+           decorate,
+   }
+}
+
+\newcommand{\thingin}[1]{\text{#1}_{\text{In}}}
+\newcommand{\thingout}[1]{\text{#1}_{\text{Out}}}
 
 \title[MATH 2250 - Section 2.4]{Linear Models: Mixing and Cooling}
 
@@ -12,4 +39,442 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{block}{Mixing Problems}
+A common problem consists of liquids being mixed in a tank. We will start with a simple system containing a single tank. Where some liquid flows into a tank, is mixed uniformly with the contents of the tank, and the resulting mixture flows out.
+
+\begin{center}
+%--------------------------
+% Dimensions of the tank
+\def\tankwidth{6}
+\def\tankheight{4}
+\def\waterheight{2.5} % Water height 
+%--------------------------
+\begin{tikzpicture}
+% Water fill (I filled first so that way it is in the background)
+\fill[water] decorate[surface water]{ (\tankwidth,\waterheight) -- (0,\waterheight)}--(0,0) -- (\tankwidth,0) -- cycle;
+
+% Tank
+\draw[line width=1pt] (0,0) rectangle (\tankwidth,\tankheight);
+
+\coordinate (entrance) at (0,\tankheight-0.7);
+\coordinate (exit) at (\tankwidth,0.7);
+
+\pic[xshift=-2.5mm+0.5pt] at (entrance) {faucet}; % water inlet (0.5pt is half of line width) 
+\pic[xshift=2.5mm-0.5pt] at (exit) {faucet}; % outlet water
+
+% Entrance label (with `siunitx`)
+\node[align=right,left=1cm] (inlet-unit) at (entrance)  {In};
+ %[align=...] in the last node is necessary for splitting in two lines with `\\`
+\draw[-myarrow](inlet-unit)--([xshift=-5mm]entrance);
+
+% Exit label
+\node[align=left,right=1cm] (outlet-unit) at (exit) {Out};
+\draw[-myarrow] ([xshift=5mm]exit) -- (outlet-unit);
+
+% Fall water (i use `parabola` operation, it's more realistic, bacause it's a fall water) 
+\fill[water] ([shift={(0.5pt,-2.5mm)}]entrance) parabola (0.3*\tankwidth,1pt) -- 
+ (0.5*\tankwidth,1pt) parabola[bend at end] ([shift={(0.5pt,2.5mm)}]entrance);
+ 
+\draw[black] (\tankwidth/2 - 0.75,0.3) rectangle (\tankwidth/2 + 0.75,0.2);
+
+\fill[gray] (\tankwidth/2 - 0.1,0) rectangle (\tankwidth/2 + 0.1,0.4);
+\draw[black] (\tankwidth/2 - 0.1,0) rectangle (\tankwidth/2 + 0.1,0.4); 
+
+\fill[gray] (\tankwidth/2 - 0.75,0.3) rectangle (\tankwidth/2 + 0.75,0.2);
+\end{tikzpicture}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Mixing Model}
+If $x(t)$ is the amount of a dissolved substance, then
+\begin{equation*}
+\dfrac{dx}{dt} = \thingin{Rate} - \thingout{Rate}
+\end{equation*}
+where
+\begin{equation*}
+\begin{aligned}
+\thingin{Rate} &= \thingin{Concentration} \cdot \thingin{Flow} \\
+\thingout{Rate} &= \thingout{Concentration} \cdot \thingout{Flow} \\
+\uparrow\hspace{6mm} & \hspace{15mm}\uparrow \hspace{21mm}\uparrow \\
+[lb / min]\hspace{0mm} & \hspace{11mm}[lb / gal] \hspace{10mm}[gal / min] % chktex 35
+\end{aligned}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+A tank initially contains 50 gal of pure water. A solution containing 2 lb/gal of salt is pumped into the tank at the rate of 3 gal/min. The mixture is stirred constantly and flows out at the same rate of 3 gal/min.
+\begin{overprint}
+\onslide<1-9>
+%--------------------------
+% Dimensions of the tank
+\def\tankwidth{6}
+\def\tankheight{2}
+\def\waterheight{1} % Water height 
+%--------------------------
+\begin{tikzpicture}
+% Water fill (I filled first so that way it is in the background)
+\fill[water] decorate[surface water]{(\tankwidth,\waterheight) -- (0,\waterheight)}--(0,0) -- (\tankwidth,0) -- cycle;
+
+% Tank
+\draw[line width=1pt] (0,0) rectangle (\tankwidth,\tankheight);
+
+\coordinate (entrance) at (0,\tankheight-0.7);
+\coordinate (exit) at (\tankwidth,0.7);
+
+\pic[xshift=-2.5mm+0.5pt] at (entrance) {faucet}; % water inlet (0.5pt is half of line width) 
+\pic[xshift=2.5mm-0.5pt] at (exit) {faucet}; % outlet water
+
+% Entrance label (with `siunitx`)
+\node[align=right,left=1cm] (inlet-unit) at (entrance)  {3 gal/min \\ 2 lb/gal};
+ %[align=...] in the last node is necessary for splitting in two lines with `\\`
+\draw[-myarrow](inlet-unit)--([xshift=-5mm]entrance);
+
+% Exit label
+\node[align=left,right=1cm] (outlet-unit) at (exit) {3 gal/min};
+\draw[-myarrow]([xshift=5mm]exit)--(outlet-unit);
+
+\draw[|-|] ([xshift=-2mm]0,0) -- node[xshift=-10mm]{$V_{0} = 50$ gal}([xshift=-2mm]0,\waterheight); 
+
+% Fall water (i use `parabola` operation, it's more realistic, bacause it's a fall water) 
+\fill[water] ([shift={(0.5pt,-2.5mm)}]entrance) parabola (0.3*\tankwidth,1pt) -- 
+ (0.5*\tankwidth,1pt) parabola[bend at end] ([shift={(0.5pt,2.5mm)}]entrance);
+
+% Inner labels
+\path (0.5*\tankwidth,\tankheight)--(0.5*\tankwidth,0)
+    node[pos=0.2] {$x(t)$}
+    node[pos=0.8] {$x(0)=\SI{0}{\kilogram}$};
+\end{tikzpicture}
+
+\vspace{2mm}
+\visible<1->{\question{What IVP is satisfied by the amount of salt $x(t)$ in the tank at time $t$?}}
+
+\vspace{2mm}
+\visible<2->{To find the IVP, we need to determine the following:
+\begin{equation*}
+\begin{aligned}
+\visible<2->{\thingin{Rate} &= \temporal<3>{(\thingin{Concentration})(\thingin{Flow})}{(2~\text{lb/gal})(3~\text{gal/min})}{6~\text{lb/min}}\\}
+\vphantom{\dfrac{x}{50}\dfrac{3}{50}}
+\visible<2->{\thingout{Rate} &= \temporal<5>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{50}~\text{gal/min}\right)(3~\text{gal/min})}{\dfrac{3}{50}x~\text{lb/min}}}
+\end{aligned}
+\end{equation*}}
+\visible<7->{The IVP is:
+\begin{equation*}
+\vphantom{\dfrac{3}{50}}
+\only<7-8>{x^\prime = \alt<8>{\thingin{Rate} - \thingout{Rate}}{6~\text{lb/min}-\dfrac{3}{50}x~\text{lb/min}}}
+\only<9->{x^\prime + 0.06x = 6}
+,\quad x(0)=0
+\end{equation*}}
+\onslide<10-13>
+\vspace{2mm}
+The IVP is:
+\begin{equation*}
+x^\prime + 0.06x = 6,\quad x(0)=0
+\end{equation*}
+\question{What is the actual amount of salt in the tank at time $t$?}
+
+\vspace{2mm}
+\visible<11->{This is a linear nonhomogeneous equation which has solution:
+\begin{equation*}
+x(t) = 100\left(1-e^{-0.06t}\right)
+\end{equation*}}
+
+\visible<12->{\question{How much salt is in the tank after 20 minutes?}}
+
+\vspace{2mm}
+\visible<13->{We need to plug $t=20$ into the above solution:
+\begin{equation*}
+x(20) = 100\left(1-e^{-0.06(2)}\right)\approx 69.9~\text{lb}
+\end{equation*}}
+\onslide<14-15>
+\vspace{2mm}
+\question{How much salt is in the tank after a very long time?}
+
+\vspace{2mm}
+\visible<15->{This is the same as asking what is the behavior, as $t\rightarrow\infty$, of 
+\begin{equation*}
+x(t) = 100\left(1-e^{-0.06t}\right)
+\end{equation*}
+In other words, is there a limiting amount?}
+\onslide<16->
+\vspace{2mm}
+\question{How much salt is in the tank after a very long time?}
+
+\vspace{2mm}
+This is the same as asking what is the behavior, as $t\rightarrow\infty$, of 
+\begin{equation*}
+x(t) = 100\left(1-e^{-0.06t}\right)
+\end{equation*}
+In other words, is there a limiting amount?
+
+\vspace{2mm}
+Note that $e^{-0.06t}\rightarrow 0$ as $t\rightarrow\infty$, which means that 100 is the limiting amount.
+\begin{center}
+\begin{asy}
+size(200,80,IgnoreAspect);
+
+real min_x=0, max_x=65;
+real min_y=0, max_y=120;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+//draw_grid_lines(min_x, max_x, min_y, max_y);
+
+real x(real t) {return 100*(1-exp(-0.06*t));}
+
+draw(graph(x,min_x, max_x), blue+1bp);
+
+limits(start,end,Crop);
+
+real mid = (max_x - min_x)/2;
+
+label("$x(t)$", (mid, x(mid) - 20), blue);
+draw((min_x,100) -- (max_x, 100), dashed+black);
+label("limiting amount", (mid, 110));
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,RightTicks());
+//xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$x$",XEquals(min_x),min_y,max_y,LeftTicks());
+//yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-23mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+A tank initially contains 100 gal of pure water. A brine containing 1 lb/gal of salt is pumped into the tank at the rate of 1 gal/min. The mixture is stirred constantly and flows out at the same rate of 2 gal/min.
+\begin{overprint}
+\onslide<1-10>
+%--------------------------
+% Dimensions of the tank
+\def\tankwidth{6}
+\def\tankheight{2}
+\def\waterheight{1} % Water height 
+%--------------------------
+\begin{tikzpicture}
+% Water fill (I filled first so that way it is in the background)
+\fill[water] decorate[surface water]{(\tankwidth,\waterheight) -- (0,\waterheight)}--(0,0) -- (\tankwidth,0) -- cycle;
+
+% Tank
+\draw[line width=1pt] (0,0) rectangle (\tankwidth,\tankheight);
+
+\coordinate (entrance) at (0,\tankheight-0.7);
+\coordinate (exit) at (\tankwidth,0.7);
+
+\pic[xshift=-2.5mm+0.5pt] at (entrance) {faucet}; % water inlet (0.5pt is half of line width) 
+\pic[xshift=2.5mm-0.5pt] at (exit) {faucet}; % outlet water
+
+% Entrance label (with `siunitx`)
+\node[align=right,left=1cm] (inlet-unit) at (entrance)  {1 gal/min \\ 1 lb/gal};
+ %[align=...] in the last node is necessary for splitting in two lines with `\\`
+\draw[-myarrow](inlet-unit)--([xshift=-5mm]entrance);
+
+% Exit label
+\node[align=left,right=1cm] (outlet-unit) at (exit) {2 gal/min};
+\draw[-myarrow]([xshift=5mm]exit)--(outlet-unit);
+
+\draw[|-|] ([xshift=-2mm]0,0) -- node[xshift=-12mm]{$V_{0} = 100$ gal}([xshift=-2mm]0,\waterheight); 
+
+% Fall water (i use `parabola` operation, it's more realistic, bacause it's a fall water) 
+\fill[water] ([shift={(0.5pt,-2.5mm)}]entrance) parabola (0.3*\tankwidth,1pt) -- 
+ (0.5*\tankwidth,1pt) parabola[bend at end] ([shift={(0.5pt,2.5mm)}]entrance);
+
+% Inner labels
+\path (0.5*\tankwidth,\tankheight)--(0.5*\tankwidth,0)
+    node[pos=0.2] {$x(t)$}
+    node[pos=0.8] {$x(0)=\SI{0}{\kilogram}$};
+\end{tikzpicture}
+
+\vspace{2mm}
+\visible<2->{\question{Until the tank is empty, what IVP is satisfied by the amount of salt in it?}}
+
+\vspace{2mm}
+\visible<3->{To find the IVP, we need to determine the following:
+\begin{equation*}
+\begin{aligned}
+\visible<3->{\thingin{Rate} &= \temporal<4>{(\thingin{Concentration})(\thingin{Flow})}{(1~\text{lb/gal})(1~\text{gal/min})}{1~\text{lb/min}}\\} 
+\vphantom{\dfrac{2x}{100-t}\dfrac{x}{100-t}} % chktex 29
+\visible<3->{\thingout{Rate} &= \temporal<6>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{100-t}~\text{gal/min}\right)(2~\text{gal/min})}{\dfrac{2x}{100-t}~\text{lb/min}}} % chktex 29
+\end{aligned}
+\end{equation*}}
+\visible<8->{The IVP is:
+\vspace{-4mm}
+\begin{equation*}
+\vphantom{\dfrac{2x}{100-t}} % chktex 29
+\only<8-9>{x^\prime = \alt<8>{\thingin{Rate} - \thingout{Rate}}{1~\text{lb/min}-\dfrac{2x}{100-t}~\text{lb/min}}} % chktex 29
+\only<10->{x^\prime + \dfrac{2x}{100-t} = 1} % chktex 29
+,\quad x(0)=0
+\quad (0\leq t < 100)
+\end{equation*}}
+\onslide<11->
+\newcommand{\conbef}{%
+
+\vspace{-2mm}}
+\newcommand{\conaft}{%
+
+\vspace{0mm}}
+
+\vspace{2mm}
+\question{What is the formula for this amount of salt?}
+
+\vspace{2mm}
+\visible<12->{The solution to the associated homogenous equation is:
+\conbef%
+\begin{equation*}
+x_h(t) = c{(100-t)}^2
+\end{equation*}
+\conaft}
+\visible<13->{Using either method from section 2.2, a particular solution is:
+\conbef%
+\begin{equation*}
+x_p(t) = 100 - t
+\end{equation*}
+\conaft}
+\visible<14->{Thus, the general solution is:
+\conbef%
+\begin{equation*}
+x(t) = x_h(t) + x_p(t) = c{(100-t)}^2 + (100-t)
+\end{equation*}
+\conaft}
+\visible<15->{When $x=0$ and $t=0$ we find that $c=-0.01$. Thus the IVPs solution is:
+\conbef%
+\begin{equation*}
+x(t) = x_h(t) + x_p(t) = -0.01{(100-t)}^2 + (100-t)
+\end{equation*}
+\conaft}
+\end{overprint}
+\vspace{-19mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Temperature Problems}
+We will next look at how an object, say a cup of coffee, changes temperature when left sitting in a room.\pause
+
+\vspace{2mm}
+Intuitively, we know that the rate of change of the temperature  of the object is proportional to the difference in temperature between the object and the surroundings. (i.e.\ very hot things cool rapidly to start, but take a while to go from warm to room temperature.)
+\end{block}\pause
+
+\begin{block}{Newton's Law of Cooling}
+The rate of change in the temperature $T$ of an object placed in surroundings of uniform temperature $M$ is proportional to the difference between the temperature of the object and the temperature of the surroundings.
+
+\vspace{2mm}
+Mathematically,
+\begin{equation*}
+\dfrac{dT}{dt} = k(M-T)
+\end{equation*}
+where $k>0$ is a constant of proportionality.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Solving Newton's Law of Cooling}
+Consider an object with initial temperature $T_0$ placed into surroundings of temperature $M$. Then $T(t)$ satisfies the IVP\@:
+\begin{equation*}
+\dfrac{dT}{dt} = k(M-T),\quad T(0)=T_0
+\end{equation*}\pause
+Which is a linear nonhomogeneous differential equation:
+\begin{equation*}
+T^\prime + kT = kM
+\end{equation*}\pause
+We know from section 2.1 that the solution is:
+\begin{equation*}
+T(t) = T_0 e^{-kt} + M(1-e^{-kt})
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(200,65,IgnoreAspect);
+
+real min_x=0, max_x=40;
+real min_y=0, max_y=120;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+//draw_grid_lines(min_x, max_x, min_y, max_y);
+
+real T_0 = 90;
+real M = 10;
+real k = 0.1;
+
+real T(real t) {return T_0 * exp(-1*k*t) + M*(1-exp(-1*k*t));}
+
+draw(graph(T,min_x, max_x), blue+1bp);
+
+limits(start,end,Crop);
+
+real mid = (max_x - min_x)/2;
+
+label("$T(t)$", (mid, T(mid) + 20), blue);
+draw((min_x,M) -- (max_x, M), dashed+black);
+label("$M$", (-2,M));
+label("$T_0$", (-2,T_0));
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,NoTicks(), EndArrow(4));
+//xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$T$",XEquals(min_x),min_y,max_y,NoTicks(), EndArrow(4));
+//yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+At midnight, with the temperature inside the house at $70^\circ$F and the outside temperature at $20^\circ$F, the furnace breaks. Two hours later the temperature inside the house has fallen to $50^\circ$F. We will assume that the outside temperature remains at $20^\circ$F.
+\begin{overprint}
+\onslide<1-6>
+\question{What IVP is satisfied by the temperature inside the house?}
+
+\vspace{2mm}
+\visible<2->{Using the Newton's Law of Cooling, we get:
+\begin{equation*}
+T^\prime = k(20-T),\quad T(0) = 70
+\end{equation*}}
+
+\vspace{-6mm}
+\visible<3->{\question{What formula gives the inside temperature?}}
+
+\vspace{2mm}
+\visible<4->{Using the general solution from the previous slide we get:
+
+\vspace{-3mm}
+\begin{equation*}
+\alt<4>{T(t) = 70 e^{-kt} + 20(1-e^{-kt})}{T(t) = 20+50 e^{-kt}}
+\end{equation*}}
+
+\vspace{-5mm}
+\visible<6->{Now we need to find $k$. We know that $T(2)=50$, which allows us to find $k=-\ln[0.6]/2\approx 0.255$. So, we have:
+
+\vspace{-3mm}
+\begin{equation*}
+T(t) = 20+50 e^{t\ln[0.6]/2}
+\end{equation*}}
+\onslide<7->
+\question{At what time will the temperature inside be $70^\circ$F?}
+
+\vspace{2mm}
+\visible<8->{This is the same as asking what $t$-value gives $T(t)=40$.}
+
+\vspace{2mm}\visible<9->{Thus, we need to solve the equation:
+\begin{equation*}
+40 = 20 + 50 e^{t\ln[0.6]/2}
+\end{equation*}}
+\visible<10->{Which has solution:
+\begin{equation*}
+t= \dfrac{2\ln[0.4]}{\ln[0.6]}\approx 3.592
+\end{equation*}
+So, it takes about 3 hours and 35 minutes to cool to $40^\circ$F, at 4:35am.}
+\end{overprint}
+\vspace{-5mm}
+\end{example}
+\end{frame}
 \end{document}
