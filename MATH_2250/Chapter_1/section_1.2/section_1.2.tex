@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
+\usepackage{asy_helper}
 
 \begin{asydef}
 import graph;
@@ -881,7 +882,7 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	
 real yp (real t, real y) { return y*y-4; }
 
-add(slopefield(yp, start, end, 20));
+//add(slopefield(yp, start, end, 20));
 
 real[] vals = {0, 5, -3, -4};
 
@@ -890,8 +891,11 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+4); }
     real fn (real t) { return -1*sqrt(m+4); }
     
-    draw(graph(fp,min_x, max_x), dashed+grey+1bp);
-    draw(graph(fn,min_x, max_x), dashed+grey+1bp);
+    draw(graph(fp,min_x, max_x), dashed+grey+0.75bp);
+    draw(graph(fn,min_x, max_x), dashed+grey+0.75bp);
+    
+    draw(isocline(fp, yp, min_x, max_x), blue+1bp);
+    draw(isocline(fn, yp, min_x, max_x), blue+1bp);
     
     label("$m="+string(m)+"$", (2,sqrt(m+4)+.2), Align, black, UnFill());
     label("$m="+string(m)+"$", (2,-sqrt(m+4)+.2), Align, black, UnFill());
@@ -924,7 +928,7 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	
 real yp (real t, real y) { return y*y-4; }
 
-add(slopefield(yp, start, end, 20));
+//add(slopefield(yp, start, end, 20));
 
 // draw middle solutions
 pen eqclr = next_color();
@@ -968,8 +972,11 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+4); }
     real fn (real t) { return -1*sqrt(m+4); }
     
-    draw(graph(fp,min_x, max_x), dashed+grey+1bp);
-    draw(graph(fn,min_x, max_x), dashed+grey+1bp);
+    draw(graph(fp,min_x, max_x), dashed+grey+0.75bp);
+    draw(graph(fn,min_x, max_x), dashed+grey+0.75bp);
+    
+    draw(isocline(fp, yp, min_x, max_x), blue+1bp);
+    draw(isocline(fn, yp, min_x, max_x), blue+1bp);
     
     label("$m="+string(m)+"$", (2,sqrt(m+4)+.2), Align, black, UnFill());
     label("$m="+string(m)+"$", (2,-sqrt(m+4)+.2), Align, black, UnFill());
@@ -1023,17 +1030,22 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	
 real yp (real t, real y) { return y*y-t; }
 
-add(slopefield(yp, start, end, 20));
+//add(slopefield(yp, start, end, 20));
 
 real[] vals = {3,2,1,0,-1,-2};
-
+int i = 0;
 for (real m : vals)
 {
     real fp (real t) { return sqrt(m+t); }
     real fn (real t) { return -1*sqrt(m+t); }
     
-    draw(graph(fp,-1*m, max_x), dashed+grey+1bp);
-    draw(graph(fn,-1*m, max_x), dashed+grey+1bp);
+    draw(graph(fp,-1*m, max_x), dashed+grey+0.75bp);
+    draw(graph(fn,-1*m, max_x), dashed+grey+0.75bp);
+    
+    draw(isocline(fp, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
+    draw(isocline(fn, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
+    
+    i = i + 1;
     
     //label("$m="+string(m)+"$", (2,sqrt(m+4)+.2), Align, black, UnFill());
     //label("$m="+string(m)+"$", (2,-sqrt(m+4)+.2), Align, black, UnFill());
@@ -1077,25 +1089,30 @@ for(real gy=min_y+1; gy<=max_y-1; ++gy)
 	
 real yp (real t, real y) { return y*y-t; }
 
-add(slopefield(yp, start, end, 20));
+//add(slopefield(yp, start, end, 20));
 
 //pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
 
 //for (pair p : pts)
-real inc=0.9;
+real inc=1.1;
 for(real x=min_x; x<max_x; x+=inc)
 	for(real y=min_y; y<max_y; y+=inc) 
-		draw(curve((x,y), yp, start, end), blue+0.5bp);
+		draw(curve((x,y), yp, start, end), red+0.5bp);
 
-real[] vals = {3, 2, 1, 0, -1, -2};
-
+real[] vals = {3,2,1,0,-1,-2};
+int i = 0;
 for (real m : vals)
 {
     real fp (real t) { return sqrt(m+t); }
     real fn (real t) { return -1*sqrt(m+t); }
     
-    draw(graph(fp,-1*m, max_x), dashed+grey+1bp);
-    draw(graph(fn,-1*m, max_x), dashed+grey+1bp);
+    draw(graph(fp,-1*m, max_x), dashed+grey+0.75bp);
+    draw(graph(fn,-1*m, max_x), dashed+grey+0.75bp);
+    
+    draw(isocline(fp, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
+    draw(isocline(fn, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
+    
+    i = i + 1;
     
     //label("$m="+string(m)+"$", (2,sqrt(m+4)+.2), Align, black, UnFill());
     //label("$m="+string(m)+"$", (2,-sqrt(m+4)+.2), Align, black, UnFill());
