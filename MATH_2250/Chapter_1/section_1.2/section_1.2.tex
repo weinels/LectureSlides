@@ -891,8 +891,8 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+4); }
     real fn (real t) { return -1*sqrt(m+4); }
     
-    draw(graph(fp,min_x, max_x), dashed+grey+0.75bp);
-    draw(graph(fn,min_x, max_x), dashed+grey+0.75bp);
+    draw(graph(fp,min_x, max_x), grey+0.75bp);
+    draw(graph(fn,min_x, max_x), grey+0.75bp);
     
     draw(isocline(fp, yp, min_x, max_x), blue+1bp);
     draw(isocline(fn, yp, min_x, max_x), blue+1bp);
@@ -972,8 +972,8 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+4); }
     real fn (real t) { return -1*sqrt(m+4); }
     
-    draw(graph(fp,min_x, max_x), dashed+grey+0.75bp);
-    draw(graph(fn,min_x, max_x), dashed+grey+0.75bp);
+    draw(graph(fp,min_x, max_x), grey+0.75bp);
+    draw(graph(fn,min_x, max_x), grey+0.75bp);
     
     draw(isocline(fp, yp, min_x, max_x), blue+1bp);
     draw(isocline(fn, yp, min_x, max_x), blue+1bp);
@@ -1039,8 +1039,8 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+t); }
     real fn (real t) { return -1*sqrt(m+t); }
     
-    draw(graph(fp,-1*m, max_x), dashed+grey+0.75bp);
-    draw(graph(fn,-1*m, max_x), dashed+grey+0.75bp);
+    draw(graph(fp,-1*m, max_x), grey+0.75bp);
+    draw(graph(fn,-1*m, max_x), grey+0.75bp);
     
     draw(isocline(fp, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
     draw(isocline(fn, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
@@ -1106,8 +1106,8 @@ for (real m : vals)
     real fp (real t) { return sqrt(m+t); }
     real fn (real t) { return -1*sqrt(m+t); }
     
-    draw(graph(fp,-1*m, max_x), dashed+grey+0.75bp);
-    draw(graph(fn,-1*m, max_x), dashed+grey+0.75bp);
+    draw(graph(fp,-1*m, max_x), grey+0.75bp);
+    draw(graph(fn,-1*m, max_x), grey+0.75bp);
     
     draw(isocline(fp, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
     draw(isocline(fn, yp, -1*m, max_x, n=10-i, width=0.2), blue+1bp);
