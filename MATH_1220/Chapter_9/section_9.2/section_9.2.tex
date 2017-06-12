@@ -1,0 +1,1516 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{asy_helper}
+
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+void reset_color() {pen_pos = -1;}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+\end{asydef}
+
+\newcommand*{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+
+\title[MATH 1220 - Section 9.2]{Direction Fields and Euler's Method}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{What is a Differential Equation?}
+A \textbf{differential equation} (or DE) is an equation containing derivatives. The \textbf{order} of the equation refers to the highest-order derivative that occurs.\pause
+
+\vspace{2mm}
+In this chapter we will focus on DEs that can be written as:
+\begin{equation*}
+\dfrac{dy}{dt}=f(t,y)
+\quad\text{or}\quad
+y^{\prime}=f(t,y)
+\end{equation*}
+Where the dependent variable $y$ is an unknown function, the \textbf{solution}.
+\end{block}\pause
+
+\begin{block}{Note}
+There may be more than one solution for a given differential equation.
+\end{block}\pause
+
+\begin{block}{Analytic Definition of a Solution}
+Analytically, $y(t)$ is a \textbf{solution} of a differential equation if substituting $y(t)$ for $y$ reduced the equation to an identity:
+
+\vspace{-4mm}
+\begin{equation*}
+y^{\prime}(t)=f(t, y(t))
+\end{equation*}
+
+\vspace{-2mm}
+on an appropriate domain for $t$.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Verify that $y(t)$ is a solution to the DE\@.
+\begin{equation*}
+y^{\prime}(t)=2y,\quad y(t)=e^{2t}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Substituting into the DE gives:
+\begin{equation*}
+\begin{aligned}
+y^{\prime}(t) &= \dfrac{d}{dt}e^{2t} \\
+\visible<3->{&=2e^{2t} \\}
+\visible<4->{&=2y(t) \\}
+\visible<5->{&=f(t, y(t))}
+\end{aligned}
+\end{equation*}
+\visible<6->{%
+Similarly, we could show that
+\begin{equation*}
+y(t)=2e^{2t}
+\quad\text{and}\quad
+y(t)=\dfrac{-3}{2}e^{2t}
+\end{equation*}
+are also solutions. In fact, any constant multiple of $e^{2t}$ is a solution.}
+\onslide<7->
+\begin{center}
+\begin{asy}
+size(180, IgnoreAspect);
+
+real min_x=-2, max_x=2;
+real min_y=-15, max_y=15;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real y_1(real t) {return exp(2t);}
+real y_2(real t) {return 2*exp(2t);}
+real y_3(real t) {return (-3/2)*exp(2t);}
+
+draw(graph(y_1, min_x, max_x), next_color() + 1bp);
+draw(graph(y_2, min_x, max_x), next_color() + 1bp);
+draw(graph(y_3, min_x, max_x), next_color() + 1bp);
+
+reset_color();
+
+label("$y=e^{2t}$", (1.3,5), next_color());
+label("$y=2 e^{2t}$", (0.45,12), next_color());
+label("$y=\dfrac{3}{2} e^{2t}$", (1.5,-8), next_color());
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-58mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Verify that $y(t)$ is a solution to the DE\@.
+\begin{equation*}
+y^{\prime}(t)=-\dfrac{t}{y},\quad y(t)=\sqrt{1-t^2}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Substituting into the DE gives:
+\begin{equation*}
+\begin{aligned}
+y^\prime(t) &= \dfrac{d}{dt}\left(\sqrt{1-t^2}\right) \\
+\visible<3->{&= \dfrac{1}{2}{\left(1-t^2\right)}^{-\tfrac{1}{2}}\cdot(-2t)\\}
+\visible<4->{&=\dfrac{-t}{\sqrt{1-t^2}}\\}
+\visible<5->{&=-\dfrac{t}{y}}
+\end{aligned}
+\end{equation*}
+
+\visible<6->{\vspace{-2mm}
+Other solutions are of the form $y(t)=\sqrt{k-t^2}$.}
+\onslide<7>
+\begin{center}
+\begin{asy}
+size(250);
+
+real min_x=-2, max_x=2;
+real min_y=0, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real y_1(real t) {return sqrt(abs(1.0-t*t));}
+real y_2(real t) {return sqrt(abs(0.5-t*t));}
+real y_3(real t) {return sqrt(abs(3-t*t));}
+
+draw(graph(y_1, -1, 1), next_color() + 1bp);
+draw(graph(y_2, -sqrt(0.5), sqrt(0.5)), next_color() + 1bp);
+draw(graph(y_3, -sqrt(3), sqrt(3)), next_color() + 1bp);
+
+reset_color();
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+label("$y=\sqrt{1-t^2}$",   (0.0,1.15), next_color(), UnFill());
+label("$y=\sqrt{0.5-t^2}$", (0.0,0.25), next_color(), UnFill());
+label("$y=\sqrt{3-t^2}$", (0.0,1.56), next_color(), UnFill());
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-45mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Note}
+It is no coincidence that the two previous examples had multiple solutions. Most differential equations have an infinite number of solutions.
+\end{block}\pause
+\begin{example}
+Consider
+\begin{equation*}
+\dfrac{dy}{dt} = f(t)
+\end{equation*}\pause
+We can integrate both sides to get the solution to get
+
+\vspace{-2mm}
+\begin{equation*}
+y=\int f(t)dt + c
+\end{equation*}
+
+\vspace{-2mm}
+where $c$ is an arbitrary constant.
+\end{example}\pause
+\begin{block}{Family of Solutions}
+In general, all solutions of a first-order DE form a \textbf{family} of solutions expressed with a single parameter $c$. Such a family is called the \textbf{general solution}. A member of the family that results from a specific value of $c$ is called a \textbf{particular solution}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+The general solution of $y^\prime=3t^2$ is
+\begin{equation*}
+y=t^3+c
+\end{equation*}
+where $c$ may be any real value.
+
+\begin{center}
+\begin{asy}
+size(150, IgnoreAspect);
+
+real min_x=-2, max_x=2;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real[] k_values = {1.0, -3.4, -1.5, 2.2, 4.0};
+
+for (real k : k_values)
+{
+	real y(real t) {return t*t*t+k;}
+	draw(graph(y, min_x, max_x), next_color() + 1bp, "c = " + string(k));
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+attach(legend(), truepoint(E), 30E, UnFill());
+
+real x_1 = 2.009;
+real x_2 = 2.901;
+unfill((x_1,0.3) -- (x_2,0.3) -- (x_2,-0.3) -- (x_1, -0.3) -- cycle);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Initial-Value Problem}
+The combination of a first-order differential equation and an \textbf{initial condition}
+\begin{equation*}
+\dfrac{dy}{dt}=f(t,y),\quad y(t_0)=y_0
+\end{equation*}
+is called an \textbf{initial-value problem}. It's solution will pass through the point $(t_0,y_0)$.
+\end{block}\pause
+\begin{block}{Note}
+While a family of solutions for a DE contains multiple solutions, an IVP usually has only one solution. That is, the solution to an IVP is a particular solution to the DE\@.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+The function $y(t)=t^3+1$ is a solution to the IVP
+\begin{equation*}
+y^\prime = 3t^2,\quad y(0)=1
+\end{equation*}\pause
+Differentiating $y(t)$ confirms that 
+\begin{equation*}
+y^\prime(t)={(t^3+1)}^\prime=3t^2,\quad\text{and}\quad y(0)=0^3+1=1
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(131, IgnoreAspect);
+
+real min_x=-2, max_x=2;
+real min_y=-6, max_y=6;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real[] k_values = {-3.4, -1.5, 2.2, 4.0};
+
+for (real k : k_values)
+{
+	real y(real t) {return t*t*t+k;}
+	draw(graph(y, min_x, max_x), gray + 1bp);
+}
+
+real y(real t) {return t*t*t+1.0;}
+draw(graph(y, min_x, max_x), next_color() + 1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Graphical Definition of Solutions}
+A \textbf{solution} to a first-order differential equation is a function whose slope at each point is specified by the derivative.
+\end{block}
+\onslide<2->
+
+\begin{block}{Direction Fields}
+We can see what solution curves look like by, on regular intervals, drawing short line segments with slope determined by the DE\@ for that point. The collection of these segments are called \textbf{direction field} (or a \textbf{slope field}).
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\vspace{-2mm}
+\begin{equation*}
+y^\prime=-2ty+t
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-2, max_x=4;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return -2*t*y+t; }
+
+add(slopefield(yp, start, end, 20));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-2, max_x=4;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return -2*t*y+t; }
+
+add(slopefield(yp, start, end, 20));
+
+pair[] pts = {(0,-2), (2.5,1), (2.1,-2), (0,0.5), (0,1.75)};
+
+for (pair p : pts)
+{
+	real c = (p.y - 0.5)/exp(-p.x*p.x);
+	real f (real t) { return c*exp(-1*t*t) + 0.5; }
+	
+	pen clr = next_color();
+	draw(graph(f, min_x, max_x), clr+1bp);
+	dot(p, clr);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\vspace{-2mm}
+\begin{equation*}
+y^\prime=y+t^2
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return y+t*t; }
+
+add(slopefield(yp, start, end, 20));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return y+t*t; }
+
+add(slopefield(yp, start, end, 20));
+
+pair[] pts = {(0.0,-2.1), (-2,1), (1.9,1), (0,2), (2.5,-0.5)};
+
+for (pair p : pts)
+{
+	real c = (p.y + p.x * p.x + 2 * p.x + 2)/exp(p.x);
+	real f (real t) { return c*exp(t)-t*t-2*t-2; }
+	
+	pen clr = next_color();
+	draw(graph(f, min_x, max_x), clr+1bp);
+	dot(p, clr);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\vspace{-2mm}
+\begin{equation*}
+y^\prime=t-y
+\only<3>{\quad\text{and}\quad y^{\prime\prime}=1-y^\prime=1-t+y}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-1, max_x=3;
+real min_y=-1, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return t-y; }
+
+add(slopefield(yp, start, end, 20));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-1, max_x=3;
+real min_y=-1, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return t-y; }
+
+add(slopefield(yp, start, end, 20));
+
+pair[] pts = {(1,2), (2.1,1), (1.9,1), (0,2), (2.5,-0.5)};
+
+for (pair p : pts)
+{
+	real c = exp(p.x)*(p.y-p.x+1);
+	real f (real t) { return (exp(t)*t-exp(t)+c)/exp(t); }
+	
+	pen clr = next_color();
+	draw(graph(f, min_x, max_x), clr+1bp);
+	dot(p, clr);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(220);
+
+real min_x=-1, max_x=3;
+real min_y=-1, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return t-y; }
+
+add(slopefield(yp, start, end, 20));
+
+pair[] pts = {(1,2), (2.1,1), (1.9,1), (0,2), (2.5,-0.5)};
+
+for (pair p : pts)
+{
+	real c = exp(p.x)*(p.y-p.x+1);
+	real f (real t) { return (exp(t)*t-exp(t)+c)/exp(t); }
+	
+	pen clr = next_color();
+	draw(graph(f, min_x, max_x), clr+1bp);
+	dot(p, clr);
+}
+
+real zed(real t) { return t-1; }
+draw(graph(zed, min_x, max_x), gray+dashed+1bp);
+
+label("Concave up", (0,0.5), black, UnFill());
+label("$y^{\prime\prime}>0$", (0, 0.3), black, UnFill());
+label("Concave down", (1.97, 0), black, UnFill());
+label("$y^{\prime\prime}<0$", (1.97, -0.21), black, UnFill());
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Equilibria}
+For a differential equation, a solution that does not change over time is called an \textbf{equilibrium solution}.\pause
+
+\vspace{2mm}
+For a first-order DE $y^{\prime}=f(t,y)$, an equilibrium solution is always a horizontal line $y(t)=C$, which can be obtained by setting $y^{\prime}=0$.
+\end{block}\pause
+
+\begin{block}{Stability}
+For a differential equation $y^\prime=f(t,y)$, an equilibrium solution $y(t)=C$ is called
+\begin{itemize}[<+- | alert@+>]
+\item \textbf{stable} if solutions \textquote{near} it tend toward it as $t\rightarrow\infty$.
+\item \textbf{unstable} if solutions \textquote{near} it tend away from it as $t\rightarrow\infty$.
+\end{itemize}
+\end{block}
+
+\onslide<+->
+\begin{block}{Note}
+A equilibrium solution is often called \textbf{semistable} if it is stable on one side and unstable on the other.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+The DE $y^\prime=-2ty+t$ has the constant solution $y(t)=\dfrac{1}{2}$.
+\begin{center}
+\begin{asy}
+size(205);
+
+real min_x=-2, max_x=4;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return -2*t*y+t; }
+
+add(slopefield(yp, start, end, 20));
+
+pair[] pts = {(0,-2), (2.5,1), (2.1,-2), (0,1.75)};
+
+for (pair p : pts)
+{
+	real c = (p.y - 0.5)/exp(-p.x*p.x);
+	real f (real t) { return c*exp(-1*t*t) + 0.5; }
+	
+	pen clr = grey;
+	draw(graph(f, min_x, max_x), clr+1bp);
+	//dot(p, clr);
+}
+
+real f (real t) { return 0.5; }
+draw(graph(f, min_x, max_x),heavymagenta+1bp); 
+//dot((0, 0.5), heavymagenta);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{equation*}
+y^\prime=y^2-4
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(215);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return y*y-4; }
+
+add(slopefield(yp, start, end, 20));
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(215);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return y*y-4; }
+
+add(slopefield(yp, start, end, 20));
+
+// draw middle solutions
+pen eqclr = next_color();
+pen clr = next_color();
+
+for (real x=min_x-1; x <= max_x+1; x += 1)
+{
+	draw(curve((x,0), yp, start, end), clr+1bp);
+}
+
+// draw top solutions
+pen clr = next_color();
+
+for (real x=min_x-1; x <= max_x+1; x += 1)
+{
+	draw(curve((x,3.5), yp, start, end), clr+1bp);
+}
+
+// draw bottom solutions
+pen clr = next_color();
+
+for (real x=min_x-1; x <= max_x+1; x += 1)
+{
+	draw(curve((x,-3.5), yp, start, end), clr+1bp);
+}
+
+// draw equilibiria
+pen clr = blue;
+
+pair[] pts = {(0,-2), (0,2)};
+
+for (pair p : pts)
+{
+	draw(curve(p, yp, start, end), eqclr+1.5bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+We can approximate the solution of the IVP
+\begin{equation*}
+y^\prime = t - y,\ y(0)=1
+\end{equation*}
+
+\begin{multistepslide}
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+//for(int i=1; i<2; ++i)
+//{
+//	t_new=t_old+h;
+//	y_new=EulerStep(t_old, y_old);
+//	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+//    dot((t_new,y_new));
+//    t_old=t_new;
+//    y_old=y_new;
+//}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<2; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<3; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<4; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+//pair P=(t0,y0);
+//draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.5;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.25;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<9; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.125;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<17; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.0625;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<33; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\nextstep
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+real dy(real x,real y) {return x-y;}
+real xmin=-.1, xmax=2.4;
+real ymin=-.1, ymax=1.5;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+real h=0.03125;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<65; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+
+limits((xmin,ymin),(xmax,ymax),Crop);
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+\end{asy}
+\end{center}
+\end{multistepslide}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Consider}
+Given the IVP
+\begin{equation*}
+y^\prime = f(t,y),\ y(t_0)=y_0
+\end{equation*}
+We want to compute  approximate values for $y(t_n)$ at the (finite) set of points $t_1, t_2, t_3, \dots, t_k$.
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
+We can calculate the $t$-values, for $1,2,3,\dots,k$, with $t_n=t_0 + n\cdot h$.
+
+\vspace{2mm}
+Where $h$, called the \textbf{step size}, is the common difference between successive points.
+
+\visible<3->{\vspace{2mm}
+So, starting at $(t_0, y_0)$ we want to follow the tangent line determined by
+\begin{equation*}
+y-y_0 = (t - t_0)f(t_0, y_0)
+\end{equation*}}
+\visible<4->{%
+
+\vspace{-5mm}
+to find the approximate solution $\left(t_1, y(t_1)\right)$:
+\begin{equation*}
+y_1 = y_0 + h\cdot f(t_0, y_0)
+\end{equation*}}
+
+\onslide<5->
+We can extend this process to find all $k$ points.
+\begin{equation*}
+\begin{aligned}
+y_1 &= y_0 + h\cdot f(t_0, y_0)\\
+\visible<6->{y_2 &= y_1 + h\cdot f(t_1, y_1)\\}
+\visible<7->{y_3 &= y_2 + h\cdot f(t_2, y_2)\\}
+\visible<8->{&\vdots\\
+y_k &= y_{k-1} + h\cdot f(t_{k-1}, y_{k-1})\\}
+\end{aligned}
+\end{equation*}
+
+\vspace{-5mm}
+\visible<9->{The resulting piecewise-linear function (i\@.e\@. play connect-the-dots) is called the \textbf{Euler-approximate} solution.}
+\end{overprint}
+\vspace{-3mm}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Euler's Method}
+For the Initial-value problem
+\[y^\prime=f(t,y),\ y(t_0)=y_0\]
+use the formulas
+\begin{align*}
+t_{n+1} &= t_n + h\\
+y_{n+1} &= y_n+h\cdot f(t_n, y_n)
+\end{align*}
+to iteratively compute the points, using step size $h$, 
+\[(t_1, y_1), (t_2, y_2), \dots, (t_k, y_k).\]
+The piecewise-linear function connecting these points is the Euler approximtion to the solution $y(t)$ of the IVP for $t_0\leq t\leq t_k$.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{overprint}
+\onslide<1-2>
+Let us obtain the Euler-approximate solution of the IVP
+\[y^\prime = -2ty+t,\ y(0)=-1\]
+with step size $0.1$ on $[0,0.4]$.
+
+\vspace{2mm}
+\visible<2>{%
+In other words:
+\begin{align*}
+f(t,y) &= -2ty+t = t(1-2y)\\
+t_0 &= 0\\
+y_0 &= -1\\
+h&=0.1\\
+k&=1,2,3,4
+\end{align*}}
+\onslide<3-6>
+\begin{equation*}
+\begin{aligned}
+t_1&=t_0+h=0+0.1=0.1\\
+y_1&=y_0+h\cdot f(t_0, y_0)= -1+(0.1)(0)(1-2(-1))=-1\\\\
+\visible<4->{%
+t_2&=t_1+h=0.1+0.1=0.2\\
+y_2&=y_1+h\cdot f(t_1, y_1) \\ 
+&= -1+(0.1)(0.1)(1-2(-1))=-0.97\\\\}
+\visible<5->{%
+t_3&=t_2+h=0.2+0.1=0.3\\
+y_3&=y_0+h\cdot f(t_2, y_2) \\
+&= -0.97+(0.1)(0.2)(1-2(-0.97))=-0.9112\\\\}
+\visible<6->{%
+t_4&=t_3+h=0.3+0.1=0.4\\
+y_4&=y_3+h\cdot f(t_3, y_3) \\
+&= -0.9112+(0.1)(0.3)(1-2(-0.9112))=-0.82652\\}
+\end{aligned}
+\end{equation*}
+
+\onslide<7-8>
+How does this compare to the exact solution $y(t)=0.5 - 1.5e^{-t^2}$?
+
+\visible<8->{%
+\begin{center}
+\begin{tabular}{rrrrr}
+\thead{$n$}&\thead{$t_n$}&\thead{$y_n$}&\thead{$y(t_n)$}&\thead{Error}\\
+\hline
+0&0.0&-1.000000&-1.000000&\textbf{0.000000}\\
+1&0.1&-1.000000&-0.985075&\textbf{-0.014925}\\
+2&0.2&-0.970000&-0.941184&\textbf{-0.028815}\\
+3&0.3&-0.911200&-0.870897&\textbf{-0.040303}\\
+4&0.4&-0.826528&-0.778216&\textbf{-0.048312}
+\end{tabular}
+\end{center}
+
+Notice how the error grows rapidly.}
+
+\onslide<9>
+\begin{center}
+\begin{asy}[height=6.3cm]
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(300);
+real dy(real x,real y) {return -2.0*x*y+x;}
+real xmin=-.1, xmax=0.5;
+real ymin=-1.1, ymax=-0.6;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.1;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=-1.0;
+
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<5; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-69mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Find the Euler-approximation of 
+\begin{equation*}
+y^\prime=-2ty,\ y(0)=1
+\end{equation*}
+using a step size of 0.2 over the range of $[0,2]$.
+
+\begin{overprint}
+\onslide<1-12>
+\vspace{0mm}
+\begin{center}
+\begin{tabular}{rrrrr}
+\thead{$n$}&\thead{$t_n$}&\thead{$y_n$}&\thead{$y(t_n)$}&\thead{Error}\\
+\hline
+\visible<2->{0 &0.0&1.0000000&1.0000000&\textbf{0.000000}\\}
+\visible<3->{1 &0.2&1.0000000&0.9607894&\textbf{-0.039211}\\}
+\visible<4->{2 &0.4&0.9200000&0.8521437&\textbf{-0.067856}\\}
+\visible<5->{3 &0.6&0.7728000&0.6976763&\textbf{-0.075124}\\}
+\visible<6->{4 &0.8&0.5873280&0.5272925&\textbf{-0.060036}\\}
+\visible<7->{5 &1.0&0.3993830&0.3678794&\textbf{-0.031504}\\}
+\visible<8->{6 &1.2&0.2396298&0.2369277&\textbf{-0.002702}\\}
+\visible<9->{7 &1.4&0.1246075&0.1408584&\textbf{0.016251}\\}
+\visible<10->{8 &1.6&0.0548273&0.0773047&\textbf{0.022477}\\}
+\visible<11->{9 &1.8&0.0197378&0.0391639&\textbf{0.019426}\\}
+\visible<12->{10&2.0&0.0055265&0.0183156&\textbf{0.012789}}
+\end{tabular}
+\end{center}
+
+\onslide<13->
+
+\vspace{1mm}
+\begin{center}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+
+size(280,0);
+
+real dy(real x,real y) {return -2.0*x*y;}
+real xmin=-.1, xmax=2.1;
+real ymin=-0.1, ymax=1.1;
+
+add(slopefield(dy,(xmin,ymin),(xmax,ymax),20,grey+0.4bp,Arrow));
+
+xaxis(YEquals(ymin),xmin,xmax,LeftTicks());
+xaxis(YEquals(ymax),xmin,xmax);
+yaxis(XEquals(xmin),ymin,ymax,RightTicks());
+yaxis(XEquals(xmax),ymin,ymax);
+
+real h=0.2;
+real EulerStep(real x,real y) {return y+h*dy(x,y);}
+real t0=0.0;
+real y0=1.0;
+
+dot((t0,y0));
+
+real t_old=t0;
+real y_old=y0;
+real t_new=0.0;
+real y_new=0.0;
+
+for(int i=1; i<11; ++i)
+{
+	t_new=t_old+h;
+	y_new=EulerStep(t_old, y_old);
+	draw((t_old, y_old)--(t_new, y_new), blue+1bp);
+    dot((t_new,y_new));
+    t_old=t_new;
+    y_old=y_new;
+}
+
+pair P=(t0,y0);
+draw(curve(P,dy,(xmin,ymin),(xmax,ymax)),red+1bp);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-1mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+There are two types of error:
+
+\pause
+\begin{itemize}
+\item<2-> \textbf{Roundoff error} is the discrepancy arising from rounding numbers. This tends to snowball pretty fast when you have a great many calculations.
+\item<3-> \textbf{Discretization error} is the error that results from the approximation method itself. For Euler's method this is cause by using the linear tangent lines to approximate a nonlinear curve. 
+\end{itemize}
+\onslide<4->
+It can be shown, using Taylor series expansions, that the error is proportional to the square of the step size. (We will talk about Taylor series in chapter 11.)
+\begin{equation*}
+\abs{y_i-y(t_i)}\leq C\cdot h^2
+\end{equation*}
+Where the constant $C$ depends of the size of the second derivative of the exact solution.
+\onslide<5->
+
+\vspace{2mm}
+We call this error the \textbf{local discretization error} because it estimates the error for a single step only. After $n$ steps, we have $n$ times the error. Which we call the \textbf{global discretization error}. 
+\end{block}
+\end{frame}
+\end{document}
