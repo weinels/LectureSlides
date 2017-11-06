@@ -8,6 +8,7 @@
 \usepackage{subcaption}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
 
 \title[MATH 1030 - Module 8 - Describing Data]{Describing Data}
 
@@ -465,7 +466,7 @@ What is the mean of these values?\pause
 \dfrac{79+86+82+94}{4}=\dfrac{341}{4}=82.25\approx 85.3
 \end{equation*}
 Typically we round means to one more decimal than the original data.
-\end{example}\pause
+\end{example}
 \end{frame}
 
 \begin{frame}
@@ -474,7 +475,7 @@ The one hundred families in a particular neighborhood are asked their annual hou
 \begin{center}
 \begin{tabular}{|c|c||c|c|}
 \hline
-Income & Frequency & Income & Frequency \\\hline
+\textbf{Income} & \textbf{Frequency} & \textbf{Income} & \textbf{Frequency} \\\hline
 15 &6 & 35 &19\\\hline
 20 &8 & 40 &20\\\hline
 25 &11 & 45 &12\\\hline
@@ -539,7 +540,7 @@ The one hundred families in a particular neighborhood are asked their annual hou
 \begin{center}
 \begin{tabular}{|c|c||c|c|}
 \hline
-Income & Frequency & Income & Frequency \\\hline
+\textbf{Income} & \textbf{Frequency} & \textbf{Income} & \textbf{Frequency} \\\hline
 15 &6 & 35 &19\\\hline
 20 &8 & 40 &20\\\hline
 25 &11 & 45 &12\\\hline
@@ -584,7 +585,7 @@ In Example~\ref{ex:carcolor1} we collected the data:
 \begin{center}
 \begin{tabular}{|c|c||c|c|}
 \hline
-Color & Frequency & Color & Frequency \\\hline
+\textbf{Color} & \textbf{Frequency} & \textbf{Color} & \textbf{Frequency} \\\hline
 Blue & 3 & White & 3\\\hline
 Green & 5 & Black & 2\\\hline
 Red & 4 & Grey & 3\\\hline
@@ -598,5 +599,406 @@ For this data, Green is the mode.
 \begin{block}{Note}
 It is possible for a data set to have more than one mode.
 \end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{ex:quiz_scores_a}
+Consider these three sets of quiz scores:
+\begin{center}
+\begin{tabular}{|c|cccccccccc|}
+\hline
+Section A & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ \hline
+Section B & 0 & 0 & 0 & 0 & 0 & 10 & 10 & 10 & 10 & 10 \\ \hline
+Section C & 4 & 4 & 4 & 5 & 5 & 5 & 5 & 6 & 6 & 6 \\ \hline
+\end{tabular}
+\end{center}\pause
+All three sets of data have a mean of 5 and a median of 5, yet each section has quite different scores.
+\end{example}\pause
+
+\begin{block}{Definition}
+The \textbf{range} is the difference between the maximum and minimum values.
+\end{block}\pause
+
+\begin{example}
+Using the quiz scores from Example~\ref{ex:quiz_scores_a}.
+
+For Section A, the range is $5-5=0$. \pause
+
+For Section B, the range is $10-0=10$.  \pause
+
+For Section C, the range is $6-4=2$. 
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+The \textbf{standard deviation} is a measure of variation based on measuring how far each data value deviates, or is different, from the mean.
+
+\vspace{2mm}
+The standard deviation 
+\begin{itemize}[<+- | alert@+>]
+\item is always positive. 
+\item will be zero if all the data values are equal.
+\item will get larger the more the data spreads out.
+\item has the same units as the original data.
+\item can be highly influenced by outliers.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Computing Standard Deviations}
+To compute a standard deviation of a data set with size $n$.
+\begin{enumerate}[<+- | alert@+>]
+\item Find the deviation of each data from the mean.
+\item Square each deviation.
+\item Add the squared deviations.
+\item<.->
+\begin{itemize}
+\item If the data represents the whole population, divide the sum by $n$.
+\item If the data is from a sample, divide the sum by $(n-1)$.
+\end{itemize}
+\item Compute the square root of the result.
+\end{enumerate}
+\end{block}
+
+\onslide<+->
+\begin{block}{Note}
+Standard deviations are only computed by hand for very small data sets.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{ex:quiz_scores_b}
+
+\vspace{-2.5mm}
+Let us find the standard deviation for the quiz scores:
+
+\vspace{-4mm}
+\begin{center}
+\begin{tabular}{cccccccccc}
+0 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 10
+\end{tabular}
+\end{center}
+
+\vspace{-4.5mm}
+\onslide<2->
+The mean is 5 and the deviations are:
+
+\vspace{-3mm}
+\begin{center}
+\begin{tabular}{|c|rcr|rcr|}
+\hline
+\textbf{Data Value} & \multicolumn{3}{c|}{\textbf{Deviation}} & \multicolumn{3}{c|}{\textbf{Deviation squared}} \\\hline
+\visible<2->{0} & \visible<3->{$0-5$&$=$&$-5$} & \visible<4->{${\left(-5\right)}^2$&$=$&$25$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{5} & \visible<3->{$5-5$&$=$&$0$} & \visible<4->{${\left(0\right)}^2$&$=$&$0$} \\\hline
+\visible<2->{10} & \visible<3->{$10-5$&$=$&$5$} & \visible<4->{${\left(5\right)}^2$&$=$&$25$} \\\hline
+\end{tabular}
+\end{center}
+
+\vspace{-3.5mm}
+\onslide<5->
+The standard deviation is $\sqrt{\dfrac{50}{10}}=\sqrt{5}\approx 2.2$.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The standard deviations for the quiz scores from Example~\ref{ex:quiz_scores_a} and Example~\ref{ex:quiz_scores_b} are:
+\begin{center}
+\begin{tabular}{|lcccccccccc|l|}
+\hline
+\multicolumn{11}{|c|}{\textbf{Data Set}}&\textbf{Std. Dev.} \\\hline
+Section A: & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 0 \\ \hline
+Section B: & 0 & 0 & 0 & 0 & 0 & 10 & 10 & 10 & 10 & 10 & 5 \\ \hline
+Section C: & 4 & 4 & 4 & 5 & 5 & 5 & 5 & 6 & 6 & 6 & 0.8 \\ \hline
+Section D: & 0 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 10 & 2.2 \\\hline
+\end{tabular}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The price of a jar of peanut butter at 5 stores were: \$3.29, \$3.59, \$3.75, \$3.79, and \$3.99. Let us find the standard deviation of the prices.\pause
+
+The mean is 3.682 and the deviations are:
+\begin{center}
+\begin{tabular}{|c|rcr|rcr|}
+\hline
+\textbf{Data Value} & \multicolumn{3}{c|}{\textbf{Deviation}} & \multicolumn{3}{c|}{\textbf{Deviation squared}} \\\hline
+\visible<2->{3.29} & \visible<3->{$3.29-3.682$&$=$&$-0.391$} & \visible<4->{${\left(-0.391\right)}^2$&$=$&$0.153664$} \\\hline
+\visible<2->{3.59} & \visible<3->{$3.59-3.682$&$=$&$-0.092$} & \visible<4->{${\left(-0.092\right)}^2$&$=$&$0.008464$} \\\hline
+\visible<2->{3.75} & \visible<3->{$3.75-3.682$&$=$&$0.068$} & \visible<4->{${\left(0.068\right)}^2$&$=$&$0.011664$} \\\hline
+\visible<2->{3.79} & \visible<3->{$3.79-3.682$&$=$&$0.108$} & \visible<4->{${\left(0.108\right)}^2$&$=$&$0.004624$} \\\hline
+\visible<2->{3.99} & \visible<3->{$3.99-3.682$&$=$&$0.308$} & \visible<4->{${\left(0.308\right)}^2$&$=$&$0.094864$} \\\hline
+\end{tabular}
+\end{center}
+
+\onslide<5->
+Note that we are dealing with a sample. The standard deviation is:
+\begin{equation*}
+\begin{aligned}
+&\sqrt{\dfrac{0.153664+0.008464+0.011664+0.004624+0.094864}{4}}\\
+=&\sqrt{\dfrac{0.27328}{4}}\sqrt{0.06832}\approx \$0.261
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+\textbf{Quartiles} are values that divide the data into quarters.\pause
+
+\vspace{2mm}
+The first quartile, $Q_1$, is the value so that 25\% of the data values are below it. 
+
+\vspace{2mm}
+The third quartile, $Q_3$, is the value so that 75\% of the data values are below it.\pause
+
+\vspace{2mm}
+This divides the data into quarters:
+\begin{itemize}
+\item 25\% of the data is between the minimum and $Q_1$.
+\item 25\% of the data is between $Q_1$ and the median.
+\item 25\% of the data is between the media and $Q_3$.
+\item 25\% of the data is between $Q_3$ and the maximum.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Five-Number Summary}
+A common summary of a data set takes the form:
+
+Minimum, $Q_1$, Median, $Q_3$, Maximum
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{How to Calculate $Q_1$}
+\begin{enumerate}[<+->]
+\item Order the data from smallest to largest.
+\item Compute the locator: $L=0.25n$
+\item<.->
+\begin{itemize}
+\item<+-> If $L$ is a decimal value:
+\begin{itemize}
+\item<.-> Round up to the next whole number, $L+$.
+\item<.-> $Q_1$ is the data value at position $L+$.
+\end{itemize}
+\item<+-> If $L$ is a whole number:
+\begin{itemize}
+\item<.-> $Q_1$ is the mean of the data values in position $L$ and $L+1$.
+\end{itemize}
+\end{itemize}
+\end{enumerate}
+\end{block}
+
+\onslide<+->
+\begin{block}{How to Calculate $Q_3$}
+Use the same procedure as for $Q_1$, but with locator: $L=0.75n$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{ex:female_height}
+Suppose we have measured the height (in inches) of 9 women. The data, sorted from smallest to largest is:
+\begin{center}
+\begin{tabular}{ccccccccc}
+59 & 60 & 62 & 64 & 66 & 67 & 69 & 70 & 72
+\end{tabular}
+\end{center}
+
+\onslide<+->
+\begin{description}[<+- | alert@+>]
+\item[Finding $Q_1$:] The locator is $L=0.25\cdot 9=2.25$, so we need to round up, which gives $L+=3$. Thus, $Q_1=62$.
+\item[Finding $Q_2$:] This is just the median, which is 66.
+\item[Finding $Q_3$:] The locator is $L=0.75\cdot 9=6.75$, so we need to round up, which gives $L+=7$. Thus, $Q_3=69$.
+\end{description}
+
+\onslide<+->
+The five-number summary for this data set is: 59, 62, 66, 69, 72
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose, as in Example~\ref{ex:female_height}, we have measured the height (in inches) of 8 women. The data, sorted from smallest to largest is:
+\begin{center}
+\begin{tabular}{cccccccc}
+59 & 60 & 62 & 64 & 66 & 67 & 69 & 70
+\end{tabular}
+\end{center}
+
+\onslide<+->
+\begin{description}[<+- | alert@+>]
+\item[Finding $Q_1$:] The locator is $L=0.25\cdot 8=2$, so $Q_1$ will be the median of the second and third data values. Thus, $Q_1=\dfrac{60+62}{2}=61$.
+\item[Finding $Q_2$:] This is just the median, which is 65.
+\item[Finding $Q_3$:] The locator is $L=0.75\cdot 8=6$, so $Q_3$ will be the median of the sixth and seventh data values. Thus, $Q_3=\dfrac{67+69}{2}=68$.\end{description}
+
+\onslide<+->
+The five-number summary for this data set is: 59, 61, 65, 68, 70
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+A \textbf{box plot} is a graphical representation of a five-number summary.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+y=1.5cm, 
+ymax=2,
+ytick=\empty,
+xtick=\empty,
+axis lines=none
+]
+\addplot+[
+boxplot,
+]
+table[row sep=\\,y index=0] {
+data\\
+-2\\ 1\\ 2\\ 1\\ 5\\ 4\\ 10\\
+7\\ 10\\ 9\\ 8\\ 9\\ 9\\ 15\\
+}
+[above]
+node at
+(boxplot box cs: \boxplotvalue{lower whisker},1)
+{min}
+node at
+(boxplot box cs: \boxplotvalue{lower quartile},1)
+{$Q_1$}
+node[left] at
+(boxplot box cs: \boxplotvalue{median},0.5)
+{median}
+node at
+(boxplot box cs: \boxplotvalue{upper quartile},1)
+{$Q_3$}
+node at
+(boxplot box cs: \boxplotvalue{upper whisker},1)
+{max}
+;
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{block}\pause
+
+\begin{example}
+Example~\ref{ex:female_height} has the five-number summary: 59, 62, 66, 69, 72
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+y=1.5cm, 
+ymax=1.5,
+xmin=55,
+xmax=75,
+ytick=\empty,
+xtick={55,57,...,75},
+xlabel={Height (inches)},
+minor x tick num=1,
+axis y line=none,
+axis x line=bottom,
+xlabel={Height (inches)},
+]
+\addplot+[
+boxplot prepared={
+lower whisker=59, 
+lower quartile=62,
+median=66,
+upper quartile=69, 
+upper whisker=72,
+}]
+coordinates {};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The box plot shows the service times for two fast-food restaurants.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+x=1cm,
+y=2.3cm,
+xmin=0,
+xmax=10,
+xtick={0,1,...,10},
+xlabel={Service Time (minutes)},
+minor x tick num=1,
+axis y line=none,
+axis x line=bottom,
+]
+\addplot+[% Store A
+boxplot prepared={
+lower whisker=0.5, 
+lower quartile=1.1,
+median=2.1,
+upper quartile=5.7, 
+upper whisker=9.6,
+}]
+coordinates {}
+[above]
+node at
+(boxplot box cs: \boxplotvalue{lower whisker},1)
+{\pgfmathprintnumber{\boxplotvalue{lower whisker}}}
+node at
+(boxplot box cs: \boxplotvalue{lower quartile},1)
+{\pgfmathprintnumber{\boxplotvalue{lower quartile}}}
+node[left] at
+(boxplot box cs: \boxplotvalue{median},0.5)
+{\pgfmathprintnumber{\boxplotvalue{median}}}
+node at
+(boxplot box cs: \boxplotvalue{upper quartile},1)
+{\pgfmathprintnumber{\boxplotvalue{upper quartile}}}
+node at
+(boxplot box cs: \boxplotvalue{upper whisker},1)
+{\pgfmathprintnumber{\boxplotvalue{upper whisker}}}
+;
+\addplot+[% Store B
+boxplot prepared={
+lower whisker=0.7, 
+lower quartile=1.8,
+median=2.3,
+upper quartile=3.1, 
+upper whisker=6.3,
+}]
+coordinates {}
+[above]
+node at
+(boxplot box cs: \boxplotvalue{lower whisker},1)
+{\pgfmathprintnumber{\boxplotvalue{lower whisker}}}
+node at
+(boxplot box cs: \boxplotvalue{lower quartile},1)
+{\pgfmathprintnumber{\boxplotvalue{lower quartile}}}
+node[right] at
+(boxplot box cs: \boxplotvalue{median},0.5)
+{\pgfmathprintnumber{\boxplotvalue{median}}}
+node at
+(boxplot box cs: \boxplotvalue{upper quartile},1)
+{\pgfmathprintnumber{\boxplotvalue{upper quartile}}}
+node at
+(boxplot box cs: \boxplotvalue{upper whisker},1)
+{\pgfmathprintnumber{\boxplotvalue{upper whisker}}}
+;
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{-2mm}
+What comparisons between the two restaurants can we make? 
+
+If you are in a hurry, which restaurant should you go to?
+\end{example}
 \end{frame}
 \end{document}
