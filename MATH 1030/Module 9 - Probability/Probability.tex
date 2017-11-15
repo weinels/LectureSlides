@@ -1,0 +1,611 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+\title[MATH 1030 - Module 9 - Probability]{Probability}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The result of an experiment is called an \textbf{outcome}.
+\end{definition}\pause
+
+\begin{example}
+Rolling a die is an experiment, where the outcome is the number rolled.
+\end{example}\pause
+
+\begin{definition}
+An \textbf{event} is any particular outcome or group of outcomes.
+
+\vspace{2mm}
+A \textbf{simple event} is an event that cannot be broken down further.
+\end{definition}\pause
+
+\begin{example}
+Drawing a hand for poker is an event, where the outcome is the hand you drew.
+
+\vspace{2mm}
+This is not a simple event, since we could break it down to five individual card draws. Where each card draw would be a simple event.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{sample space} of an experiment is the set of all possible simple events.
+\end{definition}\pause
+
+\begin{example}
+If we roll a standard 6-sided die, what is the sample space?\pause
+
+\vspace{2mm}
+The sample space is $\set{1,2,3,4,5,6}$.
+\end{example}\pause
+
+\begin{definition}
+Given that all out outcomes are equally likely, we can compute the probability of an event $E$ using the formula
+\begin{equation*}
+\prob{E}=\dfrac{\text{Number of outcomes corresponding to the event $E$}}{\text{Total number of outcomes}}
+\end{equation*}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability we will roll a 1 on a 6-sided die?\pause
+
+\vspace{2mm}
+There is only one outcome to \textquote{rolling a 1}, so
+\begin{equation*}
+\prob{\text{rolling a 1}} = \dfrac{1}{6}
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+What is the probability we will roll better than a 4 on a 6-sided die?\pause
+
+\vspace{2mm}
+There are two outcomes bigger than 4, so
+\begin{equation*}
+\prob{\text{roll better than a 4}} = \dfrac{2}{6} = \dfrac{1}{3}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+Probabilities are ratios, and so can be reduced like fractions.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose you have a bag with 20 cherries, 14 sweet and 6 sour. If you pick a cherry at random, what is the probability that it will sweet?\pause
+
+\vspace{2mm}
+The total number of outcomes is 20, one for each cherry in the bag. 14 of those outcomes are sweet cherries, so the probability is
+\begin{equation*}
+\prob{\text{sweet cherry}} = \dfrac{14}{20} = \dfrac{7}{10}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+It is assumed that you cannot differentiate the cherries by touch. If, say, the sweet cherries were smaller than the sour ones, you could always pick a sweet cherry.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A standard deck of 52 playing cards consists of four \textbf{suits} in two colors: 
+Hearts $\suitheart$, Spades $\suitspade$, Diamonds $\suitdiamond$, and Clubs $\suitclub$
+
+\vspace{2mm}
+Each suit contains 13 cards, each of a different \textbf{rank}: 
+
+Ace, 2 through 10, Jack, Queen, and King.
+\end{definition}\pause
+
+\begin{example}
+Let us compute the probability of drawing a card from a deck and getting an Ace.\pause
+
+There are four aces in a deck of 52 cards. Which gives the probability
+\begin{equation*}
+\prob{\text{Ace}}=\dfrac{4}{52}=\dfrac{1}{13}\approx 0.0769=7.67\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+An impossible event has probability 0.
+
+\vspace{2mm}
+A certain event has a probability of 1.
+
+\vspace{2mm}
+The probability of any event must be $0\leq\prob{E}\leq1$.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{complement} of an event $E$ is the event \textquote{$E$ doesn't happen.}
+
+\vspace{2mm}
+The notation $\bar{E}$ is used to denote the complement of $E$.
+\end{definition}\pause
+
+\begin{example}
+If we roll a 6-sided die, then we have the following complements:
+\begin{equation*}
+\begin{aligned}
+\prob{\text{roll a six}} &= \dfrac{1}{6} \\
+\prob{\text{roll a one, two, three, four, or five}} &= \dfrac{5}{6}
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Either an even occurs or it does not. This means the sum of $\prob{E}$ and $\prob{\bar{E}}$ always has to equal 1.
+
+\vspace{2mm}
+In other words,
+\begin{equation*}
+\prob{\bar{E}} = 1-\prob{E}
+\quad\text{or}\quad
+\prob{E} = 1-\prob{\bar{E}}
+\end{equation*}
+\end{note}\pause
+
+\begin{example}
+Let us calculate the probability of drawing a card from a deck and not getting a heart.\pause
+
+\vspace{2mm}
+There are 13 hearts in a deck, giving $\prob{\text{heart}}=\dfrac{13}{52}=\dfrac{1}{4}$.\pause
+
+\vspace{2mm}
+This means the probability of not drawing a heart is
+\begin{equation*}
+\prob{\text{not heart}} = 1 - \prob{\text{heart}} = 1-\dfrac{1}{4} = \dfrac{3}{4}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Events $A$ and $B$ are \textbf{independent events} if the probability of $B$ occuring is the same, whether or not $A$ occurs.
+\end{definition}\pause
+
+\begin{example}
+Are these events independent?
+\begin{enumerate}
+\item A fair coin is tossed two times. The two events are (1) first toss is a head and (2) second toss is a head.\pause \quad\textbf{Independent}\pause
+\item You draw a card from a deck, then without replacing the first, draw a second card?\pause \quad\textbf{Dependent}
+\end{enumerate}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+If events $A$ and $B$ are independent, then the probability of both $A$ and $B$ occurring is
+\begin{equation*}
+\prob{A~\text{and}~B}=\prob{A} \cdot \prob{B}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+Suppose we flip a fair coin and roll a fair die. 
+
+\vspace{2mm}
+The sample space is $\set{\text{H1}, \text{H2}, \text{H3}, \text{H4}, \text{H5}, \text{H6}, \text{T1}, \text{T2}, \text{T3}, \text{T4}, \text{T5}, \text{T6}}$.\pause
+
+\vspace{2mm}
+The probability of getting tails on the coin and three on the die is 
+\begin{equation*}
+\prob{\text{T3}}=\dfrac{1}{12}
+\end{equation*}\pause
+
+We could have also calculated
+\begin{equation*}
+\prob{\text{H and 3}} = \prob{\text{H}}\cdot\prob{3} = \dfrac{1}{2}\cdot\dfrac{1}{6} = \dfrac{1}{12}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The probability of either $A$ or $B$ occurring (or both) is
+\begin{equation*}
+\prob{A~\text{or}~B}=\prob{A}+\prob{B}-\prob{A~\text{and}~B}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+Suppose we flip a fair coin and roll a fair die. 
+
+\vspace{2mm}
+The sample space is $\set{\text{H1}, \text{H2}, \text{H3}, \text{H4}, \text{H5}, \text{H6}, \text{T1}, \text{T2}, \text{T3}, \text{T4}, \text{T5}, \text{T6}}$.
+
+\vspace{2mm}
+We want to calculate the probability of getting a head or a six.\pause
+
+\vspace{2mm} 
+The outcomes are: H1, H2, H3, H4, H5, H6, T6. Giving $\prob{\text{H or 6}} = \tfrac{7}{12}$.\pause
+
+\vspace{2mm}
+Notice that $\tfrac{6}{12}=\tfrac{1}{2}$ of the outcomes have heads and $\tfrac{2}{12}=\tfrac{1}{6}$ have a six. \pause
+
+\vspace{2mm}
+But, $\tfrac{1}{2}+\tfrac{1}{6}=\frac{8}{12}$, is wrong because we have double counted H6. Thus, we need to subtract $\prob{\text{H6}}=\tfrac{1}{12}$.
+\begin{equation*}
+\prob{\text{H or 6}} = \prob{\text{H}}+\prob{6}-\prob{\text{H and 6}} = \tfrac{1}{2}+\tfrac{1}{6}-\tfrac{1}{12}=\tfrac{7}{12}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose we draw one card from a standard deck. Let us find the probability that we get a Queen or a King.\pause
+
+\vspace{2mm}
+There are 4 Queens and 4 Kings in the deck, hence eight outcomes out of 52 possible outcomes. So, the probability is
+\begin{equation*}
+\prob{\text{Q or K}} = \dfrac{8}{52}
+\end{equation*}\pause
+
+Since there are no cards that are both Kings and Queens, we have
+\begin{equation*}
+\prob{\text{Q or K}} = \prob{\text{Q}} + \prob{K} - \prob{\text{Q and K}} = \dfrac{4}{52}+\dfrac{4}{52}-\dfrac{0}{52} = \dfrac{8}{52}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+If two events are \textbf{mutually exclusive}, then $\prob{A~\text{or}~B} = \prob{A}+\prob{B}$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose we draw one card from a standard deck. Let us calculate the probability that we get a red card for a King.\pause
+
+\vspace{2mm}
+Half the cards are red, so $\prob{\text{Red}}=\dfrac{26}{52}$.\pause
+
+\vspace{2mm}
+Four cards are Kings, so $\prob{\text{K}}=\dfrac{4}{52}$.\pause
+
+\vspace{2mm}
+Two cards are red kings, so $\prob{\text{Red and K}}=\dfrac{2}{52}$.\pause
+
+\vspace{2mm}
+Thus,
+\begin{equation*}
+\prob{\text{Red or K}} 
+= \prob{\text{Red}} + \prob{\text{K}} - \prob{\text{Red and K}}
+= \dfrac{26}{52} + \dfrac{4}{52} - \dfrac{2}{52}
+= \dfrac{7}{13}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability that two cards drawn at random from a deck will both be aces?\pause
+
+\vspace{2mm}
+You might guess that since there are four aces in the deck of 52 cards, the probability would be $\dfrac{4}{52}\cdot\dfrac{4}{52}=\dfrac{1}{169}$.\pause
+
+\vspace{2mm}
+The problem here is that the events are not independent. Once one card is drawn, there are only 51 cards remaining. Once an ace has been drawn, there are only three remaining.\pause
+
+\vspace{2mm}
+This means that the the probability of drawing two aces is $\dfrac{4}{52}\cdot\dfrac{3}{51}=\dfrac{1}{221}$.
+\end{example}\pause
+
+\begin{definition}
+The probability the event $B$ occurs, given that event $A$ has happened, is represented as $\condprob{B}{A}$. This is called a \textbf{conditional probability}.
+
+\vspace{2mm}
+Read as \textquote{the probability of $B$ given $A$.}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Car color & Speeding ticket & No speeding ticket & Total \\ \hline
+Red & 15 & 135 & 150 \\ \hline
+Not red & 45 & 470 & 515 \\ \hline
+Total & 60 & 605 & 665 \\ \hline
+\end{tabular}
+\end{center}
+
+Find the probability someone has gotten a speeding ticket \emph{given} they drive a red car.\pause
+\begin{equation*}
+\condprob{\text{ticket}}{\text{red}} = \dfrac{15}{150} = \dfrac{1}{10} = 10\%
+\end{equation*}\pause
+
+Find the probability someone drives a red car \emph{given} they have gotten a speeding ticker.\pause
+\begin{equation*}
+\condprob{\text{red}}{\text{ticket}} = \dfrac{15}{60} = \dfrac{1}{4} = 25\%
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+In general $\condprob{B}{A}\neq\condprob{A}{B}$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+If $A$ and $B$ are not independent, then $\prob{A~\text{and}~B}=\prob{A}\cdot\condprob{B}{A}$.
+\end{definition}\pause
+
+\begin{example}
+If you pull two cards out of a deck, find the probability that both are hearts.\pause
+
+\vspace{2mm}
+The probability that the first card is a heart is $\prob{\text{\nth{1} $\suitheart$}}=\dfrac{13}{52}$.\pause
+
+\vspace{2mm}
+The probability that the second card is a heart, given that the first card was a heart, is $\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}}=\dfrac{12}{51}$.\pause
+
+\vspace{2mm}
+So, the probability that both are spades is
+\begin{equation*}
+\prob{\text{both $\suitheart$}}=\prob{\text{\nth{1} $\suitheart$}}\cdot\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}} =  \dfrac{13}{52} \cdot \dfrac{12}{52} = \dfrac{156}{2652} \approx 5.9\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+If you draw two cards from a deck, find the probability that you will get the Ace of Diamonds and a black card.\pause
+
+\vspace{1mm}
+There are two events we have to consider:\pause
+\begin{description}
+\item[Event $A$] Drawing the Ace of Diamonds then a black card.
+\begin{equation*}
+\begin{aligned}
+\prob{\suitdiamond[A]~\text{and Black}} &= \prob{\suitdiamond[A]}\cdot\condprob{\text{Black}}{\suitdiamond[A]}\\
+&= \dfrac{1}{52}\cdot\dfrac{26}{51} = \dfrac{1}{102}
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-4mm}
+\item[Event $B$] Drawing a black card then the Ace of Diamonds.
+\begin{equation*}
+\begin{aligned}
+\prob{\text{Black and}~\suitdiamond[A]} &= \prob{\text{Black}}\cdot\condprob{\suitdiamond[A]}{\text{Black}} \\
+&= \dfrac{26}{52}\cdot\dfrac{1}{51}=\dfrac{1}{102}
+\end{aligned}
+\end{equation*}\pause
+\end{description}
+
+\vspace{-4mm}
+These events are independent and mutually exclusive, so 
+
+\vspace{-2.5mm}
+\begin{equation*}
+\prob{A~\text{or}~B} = \prob{A}+\prob{B} = \dfrac{1}{102}+\dfrac{1}{102} = \dfrac{2}{102} \approx 1.96\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The number of combinations when choosing $k$ objects out of a pool of $n$ objects is:
+\begin{equation*}
+\comb{n}{k}=\binom{n}{k} = \dfrac{n!}{k!\left(n-k\right)!}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+How many five-card poker hands are there?\pause
+
+\begin{equation*}
+\comb{52}{5} = \dfrac{52!}{5!\left(52-5\right)!} = 2,598,960
+\end{equation*}
+\end{example}\pause
+
+\begin{example}\label{ex:poker_straight}
+What is the probability that a poker hand will contain exactly two jacks?\pause
+
+\begin{equation*}
+\dfrac{\left(\comb{4}{2}\right)\left(\comb{48}{3}\right)}{\comb{52}{5}} = \dfrac{6\cdot17,296}{2,598,960} = \dfrac{103,776}{2,598,960} \approx 4\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability that a poker hand will contain a straight?\pause
+
+\vspace{2mm}
+The lowest ranked straight is A,2,3,4,5 and the highest ranked straight is 10,J,Q,K,A. Thus, for the any of the ten ranks A through 10, we can build a straight. Each card can be from any of the four suits.\\ This means the probability is:
+\begin{equation*}
+\prob{\text{straight}} = \dfrac{10\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)}{\comb{52}{5}} = \dfrac{10,240}{2,598,960} \approx 3.94\%
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+What is the probability that a poker hand will contain a straight, but not a straight flush?\pause
+
+We calculated in Example~\ref{ex:poker_straight} the number of straights possible. Now, just need to subtract out the number of straight flushes.
+\begin{equation*}
+\prob{\text{straight}} = \dfrac{10,240 - 40}{\comb{52}{5}} = \dfrac{10,200}{2,598,960} \approx 3.92\%
+\end{equation*}
+
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In the casino game Roulette, a wheel with 38 spaces (18 red, 18 black, and 2 green) is spun. In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.
+
+\vspace{2mm}
+On average, how much money should a player expect to win or lose if they play this game repeatedly?\pause
+
+\vspace{2mm}
+Any number you bet on will have the following probabilities:
+\begin{center}
+\begin{tabular}{|c|c|} \hline
+Outcome & Probability \\ \hline
+\$35 (win) & 1/38 \\\hline
+-\$1 (lose) & 37/38 \\ \hline
+\end{tabular}
+\end{center}\pause
+
+So, \textbf{on average}, we will have a net change of
+\begin{equation*}
+\$35\cdot\dfrac{1}{38} + -\$1\cdot\dfrac{37}{38} = \$0.9211 - \$0.9737 \approx -\$0.053
+\end{equation*}
+
+That is, \textbf{on average}, we will lose 5.3 cents per space we bet on.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{expected value} is the average gain or loss of an event if the procedure is repeated many times.
+
+\vspace{2mm}
+Expected values is calculated using the following formula.
+\begin{equation*}
+EV = V(O_1)\cdot P(O_1)+V(O_2)\cdot P(O_2)+\cdots+V(O_n)\cdot P(O_n)
+\end{equation*}
+where $V(O_i)$ is the value of the $i$th outcome, and $P(O_i)$ is the probability of the $i$th outcome.\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider a lottery where balls numbered 1 through 48 are placed in a machine and six balls are drawn at random. If the six numbers drawn match the numbers that a player has chosen, that player wins \$1,000,000. If they match five numbers, they win \$1,000. A lottery ticket costs \$1.\\ Let us calculate the expected value.\pause
+
+\vspace{2mm}
+The following table gives the values and probabilities.
+\begin{center}
+{%
+\setlength{\extrarowheight}{1.3mm}
+\begin{tabular}{|l|c|r|} \hline
+Outcome & Value & Probability\\ \hline
+Match all six & \phantom{-}\$999,999 & $\tfrac{\comb{6}{6}}{\comb{48}{6}}=\tfrac{1}{12272512}$ \\[1.3mm] \hline
+Match five & \phantom{-}\$999\phantom{999,} & $\tfrac{\left(\comb{6}{5}\right)\left(\comb{42}{1}\right)}{\comb{48}{6}}=\tfrac{252}{12272512}$ \\[1.3mm] \hline
+Match four for fewer & -\$1\phantom{99,999} & $1-\tfrac{253}{12272512} = \tfrac{12271259}{12272512}$ \\[1.3mm] \hline
+\end{tabular}
+}
+\end{center}\pause
+The expected value is then:
+
+\vspace{-7mm}
+\begin{equation*}
+\left(\$999,999\right)\cdot\tfrac{1}{12272512} + \left(\$999\right)\cdot\tfrac{252}{12272512} + \left(-\$1\right)\cdot\tfrac{12271259}{12272512} \approx -\$0.898
+\end{equation*}
+
+\vspace{-3mm}
+So, on average, a player can expect to lose about 90 cents on a ticket.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+It is generally a bad idea to play a game with a negative expected value.
+
+\vspace{2mm}
+A game is called \textbf{fair} if it's expected value is zero.
+\end{note}\pause
+
+\begin{example}
+A friend offers to play a game, in which you roll 3 standard 6-sided dice. If all the dice roll different values, you give him \$1. If any two dice match values, you get \$2. Should you play this game?\pause
+
+\vspace{2mm}
+Suppose you roll the first die. The probabilities are:
+\begin{equation*}
+\begin{aligned}
+\prob{\text{no match}} &= \dfrac{\left(\comb{6}{1}\right)\left(\comb{5}{1}\right)\left(\comb{4}{1}\right)}{\left(\comb{6}{1}\right)\left(\comb{6}{1}\right)\left(\comb{6}{1}\right)} = \dfrac{6\cdot5\cdot4}{6\cdot6\cdot6} = \dfrac{5}{9} &\left(\approx 55.5\%\right) \\
+\prob{\text{at least two match}} &= 1 - \prob{\text{no match}} = 1-\dfrac{5}{9} = \dfrac{4}{9} &\left(\approx 44.4\%\right)
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-5mm}
+The expected value is:
+
+\vspace{-5mm}
+\begin{equation*}
+\$2\cdot\dfrac{4}{9} -\$1\cdot\dfrac{5}{9} = \dfrac{1}{3} \approx \$0.33
+\end{equation*}
+
+\vspace{-1mm}
+You will, on average, win 33 cents per play.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose an individual has a 0.242\% risk of dying during the next year. An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit. What is the expected value for the person buying the insurance?\pause
+
+\vspace{2mm}
+The probabilities and values for the two outcomes are:
+\begin{center}
+\begin{tabular}{|r|r|} \hline
+Value & Probability \\ \hline
+\$100,000-\$275 = \$99,725 & 0.00242 \\ \hline
+-\$275 & 1-0.00242 = 0.99758 \\ \hline
+\end{tabular}
+\end{center}\pause
+The expected value is $\$99,725\cdot 0.00242 -\$275\cdot0.99758 = -\$33$.
+\end{example}\pause
+\begin{note}
+It makes sense that a insurance policy would have a negative expected value, otherwise the insurance company couldn't stay in business.
+
+\vspace{2mm}
+The benefit for the consumer is the security that the policy provides.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+A company estimates that 0.7\% of their products will fail after the original warranty period but within 2 years of the purchase, with a replacement cost of \$350. If they offer a 2 year extended warranty for \$48, what is the company's expected value?\pause
+
+\vspace{2mm}
+The probabilities and values for the two outcomes are:
+\begin{center}
+\begin{tabular}{|r|r|} \hline
+Value & Probability \\ \hline
+-\$350 + \$48 = -\$302 & 0.007 \\ \hline
+\$48 & 1-0.007 = 0.993 \\ \hline
+\end{tabular}
+\end{center}\pause
+The expected value is $-\$302\cdot 0.007 + \$48\cdot0.993 = \$45.55$.
+
+\vspace{2mm}
+The company makes, on average, \$45.55 on each extended warranty.
+\end{example}\pause
+
+\begin{note}
+The expected value for the consumer may be different. The consumer is likely to pay the more to repair or replace the item out of warranty.\\ (The company pays manufacturing cost, consumer has to pay retail cost.)
+\end{note}
+\end{frame}
+\end{document}
