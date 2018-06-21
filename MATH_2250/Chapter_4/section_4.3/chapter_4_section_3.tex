@@ -83,7 +83,7 @@ y(t)=e^{2 t}\left(c_1\cos[3 t]+c_2\sin[3 t]\right)
 \end{equation*}}
 
 \visible<5->{\vspace{-5mm}
-The set $\left\{e^{2 t}\cos[3 t],e^{\alpha t}\sin[3 t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
+The set $\left\{e^{2 t}\cos[3 t],e^{2 t}\sin[3 t]\right\}$ is a basis of the solution space $\Sol$,\linebreak and $\dim\Sol=2$.}
 \onslide<6->
 \begin{figure}
 \centering
@@ -675,7 +675,7 @@ limits(start,end,Crop);
 
 xaxis("$x$",YEquals(min_y),min_x,max_x,LeftTicks());
 xaxis(YEquals(max_y),min_x,max_x);
-yaxis("$x^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis("$\dot{x}$",XEquals(min_x),min_y,max_y,LeftTicks());
 yaxis(XEquals(max_x),min_y,max_y);
 
 \end{asy}
@@ -848,7 +848,7 @@ limits(start,end,Crop);
 
 xaxis("$x$",YEquals(min_y),min_x,max_x,LeftTicks());
 xaxis(YEquals(max_y),min_x,max_x);
-yaxis("$x^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis("$\dot{x}$",XEquals(min_x),min_y,max_y,LeftTicks());
 yaxis(XEquals(max_x),min_y,max_y);
 \end{asy}
 \caption{Phase Portrait}

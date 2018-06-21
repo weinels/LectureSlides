@@ -356,7 +356,7 @@ r=-\dfrac{b}{2a}
 \end{equation*}\pause
 The functions $e^{rt}$ and $te^{rt}$ are linearly independent solutions, and the general solution is given by
 \begin{equation*}
-y(t)=c_1e^{rt}+c_2te^{t}
+y(t)=c_1e^{rt}+c_2te^{rt}
 \end{equation*}
 where $c_1$ and $c_2$ are arbitrary constants determined by the initial conditions.\pause
 
@@ -603,9 +603,9 @@ for (triple k : curves)
 
 limits(start,end,Crop);
 
-xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis("$x$",YEquals(min_y),min_x,max_x,LeftTicks());
 xaxis(YEquals(max_y),min_x,max_x);
-yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis("$\dot{x}$",XEquals(min_x),min_y,max_y,LeftTicks());
 yaxis(XEquals(max_x),min_y,max_y);
 \end{asy}
 \caption{Phase Portrait}
@@ -617,7 +617,7 @@ yaxis(XEquals(max_x),min_y,max_y);
 
 \begin{frame}
 \begin{block}{Critically Damped Mass-Spring System}
-the motion of a mass-spring system is called \textbf{critically damped} when we have $\Delta=0$. The single characteristic root are negative and the solutions
+The motion of a mass-spring system is called \textbf{critically damped} when we have $\Delta=0$. The single characteristic root are negative and the solutions
 \begin{equation*}
 x(t)=c_1e^{rt}+c_2te^{rt}
 \end{equation*}
@@ -732,9 +732,9 @@ for (triple k : curves)
 
 limits(start,end,Crop);
 
-xaxis("$y$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis("$x$",YEquals(min_y),min_x,max_x,LeftTicks());
 xaxis(YEquals(max_y),min_x,max_x);
-yaxis("$y^\prime$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis("$\dot{x}$",XEquals(min_x),min_y,max_y,LeftTicks());
 yaxis(XEquals(max_x),min_y,max_y);
 \end{asy}
 \caption{Phase Portrait}
@@ -788,7 +788,7 @@ We can generalize these ideas for $n$th-order DEs.
 \begin{block}{Existence and Uniqueness Theorem ($n$th-Order)}
 Let $p_1(t), p_2(t),\ldots,p_n(t)$ be continuous on the open interval $\interval{\open{a}}{\open{b}}$ contaning $t_0$. For any initial conditions $A_0,A_1,\ldots,A_{n-1}\in\R$, there exists a unique solution $y(t)$ defined on $\interval{\open{a}}{\open{b}}$ to the IVP
 \begin{equation*}
-y^{(n)}+p_1(t)y^{(n-1)}+p_2(t)y^{(n-3)}+\cdots+p_n(t)y=0
+y^{(n)}+p_1(t)y^{(n-1)}+p_2(t)y^{(n-2)}+\cdots+p_n(t)y=0
 \end{equation*}
 where
 \begin{equation*}
@@ -809,7 +809,7 @@ For any linear $n$th-order homogeneous DE on $\interval{\open{a}}{\open{b}}$,
 \begin{equation*}
 y^{(n)}+p_1(t)y^{(n-1)}+\cdots+p_n(t)y=0
 \end{equation*}
-for which $p_1(t), p_2(t),\ldots,p_n(t)$ are continuous on $\interval{\open{a}}{\open{b}}$, \emph{any} $n$ linearly independent solutions $\{y_1,y_2,\ldots,y_2\}$ form a basis of the solution space $\Sol$, and \emph{every} solution $y$ on $\interval{\open{a}}{\open{b}}$ can be written as
+for which $p_1(t), p_2(t),\ldots,p_n(t)$ are continuous on $\interval{\open{a}}{\open{b}}$, \emph{any} $n$ linearly independent solutions $\{y_1,y_2,\ldots,y_n\}$ form a basis of the solution space $\Sol$, and \emph{every} solution $y$ on $\interval{\open{a}}{\open{b}}$ can be written as
 \begin{equation*}
 y(t)=c_1y_1(t)+c_2y_2(t)+\cdots+c_n y_n(t)
 \end{equation*}
@@ -905,7 +905,10 @@ t & t+1 & t^2 -1 & t^2  \\
 \end{equation*}
 
 \vspace{-3mm}
-So, $B$ is linearly dependent.\pause\ (For example, $t=(t+1)+(t^2-1)-(t^2)$.)
+So, $B$ is linearly dependent.\pause
+
+\vspace{2mm}
+For example, $t=(t+1)+(t^2-1)-(t^2)$.
 \end{example}
 \end{frame}
 
