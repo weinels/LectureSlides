@@ -1,0 +1,308 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\title[MA205 - Section 3.1]{Measures of Center}
+
+\newcommand{\textsep}{\vspace{0.5mm}}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{measure of center} is a value at the center or middle of a data set.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{mean} of a set of data is the measure of center found by adding all the data values and dividing by the total number of data values.
+\end{definition}\pause
+
+\begin{block}{Properties of the Mean}
+\begin{itemize}
+\item Sample means drawn from the same population tend to vary less than other measures of center.\pause
+\item The mean of a data set uses every data value.\pause
+\item A disadvantage of the mean is that just one extreme value (outlier) can change the value of the mean substantially.
+\end{itemize}
+\end{block}\pause
+
+\begin{definition}
+A statistic is \textbf{resistant} if the presence of extreme values does not cause it to change very much.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Notation}
+Sample statisttics are usually represented by English letters, such as $\bar{x}$, and population parameters are usually represented by Greek letters, such as $\mu$.
+{\renewcommand*{\arraystretch}{2.25}
+\begin{equation*}
+\begin{matrix}[ll]
+\sum & \text{denotes the sum of a set of data values.} \\
+x & \text{is used to represent the individual data values.} \\
+n & \text{represents the number of data values in a sample.} \\
+N & \text{represents the number of data values in a population.} \\
+\bar{x}=\dfrac{\sum x}{n} & \text{is the mean of a set of sample values.} \\
+\mu = \dfrac{\sum x}{N} & \text{is the mean of all values in a population.}
+\end{matrix}
+\end{equation*}}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Data set 32 \textquote{Airport Data Speeds} in Appendix B includes measures of data speeds of smartphones from four different carriers. The table contains five data speeds, in megabits per second (Mbps), from the data set.
+
+\begin{center}
+\begin{tabular}{|l|ccccc|}\hline
+\text{Verizon} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
+\end{tabular}
+\end{center}\pause
+
+The mean is 
+\begin{equation*}
+\bar{x} = \dfrac{\sum x}{n}\pause
+= \dfrac{38.5 + 55.6 + 22.4 + 14.1 + 23.1}{5}\pause
+= \dfrac{153.7}{5} = 30.74~\text{Mbps}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+There are at least two ways to obtain the mean class size.
+
+\vspace{3mm}
+Consider a large university:
+\begin{itemize}
+\item If we take the numbers of students in all 737 classes, we get a mean of 40 students.
+\item If we compile a lists of the class sizes for each for each student and use this list, we could get a mean class size of 147.
+\end{itemize}
+What explains this discrepancy?\pause
+
+\vspace{3mm}
+At a large school, most students are in large classes, while there are few students in small classes.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{median} of a data set is the measure of center that is the middle value when the original data values are arranged in order of increasing magnitude.
+\end{definition}\pause
+
+\begin{block}{Properties}
+\begin{itemize}
+\item The median does not change by large amounts when we include just a few extreme value. (The median is resistant.)\pause
+\item The median does not directly use every data value.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Notation}
+The median of a sample is denoted $\tilde{x}$.
+\end{block}\pause
+
+\begin{block}{Procedure}
+\begin{enumerate}
+\item Sort the values.
+\item 
+\begin{itemize}
+\item If the number of data values is odd, the median is the number located in the exact middle of the sorted list.
+\item If the number of data values is even, the median is found by computing the mean of the two middle numbers in the sorted list.
+\end{itemize}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Data set 32 \textquote{Airport Data Speeds} in Appendix B includes measures of data speeds of smartphones from four different carriers. The table contains five data speeds, in megabits per second (Mbps), for Verizon.
+
+\begin{center}
+\begin{tabular}{|ccccc|}\hline
+38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
+\end{tabular}
+\end{center}\pause
+
+First sort the data values.
+\begin{center}
+\begin{tabular}{|ccccc|}\hline
+14.1 & 22.4 & \alt<3->{\textcolor{blue}{23.1}}{23.1} & 38.5 & 55.6\\\hline
+\end{tabular}
+\end{center}\pause
+
+We have 5 data values so the median is \textcolor{blue}{23.1} Mbps.
+\end{example}\pause
+
+\begin{block}{Note}
+This different than the mean 30.74 Mbps.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Data set 32 \textquote{Airport Data Speeds} in Appendix B includes measures of data speeds of smartphones from four different carriers. The table contains six data speeds, in megabits per second (Mbps), for Verizon.
+
+\begin{center}
+\begin{tabular}{|cccccc|}\hline
+38.5 & 55.6 & 22.4 & 14.1 & 23.1 & 24.5\\\hline
+\end{tabular}
+\end{center}\pause
+
+First sort the data values.
+\begin{center}
+\begin{tabular}{|cccccc|}\hline
+14.1 & 22.4 & \alt<3->{\textcolor{blue}{23.1}}{23.1} & \alt<3->{\textcolor{blue}{24.5}}{24.5} & 38.5 & 55.6\\\hline
+\end{tabular}
+\end{center}\pause
+
+We have 6 data values so the median is $\dfrac{\textcolor{blue}{23.1}+\textcolor{blue}{24.5}}{2}=23.80$ Mbps.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{mode} of a data set is the values that occur with the greatest frequency.
+\end{definition}\pause
+
+\begin{block}{Properties}
+\begin{itemize}
+\item The mode can be found with categorical data.\pause
+\item A data set can have no mode or multiple modes.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Procedure}
+\begin{itemize}
+\item When two data values occur with the same greatest frequency, each one is a mode and the data set is \textbf{bimodal}.\pause
+\item When more than two data values occur with the same greatest frequency, each is a mode and the data set is \textbf{multimodal}.\pause
+\item When no data value is repeated, we say there is \textbf{no mode}.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Data set 32 \textquote{Airport Data Speeds} in Appendix B includes measures of data speeds of smartphones from four different carriers. The table contains five data speeds, in megabits per second (Mbps), from the data set.
+
+\begin{center}
+\begin{tabular}{|l|ccccccc|}\hline
+\text{Sprint} & 0.2 & \alt<2->{\textcolor{blue}{0.3}}{0.3} & \alt<2->{\textcolor{blue}{0.3}}{0.3}& \alt<2->{\textcolor{blue}{0.3}}{0.3} & 0.6 & 0.6 & 1.2\\\hline
+\end{tabular}
+\end{center}\pause
+
+\vspace{3mm}
+The mode is \textcolor{blue}{0.3} Mbps since it occurs most often.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{midrange} of a data set is the measure of center that is the value midway between the maximum and minimum values in the original data set. It is found by adding the maximum data value to the minimum data value and then dividing the sum by 2.
+\begin{equation*}
+\text{Midrange} = \dfrac{\text{minimum}+\text{maximum}}{2}
+\end{equation*}
+\end{definition}\pause
+
+\begin{block}{Properties}
+\begin{itemize}
+\item The midrange is very sensitive to extreme values.\pause
+\item The midrange is very easy to compute.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Data set 32 \textquote{Airport Data Speeds} in Appendix B includes measures of data speeds of smartphones from four different carriers. The table contains five data speeds, in megabits per second (Mbps), from the data set.
+
+\begin{center}
+\begin{tabular}{|l|ccccc|}\hline
+\text{Verizon} & 38.5 & \alt<3->{\textcolor{blue}{55.6}}{55.6} & 22.4 & \alt<3->{\textcolor{red}{14.1}}{14.1} & 23.1\\\hline
+\end{tabular}
+\end{center}\pause
+
+\vspace{3mm}
+The midrange is
+\begin{equation*}
+\text{Midrange} = \dfrac{\text{minimum}+\text{maximum}}{2}\pause
+= \dfrac{\alt<3->{\textcolor{red}{14.1}}{14.1} + \alt<3->{\textcolor{blue}{55.6}}{55.6}}{2}\pause
+=34.85~\text{Mbps}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Rounding Measures of Center}
+\begin{itemize}
+\item For the mean, median, and midrange, carry one more decimal place than is present for the original set of values.
+\item For the mode, leave the value as is without rounding.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Note}
+Only round the final answer, not intermediate values that occur during calculations.
+\end{block}\pause
+
+\begin{block}{Critical Thinking}
+We can always calculate measures of center from a sample, but we need to think about whether it makes sense to do so.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\
+Consider the following zip codes:
+\begin{center}
+\begin{tabular}{|l|l|}\hline
+\textbf{Location} & \textbf{Zipcode} \\\hline
+Gateway Arch in St.\@ Louis & 63102 \\
+Whitehouse & 20500 \\
+Air Force division of the Pentagon & 20330 \\
+Empire State Building & 10118 \\
+Statue of Liberty & 10004 \\\hline
+\end{tabular}
+\end{center}\pause
+
+The data are categorical. We can calculate the mean and median, but it would be meaningless.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+U.S. News \& World Report ranks national universities:
+\begin{center}
+\begin{tabular}{|l|l|}\hline
+\textbf{University} & \textbf{Ranking} \\\hline
+Harvard & 2 \\
+Yale & 3 \\
+Duke & 7 \\
+Dartmouth & 10 \\
+Brown & 14 \\\hline
+\end{tabular}
+\end{center}\pause
+
+While the ranks reflect an ordering, they don't count anything. The mean and median would be meaningless.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The top five incomes, in millions of dollars, of chief executive officers in 2018 are given below. (USA Today)
+\begin{center}
+\begin{tabular}{|l|l|l|}\hline
+\textbf{Name} & \textbf{Company} & \textbf{Income} \\\hline
+Brian Duperreault & AIG & 43.1 \\
+Dirk Van de Put & Mondelez International & 42.4 \\
+Mark V. Hurd & Oracle & 40.8 \\
+Safra A. Catz & Oracle & 40.7 \\
+Robert A. Iger & Disney & 36.3 \\\hline
+\end{tabular}
+\end{center}\pause
+
+The data values are numerical, but the sample is not representative of the population at large.
+\end{example}
+\end{frame}
+\end{document}
