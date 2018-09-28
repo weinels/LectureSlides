@@ -35,6 +35,10 @@ A \textbf{compound event} is any event combining two or more simple events.
 \end{definition}\pause
 
 \begin{definition}
+Events $A$ and $B$ are \textbf{disjoint} (or \textbf{mutually exclusive}) if they cannot occur at the same time.
+\end{definition}\pause
+
+\begin{definition}
 Events $A$ and $B$ are \textbf{independent events} if the probability of $B$ occurring is the same, whether or not $A$ occurs.
 \end{definition}\pause
 
@@ -48,12 +52,12 @@ Are these events independent?
 \end{frame}
 
 \begin{frame}
-\begin{definition}
+\begin{block}{Multiplication Rule}
 If events $A$ and $B$ are independent, then the probability of both $A$ and $B$ occurring is
 \begin{equation*}
 \prob{A~\text{and}~B}=\prob{A} \cdot \prob{B}
 \end{equation*}
-\end{definition}\pause
+\end{block}\pause
 
 \begin{example}
 Suppose we flip a fair coin and roll a fair die. 
@@ -75,12 +79,37 @@ We could have also calculated
 \end{frame}
 
 \begin{frame}
-\begin{definition}
+\begin{example}
+Modern aircraft are now highly reliable, and one design feature contributing to that reliability is the use of \textbf{redundancy}, whereby critical components are duplicated so that if one fails, the other will still work.\pause
+
+\vspace{1mm}
+The Airbus 310 airliner has three independent hydraulic systems, so if one system fails, full flight control is maintained. Let us assume the probability of a hydraulic system failing is 0.002.\pause
+
+\begin{itemize}
+\item If the Airbus 310 had only a single hydraulic system, what is the probability that the flight control system would work for an entire flight?\pause \quad $\prob{\text{safe flight}}=1-\prob{\text{system fail}}=1-0.002=0.998$\pause
+\item Given the Airbus 310 has three independent hydraulic systems, what is the probability that the flight control system would work for an entire flight?\pause
+\vspace{-4mm}
+\begin{equation*}
+\begin{aligned}
+\prob{\text{safe flight}}
+&=1-\prob{\text{system}_1\text{ fail}\text{ and }\text{system}_2\text{ fail}\text{ and }\text{system}_3\text{ fail}}\\\pause
+&=1-\prob{\text{system}_1\text{ fail}}\cdot\prob{\text{system}_2\text{ fail}}\cdot\prob{\text{system}_3\text{ fail}}\\\pause
+&=1-0.002\cdot0.002\cdot0.002\\\pause
+&=1-0.000000008=.999999992
+\end{aligned}
+\end{equation*}
+\end{itemize}
+\vspace{-5mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Addition Rule}
 The probability of either $A$ or $B$ occurring (or both) is
 \begin{equation*}
 \prob{A~\text{or}~B}=\prob{A}+\prob{B}-\prob{A~\text{and}~B}
 \end{equation*}
-\end{definition}\pause
+\end{block}\pause
 
 \begin{example}
 Suppose we flip a fair coin and roll a fair die. 
@@ -122,7 +151,7 @@ Since there are no cards that are both Kings and Queens, we have
 \end{example}\pause
 
 \begin{note}
-If two events are \textbf{mutually exclusive}, then $\prob{A~\text{or}~B} = \prob{A}+\prob{B}$.
+If two events are \textbf{disjoint}, then $\prob{A~\text{or}~B} = \prob{A}+\prob{B}$.
 \end{note}
 \end{frame}
 
@@ -201,9 +230,9 @@ In general $\condprob{B}{A}\neq\condprob{A}{B}$.
 \end{frame}
 
 \begin{frame}
-\begin{definition}
+\begin{block}{Multiplication Rule}
 If $A$ and $B$ are not independent, then $\prob{A~\text{and}~B}=\prob{A}\cdot\condprob{B}{A}$.
-\end{definition}\pause
+\end{block}\pause
 
 \begin{example}
 If you pull two cards out of a deck, find the probability that both are hearts.\pause
@@ -255,5 +284,73 @@ These events are independent and mutually exclusive, so
 \prob{A~\text{or}~B} = \prob{A}+\prob{B} = \dfrac{1}{102}+\dfrac{1}{102} = \dfrac{2}{102} \approx 1.96\%
 \end{equation*}
 \end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Sampling}
+Sampling methods are critically important, and the following relationships hold:
+\begin{itemize}
+\item Sampling \emph{with replacement}: Selections are \emph{independent} events.
+\item Sampling \emph{without replacement}: Selections are \emph{dependent} events.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Note}
+Calculations involving conditional probabilities can often be very cumbersome.
+\end{block}\pause
+
+\begin{block}{Treating Dependent Events as Independent}
+When sampling without replacement and the sample size is no more than 5\% of the size of the population, treat the selections as being independent (even though they are actually dependent).
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Assume that three adults are randomly selected without replacement from the $247,436,830$ adults in the United States. If we assume that 10\% of adults use drugs, what is the probability that the three selected adults all use drugs?\pause
+
+Because the three adults are randomly selected without replacement, the three events are dependent. This means the exact probability would be rather cumbersome. 
+\vspace{-2mm}
+\begin{equation*}
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{\small first use drugs and second use drugs and third use drugs}}\\
+&=\left(\dfrac{24,743,683}{247,436,830}\right)\cdot\left(\dfrac{24,743,682}{247,436,829}\right)\cdot\left(\dfrac{24,743,681}{247,436,828}\right)\\
+&=0.0009999998909\pause\quad\text{(Imagine selecting 10,000 adults!)}
+\end{aligned}
+\end{equation*}\pause
+Since 5 adults is less that 5\% of the total population, we can simplify the calculations considerably.
+\vspace{-2mm}
+\begin{equation*}
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{\small first use drugs and second use drugs and third use drugs}}\\
+&=0.1\cdot0.1\cdot0.1=0.00100
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+When two different people are randomly selected from those at your school, we can assume that birthdays occur on the days of the week with equal frequencies.
+
+\vspace{2mm}
+Find the probability that two people are born on the same day of the week:\pause 
+
+\vspace{1mm}
+Because no particular day of the week is specified, the first person can be born on any day of the week. This means the probability that the second person is born on the same day is 1/7.\pause
+
+\vspace{2mm}
+Find the probability that both people are born on a Monday:\pause
+
+\vspace{1mm}
+The probability that the any person is born on a Monday is 1/7. Since birth dates are independent, the probability that both are born on Monday is 
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{1}{7}\cdot\dfrac{1}{7}=\dfrac{1}{49}
+\end{equation*}
+\end{example}\pause
+
+\begin{block}{Caution}
+In any probability calculation, it is very important to carefully identify the event being considered.
+\end{block}
 \end{frame}
 \end{document}
