@@ -1,0 +1,259 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+
+\title[MA205 - Section 4.2]{Addition Rule and Multiplication Rule}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{compound event} is any event combining two or more simple events.
+\end{definition}\pause
+
+\begin{definition}
+Events $A$ and $B$ are \textbf{independent events} if the probability of $B$ occurring is the same, whether or not $A$ occurs.
+\end{definition}\pause
+
+\begin{example}
+Are these events independent?
+\begin{enumerate}
+\item A fair coin is tossed two times. The two events are (1) first toss is a head and (2) second toss is a head.\pause \quad\textbf{Independent}\pause
+\item You draw a card from a deck, then without replacing the first, draw a second card?\pause \quad\textbf{Dependent}
+\end{enumerate}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+If events $A$ and $B$ are independent, then the probability of both $A$ and $B$ occurring is
+\begin{equation*}
+\prob{A~\text{and}~B}=\prob{A} \cdot \prob{B}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+Suppose we flip a fair coin and roll a fair die. 
+
+\vspace{2mm}
+The sample space is $\set{\text{H1}, \text{H2}, \text{H3}, \text{H4}, \text{H5}, \text{H6}, \text{T1}, \text{T2}, \text{T3}, \text{T4}, \text{T5}, \text{T6}}$.\pause
+
+\vspace{2mm}
+The probability of getting tails on the coin and three on the die is 
+\begin{equation*}
+\prob{\text{T3}}=\dfrac{1}{12}
+\end{equation*}\pause
+
+We could have also calculated
+\begin{equation*}
+\prob{\text{H and 3}} = \prob{\text{H}}\cdot\prob{3} = \dfrac{1}{2}\cdot\dfrac{1}{6} = \dfrac{1}{12}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The probability of either $A$ or $B$ occurring (or both) is
+\begin{equation*}
+\prob{A~\text{or}~B}=\prob{A}+\prob{B}-\prob{A~\text{and}~B}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+Suppose we flip a fair coin and roll a fair die. 
+
+\vspace{2mm}
+The sample space is $\set{\text{H1}, \text{H2}, \text{H3}, \text{H4}, \text{H5}, \text{H6}, \text{T1}, \text{T2}, \text{T3}, \text{T4}, \text{T5}, \text{T6}}$.
+
+\vspace{2mm}
+We want to calculate the probability of getting a head or a six.\pause
+
+\vspace{2mm} 
+The outcomes are: H1, H2, H3, H4, H5, H6, T6. Giving $\prob{\text{H or 6}} = \tfrac{7}{12}$.\pause
+
+\vspace{2mm}
+Notice that $\tfrac{6}{12}=\tfrac{1}{2}$ of the outcomes have heads and $\tfrac{2}{12}=\tfrac{1}{6}$ have a six. \pause
+
+\vspace{2mm}
+But, $\tfrac{1}{2}+\tfrac{1}{6}=\frac{8}{12}$, is wrong because we have double counted H6. Thus, we need to subtract $\prob{\text{H6}}=\tfrac{1}{12}$.
+\begin{equation*}
+\prob{\text{H or 6}} = \prob{\text{H}}+\prob{6}-\prob{\text{H and 6}} = \tfrac{1}{2}+\tfrac{1}{6}-\tfrac{1}{12}=\tfrac{7}{12}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose we draw one card from a standard deck. Let us find the probability that we get a Queen or a King.\pause
+
+\vspace{2mm}
+There are 4 Queens and 4 Kings in the deck, hence eight outcomes out of 52 possible outcomes. So, the probability is
+\begin{equation*}
+\prob{\text{Q or K}} = \dfrac{8}{52}
+\end{equation*}\pause
+
+Since there are no cards that are both Kings and Queens, we have
+\begin{equation*}
+\prob{\text{Q or K}} = \prob{\text{Q}} + \prob{K} - \prob{\text{Q and K}} = \dfrac{4}{52}+\dfrac{4}{52}-\dfrac{0}{52} = \dfrac{8}{52}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+If two events are \textbf{mutually exclusive}, then $\prob{A~\text{or}~B} = \prob{A}+\prob{B}$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose we draw one card from a standard deck. Let us calculate the probability that we get a red card for a King.\pause
+
+\vspace{2mm}
+Half the cards are red, so $\prob{\text{Red}}=\dfrac{26}{52}$.\pause
+
+\vspace{2mm}
+Four cards are Kings, so $\prob{\text{K}}=\dfrac{4}{52}$.\pause
+
+\vspace{2mm}
+Two cards are red kings, so $\prob{\text{Red and K}}=\dfrac{2}{52}$.\pause
+
+\vspace{2mm}
+Thus,
+\begin{equation*}
+\prob{\text{Red or K}} 
+= \prob{\text{Red}} + \prob{\text{K}} - \prob{\text{Red and K}}
+= \dfrac{26}{52} + \dfrac{4}{52} - \dfrac{2}{52}
+= \dfrac{7}{13}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability that two cards drawn at random from a deck will both be aces?\pause
+
+\vspace{2mm}
+You might guess that since there are four aces in the deck of 52 cards, the probability would be $\dfrac{4}{52}\cdot\dfrac{4}{52}=\dfrac{1}{169}$.\pause
+
+\vspace{2mm}
+The problem here is that the events are not independent. Once one card is drawn, there are only 51 cards remaining. Once an ace has been drawn, there are only three remaining.\pause
+
+\vspace{2mm}
+This means that the the probability of drawing two aces is $\dfrac{4}{52}\cdot\dfrac{3}{51}=\dfrac{1}{221}$.
+\end{example}\pause
+
+\begin{definition}
+The probability the event $B$ occurs, given that event $A$ has happened, is represented as $\condprob{B}{A}$. This is called a \textbf{conditional probability}.
+
+\vspace{2mm}
+Read as \textquote{the probability of $B$ given $A$.}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Car color & Speeding ticket & No speeding ticket & Total \\ \hline
+Red & 15 & 135 & 150 \\ \hline
+Not red & 45 & 470 & 515 \\ \hline
+Total & 60 & 605 & 665 \\ \hline
+\end{tabular}
+\end{center}
+
+Find the probability someone has gotten a speeding ticket \emph{given} they drive a red car.\pause
+\begin{equation*}
+\condprob{\text{ticket}}{\text{red}} = \dfrac{15}{150} = \dfrac{1}{10} = 10\%
+\end{equation*}\pause
+
+Find the probability someone drives a red car \emph{given} they have gotten a speeding ticker.\pause
+\begin{equation*}
+\condprob{\text{red}}{\text{ticket}} = \dfrac{15}{60} = \dfrac{1}{4} = 25\%
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+In general $\condprob{B}{A}\neq\condprob{A}{B}$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+If $A$ and $B$ are not independent, then $\prob{A~\text{and}~B}=\prob{A}\cdot\condprob{B}{A}$.
+\end{definition}\pause
+
+\begin{example}
+If you pull two cards out of a deck, find the probability that both are hearts.\pause
+
+\vspace{2mm}
+The probability that the first card is a heart is $\prob{\text{\nth{1} $\suitheart$}}=\dfrac{13}{52}$.\pause
+
+\vspace{2mm}
+The probability that the second card is a heart, given that the first card was a heart, is $\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}}=\dfrac{12}{51}$.\pause
+
+\vspace{2mm}
+So, the probability that both are spades is
+\begin{equation*}
+\prob{\text{both $\suitheart$}}=\prob{\text{\nth{1} $\suitheart$}}\cdot\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}} =  \dfrac{13}{52} \cdot \dfrac{12}{52} = \dfrac{156}{2652} \approx 5.9\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+If you draw two cards from a deck, find the probability that you will get the Ace of Diamonds and a black card.\pause
+
+\vspace{1mm}
+There are two events we have to consider:\pause
+\begin{description}
+\item[Event $A$] Drawing the Ace of Diamonds then a black card.
+\begin{equation*}
+\begin{aligned}
+\prob{\suitdiamond[A]~\text{and Black}} &= \prob{\suitdiamond[A]}\cdot\condprob{\text{Black}}{\suitdiamond[A]}\\
+&= \dfrac{1}{52}\cdot\dfrac{26}{51} = \dfrac{1}{102}
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-4mm}
+\item[Event $B$] Drawing a black card then the Ace of Diamonds.
+\begin{equation*}
+\begin{aligned}
+\prob{\text{Black and}~\suitdiamond[A]} &= \prob{\text{Black}}\cdot\condprob{\suitdiamond[A]}{\text{Black}} \\
+&= \dfrac{26}{52}\cdot\dfrac{1}{51}=\dfrac{1}{102}
+\end{aligned}
+\end{equation*}\pause
+\end{description}
+
+\vspace{-4mm}
+These events are independent and mutually exclusive, so 
+
+\vspace{-2.5mm}
+\begin{equation*}
+\prob{A~\text{or}~B} = \prob{A}+\prob{B} = \dfrac{1}{102}+\dfrac{1}{102} = \dfrac{2}{102} \approx 1.96\%
+\end{equation*}
+\end{example}
+\end{frame}
+\end{document}
