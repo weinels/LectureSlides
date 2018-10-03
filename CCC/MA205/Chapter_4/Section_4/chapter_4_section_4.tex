@@ -21,6 +21,7 @@
 \newcommand{\prob}[1]{P\left(#1\right)}
 \newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
 \newcommand{\comb}[2]{_{#1}C_{#2}}
+\newcommand{\perm}[2]{_{#1}P_{#2}}
 
 \title[MA205 - Section 4.3]{Counting}
 
@@ -30,8 +31,101 @@
 \end{frame}
 
 \begin{frame}
+\begin{block}{Multiplication Counting Rule}
+For a sequence of events in which the first event can occur $n_1$ ways, the second event can occur $n_2$ ways, the third event can occur $n_3$ ways, and so on. The total number of outcomes $n_1\cdot n_2\cdot n_3\cdot\cdots$.
+\end{block}\pause
+
+\begin{example}
+When making random guesses for an unknown four-digit passcode, each digit can be $0,1,\ldots,9$. What is the total number of different possible passcodes?\pause
+
+\vspace{1mm}
+There are 10 possible choices for each digit, so the total number of passcodes is $10\cdot 10\cdot 10\cdot 10 = 10,000$.
+\end{example}
+\end{frame}
+
+\begin{frame}
 \begin{definition}
-The number of combinations when choosing $k$ objects out of a pool of $n$ objects is:
+The \textbf{factorial symbol (!)} denotes the product of decreasing positive whole numbers. By special definition, $0!=1$.
+\end{definition}\pause
+
+\begin{example}
+\vspace{-3mm}
+\begin{equation*}
+4!=4\cdot3\cdot2\cdot1=24
+\end{equation*}
+\end{example}\pause
+
+\begin{block}{Factorial Rule}
+The number of different arrangements (where order matters) of $n$ different items when all $n$ items are selected is $n!$. %chktex 40
+\end{block}\pause
+
+\begin{example}
+A researcher must visit the presidents of the Gallup, Neilsen, Harris, Pew, and Zogby polling companies.
+\begin{itemize}
+\item How many different travel iterations are there?\pause\ $5!=5\cdot4\cdot3\cdot2\cdot1=120$.\pause
+\item What is the probability that the presidents are visited in order from younger to oldest?\pause~There is only one: $1/120=.0083$.
+\end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When $n$ different items are available and $r$ of them are selected without replacement, the number of different permutations (where order counts) is given by
+\begin{equation*}
+\perm{n}{r}=\dfrac{n!}{(n-r)!}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+In a state lottery, 48 balls numbered 1 to 48 are placed in a machine. The balls are drawn without replacement, where the order determines the winning number. 
+
+\vspace{1mm}
+How many possible lottery number are there?\pause
+
+\vspace{1mm}
+There are $n=48$ balls and $r=6$ are chosen, so the total number of permutations are:
+\begin{equation*}
+\perm{48}{r} =\dfrac{48!}{(48-6)!}=\pause 8,835,488,640
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In a horse race, a trifecta bet is won by correctly selecting, in the correct order, the horses that finish first, second, and third. The 104th running Kentucky Derby has a field of 19 horses.
+
+\vspace{1mm}
+How many different trifecta bets are possible?\pause
+
+\vspace{1mm}
+There are $n=19$ horses available, and we must select $r=3$ of them without replacement. The number of permutations is
+
+\vspace{-2mm}
+\begin{equation*}
+\perm{19}{3}=\dfrac{19!}{(19-3)!}=5814
+\end{equation*}\pause
+
+\vspace{-4mm}
+If a bettor randomly selects three horses for a trifecta bet, what is the probability of winning?\pause
+
+\vspace{1mm}
+There are 5814 arrangements of three horses, but only one of them will win the trifecta bet. So the probability is
+
+\vspace{-3mm}
+\begin{equation*}
+\prob{\text{trifecta win}}=\dfrac{1}{5814}=.00017
+\end{equation*}\pause
+
+\vspace{-4mm}
+We are assuming that all horses are equally likely to win the Kentucky Derby. In practice, this is not true. Some horses are faster than others.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When $n$ different items are available, but only $r$ of them are selected without replacement, the number of different combinations (order does not matter) if found as follows
+
+\vspace{-4mm}
 \begin{equation*}
 \comb{n}{k}=\binom{n}{k} = \dfrac{n!}{k!\left(n-k\right)!}
 \end{equation*}
@@ -73,32 +167,6 @@ We calculated in Example~\ref{ex:poker_straight} the number of straights possibl
 \prob{\text{straight}} = \dfrac{10,240 - 40}{\comb{52}{5}} = \dfrac{10,200}{2,598,960} \approx 3.92\%
 \end{equation*}
 
-\end{example}
-\end{frame}
-
-\begin{frame}
-\begin{example}
-In the casino game Roulette, a wheel with 38 spaces (18 red, 18 black, and 2 green) is spun. In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.
-
-\vspace{2mm}
-On average, how much money should a player expect to win or lose if they play this game repeatedly?\pause
-
-\vspace{2mm}
-Any number you bet on will have the following probabilities:
-\begin{center}
-\begin{tabular}{|c|c|} \hline
-Outcome & Probability \\ \hline
-\$35 (win) & 1/38 \\\hline
--\$1 (lose) & 37/38 \\ \hline
-\end{tabular}
-\end{center}\pause
-
-So, \textbf{on average}, we will have a net change of
-\begin{equation*}
-\$35\cdot\dfrac{1}{38} + -\$1\cdot\dfrac{37}{38} = \$0.9211 - \$0.9737 \approx -\$0.053
-\end{equation*}
-
-That is, \textbf{on average}, we will lose 5.3 cents per space we bet on.
 \end{example}
 \end{frame}
 \end{document}
