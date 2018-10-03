@@ -1,0 +1,104 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+
+\title[MA205 - Section 4.3]{Counting}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The number of combinations when choosing $k$ objects out of a pool of $n$ objects is:
+\begin{equation*}
+\comb{n}{k}=\binom{n}{k} = \dfrac{n!}{k!\left(n-k\right)!}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+How many five-card poker hands are there?\pause
+
+\begin{equation*}
+\comb{52}{5} = \dfrac{52!}{5!\left(52-5\right)!} = 2,598,960
+\end{equation*}
+\end{example}\pause
+
+\begin{example}\label{ex:poker_straight}
+What is the probability that a poker hand will contain exactly two jacks?\pause
+
+\begin{equation*}
+\dfrac{\left(\comb{4}{2}\right)\left(\comb{48}{3}\right)}{\comb{52}{5}} = \dfrac{6\cdot17,296}{2,598,960} = \dfrac{103,776}{2,598,960} \approx 4\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability that a poker hand will contain a straight?\pause
+
+\vspace{2mm}
+The lowest ranked straight is A,2,3,4,5 and the highest ranked straight is 10,J,Q,K,A. Thus, for the any of the ten ranks A through 10, we can build a straight. Each card can be from any of the four suits.\\ This means the probability is:
+\begin{equation*}
+\prob{\text{straight}} = \dfrac{10\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)\left(\comb{4}{1}\right)}{\comb{52}{5}} = \dfrac{10,240}{2,598,960} \approx 3.94\%
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+What is the probability that a poker hand will contain a straight, but not a straight flush?\pause
+
+We calculated in Example~\ref{ex:poker_straight} the number of straights possible. Now, just need to subtract out the number of straight flushes.
+\begin{equation*}
+\prob{\text{straight}} = \dfrac{10,240 - 40}{\comb{52}{5}} = \dfrac{10,200}{2,598,960} \approx 3.92\%
+\end{equation*}
+
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In the casino game Roulette, a wheel with 38 spaces (18 red, 18 black, and 2 green) is spun. In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.
+
+\vspace{2mm}
+On average, how much money should a player expect to win or lose if they play this game repeatedly?\pause
+
+\vspace{2mm}
+Any number you bet on will have the following probabilities:
+\begin{center}
+\begin{tabular}{|c|c|} \hline
+Outcome & Probability \\ \hline
+\$35 (win) & 1/38 \\\hline
+-\$1 (lose) & 37/38 \\ \hline
+\end{tabular}
+\end{center}\pause
+
+So, \textbf{on average}, we will have a net change of
+\begin{equation*}
+\$35\cdot\dfrac{1}{38} + -\$1\cdot\dfrac{37}{38} = \$0.9211 - \$0.9737 \approx -\$0.053
+\end{equation*}
+
+That is, \textbf{on average}, we will lose 5.3 cents per space we bet on.
+\end{example}
+\end{frame}
+\end{document}
