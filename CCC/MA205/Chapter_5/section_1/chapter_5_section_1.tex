@@ -1,0 +1,179 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+\newcommand{\perm}[2]{_{#1}P_{#2}}
+
+\title[MA205 - Section 5.1]{Probability Distributions}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In the casino game Roulette, a wheel with 38 spaces (18 red, 18 black, and 2 green) is spun. In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.
+
+\vspace{2mm}
+On average, how much money should a player expect to win or lose if they play this game repeatedly?\pause
+
+\vspace{2mm}
+Any number you bet on will have the following probabilities:
+\begin{center}
+\begin{tabular}{|c|c|} \hline
+Outcome & Probability \\ \hline
+\$35 (win) & 1/38 \\\hline
+-\$1 (lose) & 37/38 \\ \hline
+\end{tabular}
+\end{center}\pause
+
+So, \textbf{on average}, we will have a net change of
+\begin{equation*}
+\$35\cdot\dfrac{1}{38} + -\$1\cdot\dfrac{37}{38} = \$0.9211 - \$0.9737 \approx -\$0.053
+\end{equation*}
+
+That is, \textbf{on average}, we will lose 5.3 cents per space we bet on.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{expected value} is the average gain or loss of an event if the procedure is repeated many times.
+
+\vspace{2mm}
+Expected values is calculated using the following formula.
+\begin{equation*}
+EV = V(O_1)\cdot P(O_1)+V(O_2)\cdot P(O_2)+\cdots+V(O_n)\cdot P(O_n)
+\end{equation*}
+where $V(O_i)$ is the value of the $i$th outcome, and $P(O_i)$ is the probability of the $i$th outcome.\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider a lottery where balls numbered 1 through 48 are placed in a machine and six balls are drawn at random. If the six numbers drawn match the numbers that a player has chosen, that player wins \$1,000,000. If they match five numbers, they win \$1,000. A lottery ticket costs \$1.\\ Let us calculate the expected value.\pause
+
+\vspace{2mm}
+The following table gives the values and probabilities.
+\begin{center}
+{%
+\setlength{\extrarowheight}{1.3mm}
+\begin{tabular}{|l|c|r|} \hline
+Outcome & Value & Probability\\ \hline
+Match all six & \phantom{-}\$999,999 & $\tfrac{\comb{6}{6}}{\comb{48}{6}}=\tfrac{1}{12272512}$ \\[1.3mm] \hline
+Match five & \phantom{-}\$999\phantom{999,} & $\tfrac{\left(\comb{6}{5}\right)\left(\comb{42}{1}\right)}{\comb{48}{6}}=\tfrac{252}{12272512}$ \\[1.3mm] \hline
+Match four for fewer & -\$1\phantom{99,999} & $1-\tfrac{253}{12272512} = \tfrac{12271259}{12272512}$ \\[1.3mm] \hline
+\end{tabular}
+}
+\end{center}\pause
+The expected value is then:
+
+\vspace{-7mm}
+\begin{equation*}
+\left(\$999,999\right)\cdot\tfrac{1}{12272512} + \left(\$999\right)\cdot\tfrac{252}{12272512} + \left(-\$1\right)\cdot\tfrac{12271259}{12272512} \approx -\$0.898
+\end{equation*}
+
+\vspace{-3mm}
+So, on average, a player can expect to lose about 90 cents on a ticket.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+It is generally a bad idea to play a game with a negative expected value.
+
+\vspace{2mm}
+A game is called \textbf{fair} if it's expected value is zero.
+\end{note}\pause
+
+\begin{example}
+A friend offers to play a game, in which you roll 3 standard 6-sided dice. If all the dice roll different values, you give him \$1. If any two dice match values, you get \$2. Should you play this game?\pause
+
+\vspace{2mm}
+Suppose you roll the first die. The probabilities are:
+\begin{equation*}
+\begin{aligned}
+\prob{\text{no match}} &= \dfrac{\left(\comb{6}{1}\right)\left(\comb{5}{1}\right)\left(\comb{4}{1}\right)}{\left(\comb{6}{1}\right)\left(\comb{6}{1}\right)\left(\comb{6}{1}\right)} = \dfrac{6\cdot5\cdot4}{6\cdot6\cdot6} = \dfrac{5}{9} &\left(\approx 55.5\%\right) \\
+\prob{\text{at least two match}} &= 1 - \prob{\text{no match}} = 1-\dfrac{5}{9} = \dfrac{4}{9} &\left(\approx 44.4\%\right)
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-5mm}
+The expected value is:
+
+\vspace{-5mm}
+\begin{equation*}
+\$2\cdot\dfrac{4}{9} -\$1\cdot\dfrac{5}{9} = \dfrac{1}{3} \approx \$0.33
+\end{equation*}
+
+\vspace{-1mm}
+You will, on average, win 33 cents per play.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose an individual has a 0.242\% risk of dying during the next year. An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit. What is the expected value for the person buying the insurance?\pause
+
+\vspace{2mm}
+The probabilities and values for the two outcomes are:
+\begin{center}
+\begin{tabular}{|r|r|} \hline
+Value & Probability \\ \hline
+\$100,000-\$275 = \$99,725 & 0.00242 \\ \hline
+-\$275 & 1-0.00242 = 0.99758 \\ \hline
+\end{tabular}
+\end{center}\pause
+The expected value is $\$99,725\cdot 0.00242 -\$275\cdot0.99758 = -\$33$.
+\end{example}\pause
+\begin{note}
+It makes sense that a insurance policy would have a negative expected value, otherwise the insurance company couldn't stay in business.
+
+\vspace{2mm}
+The benefit for the consumer is the security that the policy provides.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+A company estimates that 0.7\% of their products will fail after the original warranty period but within 2 years of the purchase, with a replacement cost of \$350. If they offer a 2 year extended warranty for \$48, what is the company's expected value?\pause
+
+\vspace{2mm}
+The probabilities and values for the two outcomes are:
+\begin{center}
+\begin{tabular}{|r|r|} \hline
+Value & Probability \\ \hline
+-\$350 + \$48 = -\$302 & 0.007 \\ \hline
+\$48 & 1-0.007 = 0.993 \\ \hline
+\end{tabular}
+\end{center}\pause
+The expected value is $-\$302\cdot 0.007 + \$48\cdot0.993 = \$45.55$.
+
+\vspace{2mm}
+The company makes, on average, \$45.55 on each extended warranty.
+\end{example}\pause
+
+\begin{note}
+The expected value for the consumer may be different. The consumer is likely to pay the more to repair or replace the item out of warranty.\\ (The company pays manufacturing cost, consumer has to pay retail cost.)
+\end{note}
+\end{frame}
+\end{document}
