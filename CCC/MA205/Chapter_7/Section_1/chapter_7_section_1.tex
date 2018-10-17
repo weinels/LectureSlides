@@ -1,0 +1,94 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{{_{#1}C_{#2}}}
+\newcommand{\perm}[2]{_{#1}P_{#2}}
+
+\title[MA205 - Section 6.1]{Estimating a Population Proportion}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{point estimate} is a single value used to estimate a population parameter.
+\end{definition}\pause
+
+\begin{block}{Notation}
+The sample proportion $\hat{p}$ is the best point estimate of the population proportion $p$.
+\end{block}\pause
+
+\begin{block}{Note}
+We use the sample proportion $\hat{p}$ to estimate the population portion $p$ because it is unbiased and the most consistent of the estimators that could be used.
+\end{block}\pause
+
+\begin{block}{Recall}
+An unbiased estimator is a statistic that targets the value of the corresponding population parameter in the sense that the sampling distribution of the statistic has a mean that is equal to the corresponding population parameter.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+A Gallup poll, in which 1487 adults were surveyed, 43\% of them said that they have a Facebook page. Based on this result, find the best point estimate of the proportion of \emph{all} adults who have a Facebook page.\pause
+
+\vspace{2mm}
+The sample proportion is the best point estimate of the population proportion.\pause
+
+\vspace{2mm}
+The sample proportion is 0.43, so the best estimate of $p$ is 0.43.
+\end{example}\pause
+
+\begin{block}{Note}
+We have no indication of how \emph{good} of an estimate 0.43 is, just that it is the best of the available options.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{confidence interval} is a range of values used to estimate the true value of a population parameter. A confidence interval is sometimes abbreviated as CI\@.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{confidence level} is the probability $1-\alpha$ that the confidence interval actually does contain the population parameter, assuming that the estimation process is repeated a large number of times.
+\end{definition}\pause
+
+\begin{block}{Note}
+The confidence is sometimes called the \textbf{degree of confidence} or the \textbf{confidence coefficient}.
+\end{block}\pause
+
+\begin{block}{Common Confidence Intervals}
+\begin{center}
+\begin{tabular}{cc}
+%\textbf{Confidence Level} & \textbf{Value of $\boldsymbol{\alpha}$} \\\hline
+90\% (or 0.90) confidence level: & $\alpha=0.10$ \\
+95\% (or 0.95) confidence level: & $\alpha=0.05$ \\
+99\% (or 0.99) confidence level: & $\alpha=0.01$ \\
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+\end{document}
