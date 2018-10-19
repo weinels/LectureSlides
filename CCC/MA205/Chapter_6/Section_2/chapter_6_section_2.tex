@@ -1,0 +1,74 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usepackage{asy_helper}
+\usepackage{colortbl}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\begin{asydef}
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+	return graph(nd_func, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=orange)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+    
+    draw(normal_dist(0, std_dev, -6,6));
+    shade_between(0,std_dev,-std_dev,std_dev);
+    draw((0,0)--(0,0.45));
+    
+    label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+    
+    xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+    yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+\end{asydef}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+
+\title[MA205 - Section 6.2]{Applications of Normal Distributions}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\end{document}
