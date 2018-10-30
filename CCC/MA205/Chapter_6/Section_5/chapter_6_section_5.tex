@@ -108,4 +108,160 @@ To determine whether it is reasonable to assume that sample data from a populati
 \end{enumerate}
 \end{block}
 \end{frame}
+
+\begin{frame}
+\begin{example}
+Let us consider the IQ scores for 121 individuals.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=3.4cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+%ymajorgrids=true,
+ylabel={Frequency},
+xlabel={IQ Score},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={0.64, 0.66,...,0.78},
+%ytick={0,5,...,1000},
+%ymin=0,
+%ymax=25,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=9}]
+table [y=nums] {iq.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[
+declare function={inverf(\x)=\x/abs(\x) * sqrt( sqrt( (4.3307 + ln(1-\x^2)/2 )^2 - ln(1-\x^2)/0.147 ) - (4.3307 + ln(1-\x^2)/2);},
+declare function={normq(\p)=1.4142 * inverf(2*\p-1);}
+]
+\begin{axis}[
+height=4.6cm,
+width=\linewidth,
+ylabel={$z$ score},
+xlabel={$x$ value},
+]
+\addplot [only marks, mark=*] table [x index=0, y index=0, y expr=normq(\coordindex/121), x=nums] {iq.dat};
+\addplot[red,  thick, domain=51:121] (x,0.073895*x-6.23346);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us consider 50 uniformly distributed values.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=3.4cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+%ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Value},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={0.64, 0.66,...,0.78},
+%ytick={0,5,...,1000},
+ymin=0,
+%ymax=25,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=5}]
+table [y=nums] {uniform.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[
+declare function={inverf(\x)=\x/abs(\x) * sqrt( sqrt( (4.3307 + ln(1-\x^2)/2 )^2 - ln(1-\x^2)/0.147 ) - (4.3307 + ln(1-\x^2)/2);},
+declare function={normq(\p)=1.4142 * inverf(2*\p-1);}
+]
+\begin{axis}[
+height=4.5cm,
+width=\linewidth,
+ylabel={$z$ score},
+xlabel={$x$ value},
+]
+\addplot [only marks, mark=*] table [x index=0, y index=0, y expr=normq(\coordindex/50), x=nums] {uniform.dat};
+\addplot[red,  thick, domain=0:50] (x,0.067176*x-1.6458);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us consider the populations of 23 countries.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=3.4cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+%ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Population (in millions)},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={0.64, 0.66,...,0.78},
+%ytick={0,5,...,1000},
+%ymin=0,
+%ymax=25,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=30}]
+table [y=nums] {pop.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[
+declare function={inverf(\x)=\x/abs(\x) * sqrt( sqrt( (4.3307 + ln(1-\x^2)/2 )^2 - ln(1-\x^2)/0.147 ) - (4.3307 + ln(1-\x^2)/2);},
+declare function={normq(\p)=1.4142 * inverf(2*\p-1);}
+]
+\begin{axis}[
+height=4.4cm,
+width=\linewidth,
+ylabel={$z$ score},
+xlabel={$x$ value},
+]
+\addplot [only marks, mark=*] table [x index=0, y index=0, y expr=normq(\coordindex/23), x=nums] {pop.dat};
+\addplot[red,  thick, domain=-30:1400] (x,0.002162*x-0.234002);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
 \end{document}
