@@ -1,0 +1,94 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[inline]{asymptote}
+\usepackage{asy_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{{_{#1}C_{#2}}}
+\newcommand{\perm}[2]{_{#1}P_{#2}}
+
+\begin{asydef}
+real nd_func(real mu, real sigma, real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	return graph(f, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{		
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{	
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=orange)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+    
+    draw(normal_dist(0, std_dev, -6,6));
+    shade_between(0,std_dev,-std_dev,std_dev);
+    draw((0,0)--(0,0.45));
+    
+    label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+    
+    xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+    yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+\end{asydef}
+
+\begin{asydef}
+
+\end{asydef}
+
+\title[MA205 - Section 7.2]{Estimating a Population Mean}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\end{document}
