@@ -76,5 +76,176 @@ real b=1.25;
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{block}{Requirements}
+\begin{enumerate}
+\item The sample observations are a simple random sample.\pause
+\item The conditions of the binomial distribution are satisfied:
+\begin{itemize}
+\item There is a fixed number of trials.
+\item The trials are independent.
+\item Each trial has two categories of \textquote{success} and \textquote{failure.}
+\item The probability of a success remains the same in all trials.
+\end{itemize}\pause
+\item The conditions of $np\geq 5$ and $nq\geq 5$ are both satisfied.
+\end{enumerate}
+\end{block}\pause
 
+\begin{block}{Note}
+When these requirements are met, we can approximate a binomial distribution with a normal distribution using $\mu=np$ and $\sigma=\sqrt{npq}$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{exp_drones}
+In a Pitney Bowes survey in which 1009 consumers were asked if they are comfortable with having drones deliver their purchases, and 54\% of them responded with \textquote{no.}\pause
+
+\vspace{1mm}
+Let us check that requirements are met for the claim that most (more than half) of consumers are uncomfortable with drone deliveries.\pause
+
+\vspace{1mm}
+Requirements check:
+\begin{enumerate}
+\item The 1009 consumers were randomly selected.\pause
+\item There are a fixed number of independent trials where the two categories are wether the subject is comfortable with drone deliveries or not.\pause
+\item We have $n=1009$, $p=0.5$, and $q=0.5$ and so
+\begin{equation*}
+\begin{aligned}
+np&=1009\cdot 0.5 = 504.5\geq 5 \\
+nq&=1009\cdot 0.5 = 504.5\geq 5
+\end{aligned}
+\end{equation*}
+\end{enumerate}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Test Statistic}
+\begin{equation*}
+z=\dfrac{\hat{p}-p}{\sqrt{\dfrac{pq}{n}}}
+\end{equation*}
+\end{block}\pause
+
+\begin{block}{Equivalent Methods}
+\begin{itemize}
+\item $P$-values is the most common method used.\pause
+\item Critical values can be used when technology is unavailable.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Confidence Intervals}
+Confidence intervals use an estimated standard deviation based on the sample proportion, which means this method could result in a different conclusion.
+\end{block}\pause
+
+\begin{block}{Technology}
+$P$-values are usually provided automatically by technology. Otherwise use the standard normal distribution.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In a Pitney Bowes survey in which 1009 consumers were asked if they are comfortable with having drones deliver their purchases, and 54\% of them responded with \textquote{no.}\pause
+
+\vspace{1mm}
+Let us test the claim that most (more than half) of consumers are uncomfortable with drone deliveries.\pause
+
+\vspace{1mm}
+The hypotheses for this example are:
+\begin{equation*}
+\begin{aligned}
+\nullhypothesis{p=0.5} \\
+\althypothesis{p>0.5}
+\end{aligned}
+\end{equation*}\pause
+
+Using technology we get $P$-value of $0.005386<0.05$ which means we reject the null hypothesis.\pause
+
+\vspace{1mm}
+Because we reject the null hypothesis we conclude that there is sufficient sample evidence to support the claim that more than half of consumers are uncomfortable with drone deliveries.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Caution}
+Be careful not to confuse the notation.
+\begin{center}
+\begin{tabular}{ll}
+\textbf{$\boldsymbol{P}$-value} & The probability of a test statistic at least as extreme as \\
+&the one obtained.\\
+$\boldsymbol{p}$ & The population proportion.\\
+$\boldsymbol{\hat{p}}$ & The sample proportion.
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+When using technology, you often need to enter the sample size $n$ and the number of successes $x$. But, in real applications the sample proportion $\hat{p}$ is often given instead of $x$.\pause
+\begin{equation*}
+\hat{p} = \dfrac{x}{n} \pause
+\quad\Rightarrow\quad
+x = n\cdot\hat{p}
+\end{equation*}
+\end{note}\pause
+
+\begin{example}
+A study of sleepwalking of \textquote{nocturnal wandering} was described in \emph{Neurology} magazine, and it included information that 29.2\% of $19,136$ American adults have sleepwalked.\pause
+
+\vspace{1mm}
+The number of adults who have sleepwalked is
+\begin{equation*}
+0.292\cdot 19136\pause=5587.712
+\end{equation*}\pause
+But, the result must be a whole number, so we round to the nearest whole number of 5588.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{exp_sleepwalking}
+A study of sleepwalking of \textquote{nocturnal wandering} was described in \emph{Neurology} magazine, and it included information that 29.2\% of $19,136$ American adults have sleepwalked. Let us test the claim that \textquote{fewer than 30\% of adults have sleepwalked} using $\alpha=0.05$.\pause
+
+\vspace{1mm}
+\begin{enumerate}
+\item The original claim is $p<0.30$ and the opposite claim is $p\geq0.30$.\pause
+\item Because $p<0.30$ does not contain equality, we have the hypotheses:
+\vspace{-2mm}
+\begin{equation*}
+\nullhypothesis{p=0.30} 
+\quad\text{and}\quad
+\althypothesis{p<0.30}
+\end{equation*}\pause
+\vspace{-8mm}
+\item The relevant statistic is $\hat{p}$ and the sampling distribution of sample proportions can be approximated by the normal distribution.\pause
+\item Using technology we get the test statistic $z=-2.41039$ and $P$-value of $0.007968$.\pause
+\item Because $0.007968\leq0.05$ we reject the null hypothesis.\pause
+\end{enumerate}
+We conclude that there is sufficient evidence to support the claim that fewer than 30\% of adults have sleepwalked.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Critical Value Method}
+If we had used critical values instead of $P$-values for Example~\ref{exp_sleepwalking} we would have used a critical value of $z=-1.645$.\pause
+
+\vspace{1mm}
+We would reject the null hypothesis because $z=-2.41039$ falls in the critical region bounded by $z=-1.645$.
+\end{block}\pause
+\begin{note}
+This is the same conclusion we reached using $P$-values.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Confidence Interval Method}
+If we were to repeat Example~\ref{exp_sleepwalking} using confidence intervals we would get a 90\% confidence interval of $0.287<p<0.297$.\pause
+
+\vspace{1mm}
+Since the entire confidence interval is less than 0.30, there is sufficient evidence to support the claim that fewer than 30\% of adults have sleepwalked.
+\end{block}\pause
+
+\begin{note}
+While this is the same result, remember that we have no guarantee that confidence intervals will give the same result as $P$-values.
+\end{note}
+\end{frame}
 \end{document}
