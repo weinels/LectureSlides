@@ -76,4 +76,78 @@ real b=1.25;
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{block}{Recall}
+Recall that a linear equation (a straight line) is one that can be written as
+\begin{equation*}
+y=mx+b
+\end{equation*}
+where $m$ is the slope (\textquote{rise over run}) and $b$ is the y-intercept.
+\end{block}\pause
+
+\begin{definition}
+Given a collection of paired sample data, the \textbf{regression line} (or \textbf{line of best fit}) is the straight line that \textquote{best} fits the scatter plot of the data. (We will discuss that \textquote{best} means later.)
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{regression equation} is 
+\begin{equation*}
+\hat{y}=b_0+b_1 x
+\end{equation*}
+ algebraically describes the regression line. The regression equation expresses a relationship between $x$ and $\hat{y}$.
+\end{definition}\pause
+
+\begin{definition}
+We call $x$ the \textbf{explanatory variable}, \textbf{predictor variable}, or \textbf{independent variable}.
+\end{definition}\pause
+
+\begin{definition}
+We call $y$ the \textbf{response variable}, or \textbf{dependent variable}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+We don't use $y=mx+b$ because the format $y=b_0+b_1 x$ can easily be expanded in include more variables:
+\begin{equation*}
+y=b_0+b_1 x_1 + b_2 x_2 + b_3 x_3 + \cdots
+\end{equation*}
+This is used when performing a multiple regression.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Requirements}
+The requirements for performing a regression are:
+\begin{enumerate}
+\item The sample of paired data is a random sample of quantitative data.\pause
+\item Visual examination of the scatterplot shows that the points approximate a straight-line pattern.\pause
+\item Outliers can have a strong effect on the regression equation, so remove any outliers if they are known errors.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Slope}
+The slope of the regression line is
+\begin{equation*}
+b_1=r\cdot\dfrac{s_y}{s_x}
+\end{equation*}
+where $r$ is the linear correlation coefficient, $s_y$ is the standard deviation of the $y$ values, and $s_x$ is the standard deviation of the $x$ values.
+\end{block}\pause
+
+\begin{block}{$y$-intercept}
+The $y$-intercept of the regression line is
+\begin{equation*}
+b_0=\bar{y}-b_1bar{x}
+\end{equation*}
+where $\bar{y}$ is the sample mean of $y$ values and $\bar{x}$ is the sample mean of $x$ values.
+\end{block}\pause
+
+\begin{note}
+Technology will calculate both of these values for you.
+\end{note}
+\end{frame}
 \end{document}
