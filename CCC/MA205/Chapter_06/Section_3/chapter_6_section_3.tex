@@ -1,0 +1,462 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usepackage{asy_helper}
+\usepackage{colortbl}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\begin{asydef}
+real nd_func(real mu, real sigma, real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	return graph(f, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{		
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{	
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=orange)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+    
+    draw(normal_dist(0, std_dev, -6,6));
+    shade_between(0,std_dev,-std_dev,std_dev);
+    draw((0,0)--(0,0.45));
+    
+    label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+    
+    xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+    yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+\end{asydef}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+
+\title[MA205 - Section 6.3]{Sampling Distributions and Estimators}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us assume that among the population of all adults, exactly 70\% do not feel comfortable in a self-driving car.
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<2-4>
+In a TE Connectivity survey of 1000 adults, 69\% said they did not feel comfortable in a self-driving vehicle.
+
+\vspace{2mm}
+\visible<3->{Empowered by visions of hordes of driverless cars, $50,000$ people became so enthusiastic that they each conducted their own survey of 1000 randomly selected adults on the same topic.}
+
+\vspace{2mm}
+\visible<4->{Each of these $50,000$ newbie surveyors reported the percentage that they found, with results such as 68\%, 72\%, 70\%, etc\ldots}
+
+\onslide<5->
+Lets assume we gather all $50,000$ of the percentages and convert them to proportions. We can then construct the histogram:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=5.5cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+%ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Sample Proportions},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={0.64, 0.66,...,0.78},
+%ytick={0,5,...,1000},
+%ymin=0,
+%ymax=25,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=50}]
+table [y=nums] {norm.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+When samples of the same size are taken from the same population:
+\begin{enumerate}
+\item Sample proportions tend to be normally distributed.
+\item The mean of sample proportions is the same as the population mean.
+\end{enumerate}
+\end{note}\pause
+
+\begin{definition}
+The \textbf{sampling distribution of a statistic} (such as a sample proportion or sample mean) is the distribution of all values of the statistic when all possible samples of the same size $n$ are taken from the same population.
+\end{definition}\pause
+
+\begin{note}
+The sampling distribution of a statistic is typically represented as a probability distribution in the format of a probability histogram, formula, or table.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{sampling distribution of the sample proportion} is the distribution of sample proportions, with all samples having the same sample size $n$ taken from the same population.
+\end{definition}\pause
+
+\begin{note}
+The sampling distribution of the sample proportion is typically represented as a probability distribution in the format of a probability histogram, formula or table.
+\end{note}\pause
+
+\begin{block}{Notation}
+\begin{center}
+\begin{tabular}{rcl}
+$p$ & = & population proportion \\
+$\hat{p}$ & = & sample proportion
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Behavior of Sample Proportions}
+\begin{enumerate}
+\item<1-> The distribution of sample proportions tends to approximate a normal distribution.
+\item<2-> Sample proportions target the value of the population proportion in the sense that the mean of all the sample proportions $\hat{p}$ is equal to the population proportion $p$. The expected value of the sample proportion is equal to the population proportion.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider repeating the following process:
+\begin{itemize}
+\item Roll a six-sided die 5 times.
+\item Find the proportion of odd numbers.
+\end{itemize}
+What can we say about the behavior of all sample proportions that are generated as this process continues indefinitely?
+
+\vspace{2mm}
+Repeating this process $10,000$ times gives the following distribution of sample proportions.
+
+\vspace{-5mm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4.5cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Sample Proportions},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+xtick={0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9},
+ytick={0,500,...,4000},
+ymin=0,
+ymax=4000,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=10, data min=0, data max=1}]
+table [y=nums] {ex1.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-6mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{sampling distribution of the sample mean} is the distribution of all possible sample means, with all samples having the same sample size $n$ taken from the same population.
+\end{definition}\pause
+
+\begin{note}
+The sampling distribution of the sample mean is typically represented as a probability distribution in the format of a probability histogram, formula or table.
+\end{note}\pause
+
+\begin{block}{Behavior of Sample Means}
+\begin{enumerate}
+\item<3-> The distribution of sample means tends to approximate a normal distribution.
+\item<4-> Sample means target the value of the population mean in the sense that the mean of all the sample means is equal to the population mean. The expected value of the sample mean is equal to the population mean.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+A friend has three children with ages 4, 5, and 9. Let's consider the population consisting of $\left\{4,5,9\right\}$.
+
+\onslide<2->
+\vspace{2mm}
+If two ages are randomly selected with replacement from the population, let's consider the sampling distribution of the sample mean by creating a table representing the probability distribution of the sample mean.
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<3>
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+\textbf{Sample} & $\boldsymbol{\bar{x}}$ & \textbf{Probability} \\\hline
+4,4 & 4.0 & $1/9$ \\\hline
+4,5 & 4.5 & $1/9$ \\\hline
+4,9 & 6.5 & $1/9$ \\\hline
+5,4 & 4.5 & $1/9$ \\\hline
+5,5 & 5.0 & $1/9$ \\\hline
+5,9 & 7.0 & $1/9$ \\\hline
+9,4 & 6.5 & $1/9$ \\\hline
+9,5 & 7.0 & $1/9$ \\\hline
+9,9 & 9.0 & $1/9$ \\\hline
+\end{tabular}
+\end{center}
+\onslide<4->
+Condensing the sample means gives:
+\begin{center}
+\begin{tabular}{|c|c||c|c|}\hline
+$\boldsymbol{\bar{x}}$ & \textbf{Probability} & $\boldsymbol{\bar{x}}$ & \textbf{Probability} \\\hline
+4.0 & $1/9$ & 6.5 & $2/9$ \\\hline
+4.5 & $2/9$ & 7.0 & $2/9$ \\\hline
+5.0 & $1/9$ & 9.0 & $1/9$ \\\hline
+\end{tabular}
+\end{center}
+
+\visible<5->{Since the table has all possible values of the sample mean along with their corresponding probabilities, this is an example of a sampling distribution of a sample mean.}
+
+\vspace{2mm}
+\visible<6->{The mean of the population $\left\{4,5,9\right\}$ is $\mu=0.6$. Using either version of the table, we find that the mean of the sample values is 6.0.}
+\end{overprint}
+\vspace{-23mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider repeating the following process:
+\begin{itemize}
+\item Roll a six-sided die 5 times.
+\item Select 5 values from the population, then find the mean $\bar{x}$ of the results.
+\end{itemize}\pause
+Let us consider the behavior of all sample means that are generated as this process continues indefinitely.\pause
+
+\vspace{2mm}
+Repeating this process $10,000$ times gives:
+
+\vspace{-5mm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Sample Means},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={1.6, 2.4, 3.2, 3.5, 4.0, 4.8, 5.6},
+ytick={0,500,...,4000},
+ymin=0,
+ymax=1200,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=25, data min=1, data max=6}]
+table [y=nums] {ex2.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}\pause
+
+\vspace{-5mm}
+If the process continues, the mean of the sample means will be 3.5.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{sampling distribution of the sample variance} is the distribution of sample variances, with all samples having the same sample size $n$ taken from the same population.
+\end{definition}\pause
+
+\begin{note}
+The sampling distribution of the sample variance is typically represented as a probability distribution in the format of a table, probability histogram, or formula.
+\end{note}\pause
+
+\begin{block}{Reminder}
+When working with population you divide by the population size $N$:
+\begin{center}
+\begin{tabular}{ll}
+Population standard deviation: & $\sigma=\sqrt{\dfrac{\sum{(x-\mu})^2}{N}}$\\
+Population Variance: & $\sigma^2 = \dfrac{\sum{(x-\mu})^2}{N}$
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Behavior of Sample Variances}
+\begin{enumerate}
+\item<1-> The distribution of sample variances tend to be a distribution skewed to the right.
+\item<2-> The sample variances target the value of the population variance in the sense that mean of the sample variances is the population variance. The expected value of the sample variance is equal to the population variance.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider repeating the following process:
+\begin{itemize}
+\item Roll a six-sided die 5 times.
+\item Find the variance of the results.
+\end{itemize}\pause
+Let us consider the behavior of all sample variances that are generated as this process continues indefinitely.\pause
+
+\vspace{2mm}
+Repeating this process $10,000$ times gives:
+
+\vspace{-5mm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4cm,
+width=\linewidth,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+ylabel={Frequency},
+xlabel={Sample Variances},
+x tick label style={rotate=0,anchor=center},
+xtick=,
+%xtick={1.6, 2.4, 3.2, 3.5, 4.0, 4.8, 5.6},
+ytick={0,500,...,4000},
+ymin=0,
+ymax=1500,
+%xmin=120,
+%xmax=280,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick
+]
+\addplot+ [hist={bins=25, data min=1, data max=5}]
+table [y=nums] {ex3.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}\pause
+
+\vspace{-5mm}
+The histogram shows that the distribution of the sample variances is a skewed distribution, not a normal distribution.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+An \textbf{estimator} is a statistic used to infer (or estimate) the value of a population parameter.
+\end{definition}\pause
+
+\begin{definition}
+An \textbf{unbiased estimator} is a statistic that targets the value of the corresponding population parameter in the sense that the sampling distribution of the statistic has a mean that is equal to the corresponding population parameter.
+\end{definition}\pause
+
+\begin{definition}
+An \textbf{biased estimator} is a statistic that is not an unbiased estimator.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Unbiased Estimators}
+These statistics target the value of the corresponding population parameters.
+\begin{itemize}
+\item Proportion $\hat{p}$
+\item Mean $\bar{x}$
+\item Variance $s^2$
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Biased Estimators}
+These statistics do not target the value of the corresponding population parameters.
+\begin{itemize}
+\item Median
+\item Range
+\item Standard deviation $s$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Why Sample with Replacement?}
+All of the examples we have looked at sample with replacement. Why did we do this?\pause
+
+\vspace{2mm}
+Sampling without replacement would have the very practical advantage of avoiding wasteful duplication whenever the same item is selected more than once.\pause
+
+\vspace{2mm}
+Many statistical procedures are based on the assumption that sampling is conducted with replacement for the two important reasons:\pause
+\begin{enumerate}
+\item When selecting a relatively small sample from a large population, it makes no significant difference whether we sample with replacement or without replacement.\pause
+\item Sampling with replacement results in independent events that are unaffected by previous outcomes, and independent events are easier to analyze and result in simpler calculation and formulas.
+\end{enumerate}
+\end{block}
+\end{frame}
+\end{document}

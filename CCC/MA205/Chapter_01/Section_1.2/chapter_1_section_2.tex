@@ -1,0 +1,250 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\title[MA205 - Section 1.2]{Types of Data}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{parameter} is a numerical measurement describing some characteristic of a population.
+\end{definition}\pause
+\begin{definition}
+A \textbf{statistic} is a numerical measurement describing some characteristic of a sample.
+\end{definition}\pause
+\begin{block}{Hint}
+Parameter and population both start with a \textquote{P.}\\Statistic and sample both start with a \textquote{S.}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+There are $17,246,372$ high school students in the United States. In a study of 8505 U.S. high school students 16 years of age or older, $44.5\%$ of them said that they texted while driving at least once during the previous 30 days. (Based on data in \textquote{Texting While Driving and Other Risky Motor Vehicle Behaviors Among US High School Students} by Olsen, Shults, Eaton, \emph{Pediatrics}, Vol 131, No 6.)\pause
+
+\vspace{4mm}
+What are the Parameters?\pause
+
+\vspace{1mm}
+The population size $17,246,372$.\pause
+
+\vspace{4mm}
+What are the Statistics?\pause
+
+\vspace{1mm}
+The sample size 8505 and the percentage of the sample $44.5\%$ that said they texted while driving.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Quantitative} or \textbf{numerical} data consist of numbers representing counts or measurements.
+\end{definition}\pause
+
+\begin{definition}
+\textbf{Categorical} or \textbf{qualitative} data consist of names or labels (not numbers).
+\end{definition}\pause
+
+\begin{block}{Note}
+The names and labels in categorical data are sometimes coded with numbers. When a number is used as a name it is \textbf{not} quantitative.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The ages (in years) of subjects enrolled in a clinical trail are?\pause
+
+\vspace{1mm}
+Quantitative data.\pause
+
+\vspace{4mm}
+The genders (male / female) of subjects enrolled in a clinical trial are?\pause
+
+\vspace{1mm}
+Categorical Data. \pause
+
+\vspace{4mm}
+Identification numbers $1, 2, 3, \ldots, 25$ are assigned randomly to 25 subjects in a clinical trail. The identification numbers are?\pause
+
+\vspace{1mm}
+Categorical Data. (The numbers don't measure or count anything.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Discrete data} result when the data values are quantitative and the number of values is finite, or countable.
+\end{definition}\pause
+
+\begin{example}
+Each of several physicians plans to count the number of physical examinations given during the next full week.
+\end{example}\pause
+
+\begin{example}
+Casino employees plan to roll a fair die until the number 5 is rolled, and they count the number of rolls required to get a 5. (It is possible, but unlikely, that a 5 could never be rolled.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Continuous data} result from infinitely many possible quantitative values, where the collection of values is not countable.
+\end{definition}\pause
+
+\begin{example}
+When a typical patient has blood drawn as part of a routine examination, the volume of blood drawn is between 0 mL and 50 mL.
+\end{example}\pause
+
+\begin{block}{Note}
+If your data consists of only integers, then it is generally discrete.\\ If your data consists of real numbers, then it is generally continuous.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Levels of Measurement}
+The level of measurement of data helps us decide which statistical procedure to use. 
+\end{block}\pause
+
+\begin{block}{Ratio}
+There is a natural zero starting point and rations make sense. Examples are heights, lengths, distances, and volumes.
+\end{block}\pause
+
+\begin{block}{Interval}
+Differences are meaningful, but there is no natural zero starting point and ratios are meaningless. An example is body temperature.
+\end{block}\pause
+
+\begin{block}{Ordinal}
+Data can be arranged in order, but differences either can't be found or are meaningless. An example is ranks of colleges in U.S. News \& World Report.
+\end{block}\pause
+
+\begin{block}{Nominal}
+Categories only. Data cannot be arranged in order. An example is eye color.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{nominal level of measurement} is characterized by data that consist of names, labels, or categories only. The data cannot be arranged in some meaningful order, such as low to high.
+\end{definition}\pause
+
+\begin{example}
+A survey has responses of \textquote{yes}, \textquote{no}, and \textquote{undecided}
+\end{example}\pause
+
+\begin{example}
+For an item on a survey, respondents are given a choice of possible answers, and they are coded as follows:
+\begin{itemize}
+\item[] 1 is coded as \textquote{I agree}
+\item[] 2 is coded as \textquote{I disagree}
+\item[] 3 is coded as \textquote{I don't care}
+\item[] 4 is coded as \textquote{I refuse to answer}
+\end{itemize}
+The numbers 1,2,3, and 4 don't count or measure anything.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{ordinal level of measurement} if they can be arranged in some order, but differences between data values either cannot be determined or are meaningless.
+\end{definition}\pause
+
+\begin{example}
+A college professor assigns grades of A, B, C, D, or F. These grades can be arranged in a meaningful order, but grades are very individualized so the difference between two students grades cannot be calculated.
+\end{example}\pause
+
+\begin{example}
+A survey asks people what they felt their blood pressure was. The possible answers are \textquote{Low}, \textquote{Normal}, \textquote{High.} These responses can be arranged in a meaningful order, but the differences between \textquote{Low} and \textquote{High} doesn't make sense.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{interval level of measurement} if they can be arranged in order, and differences between data values can be found and are meaningful. \emph{Data at this level do not have a natural zero starting point at which none of the quantity is present.}
+\end{definition}\pause
+
+\begin{example}
+Body temperatures of $\degrees{98.2}$F and $\degrees{98.9}$F are examples of data at this interval level of measurement. The values are ordered, and we can calculate their difference. There is no natural starting point. (The value $\degrees{0}$F is an arbitrary choice and doesn't represent the complete absence of heat.)
+\end{example}\pause
+
+\begin{example}
+The years 1492 and 1776 can be arranged in order, and the difference of 284 years is meaningful. But, time doesn't not have a natural starting point that represents \textquote{no time.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{ratio level of measurement} if they can be arranged in order, differences can be found and are meaningful, and there is a natural starting point which indicates that none of the quantity is present. 
+\end{definition}\pause
+
+\begin{example}
+Heights of 180cm and 90cm for a high school student and a preschool student are at the ratio level of measurement. (The starting point is 0cm and 180cm is twice as tall as 90cm.)
+\end{example}\pause
+
+\begin{example}
+The times of 50 minutes and 100 minutes for a math class are at the ratio level of measurement. (The starting point is 0 minutes and 100 minutes is twice as long as 50 minutes.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Big data} refers to data sets so large and so complex that their analysis is beyond the capabilities of traditional software tools. Analysis of big data may require software simultaneously running in parallel on many different computers.
+\end{definition}\pause
+
+\begin{definition}
+\textbf{Data science} involves applications of statistics, computer science, and software engineering, along with some other relevant fields, such as sociology or finance.
+\end{definition}\pause
+
+\begin{example}
+\begin{itemize}
+\item Google provides live traffic maps by recording and analyzing GPS data collected from the smartphones of people traveling in their vehicles.\pause
+\item Walmart has a sales database with more than 2.5 petabytes (2,500,000 gigabytes) of data. For online sales, Walmart developed the Polaris search engine that increased sales by 10\% to 15\%.
+\end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Missing Data}
+When dealing with large data sets, it is inevitable that some data will go missing. Missing data does not necessarly invalidate the data set.
+\end{block}\pause
+
+\begin{definition}
+A data value is \textbf{missing completely at random} if the likelihood of its being missing is independent of it's value or any of the other values in the data set. Thats is, any data values is just as likely to missing as any other data value.
+\end{definition}\pause
+
+\begin{example}
+When using a keyboard to manually enter ages of survey respondents, the operator is distracted by a text message and makes the mistake of failing to enter the age of 37 years.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A data value is \textbf{missing not at random} if the missing value is related to the reason that it is missing.
+\end{definition}\pause
+
+\begin{example}
+A survey asks each respondent to enter his or her annual income, but respondents with very low income skip this question because they find it embarrassing.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Correcting for Missing Data}
+\begin{enumerate}
+\item One very common method for dealing with missing data is to delete all subjects having and missing values.\pause
+\begin{itemize}
+\item If the data are missing completely at random, the remaining values are not likely to be biased.\pause
+\item If the data are missing not at random, deleting subjects having missing values can easily bias the results.\pause
+\end{itemize}
+\item We can \textquote{impute} missing data values by substituting values for them. There are different methods of determining the replacement values.
+\end{enumerate}
+\end{block}\pause
+
+\begin{block}{Note}
+When analyzing sample data with missing values you must always try to determine why they are missing and decide whether it makes sense to treat the remaining values as being representative of the population.
+\end{block}
+\end{frame}
+\end{document}

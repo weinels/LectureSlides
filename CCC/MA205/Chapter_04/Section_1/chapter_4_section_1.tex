@@ -1,0 +1,364 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+\title[MA205 - Section 4.1]{Basic Concepts of Probability}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The result of an procedure is called an \textbf{outcome}.
+\end{definition}\pause
+
+\begin{example}
+Rolling a die is an procedure, where the outcome is the number rolled.
+\end{example}\pause
+
+\begin{definition}
+An \textbf{event} is any particular outcome or group of outcomes.
+
+\vspace{2mm}
+A \textbf{simple event} is an event that cannot be broken down further.
+\end{definition}\pause
+
+\begin{example}
+Drawing a hand for poker is an event, where the outcome is the hand of cards you drew.
+
+\vspace{2mm}
+This is not a simple event, since we could break it down to five individual card draws. Where each card draw would be a simple event.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{sample space} of an procedure is the set of all possible simple events.
+\end{definition}\pause
+
+\begin{example}
+If we roll a standard 6-sided die, what is the sample space?\pause
+
+\vspace{2mm}
+The sample space is $\set{1,2,3,4,5,6}$.
+\end{example}\pause
+
+\begin{block}{Classical Definition}
+Given that all out outcomes are equally likely, we can compute the probability of an event $E$ using the formula
+\begin{equation*}
+\prob{E}=\dfrac{\text{Number of outcomes corresponding to the event $E$}}{\text{Total number of outcomes}}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the probability we will roll a 1 on a 6-sided die?\pause
+
+\vspace{2mm}
+There is only one outcome to \textquote{rolling a 1}, so
+\begin{equation*}
+\prob{\text{rolling a 1}} = \dfrac{1}{6}
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+What is the probability we will roll better than a 4 on a 6-sided die?\pause
+
+\vspace{2mm}
+There are two outcomes bigger than 4, so
+\begin{equation*}
+\prob{\text{roll better than a 4}} = \dfrac{2}{6} = \dfrac{1}{3}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+Probabilities are ratios, and so can be reduced like fractions.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose you have a bag with 20 cherries, 14 sweet and 6 sour. If you pick a cherry at random, what is the probability that it will sweet?\pause
+
+\vspace{2mm}
+The total number of outcomes is 20, one for each cherry in the bag. 14 of those outcomes are sweet cherries, so the probability is
+\begin{equation*}
+\prob{\text{sweet cherry}} = \dfrac{14}{20} = \dfrac{7}{10}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+It is assumed that you cannot differentiate the cherries by touch. If, say, the sweet cherries were smaller than the sour ones, you could always pick a sweet cherry.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Relative Frequency Definition}
+Conduct an procedure and count the number of times that event $A$ occurs. $P(A)$ is then \emph{approximated} as follows:
+\begin{equation*}
+P(A) \approx \dfrac{\text{number of times $A$ occurs}}{\text{number of times the procedure was repeated}}
+\end{equation*}
+\end{block}\pause
+
+\begin{example}
+To determine the probability that an individual car crashes in a year, we must examine past results to determine the number of cars in use in a year and the number of them that crashed. 
+\end{example}\pause
+
+\begin{block}{Note}
+Relative frequency probabilities are often used in place of classical probabilities. The instruction \textquote{find the probability} often means \textquote{estimate the probability.}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In a recent year, there were about $3,000,000$ skydiving jumps and 21 of them result in deaths.\pause
+
+\vspace{2mm}
+The relative frequency probability is
+\begin{equation*}
+\begin{aligned}
+\prob{\text{skydiving death}}
+&=\dfrac{\text{number of skydiving deaths}}{\text{total number of skydiving jumps}} \\\pause
+&=\dfrac{21}{3,000,000} \\\pause
+&=0.000007 = 0.007\%
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+
+\begin{block}{Note}
+We cannot use the classical definition of probability because the outcomes \textquote{dying} and \textquote{not dying} are not equally likely.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Law of Large Numbers}
+As a procedure is repeated again and again, the relative frequency probability of an event tends to approach the actual probability.
+\end{block}\pause
+
+\begin{block}{Cautions}
+\begin{itemize}
+\item The law of large numbers applies to behavior over a large number of trails, and it does not apply to any one individual outcome.\pause
+\begin{itemize}
+\item Gamblers sometimes foolishly lose large sums of money by incorrectly thinking that a string of losses increases the chances of a win on the next bet, or that a string of wins is likely to continue.
+\end{itemize}\pause
+\item If we know nothing about the likelihood of different possible outcomes, we should not assume that they are equally likely.\pause
+\begin{itemize}
+\item You should not think that the probability of passing the next exam is $\tfrac{1}{2}$, or 0.5. The actual probability depends on factors such as the amount of preparation and the difficulty of the exam.
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A standard deck of 52 playing cards consists of four \textbf{suits} in two colors: 
+Hearts $\suitheart$, Spades $\suitspade$, Diamonds $\suitdiamond$, and Clubs $\suitclub$
+
+\vspace{2mm}
+Each suit contains 13 cards, each of a different \textbf{rank}: 
+
+Ace, 2 through 10, Jack, Queen, and King.
+\end{definition}\pause
+
+\begin{example}
+Let us compute the probability of drawing a card from a deck and getting an Ace.\pause
+
+\vspace{2mm}
+There are four aces in a deck of 52 cards. Which gives the probability
+\begin{equation*}
+\prob{\text{Ace}}=\dfrac{4}{52}=\dfrac{1}{13}\pause
+= 0.0769=7.67\%
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In a study of U.S.\@ high school drivers, it was found that 3785 texted while driving during the previous 30 days, and 4720 did not text while driving. What is the probability that a individual student texted while driving?\pause
+
+\vspace{1mm}
+We need to calculate the total number of high school drivers
+
+\vspace{-7mm}
+\begin{equation*}
+3785~\text{texted while driving} + 4720~\text{did not text while driving} = 8505
+\end{equation*}\pause
+
+\vspace{-7mm}
+We can now calculate the probability that a student texted while driving.
+
+\vspace{-7mm}
+\begin{equation*}
+\begin{aligned}
+\prob{\text{texting while driving}}
+&= \dfrac{\text{number of drivers who texted while driving}}{\text{total number of drivers in the sample}} \\\pause
+&= \dfrac{3785}{8505}\pause
+=0.445 = 44.5\%
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+
+\begin{block}{Note}
+A common mistake is to use $\tfrac{3785}{4720}$ as the probability.\pause
+
+\vspace{1mm}
+Don't make the common mistake finding a probability by mindlessly dividing a smaller number by a larger number. You need to think carefully about the numbers involved and what they represent.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+An impossible event has probability 0.
+
+\vspace{2mm}
+A certain event has a probability of 1.
+
+\vspace{2mm}
+The probability of any event must be $0\leq\prob{E}\leq1$.
+\end{definition}\pause
+
+\begin{example}
+If a year is selected at random, find the probability that Thanksgiving Day in the United States will be on a Wednesday.\pause
+
+\vspace{2mm}
+In the United States, Thanksgiving Day always falls on the fourth Thursday in November. This means it is impossible for Thanksgiving Day to fall on a Wednesday.
+\begin{equation*}
+\begin{aligned}
+\prob{\text{Thanksgiving on Wednesday}}&=0\\
+\prob{\text{Thanksgiving on Thursday}}&=1
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{complement} of an event $E$ is the event \textquote{$E$ doesn't happen.}
+
+\vspace{2mm}
+The notation $\bar{E}$ is used to denote the complement of $E$.
+\end{definition}\pause
+
+\begin{example}
+If we roll a 6-sided die, and
+\begin{equation*}
+\prob{\text{roll a six}} = \dfrac{1}{6}
+\end{equation*}
+The complement is
+\begin{equation*}
+\prob{\text{roll not a six}} = \prob{\text{roll a one, two, three, four, or five}} = \dfrac{5}{6}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Either an even occurs or it does not. This means the sum of $\prob{E}$ and $\prob{\bar{E}}$ always has to equal 1.
+
+\vspace{2mm}
+In other words,
+\begin{equation*}
+\prob{\bar{E}} = 1-\prob{E}
+\quad\text{or}\quad
+\prob{E} = 1-\prob{\bar{E}}
+\end{equation*}
+\end{note}\pause
+
+\begin{example}
+Let us calculate the probability of drawing a card from a deck and not getting a heart.\pause
+
+\vspace{2mm}
+There are 13 hearts in a deck, giving $\prob{\text{heart}}=\dfrac{13}{52}=\dfrac{1}{4}$.\pause
+
+\vspace{2mm}
+This means the probability of not drawing a heart is
+\begin{equation*}
+\prob{\text{not heart}} = 1 - \prob{\text{heart}} = 1-\dfrac{1}{4} = \dfrac{3}{4}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{The Rare Even Rule for Inferential Statistics}
+If, under a given assumption, the probability of a particular observed event is very small and the observed even occurs \emph{significantly less than} or \emph{significantly more than} what we typically expect with that assumption, we conclude that the assumption is probably not correct.\pause
+
+\vspace{2mm}
+Worded differently:
+\begin{itemize}
+\item $x$ successes among $n$ trails is a \textbf{significantly high} number of successes if the probability of $x$ or more successes is unlikely with a probability of 0.05 or less, i.e\@ if $\prob{x~\text{or more}}\leq 0.05$.
+\item $x$ successes among $n$ trails is a \textbf{significantly low} number of successes if the probability of $x$ or fewer successes is unlikely with a probability of 0.05 or less, i.e\@ if $\prob{x~\text{or fewer}}\leq 0.05$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{actual odds against} event $A$ occurring are the ratio $\tfrac{\prob{\bar{A}}}{\prob{A}}$.\pause
+\begin{itemize}
+\item Usually expressed in the form $a:b$ where $a$ and $b$ are integers. Reduce using the largest common factor; If $a=16$ and $b=4$, express the odds as $4:1$ instead of $16:4$.
+\end{itemize}\pause
+
+\vspace{1mm}
+The \textbf{actual odds in favor} of event $A$ occurring are the ratio $\tfrac{\prob{A}}{\prob{\bar{A}}}$, which is the reciprocal of the actual odds against.\pause
+\begin{itemize}
+\item If the odds against an event are $a:b$, then the odds in favor are $b:a$.
+\end{itemize}\pause
+
+\vspace{1mm}
+The \textbf{payoff odds} against event A occurring are the ratio of net profit (if you win) to the amount bet:
+
+\vspace{-4mm}
+\begin{equation*}
+\text{Payoff odds against event $A$} = \left(\text{net profit}):~\right(\text{amount bet})
+\end{equation*}
+\end{definition}\pause
+
+\vspace{-0.5mm}
+\begin{block}{Note}
+The actual odds reflect the actual likelihood of an event. The payoff odds describe the payout amount determined by the casino, lottery, or racetrack operators. (i.e.\@ based on how greedy the operators are.)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+If you bet \$5 on the number 13 in roulette, your probability of winning is 1/38, but the payoff odds are given by the casino as $35:1$.\pause
+
+\begin{itemize}
+\item What are the actual odd against the outcome of 13?\pause
+\begin{equation*}
+\text{Actual odds against 13} = \dfrac{\prob{\text{not 13}}}{\prob{13}}\pause
+= \dfrac{37/38}{1/38}\pause
+= \dfrac{37}{1}\pause
+\quad\text{or}\quad 37:1
+\end{equation*}\pause
+\item How much profit would a bet of $\$5$ make, if 13 won?\pause
+
+\vspace{2mm}
+For every $\$1$ bet, we would win $\$5$. So, betting $\$5$ would win $\$5\cdot 35 = \$175$.\pause\vspace{3mm}
+\item If the casino was not run for profit, the payoff odds would be the same as the actual odds in favor, $37:1$. So, the profit would be $\$185$.
+\end{itemize}
+\end{example}
+\end{frame}
+\end{document}

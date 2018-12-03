@@ -1,0 +1,693 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{slide_helper}
+\usepackage[inline]{asymptote}
+\usepackage{asy_helper}
+\usepackage[super]{nth}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+
+\newcommand{\prob}[1]{P\left(#1\right)}
+\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\comb}[2]{{_{#1}C_{#2}}}
+\newcommand{\perm}[2]{_{#1}P_{#2}}
+
+\begin{asydef}
+real nd_func(real mu, real sigma, real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	return graph(f, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{		
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=orange)
+{	
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=orange)
+{
+	real f(real x) { return nd_func(mu, sigma, x); }
+	guide g = graph(f, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+    
+    draw(normal_dist(0, std_dev, -6,6));
+    shade_between(0,std_dev,-std_dev,std_dev);
+    draw((0,0)--(0,0.45));
+    
+    label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+    
+    xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+    yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+\end{asydef}
+
+\begin{asydef}
+pair ex2 = (300, 80);
+pair blkpq = (90, 90);
+\end{asydef}
+
+\title[MA205 - Section 7.1]{Estimating a Population Proportion}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{point estimate} is a single value used to estimate a population parameter.
+\end{definition}\pause
+
+\begin{block}{Notation}
+The sample proportion $\hat{p}$ is the best point estimate of the population proportion $p$.
+\end{block}\pause
+
+\begin{block}{Note}
+We use the sample proportion $\hat{p}$ to estimate the population portion $p$ because it is unbiased and the most consistent of the estimators that could be used.
+\end{block}\pause
+
+\begin{block}{Recall}
+An unbiased estimator is a statistic that targets the value of the corresponding population parameter in the sense that the sampling distribution of the statistic has a mean that is equal to the corresponding population parameter.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In a Gallup poll of 1487 adults, 43\% of them said that they have a Facebook page. Based on this result, what is the best point estimate of the proportion of \emph{all} adults who have a Facebook page.\pause
+
+\vspace{2mm}
+The sample proportion is the best point estimate of the population proportion.\pause
+
+\vspace{2mm}
+The sample proportion is 0.43, so the best estimate of $p$ is 0.43.
+\end{example}\pause
+
+\begin{block}{Note}
+We have no indication of how \emph{good} of an estimate 0.43 is, just that it is the best of the available options.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{confidence interval} is a range of values used to estimate the true value of a population parameter. A confidence interval is abbreviated as CI\@.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{confidence level} is the probability $1-\alpha$ that the confidence interval actually does contain the population parameter, assuming that the estimation process is repeated a large number of times.
+\end{definition}\pause
+
+\begin{block}{Note}
+The confidence is sometimes called the \textbf{degree of confidence} or the \textbf{confidence coefficient}.
+\end{block}\pause
+
+\begin{block}{Rounding}
+Round the confidence interval limits for $p$ to three significant digits.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Interpreting a Confidence Interval}
+For the confidence interval $0.405<p<0.455$ there is one correct interpretation and many creatively incorrect interpretations.
+\begin{description}
+\item[\textbf{Correct:}]<2-| alert@2> \textquote{We are 95\% confident that the interval from 0.405 to 0.455 actually does contain the true value of the population proportion $p$.}
+\item[\textbf{Reason:}]<2- | alert@2> The confidence level 95\% refers to the success rate of the process used to estimate the population proportion.
+\item[\textbf{Incorrect:}]<3- | alert@3> \textquote{There is a 95\% chance that the true value of $p$ will fall between 0.405 and 0.455.}
+\item[\textbf{Reason:}]<3- | alert@3> The population proportion $p$ is a fixed value, it is not a random variable.
+\item[\textbf{Incorrect:}]<4- | alert@4> \textquote{95\% of sample proportions will fall between 0.405 and 0.455.}
+\item[\textbf{Reason:}]<4- | alert@4> The values 0.405 and 0.455 result from one sample, they are not parameters describing the behavior of all samples.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{The Process Success Rate}
+A confidence level of 95\% tells us that the process we use should, given enough iterations, result in a confidence interval that contains the true population proportion 95\% of the time.\pause
+
+\vspace{2mm}
+If the true population proportion is $p=0.5$, then we expect about 19 out of 20 confidence intervals to contain the true value of $p$.
+\begin{center}
+\begin{asy}
+size(300,150,IgnoreAspect);
+
+real xmin = 0;		real xmax = 10;
+real ymin = 0.43;	real ymax = 0.57;
+
+draw((0,0.5)--(21,0.5));
+draw((0,ymin)--(0,ymax));
+
+label("$0.55$",(0,0.55),W);
+draw((-0.1,0.55)--(0.1,0.55));
+label("$0.45$",(0,0.45),W);
+draw((-0.1,0.45)--(0.1,0.45));
+label("$p=0.50$",(0,0.5),W);
+
+int bad = randint(1,21);
+
+for (int i=1; i<21; ++i)
+{
+	if (i == bad)
+	{
+		real a = randreal(0.48,0.49);
+		real b = a-0.05;
+		draw((i,a)--(i,b), heavyred+1.5bp);
+		dot((i,a), heavyred+4bp);
+		dot((i,b), heavyred+4bp);
+	}
+	else
+	{
+		real a = randreal(0.52,0.54);
+		real b = a-0.05;
+		draw((i,a)--(i,b), heavygreen+1.5bp);
+		dot((i,a), heavygreen+4bp);
+		dot((i,b), heavygreen+4bp);
+	}
+}
+
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{A Few Observations}
+\begin{center}
+\begin{asy}
+size(300, 55, IgnoreAspect);
+
+real mu = 0;
+real sigma = 1;
+
+real left = -1.1;
+real right = 1.1;
+
+real xmin=mu-2.5*sigma; real xmax=mu+2.5*sigma;
+
+shade_between(mu,sigma,left,right, mediumyellow);
+shade_between(mu,sigma,xmin,left);
+shade_between(mu,sigma,right,xmax);
+draw(normal_dist(mu, sigma, xmin, xmax));
+
+label("$1-\alpha$", (mu,0.5*nd_func(mu,sigma,mu)));
+label("$\alpha/2$", (left,0),NW);
+label("$\alpha/2$", (right,0),NE);
+
+//label("$-z_{\alpha/2}$",(left,0),NE);
+dot((left,0));
+
+label("$z_{\alpha/2}$",(right,0),NW);
+dot((right,0));
+
+xaxis(Bottom(), RightTicks(new real [] {mu}, size=nan));
+\end{asy}
+\end{center}
+\vspace{-6mm}
+\begin{itemize}[<+- | alert@+>]
+\item When requirements are met, the sampling distribution of sample proportions can be approximated by a normal distribution.
+\item A $z$ score associated with a sample proportion has a probability of $\alpha/2$ of falling in the right tail portion.
+\item The $z$ score at the boundary of the right-tail region is commonly denoted by $z_{\alpha/2}$ and is the borderline separating values that significantly high.
+\end{itemize}
+\end{block}
+
+\onslide<+->
+\begin{definition}
+A \textbf{critical value} is the number on the borderline separating sample statistics that are significantly high or low from those that are not significant. 
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Let us find the critical value $z_{\alpha/2}$ corresponding to a 95\% confidence level.
+
+\vspace{1mm}
+\visible<2->{A 95\% confidence interval gives $\alpha=0.05$ and $\alpha/2=0.025$.}
+
+\vspace{1mm}
+\visible<3->{To find the $z$ value using the inverse normal distribution, we need to know the cumulative area to the left of the right tail, $0.025+0.95=0.9750$.}
+\vspace{1mm}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(ex2.x, ex2.y, IgnoreAspect);
+
+real mu = 0;
+real sigma = 1;
+
+real left = -1.96;
+real right = 1.96;
+
+real xmin=mu-3*sigma; real xmax=mu+3*sigma;
+
+shade_between(mu,sigma,left,right, mediumyellow);
+shade_between(mu,sigma,xmin,left);
+shade_between(mu,sigma,right,xmax);
+draw(normal_dist(mu, sigma, xmin, xmax));
+
+draw((left,0)--(left,0.53));
+draw((right,0)--(right,0.53));
+draw((left,0.5)--(right,0.5), Arrows);
+label("Confidence Level 95\%",(0,0.5), UnFill);
+
+label("$-z_{\alpha/2}$",(left,0),S);
+dot((left,0));
+
+label("$z_{\alpha/2}$",(right,0),S);
+dot((right,0));
+
+xaxis(Bottom(), RightTicks(new real [] {mu}, size=nan));
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(ex2.x, ex2.y, IgnoreAspect);
+
+real mu = 0;
+real sigma = 1;
+
+real left = -1.96;
+real right = 1.96;
+
+real xmin=mu-3*sigma; real xmax=mu+3*sigma;
+
+shade_between(mu,sigma,left,right, mediumyellow);
+shade_between(mu,sigma,xmin,left);
+shade_between(mu,sigma,right,xmax);
+draw(normal_dist(mu, sigma, xmin, xmax));
+
+label("$1-\alpha=0.95$", (mu,0.5*nd_func(mu,sigma,mu)));
+label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW);
+label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE);
+
+label("$-z_{\alpha/2}$",(left,0),S);
+dot((left,0));
+
+label("$z_{\alpha/2}$",(right,0),S);
+dot((right,0));
+
+draw((left,0)--(left,0.53));
+draw((right,0)--(right,0.53));
+draw((left,0.5)--(right,0.5), Arrows);
+label("Confidence Level 95\%",(0,0.5), UnFill);
+
+xaxis(Bottom(), RightTicks(new real [] {mu}, size=nan));
+\end{asy}
+\end{center}
+\onslide<3->
+\begin{center}
+\begin{asy}
+size(ex2.x, ex2.y, IgnoreAspect);
+
+real mu = 0;
+real sigma = 1;
+
+real left = -1.96;
+real right = 1.96;
+
+real xmin=mu-3*sigma; real xmax=mu+3*sigma;
+
+shade_between(mu,sigma,xmin,right, pink);
+shade_between(mu,sigma,right,xmax);
+draw(normal_dist(mu, sigma, xmin, xmax));
+
+label("$0.9750$", (mu,0.5*nd_func(mu,sigma,mu)));
+label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE);
+
+draw((left,0)--(left,0.53));
+draw((right,0)--(right,0.53));
+draw((left,0.5)--(right,0.5), Arrows);
+label("Confidence Level 95\%",(0,0.5), UnFill);
+
+label("$-z_{\alpha/2}=-1.96$",(left,0),S);
+dot((left,0));
+
+label("$z_{\alpha/2}=-1.96$",(right,0),S);
+dot((right,0));
+
+xaxis(Bottom(), RightTicks(new real [] {mu}, size=nan));
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+
+\onslide<4->
+\begin{block}{Common Confidence Levels}
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+\textbf{Confidence Level} & $\boldsymbol{\alpha}$ & \textbf{Critical Value}\\\hline
+90\% & 0.10 & 1.645 \\\hline
+95\% & 0.05 & 1.960 \\\hline
+99\% & 0.01 & 2.575 \\\hline
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When data from a simple random sample are used to estimate a population proportion $p$, the difference between the sample proportion $\hat{p}$ and the population proportion $p$ is an error.\pause
+
+\vspace{2mm}
+The maximum likely amount of error is the \textbf{margin of error}, denoted by $\boldsymbol{E}$. \pause
+
+\vspace{2mm}
+There is a probability of $1-\alpha$ that $\hat{p} - E < p < \hat{p} + E$.\pause
+\end{definition}
+
+\begin{note}
+The margin of error $E$ is also called the \textbf{maximum error of the estimate} and can be found by multiplying the critical value and the estimated standard deviation of sample proportions.
+\begin{equation*}
+E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}
+\end{equation*}
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Procedure for Constructing a Confidence Interval for $p$}
+\begin{enumerate}[<+- | alert@+>]
+\item Verify that the following requirements are satisfied:
+\begin{itemize}
+\item The sample is a simple random sample.
+\item The conditions for the binomial distribution are satisfied.
+\item There are at least 5 successes and at least 5 failures.
+\end{itemize}
+\item Use technology to find the critical value $z_{\alpha/2}$.
+\item Evaluate the margin of error $E$.
+\item Using the value of the calculated margin of error $E$ and the value of the sample proportion $\hat{p}$, find the values of the confidence interval limits $\hat{p}-E$ and $\hat{p}+E$.
+\item Round the resulting confidence interval limits to three significant digits.
+\end{enumerate}
+\end{block}
+\onslide<+->
+\begin{note}
+Statistics software, such as Statdisk, can calculate the confidence interval for you.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+A Gallup poll of 1487 adults showed that 43\% of the respondents have Facebook pages. Let us calculate a 95\% confidence interval by hand.
+
+\vspace{1mm}
+\begin{enumerate}[<+->]
+\item The critical value for 95\% confidence interval is $z_{\alpha/2}$ is 1.96.
+\item The margin of error is 
+\begin{equation*}
+E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\onslide<+->
+=1.96\sqrt{\dfrac{0.43(1-0.43)}{1487}}\onslide<+->
+=0.0251636
+\end{equation*}
+\vspace{-5mm}
+\item The confidence interval is
+\begin{equation*}
+\begin{matrix}
+\hat{p} - E &<& p &<& \hat{p} + E\\\onslide<+->
+0.43 - 0.0251636 &<& p &<& 0.43 + 0.0251636 \\\onslide<+->
+0.405 &<& p &<& 0.455 \\
+\end{matrix}
+\end{equation*}
+\end{enumerate}
+\vspace{-6mm}
+\end{example}
+
+\onslide<+->
+\begin{note}
+Looking at the confidence interval we can conclude that less than half of adults have a Facebook page.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Analyzing Polls}
+When analyzing results from polls, consider the following:
+\begin{itemize}[<+- | alert@+>]
+\item The sample should be a simple random sample.
+\item The confidence interval should be provided.
+\item The sample size should be provided.
+\item Except for relatively rare cases, the quality of the poll results depends on the sampling method and the size of the sample, but the size of the population is usually not a factor.
+\end{itemize}
+\end{block}
+\onslide<+->
+\begin{block}{Caution}
+Never think that poll results are unreliable if the sample size if a small percentage of the population size.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Finding $\hat{p}$ from a Confidence Interval}
+If you know the confidence interval limits, we can calculate the point estimate:
+\begin{equation*}
+\hat{p} = \dfrac{(\text{upper confidence interval limit})+(\text{lower confidence interval limit})}{2}
+\end{equation*}
+\end{block}\pause
+
+\begin{block}{Finding $E$ from a Confidence Interval}
+If you know the confidence interval limits, we can calculate the margin of error:
+\begin{equation*}
+E = \dfrac{(\text{upper confidence interval limit})-(\text{lower confidence interval limit})}{2}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The article \textquote{High-Dose Nicotine Patch Therapy}, by Dale, Hurt, et al. (\emph{Journal of the American Medical Association}, Vol 274, No. 17) includes the statement:
+\vspace{-1mm}
+\begin{center}
+Of the 71 subjects, 70\% were abstinent from smoking at 8 weeks (95\% confidence interval [CI], 58\% to 81\%).
+\end{center}\pause
+
+\vspace{-2mm}
+The point estimate $\hat{p}$ is
+\begin{equation*}
+\begin{aligned}
+\hat{p} &= \dfrac{(\text{upper confidence interval limit})+(\text{lower confidence interval limit})}{2} \\\pause
+&= \dfrac{0.81+0.58}{2}\pause
+= 0.695\pause
+\end{aligned}
+\end{equation*}
+
+The margin of error $E$ is
+\begin{equation*}
+\begin{aligned}
+E &= \dfrac{(\text{upper confidence interval limit})-(\text{lower confidence interval limit})}{2} \\\pause
+&= \dfrac{0.81-0.58}{2}\pause
+= 0.115
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{ex:online}
+Let us assume a researcher can find no information about the percentage of adults who make online purchases. This information is extremely important to online stores, so the researcher decides to conduct a survey.\pause
+
+\vspace{1mm}
+How many adults must be surveyed in order to be 95\% confident that the sample percentage is in error by no more than three percentage points?\pause
+
+\vspace{1mm}
+We can solve the margin of error equation for $n$:
+\begin{equation*}
+E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \pause
+\quad\Rightarrow\quad
+n=\dfrac{ {(z_{\alpha/2})}^2 \hat{p} (1-\hat{p}) }{E^2}
+\end{equation*}\pause
+We have $z_{\alpha/2}=1.96$ and $E=0.03$, but what about $\hat{p}$?
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Sample Size Required to Estimate a Population Proportion}
+The sample must be a simple random sample of independent sample units.\pause
+
+\vspace{2mm}
+If a reasonable estimate of $\hat{p}$ can be made by using previous samples, a pilot study, or someone's expert knowledge:
+\begin{equation*}
+n=\dfrac{ {(z_{\alpha/2})}^2 \hat{p} (1-\hat{p}) }{E^2}
+\end{equation*}\pause
+
+\vspace{-3mm}
+If nothing is known about the value $\hat{p}$:
+\begin{equation*}
+n=\dfrac{ {(z_{\alpha/2})}^2 0.25 }{E^2}
+\end{equation*}
+\end{block}\pause
+
+\begin{block}{Rounding}
+If the computed sample size $n$ is not a whole number, round the value of $n$ up to the next larger whole number.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Why 0.25?}
+If $\hat{p}=0.5$ then the product $\hat{p} (1-\hat{p})=0.25$ is the largest possible product.
+
+\begin{overprint}
+\onslide<2>
+\vspace{1mm}
+To see why, consider the rectangle:
+\begin{center}
+\begin{asy}
+size(blkpq.x, blkpq.y);
+
+draw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle);
+
+label("$W$", (0,0),S);
+label("$L$", (1,0.5),E);
+\end{asy}
+\end{center}
+\onslide<3>
+\vspace{1mm}
+To see why, consider the rectangle:
+\begin{center}
+\begin{asy}
+size(blkpq.x, blkpq.y);
+
+draw(( 1,1)--( 1,0),red);
+draw(( 1,0)--(-1,0),green);
+draw((-1,0)--(-1,1),red);
+draw((-1,1)--( 1,1),green);
+
+label("$W$", (0,0),S,green);
+label("$L$", (1,0.5),E,red);
+\end{asy}
+\end{center}
+Let us assume that the perimeter of this rectangle is 2, which means:
+\begin{equation*}
+{\color{red}2L}+{\color{green}2W}=2 
+\phantom{\qquad\Rightarrow\qquad
+L+W=1}
+\end{equation*}
+\onslide<4>
+\vspace{1mm}
+To see why, consider the rectangle:
+\begin{center}
+\begin{asy}
+size(blkpq.x, blkpq.y);
+
+draw(( 1,1)--( 1,0),red);
+draw(( 1,0)--(-1,0),green);
+draw((-1,0)--(-1,1));
+draw((-1,1)--( 1,1));
+
+label("$W$", (0,0),S,green);
+label("$L$", (1,0.5),E,red);
+\end{asy}
+\end{center}
+Let us assume that the perimeter of this rectangle is 2, which means:
+\begin{equation*}
+2L+2W=2 
+\qquad\Rightarrow\qquad
+{\color{red}L}+{\color{green}W}=1
+\end{equation*}
+\onslide<5->
+\vspace{1mm}
+To see why, consider the rectangle:
+\begin{center}
+\begin{asy}
+size(blkpq.x, blkpq.y);
+
+filldraw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle, pink,black);
+label("Area",(0,0.5));
+
+label("$W$", (0,0),S);
+label("$L$", (1,0.5),E);
+\end{asy}
+\end{center}
+Let us assume that the perimeter of this rectangle is 2, which means
+\begin{equation*}
+2L+2W=2 
+\qquad\Rightarrow\qquad
+L+W=1
+\end{equation*}
+We can then write the area of this rectangle as
+\begin{equation*}
+\text{Area} = LW = L(1-L) = -L^2+L
+\end{equation*}
+\visible<6->{Since this is a parabola that opens down, we know that the vertex $(0.5,0.5)$ is the maximum value.}
+\end{overprint}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us return to Example~\ref{ex:online}, finding the sample size for a survey.\pause
+
+\vspace{1mm}
+We have $z_{\alpha/2}=1.96$ and $E=0.03$, but we know nothing about $\hat{p}$.\pause
+\begin{equation*}
+n=\dfrac{ {(z_{\alpha/2})}^2 0.25 }{E^2} \pause
+=\dfrac{ {(1.96)}^2 0.25 }{{(0.03)}^2}\pause
+=1067.11 \pause
+\end{equation*}
+So, we need at least 1068 adults in our survey.\pause
+\end{example}
+\begin{block}{Caution}
+\begin{enumerate}
+\item Don't make the mistake of using $E=3$ as the margin of error corresponding to \textquote{three percentage points.}\pause
+\item Be sure to substitute correct the critical $z$ score for $z_{\alpha/2}$ for the confidence level.\pause
+\item Be sure to \emph{round up to the next highest integer}, do not round using the usual rounding rules.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+We have been discussing what is called the \textbf{Wald} confidence interval.
+\end{note}\pause
+
+\begin{block}{Plus Four Method}
+An easy improvement of the Wald Confidence Interval is:
+\begin{enumerate}
+\item Add two to the number of successes.
+\item Add two to the number of failures
+\item Calculate the Wald confidence interval.
+\end{enumerate}
+\end{block}\pause
+
+\begin{note}
+There are other types of confidence intervals:
+\begin{itemize}
+\item The Wilson score.
+\item The Clopper-Pearson Method.
+\end{itemize}
+\end{note}
+\end{frame}
+\end{document}
