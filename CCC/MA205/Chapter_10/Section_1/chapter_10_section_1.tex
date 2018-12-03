@@ -28,8 +28,8 @@
 \newcommand{\comb}[2]{{_{#1}C_{#2}}}
 \newcommand{\perm}[2]{_{#1}P_{#2}}
 
-\newcommand{\nullhypothesis}[1]{H_0:~{#1}}
-\newcommand{\althypothesis}[1]{H_A:~{#1}}
+\newcommand{\nullhypothesis}[1]{H_0&:~{#1}}
+\newcommand{\althypothesis}[1]{H_A&:~{#1}}
 
 \begin{asydef}
 real nd_func(real mu, real sigma, real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
@@ -439,7 +439,349 @@ Distinct straight-line, or linear, pattern. We say that there is a positive line
 
 \begin{frame}
 \begin{example}
-Data Set 1 \textquote{Body Data} in Appendix B includes weights (kg) and pulse rates (bpm) of randomly selected adult subjects.
+\begin{center}
+\begin{tikzpicture}
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+width=12cm,
+height=5.0cm,
+%xlabel={Waist Circumference (cm)},
+%ylabel={Arm Circumference (cm)},
+ymajorgrids=true,
+xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\pgfmathprintnumber{\tick},
+xtick={50,75,...,175},
+ytick={50,55,...,100},
+ymin=50,
+ymax=85,
+xmin=50,
+xmax=175,
+scatter/use mapped color={
+ %draw=mapped color,
+ fill=blue,
+},
+]
+\addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+coordinates
+{
+(120.4,59.3)
+(107.8,63)
+(120.3,55.7)
+(97.2,69.7)
+(95.1,66)
+(112,68.6)
+(78,72.6)
+(103.5,65.8)
+(89.7,67.5)
+(112,60)
+(95,67.3)
+(115.3,61.5)
+(118.8,58.8)
+(92.6,69.6)
+(75.5,73)
+(101.8,67.1)
+(92.5,63.8)
+(100.8,66.5)
+(82.8,73.4)
+(92.9,63.3)
+(109,65.3)
+(101.9,63)
+(110,63.5)
+(102.3,67)
+(80,70.1)
+(94.3,70.5)
+(103.1,65.5)
+(103,68)
+(90.5,71)
+(88.2,64)
+(78.8,71)
+(65.8,76.3)
+(114.4,64.9)
+(78,74.8)
+(106.8,64.6)
+(112.4,65.5)
+(94.8,65.1)
+(90.6,74.5)
+(95.2,68.2)
+(71.5,75.5)
+(94.5,71.7)
+(95.3,69)
+(103.5,65.3)
+(104.2,70)
+(88.7,65)
+(109.7,65.1)
+(115,63.2)
+(64.4,79.5)
+(133.5,61)
+(102.2,60.7)
+(138.1,61.4)
+(112.1,62)
+(70.2,75.3)
+(144.4,53.7)
+(95.7,70.8)
+(98.7,64.7)
+(121.7,62.6)
+(87.4,72)
+(77.7,73)
+(100.9,64.4)
+(93.4,66.3)
+(125.9,62.7)
+(121.2,60.5)
+(90.5,72.3)
+(86.7,76.4)
+(82.3,73.5)
+(107.3,65.9)
+(88.2,67.8)
+(129.3,59.2)
+(78.8,74.3)
+(95,70.5)
+(102.8,65.9)
+(85.3,74.5)
+(79.6,72.8)
+(101.2,65.8)
+(111.6,68)
+(90.8,67.1)
+(108.6,60.5)
+(81.9,69.1)
+(132.2,66.3)
+(87,62.8)
+(108.9,62.8)
+(74.5,72.8)
+(107.7,67.5)
+(96,70.5)
+(79.5,71.5)
+(111.7,66)
+(83,71.4)
+(80.6,74)
+(102.4,68.8)
+(96.7,66.6)
+(93,69.4)
+(88.6,72)
+(97,59.4)
+(95.4,63.7)
+(104.5,59.5)
+(106.3,63.7)
+(97.2,64.5)
+(140.8,58.4)
+(90.5,66.8)
+(98.6,59.4)
+(115,58.5)
+(98.2,67.7)
+(114.5,66.9)
+(108.9,65.2)
+(80.7,73.7)
+(96.9,68.3)
+(95.4,60)
+(100.8,62.3)
+(99.1,63.4)
+(88.6,66.2)
+(87.8,65)
+(105.6,64.7)
+(103.4,60.4)
+(116.6,64.2)
+(85.7,72.2)
+(90.9,69.8)
+(89.5,67)
+(89,72.3)
+(77.8,70.7)
+(77.9,73.3)
+(104,68.8)
+(105.1,65.1)
+(84.8,70.6)
+(127.7,59.2)
+(81.9,68.9)
+(126.5,60.5)
+(83,69)
+(96.4,71.4)
+(106,61.7)
+(83.7,71)
+(101.2,64.5)
+(96.2,65)
+(104.6,60.8)
+(77,75.5)
+(115,69.4)
+(86.1,70.8)
+(102.2,64.3)
+(93.9,65.5)
+(92.4,67.7)
+(110.3,61.5)
+(127.7,55)
+(99.1,68.2)
+(109.8,65.9)
+(95.2,68.4)
+(99,70.1)
+(87.9,71.3)
+(123.7,60.3)
+(107.2,70.4)
+(86.4,71.8)
+(90.7,69.6)
+(68.8,75.6)
+(68.8,76)
+(99.3,69)
+(140.6,59.4)
+(119.7,65.7)
+(83.7,72)
+(96.6,66.5)
+(99,65)
+(88.2,67.8)
+(87.5,69)
+(81.9,72.1)
+(97.5,72.8)
+(106.6,60.8)
+(91,70)
+(80.4,74.3)
+(107.8,67.8)
+(76.5,73)
+(115.3,65.5)
+(95.3,64.5)
+(109.6,61.9)
+(110.8,62)
+(92.9,69.3)
+(114.5,58.8)
+(109.6,62.8)
+(122.9,62)
+(78.8,72.7)
+(92,66.5)
+(99.5,71.8)
+(114.6,64.8)
+(90,70)
+(87.1,65.9)
+(93.5,70.6)
+(170.5,54.4)
+(105.8,65.3)
+(100.3,62.2)
+(92.6,70.3)
+(88.3,69.9)
+(110.5,66.6)
+(102.7,60.2)
+(112.5,62.3)
+(105.4,65)
+(132.3,55.9)
+(104.3,66.4)
+(94.8,70.9)
+(85.4,70.4)
+(96.5,65.4)
+(109.6,68.5)
+(106.5,61.3)
+(79.8,77.8)
+(84.2,72.5)
+(89.5,67.8)
+(90.1,70.6)
+(116.8,61.5)
+(148.1,55.6)
+(93.4,69)
+(77,73.6)
+(116.7,63.9)
+(101.5,69.6)
+(112.3,59.9)
+(96.6,70.5)
+(83.4,70.8)
+(81.3,67.8)
+(144.2,53.4)
+(103.7,65.7)
+(95.7,65.6)
+(81,72.4)
+(126,61.3)
+(89.6,65.8)
+(98,66.5)
+(110.8,64.7)
+(104,69)
+(99.9,66.8)
+(95.3,62.3)
+(105,67.4)
+(131,59.8)
+(125.5,60.7)
+(80.7,66.8)
+(110,63)
+(130.8,64.7)
+(78.7,71.4)
+(97,65.3)
+(88.9,67.8)
+(90.7,68.3)
+(86.9,69.7)
+(95,67.1)
+(80.5,71.8)
+(104.4,64.8)
+(74,74)
+(104.7,65.3)
+(101.3,69.3)
+(82.7,71.3)
+(115,63.5)
+(72.1,73.5)
+(95,59.7)
+(96,68.9)
+(87.4,69.2)
+(111.7,67.5)
+(111.6,67.7)
+(74.5,73.8)
+(128.3,58)
+(102.9,61.1)
+(108.3,63.6)
+(94,72.5)
+(81.2,72.7)
+(122.2,58.1)
+(75.5,72.4)
+(109.4,62.3)
+(91.8,71)
+(114.1,63)
+(124.2,62.8)
+(111.6,65.4)
+(116.9,63.7)
+(86.8,68.9)
+(86.6,74.8)
+(86.2,67.7)
+(92.6,70.9)
+(109.7,65.2)
+(106.8,64.7)
+(93.8,73.4)
+(100.8,65.8)
+(117,66.5)
+(78.4,73)
+(86.7,70.3)
+(91.8,68.2)
+(85.2,73.6)
+(93.7,68.7)
+(144,62.5)
+(113.8,65.3)
+(103.9,65.2)
+(95,66.5)
+(78,69)
+(101.1,64.7)
+(107.5,69.9)
+(97.4,69.2)
+(90.9,69)
+(88.5,71.4)
+(67.4,74.5)
+(92.1,59.7)
+(101.1,68.3)
+(78.1,69)
+(90,67)
+(125.5,61)
+(86.2,65.8)
+(74.5,73.9)
+(78.4,72.1)
+(142.6,60.5)
+(117.7,63.5)
+(109,63)
+(74,73.5)
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}\pause
+Distinct straight-line, or linear, pattern. We say that there is a positive linear correlation ($r=-0.80241$) between $x$ and $y$, since as the $x$ values increase, the corresponding $y$ values also increase.
+\end{example}
+\end{frame}
+
+\begin{frame}%0.08161
+\begin{example}
 \begin{center}
 \begin{tikzpicture}
 \pgfkeys{/pgf/number format/.cd,
@@ -451,8 +793,8 @@ set thousands separator={},
 \begin{axis}[
 width=11.5cm,
 height=5.3cm,
-xlabel={Weight (kg)},
-ylabel={Pulse Rate (bpm)},
+%xlabel={Weight (kg)},
+%ylabel={Pulse Rate (bpm)},
 ymajorgrids=true,
 xmajorgrids=true,
 %enlarge x limits=false,
@@ -777,7 +1119,190 @@ coordinates
 \end{axis}
 \end{tikzpicture}
 \end{center}\pause
-The points do not show any obvious pattern, and this lack of a pattern suggests that there is no relationship between weights and pulse rates.
+The points do not show any obvious pattern ($r=0.08161$), and this lack of a pattern suggests that there is no relationship between the variables.
 \end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{linear correlation coefficient $\boldsymbol{r}$} measures the strength of the linear correlation between the paired quantitative $x$ values and $y$ values in a sample.
+\end{definition}\pause
+
+\begin{block}{Requirements}
+The following should be satisfied when using the sample paired data to make a conclusion about linear correlation in the corresponding population of paired data.
+\begin{enumerate}
+\item The sample of paired data is a simple random of quantitative data.\pause
+\item Visual examination of the scatterplot must confirm that the points approximate a straight-line pattern.\pause
+\item Because the results can be strongly affected by outliers, any outliers mist be removed if they are known to be errors.
+\end{enumerate}
+\end{block}
+
+\begin{block}{Caution}\small
+A linear correlation coefficient $r$ can always be calculated, wether or not it applies.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Formula}
+The formula for $r$ is:
+\begin{equation*}
+r=\dfrac{\sum(z_x z_y)}{n-1}
+\end{equation*}
+where $z_x$ and $z_y$ are the $z$-scores for the sample values $x$ and $y$, respectively.
+\end{block}\pause
+
+\begin{note}
+Technology is almost always used to generate $r$.
+\end{note}\pause
+
+\begin{block}{Alternative Formula}
+A formula for $r$ that is better for hand calculations is:
+\begin{equation*}
+r=\dfrac{n(\sum xy)-(\sum x)(\sum y)}{\sqrt{n(\sum x^2)-{(\sum x)}^2}\sqrt{n(\sum y^2)-{(\sum y)}^2}}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Properties of the Linear Correlation Coefficient}
+\begin{itemize}[<+- | alert@+>]
+\item $-1\leq r \leq 1$
+\item If all values of either variable are converted to a different scale, the value of $r$ does not change.
+\item The value of $r$ is not affected by the choice of $x$ or $y$. Interchange all $x$ values and all $y$ values, and the value of $r$ will not change.
+\item $r$ measures the strength of a linear relationship. It is not designed to measure the strength of a relationship that is nor linear.
+\item $r$ is very sensitive to outliers in the sense that a single outlier could dramatically affect its value.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Is There a Linear Correlation?}
+Technology will generate a $P$-value along with $r$. If we have a significance level $\alpha$, then
+\begin{equation*}
+\begin{aligned}
+\text{$P$-value}\leq \alpha:& ~\text{Supports the claim of a linear correlation.}\\
+\text{$P$-value}> \alpha:& ~\text{Does not support the claim of a linear correlation.}
+\end{aligned}
+\end{equation*}
+\end{block}\pause
+
+\begin{example}\label{ex:feet}
+For Data Set 2 \textquote{Foot and Height,} when we use technology to calculate the linear correlation between the foot length and age of 40 randomly selected prople we get:
+\begin{equation*}
+r=0.3591\quad\text{and}\quad P\text{-value}=0.02287
+\end{equation*}\pause
+If we have a significance level $\alpha=0.05$, is there evidence of a linear correlation?\pause
+
+\vspace{1mm}
+Because $0.02287\leq 0.05$ we have evidence of a linear correlation.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+The value of $r^2$ is the proportion of the variation in $y$ that is explained by the linear relationship between $x$ and $y$.
+\end{note}\pause
+
+\begin{example}
+From Example~\ref{ex:feet} we say that $r=0.3591$ when comparing foot length to age.\pause
+
+\vspace{1mm}
+We can then calculate $r^2={(0.3591)}^2=0.129$.\pause
+
+\vspace{1mm}
+We can conclude that about 12.9\% of the variation in ages can be explained by the linear relationship between foot length and age.\pause
+
+\vspace{1mm}
+this implies that about 87.1\% of the variation in ages cannot be explained by rates of chocolate consumption.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Do Not Assume That Correlation Implies Causality!}
+For several years, the data suggested a linear correlations between the stork population in Copenhagen and the number of human births.\pause
+
+\vspace{1mm}
+Storks do not actually have anything to do with human births. This means both variables were affected by another factor.
+\end{block}\pause
+
+\begin{definition}
+A \textbf{lurking variable} is one that affects the variables being studied but is nor included in the study.
+\end{definition}\pause
+
+\begin{block}{Do Not Use Data Based on Averages}
+Averages suppress individual variation and may inflate the correlation coefficient.
+\end{block}\pause
+
+\begin{block}{Do Not Ignore The Possibility of a Nonlinear Relationship}
+If there is no linear correlation, there might be some correlation that is not linear.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Formal Hypothesis Test}
+If conducting a formal hypothesis test to determine whether there is a significant linear correlation between two variables, use:
+\begin{equation*}
+\begin{aligned}
+\nullhypothesis{p=0~\text{(There is no linear correlation.)}} \\
+\althypothesis{p\neq 0~\text{(There is a linear correlation.)}}
+\end{aligned}
+\end{equation*}\pause
+
+The test statistic (with $n-2$ degrees of freedom) is
+\begin{equation*}
+t=\dfrac{r}{\sqrt{\dfrac{1-r^2}{n-2}}}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Using Data Set 16 let us conduct a formal hypothesis test of the claim that there is a linear correlation between chocolate consumption in a country and how many Nobel Laureates are from that country using a 0.05 significance.\pause
+
+\vspace{1mm}
+The hyoptheses we are testing are
+\begin{equation*}
+\begin{aligned}
+\nullhypothesis{p=0~\text{(There is no linear correlation.)}} \\
+\althypothesis{p\neq 0~\text{(There is a linear correlation.)}}
+\end{aligned}
+\end{equation*}\pause
+Technology give $r=0.801$ and $n=23$ which means the test statistic is
+\begin{equation*}
+t=\dfrac{r}{\sqrt{\dfrac{1-r^2}{n-2}}}\pause
+=\dfrac{0.891}{\sqrt{\dfrac{1-{(0.801)}^2}{23-2}}}\pause
+=6.131\pause
+\end{equation*}
+We have $\text{df}=23-2=21$, technology gives a $P$-value of 0.000.\pause
+
+\vspace{1mm}
+Because the $P$-value is less than the significance level, we reject $H_0$.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Hypotheses tests involving linear correlations are almost always two-tailed, but occasionally one-tailed tests can occur.
+\end{note}\pause
+
+\begin{block}{Claim of Negative Correlation}
+When testing a claim of a negative linear correlation use
+\begin{equation*}
+\begin{aligned}
+\nullhypothesis{p=0}\\
+\althypothesis{p<0}
+\end{aligned}
+\end{equation*}
+\end{block}\pause
+
+\begin{block}{Claim of Positive Correlation}
+When testing a claim of a positive linear correlation use
+\begin{equation*}
+\begin{aligned}
+\nullhypothesis{p=0}\\
+\althypothesis{p>0}
+\end{aligned}
+\end{equation*}
+\end{block}
 \end{frame}
 \end{document}
