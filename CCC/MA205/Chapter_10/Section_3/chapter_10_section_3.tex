@@ -77,4 +77,309 @@ real b=1.25;
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{definition}
+A \textbf{prediction interval} is a range of values used to estimate a variable.
+\end{definition}\pause
+
+\begin{definition}
+A \textbf{confidence interval} is a range of values used to estimate a population parameter.
+\end{definition}\pause
+
+\begin{block}{Formula}
+Given a fixed and known value $x_0$, the prediction interval for an individual $y$ value is
+\begin{equation*}
+\hat{y} - E < y < \hat{y} + E
+\end{equation*}
+where 
+\begin{equation*}
+E=t_{\alpha/2} s_e\sqrt{1+\dfrac{1}{n}+\dfrac{n{(x_0-\bar{x})}^2}{n(\sum x^2)-{(\sum x)}^2}}
+~\text{and}~
+s_e=\sqrt{\dfrac{\sum{(y-\hat{y})}^2}{n-2}}
+\end{equation*}
+and $t_{\alpha/2}$ has $n-2$ degrees of freedom.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+For the paired data in Data Set 16 comparing chocolate consumption and Nobel laureate rate has linear correlation and the regression equation is $\hat{y}=-3.37+2.49x$.\pause
+
+\vspace{2mm}
+Using the regression equation to predict the Nobel laureate rate for a country that consumes 10kg per capita is 21.5 Nobel laureates per 10 million people.\pause
+
+\vspace{2mm}
+Technology gives a 95\% prediction interval of $7.8<y<35.3$.\pause
+
+\vspace{2mm}
+This means that if we select some country with a chocolate consumption rate of 10kg per capita, we have a 95\% confidence that the limits of 7.8 and 35.3 contain the Nobel laureate rate.\pause
+\end{example}
+
+\begin{note}
+We could narrow down the interval by using a much larger set of data.
+\end{note}
+\end{frame}
+
+\begin{frame}\small
+\begin{note}
+For the following definitions, we assume that we have a collection of paired data containing the sample point $(x,y)$, that $\hat{y}$ is the predicted value of $y$ (obtained by using the regression equation), and that the mean of the sample $y$ values is $\bar{y}$.
+\end{note}\pause
+
+\begin{definition}
+The \textbf{total deviation} of $(x,y)$ is the vertical distance $(y-\bar{y})$, which is the distance between the point $(x,y)$ and the horizontal line passing through the sample mean $\bar{y}$.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{explained deviation} is the vertical distance $(\hat{y}-\bar{y})$, which is the distance between the predicted $y$ value and the horizontal line passing through the sample mean $\bar{y}$.
+\end{definition}\pause
+
+\begin{definition}
+The \textbf{unexplained deviation} is the vertical distance $(y-\hat{y})$, which is the vertical distance between the point $(x,y)$ and the regression line.
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{columns}
+\begin{column}{0.5\linewidth}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+draw((1,1)--(max_x,max_y),invisible);
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+real sc = 0.79;
+
+draw((0,3)--(9,21), red+1bp);
+label(scale(sc)*Label("$\hat{y}=3+2x$"), (2,4), red);
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+real sc = 0.79;
+
+draw((0,3)--(9,21), red+1bp);
+label(scale(sc)*Label("$\hat{y}=3+2x$"), (2,4), red);
+
+draw((0,9)--(9,9), black+1bp);
+label(scale(sc)*Label("$\bar{y}=9$"), (8,8), black);
+
+dot((5,9));
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\onslide<4>
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+real sc = 0.79;
+
+draw((0,3)--(9,21), red+1bp);
+label(scale(sc)*Label("$\hat{y}=3+2x$"), (2,4), red);
+
+draw((0,9)--(9,9), black+1bp);
+label(scale(sc)*Label("$\bar{y}=9$"), (8,8), black);
+
+dot((5,9));
+dot((5,19));
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\onslide<5>
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+real sc = 0.79;
+
+draw((0,3)--(9,21), red+1bp);
+label(scale(sc)*Label("$\hat{y}=3+2x$"), (2,4), red);
+
+draw((0,9)--(9,9), black+1bp);
+label(scale(sc)*Label("$\bar{y}=9$"), (8,8), black);
+
+dot((5,9));
+dot((5,13));
+dot((5,19));
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\onslide<6->
+\begin{center}
+\begin{asy}
+size(190, 200, IgnoreAspect);
+
+real min_x = 0;
+real max_x = 9;
+real min_y = 0;
+real max_y = 20;
+
+real sc = 0.79;
+
+real f(real x) { return (1/4) * x * x; }
+
+draw((0,3)--(9,21), red+1bp);
+label(scale(sc)*Label("$\hat{y}=3+2x$"), (2,4), red);
+
+draw((0,9)--(9,9), black+1bp);
+label(scale(sc)*Label("$\bar{y}=9$"), (8,8), black);
+
+dot((5,9));
+dot((5,13));
+dot((5,19));
+
+void note(string st, string sb, pair top, pair bottom, real swap=1)
+{
+	real sl = 0.2*swap;
+	real sr = 0.5*swap;
+	real sh = 0.4;
+	real sn = 1.8*swap;
+	real sm = 0.25;
+	pen p = blue;
+	Label Lt = scale(sc)*Label(st);
+	Label Lb = scale(sc)*Label(sb);
+	real ls = 0.5;
+
+	pair mid = ((top.x+bottom.x)/2, (top.y+bottom.y)/2);
+	
+	path b = (top.x + sl, top.y-0.1) -- (top.x + sr, top.y-sh) -- (top.x + sr, mid.y+sm) -- (top.x+sn,mid.y) -- (top.x+sr, mid.y-sm) -- (bottom.x + sr, bottom.y+sh) -- (bottom.x + sl, bottom.y+0.1);
+	if (swap > 0)
+	{
+		label(Lt,(mid.x+sn, mid.y+ls),E,p);
+		label(Lb,(mid.x+sn, mid.y-ls),E,p);
+	}
+	else
+	{
+		label(Lt,(mid.x+sn, mid.y+ls),W,p);
+		label(Lb,(mid.x+sn, mid.y-ls),W,p);	
+	}
+	
+	draw(b, p );
+}
+
+note("Unexplained", "$(y-\hat{y})$", (5,19), (5,13));
+note("Explained", "$(\hat{y}-\bar{y})$", (5,13), (5,9));
+note("Total Deviation", "$(y-\bar{y})$", (5,19), (5,9), -1);
+
+limits((min_x, min_y), (max_x, max_y), Crop);
+
+real[] tx = {2,4,6,8, 10, 12};
+real[] ty = {5,10,15,20, 25, 30};
+xaxis("$x$", YEquals(0), RightTicks(tx));
+yaxis("$y$", XEquals(0), LeftTicks(ty));
+\end{asy}
+\end{center}
+\end{overprint}
+\end{column}
+\begin{column}{0.45\linewidth}
+We assume the following:
+\begin{itemize}[<+- | alert@+>]
+\item There is sufficient evidence to support the claim of a linear correlation between $x$ and $y$.
+\item The equation of the regression is $\hat{y}=3+2x$.
+\item The mean of the $y$ values is given by $\bar{y}=9$.
+\item One of the pairs of sample data is $x=5$ and $y=19$.
+\item The point $(5,13)$ is one of the points on the regression line, because substitution $x=5$ into the regression equation yields $\hat{y}=13$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{coefficient of determination} is the proportion of the variation in $y$ that is explained by the regression line. It is computed as
+\begin{equation*}
+r^2 = \dfrac{\text{explained variation}}{\text{total variation}}
+\end{equation*}
+\end{definition}\pause
+
+\begin{note}
+We can either compute $r^2$ using the variation or we can square the linear correlation coefficient $r$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+For the paired data in Data Set 16 comparing chocolate consumption and Nobel laureate rate has linear correlation coefficient $r=0.801$.\pause
+
+\vspace{2mm} 
+The coefficient of determination is $r^2=0.641$.\pause
+
+\vspace{2mm}
+We conclude that $64.2\%$ of the total variation in the Nobel rate can be explained by chocolate consumption, and the other 35.8\% cannot be explained by chocolate consumption.\pause
+\end{example}
+
+\begin{note}
+The other 35.8\% might be explained by some other factors. But it is pretty silly to seriously think that chocolate consumption in a country is going to directly effect the country's rate of Nobel Laureates.
+\end{note}
+\end{frame}
 \end{document}
