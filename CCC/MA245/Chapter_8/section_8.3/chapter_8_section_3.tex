@@ -1,0 +1,873 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{tabu}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+\end{asydef}
+
+\title[MATH 2250 - Section 8.3]{The Step Function and the Delta Function}
+
+\DeclareMathOperator{\step}{\textbf{step}}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{The Unit Step Function}
+\begin{equation*}
+\step(t)=
+\begin{cases}
+0 & \text{if}~t< 0 \\
+1 & \text{if}~t\geq 0
+\end{cases}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(245);
+
+real min_x=-2, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+dot(start,invisible);
+dot(end,invisible);
+
+real a=0.0;
+
+draw((min_x,0)--(a,0),blue+1.5bp,BeginArrow());
+draw((a,1)--(max_x,1),blue+1.5bp,EndArrow());
+
+unfill(circle(r=0.06,c=(a,0)));
+draw(circle(r=0.06,c=(a,0)),blue+1bp);
+fill(circle(r=0.06,c=(a,1)),blue+1bp);
+
+//limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{The Translated Step Function}
+\begin{equation*}
+\step(t-a)=
+\begin{cases}
+0 & \text{if}~t< a \\
+1 & \text{if}~t\geq a
+\end{cases}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(245);
+
+real min_x=-2, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+dot(start,invisible);
+dot(end,invisible);
+
+real a=0.7;
+
+draw((min_x,0)--(a,0),blue+1.5bp,BeginArrow());
+draw((a,1)--(max_x,1),blue+1.5bp,EndArrow());
+
+draw((a,min_y)--(a,max_y),darkgray+dashed);
+label("$a$",(a+0.1,0.5),darkgray);
+
+unfill(circle(r=0.06,c=(a,0)));
+draw(circle(r=0.06,c=(a,0)),blue+1bp);
+fill(circle(r=0.06,c=(a,1)),blue+1bp);
+
+//limits(start,end,Crop);
+
+xaxis("$t$",YEquals(0),Ticks(NoZero));
+yaxis("$y$",XEquals(0),Ticks(NoZero),autorotate=false);
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Laplace Transform of the Step Function}
+\begin{equation*}
+\laplace\{\step(t-a)\}=\dfrac{e^{-as}}{s}
+\end{equation*}
+\end{block}\pause
+\begin{proof}
+\begin{equation*}
+\begin{aligned}
+\laplace\{\step(t-a)\}
+&= \int_0^\infty e^{-st}\step(t-a)~dt\\\pause
+&= \int_0^a e^{-st}\cdot 0~dt + \int_a^\infty e^{-st}\cdot 1~dt\\\pause
+&= \int_a^\infty e^{-st}~dt\\\pause
+&= \lim_{b\rightarrow\infty}{\left[-\dfrac{e^{-st}}{s}\right]}^b_a\\\pause
+&= \lim_{b\rightarrow\infty}-\dfrac{1}{s}\left[e^{-sb}-e^{-sa}\right]\\\pause
+&= \dfrac{e^{as}}{s}
+\end{aligned}
+\end{equation*}
+\end{proof}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider
+\begin{equation*}
+\begin{aligned}
+f(t)&=
+\begin{cases}
+\+2 & \text{if}~t<3 \\
+ -4 & \text{if}~3\leq t< 4 \\
+\+1 & \text{if}~t\geq 4
+\end{cases}\pause
+\qquad=2-6\step(t-3)+5\step(t-4)
+\end{aligned}
+\end{equation*}\pause
+Which means that
+
+\vspace{-5mm}
+\begin{equation*}
+\laplace\{f(t)\}=\dfrac{2-6e^{-3s}+5e^{-4s}}{s}
+\end{equation*}\pause
+
+\vspace{-8mm}
+\begin{center}
+\begin{asy}
+picture pic_1, pic_2;
+size(pic_1,130);
+size(pic_2,130);
+
+real min_x=0, max_x=7;
+real min_y=-5, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real a=3;
+real b=4;
+
+draw(pic_1,(min_x,2)--(a,2),blue+1.5bp);
+draw(pic_1,(a,-4)--(b,-4),blue+1.5bp);
+
+draw(pic_1,(b,1)--(max_x,1),blue+1.5bp);
+
+draw(pic_1,(a,min_y)--(a,max_y),darkgray+dashed);
+draw(pic_1,(b,min_y)--(b,max_y),darkgray+dashed);
+
+unfill(pic_1,circle(r=0.2,c=(a,2)));
+draw(pic_1,circle(r=0.2,c=(a,2)),blue+1bp);
+fill(pic_1,circle(r=0.2,c=(a,-4)),blue+1bp);
+
+unfill(pic_1,circle(r=0.2,c=(b,-4)));
+draw(pic_1,circle(r=0.2,c=(b,-4)),blue+1bp);
+fill(pic_1,circle(r=0.2,c=(b,1)),blue+1bp);
+
+limits(pic_1, start,end,Crop);
+
+xaxis(pic_1,"$t$",YEquals(0),Ticks(NoZero));
+yaxis(pic_1,"$f(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+real min_x=0, max_x=5;
+real min_y=0, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real F(real s) {return (2-6*exp(-3*s)+5*exp(-4*s))/s;}
+draw(pic_2, graph(F,0.1, max_x), blue+1.5bp);
+
+limits(pic_2, start,end,Crop);
+
+xaxis(pic_2,"$s$",YEquals(0),Ticks(NoZero));
+yaxis(pic_2,"$F(s)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+// Fit pic to W of origin:
+add(pic_1.fit(),(-7mm,0),W);
+
+// Fit pic2 to E of (5mm,0):
+add(pic_2.fit(),(7mm,0),E);
+
+draw((-3mm,0)--(3mm,0),black+1bp,EndArrow());
+label("$\laplace$",(0,3mm),black);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider 
+
+\vspace{-7mm}
+\begin{equation*}
+g(t)=
+\begin{cases}
+0 & \text{if}~t<0 \\
+t^2 & \text{if}~0\leq t \leq 1 \\
+1 & \text{if}~t\geq 1 \\
+\end{cases}\pause
+\qquad =t^2\step(t)+(1-t^2)\step(t-1)
+\end{equation*}
+
+\vspace{-5mm}
+\begin{overprint}
+\onslide<1-2>
+\onslide<3-7>
+Which means
+\begin{equation*}
+\begin{aligned}
+\laplace\{g(t)\} 
+&=\int_0^\infty t^2~e^{-st}~\step(t)~dt + \int_0^\infty (1-t^2)~e^{-st}~\step(t-1)~dt\\
+\visible<4->{&=\int_0^\infty t^2~e^{-st}~dt + \int_1^\infty e^{-st}~dt - \int_1^\infty t^2~e^{-st}~dt\\}
+\visible<5->{&=\int_0^1 t^2~e^{-st}~dt + \int_1^\infty e^{-st}~dt \\}
+\visible<6->{&=\dfrac{2}{s}-e^{-st}\left(\dfrac{1}{s}+\dfrac{2}{s^2}+\dfrac{2}{s^3}\right)+\dfrac{1}{s}e^{-s} \\}
+\visible<7->{&=\dfrac{2}{s^2}-2e^{-s}\left(\dfrac{1}{s^2}+\dfrac{1}{s^3}\right) \\}
+\end{aligned}
+\end{equation*}
+\onslide<8->
+\begin{center}
+\begin{asy}
+picture pic_1, pic_2;
+size(pic_1,150);
+size(pic_2,150);
+
+real min_x=-2, max_x=3;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw(pic_1,(min_x,0)--(0,0),blue+1.5bp);
+
+real f(real t) {return t*t;}
+draw(pic_1, graph(f,0,1),blue+1.5bp);
+
+draw(pic_1,(1,1)--(max_x,1),blue+1.5bp);
+
+limits(pic_1, start,end,Crop);
+
+xaxis(pic_1,"$t$",YEquals(0),Ticks(NoZero));
+yaxis(pic_1,"$f(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+real min_x=0, max_x=5;
+real min_y=0, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real F(real s) {return 2/(s*s*s)-2*exp(-s)*(1/(s*s)+1/(s*s*s));}
+draw(pic_2, graph(F,0.1, max_x), blue+1.5bp);
+
+limits(pic_2, start,end,Crop);
+
+xaxis(pic_2,"$s$",YEquals(0),Ticks(NoZero));
+yaxis(pic_2,"$F(s)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+// Fit pic to W of origin:
+add(pic_1.fit(),(-6mm,0),W);
+
+// Fit pic2 to E of (5mm,0):
+add(pic_2.fit(),(6mm,0),E);
+
+draw((-3mm,0)--(3mm,0),black+1bp,EndArrow());
+label("$\laplace$",(0,3mm),black);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-50mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Delayed Function}
+For a given function $g(t)$, the \textbf{delayed function}
+\begin{equation*}
+f(t)=
+\begin{cases}
+0 & \text{if}~t<c \\
+g(t-c) & \text{if}~t\geq c
+\end{cases}
+\end{equation*}
+shifts $g(t)$ to the right $c$ units from the origin, and replaces it by zero to the left of $t=c$. Using the unit step function, the delayed function can also be written
+\begin{equation*}
+f(t)=g(t-c)\step(t-c)
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider the function $g(t)=\sqrt{t}$, which has the delayed function
+\begin{equation*}
+f(t)=
+\begin{cases}
+0 & \text{if}~t<3 \\
+\sqrt{t-3} & \text{if}~t\geq 3
+\end{cases}
+\end{equation*}\pause
+\begin{center}
+\begin{asy}
+picture pic_1, pic_2;
+size(pic_1,150);
+size(pic_2,150);
+
+real min_x=-2, max_x=3;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real g(real t) {return sqrt(t);}
+draw(pic_1, graph(g,0,max_x),blue+1.5bp);
+
+limits(pic_1, start,end,Crop);
+
+xaxis(pic_1,"$t$",YEquals(0),Ticks(NoZero));
+yaxis(pic_1,"$g(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+real min_x=0, max_x=5;
+real min_y=0, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw(pic_2,(0,0)--(3,0), blue+2bp);
+real f(real t) {return sqrt(t-3);}
+draw(pic_2, graph(f,3, max_x), blue+1.5bp);
+
+limits(pic_2, start,end,Crop);
+
+xaxis(pic_2,"$s$",YEquals(0),Ticks(NoZero));
+yaxis(pic_2,"$f(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+// Fit pic to W of origin:
+add(pic_1.fit(),(-6mm,0),W);
+
+// Fit pic2 to E of (5mm,0):
+add(pic_2.fit(),(6mm,0),E);
+
+draw((-3mm,0)--(3mm,0),black+1bp,EndArrow());
+label("$\laplace$",(0,3mm),black);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\small
+\begin{block}{Closer Look}
+Consider the Laplace transform of a function $f(t)$ that is delayed $c$ units.
+\begin{equation*}
+\begin{aligned}
+\laplace\{f(t-c)\step(t-c)\}\pause
+&=\int_0^\infty e^{-st}~f(t-c)\step(t-c)~dt\\\pause
+&=\lim_{b\rightarrow\infty}\int_0^b e^{-st}~f(t-c)\step(t-c)~dt
+\end{aligned}
+\end{equation*}\pause
+We may assume $b>c$, since $b\rightarrow\infty$.\pause 
+
+\vspace{2mm}
+Furthermore, $\step(t-c)=0$ for $t<c$ and $\step(t-c)=1$ for $t\geq c$.\pause
+\begin{equation*}
+\begin{aligned}
+\lim_{b\rightarrow\infty}\int_0^b e^{-st}~f(t-c)\step(t-c)~dt
+&= \lim_{b\rightarrow\infty}\int_c^b e^{-st}~f(t-c)~dt\\\pause
+\framebox{\text{let $w=t-c$}}\qquad\qquad\pause&= \lim_{b\rightarrow\infty}\int_0^{b-c} e^{-s(w+c)}~f(w)~dw\\\pause
+&=\lim_{b\rightarrow\infty}e^{-cs} \int_0^{b-c} e^{-sw}~f(w)~dw\\\pause
+&=e^{-cs}\int_0^\infty e^{-sw}~f(w)~dw\pause
+=e^{-cs}~F(s)
+\end{aligned}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Delay Theorem (or Shifting Theorem)}
+\begin{equation*}
+\laplace\{f(t-c)\step(t-c)\}=e^{-cs}~F(s)
+\quad\text{where}~c>0
+\end{equation*}
+\end{block}\pause
+\begin{block}{Alternate Form}
+\begin{equation*}
+\laplace\{g(t)\step(t-c)\}=e^{-cs}~\laplace\{g(t+c)\}
+\end{equation*}
+\end{block}\pause
+\begin{example}
+Consider
+\begin{equation*}
+h(t)=t^2\step(t-1)
+\end{equation*}\pause
+If we let $c=1$ and $g(t)=t^2$, then by the Delay theorem we have
+\begin{equation*}
+\begin{aligned}
+\laplace\{h(t)\}=\laplace\{t^2\step(t-1)\}\pause
+&= e^{-s}\laplace\{{(t+1)}^2\}\\\pause
+&= e^{-s}\laplace\{t^2+2t+1\}\\\pause
+&= e^{-s}\left(\dfrac{2}{s^2}+\dfrac{2}{s^2}+\dfrac{1}{s}\right)
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us find the inverse Laplace transform of
+\begin{equation*}
+F(s)=\dfrac{1-e^{-3s}}{s^2}
+=\dfrac{1}{s^2}-\dfrac{e^{-3s}}{s^2}
+\end{equation*}\pause
+We can treat $\dfrac{e^{-3s}}{s^2}$ as the transform of a delay function.\pause
+\begin{equation*}
+\laplace^{-1}\{F(s)\}=t-\underbrace{(t-3)\step(t-3)}_{\laplace^{-1}\left\{\tfrac{e^{-3s}}{s^2}\right\}}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Chopper Function}
+\begin{equation*}
+\step(t-a)-\step(t-b)=
+\begin{cases}
+0 & \text{if}~t<a \\
+1 & \text{if}~a\leq t< b \\
+0 & \text{if}~t\geq b
+\end{cases}
+\end{equation*}
+\end{block}\pause
+\begin{example}
+\begin{center}
+\begin{asy}
+picture pic_1, pic_2, pic_3;
+
+real pic_size=90;
+size(pic_1,pic_size);
+size(pic_2,pic_size);
+size(pic_3,pic_size);
+
+real min_x=-1, max_x=3;
+real min_y=-1, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real f(real t) {return -t*t*t+2t+1;}
+real a=0.25;
+real b=1.25;
+
+pen chop_pen=black+1.5bp;
+pen chop_fill_pen=black+1bp;
+pen graph_pen=black+1.5bp;
+pen graph_fill_pen=black+1bp;
+pen final_pen=blue+1.5bp;
+pen final_fill_pen=blue+1bp;
+pen dashed_pen=gray+dashed;
+
+real radius=0.1;
+
+// ----- pic_1 chopper function -----
+draw(pic_1, (min_x,0)--(a,0), chop_pen);
+draw(pic_1, (a,1)--(b,1), chop_pen);
+draw(pic_1, (b,0)--(max_x,0), chop_pen);
+
+draw(pic_1, (a,0)--(a,1), dashed_pen);
+draw(pic_1, (b,0)--(b,1), dashed_pen);
+
+unfill(pic_1, circle(r=radius, c=(a,0)));
+draw(pic_1, circle(r=radius, c=(a,0)),chop_fill_pen);
+
+unfill(pic_1, circle(r=radius, c=(b,1)));
+draw(pic_1, circle(r=radius, c=(b,1)),chop_fill_pen);
+
+fill(pic_1, circle(r=radius, c=(a,1)),chop_fill_pen);
+fill(pic_1, circle(r=radius, c=(b,0)),chop_fill_pen);
+
+limits(pic_1, start, end, Crop);
+xaxis(pic_1,"$t$",YEquals(0));
+yaxis(pic_1,"$y$",XEquals(0),autorotate=false);
+// ----------------------------------
+
+// ----- pic_2 f(t) -----
+draw(pic_2, graph(f,min_x,max_x), graph_pen);
+
+limits(pic_2, start, end, Crop);
+xaxis(pic_2,"$t$",YEquals(0));
+yaxis(pic_2,"$y$",XEquals(0),autorotate=false);
+// ----------------------
+
+// ----- pic_3 chopped f(t) -----
+draw(pic_3,(min_x,0)--(a,0), final_pen);
+draw(pic_3, graph(f,a,b), final_pen);
+draw(pic_3,(b,0)--(max_x,0), final_pen);
+
+draw(pic_3,(a,0)--(a,f(a)), dashed_pen);
+draw(pic_3,(b,0)--(b,f(b)), dashed_pen);
+
+unfill(pic_3, circle(r=radius, c=(a,0)));
+draw(pic_3, circle(r=radius, c=(a,0)),final_fill_pen);
+
+unfill(pic_3, circle(r=radius, c=(b,f(b))));
+draw(pic_3, circle(r=radius, c=(b,f(b))),final_fill_pen);
+
+fill(pic_3, circle(r=radius, c=(a,f(a))),final_fill_pen);
+fill(pic_3, circle(r=radius, c=(b,0)),final_fill_pen);
+
+limits(pic_3, start, end, Crop);
+xaxis(pic_3,"$t$",YEquals(0));
+yaxis(pic_3,"$y$",XEquals(0),autorotate=false);
+// ------------------------------
+
+// ----- fit the pictures together -----
+
+// Fit pic to W of origin:
+add(pic_1.fit(),(-6mm,0),W);
+
+// Fit pic2 to E of (5mm,0):
+add(pic_2.fit(),(6mm,0),E);
+
+// Fit pic3 to E of pic_2:
+add(pic_3.fit(),(50mm,0),E);
+
+label("times",(0,0));
+label("gives",(46mm,0));
+// -------------------------------------
+\end{asy}
+\end{center}
+\end{example}\pause
+\begin{block}{Laplace Transform of Chopper Function}
+
+\vspace{-5mm}
+\begin{equation*}
+\laplace\left\{f(t)\cdot\left[\step(t-a)-\step(t-b)\right]\right\}=
+e^{-as}\laplace\{f(t+a)\}-e^{-bs}\laplace\{f(t+b)\}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us find the Laplace transform of
+\begin{equation*}
+\begin{aligned}
+f(t)&=
+\begin{cases}
+0 & \text{if}~t<1 \\
+-\sin[\pi t] & \text{if}~1\leq t< 2 \\
+0 & \text{if}~t\geq 2
+\end{cases}\\\pause
+&=-\sin[\pi t]\cdot\left[\step(t-1)-\step(t-2)\right]
+\end{aligned}
+\end{equation*}\pause
+Thus,
+\begin{equation*}
+\begin{aligned}
+\laplace\{f(t)\}&=-e^{-s}\laplace\{-\sin[\pi (t+1)]\}+e^{2s}\laplace\{\sin[\pi (t+2)]\}\\\pause
+\laplace\{f(t)\}&=-e^{-s}\laplace\{-\sin[\pi t]\cos[\pi]-\cos[\pi t]\sin[\pi]\}\\
+&\hspace{4.2mm}+e^{2s}\laplace\{\sin[\pi t]\cos[2\pi]+\cos[\pi t]\sin[2\pi]\}\\\pause
+&=-e^{-s}\laplace\{\sin[\pi t]\}+e^{2s}\laplace\{\sin[\pi t]\}\\\pause
+&=\laplace\{\sin[\pi t]\}(e^{-s}+e^{-2s})\\\pause
+&=\dfrac{\pi}{s^2+\pi^2}(e^{-s}+e^{-2s})
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider the IVP
+\begin{equation*}
+x^{\prime\prime}+x=f(t)=
+\begin{cases}
+1 & \text{if}~0\leq t < \pi \\
+0 & \text{if}~t\geq\pi
+\end{cases}
+\qquad\text{with}~
+x(0)=0,~x^{\prime}(0)=0
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
+We can rewrite this DE using a step function
+\begin{equation*}
+x^{\prime\prime}+x=1-\step(t-\pi)
+\qquad\text{with}~
+x(0)=0,~x^{\prime}(0)=0
+\end{equation*}
+\visible<3->{%
+Which has Laplace transformation
+\begin{equation*}
+s^2 X(s)+X(s)=\laplace\{1-\step(t-\pi)\}
+\end{equation*}}
+\visible<4->{%
+We can then use the Delay Theorem on the RHS
+\begin{equation*}
+s^2 X(s)+X(s)=\dfrac{1}{s}+\dfrac{e^{-\pi s}}{s}
+\end{equation*}}
+\onslide<5-9>
+We can now solve for $X(s)$. (As well as rearrange for the inverse.)
+\begin{equation*}
+\begin{aligned}
+s^2 X(s)+X(s)&=\dfrac{1}{s}+\dfrac{e^{-\pi s}}{s}\\
+\visible<6->{(s^2+1)X(s)&=\dfrac{1-e^{-\pi s}}{s}\\}
+\visible<7->{X(s)&=\dfrac{1-e^{-\pi s}}{s(s^2+1)}\\}
+\visible<8->{&=\dfrac{1}{s(s^2+1)}-e^{-\pi s}\dfrac{1}{s(s^2+1)}\\}
+\visible<9->{&=\left(\dfrac{1}{s}-\dfrac{s}{s^2+1}\right)
+-e^{-\pi s}\left(\dfrac{1}{s}-\dfrac{s}{s^2+1}\right)\\}
+\end{aligned}
+\end{equation*}
+\onslide<10-12>
+So, we can use the Delay Theorem again to find $x(t)$.
+\begin{equation*}
+x(t)=\laplace^{-1}\{X(s)\}=(1-\cos[t])-(1-\cos[t-\pi])\step(t-\pi)
+\end{equation*}
+\visible<11-12>{%
+Which, when written as a piecewise function gives
+\begin{equation*}
+\begin{aligned}
+x(t)&=
+\begin{cases}
+1-\cos[t] & \text{if}~0\leq t<\pi \\
+1-\cos[t] -(1-\cos[t-\pi]) & \text{if}~ t\geq\pi \\
+\end{cases}\\
+\visible<12->{&=
+\begin{cases}
+1-\cos[t] & \text{if}~0\leq t<\pi \\
+-2\cos[t] & \text{if}~ t\geq\pi \\
+\end{cases}}
+\end{aligned}
+\end{equation*}}
+\onslide<13->
+\vspace{1cm}
+\begin{center}
+\begin{asy}
+picture pic_1, pic_2;
+size(pic_1,150);
+size(pic_2,150);
+
+real min_x=0, max_x=3*pi;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+pen dpen=blue+1.5bp;
+
+// ----- pic_1 -----
+
+draw(pic_1, (min_x,1)--(pi,1), dpen);
+draw(pic_1, (pi,0)--(max_x,0), dpen);
+
+unfill(pic_1, circle(r=0.1, c=(pi,1)));
+draw(pic_1, circle(r=0.1, c=(pi,1)), dpen);
+fill(pic_1, circle(r=0.1, c=(pi,0)), dpen);
+
+draw(pic_1, (pi,0)--(pi,1), dashed+gray);
+
+label(pic_1, "$\pi$", (pi,-0.5));
+
+limits(pic_1, start, end, Crop);
+
+xaxis(pic_1,"$t$",YEquals(0),Ticks(NoZero));
+yaxis(pic_1,"$f(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ----- pic_2 -----
+
+real x(real t) 
+{
+	if (t<pi)
+		return 1-cos(t);
+	else
+		return -2*cos(t);
+}
+draw(pic_2, graph(x,0.01, max_x), dpen);
+draw(pic_2, (pi,0)--(pi,x(pi)), dashed+gray);
+
+label(pic_2, "$\pi$", (pi,-0.5));
+
+limits(pic_2, start, end, Crop);
+
+xaxis(pic_2,"$t$",YEquals(0),Ticks(NoZero));
+yaxis(pic_2,"$x(t)$",XEquals(0),Ticks(NoZero),autorotate=false);
+
+// ------
+
+// Fit pic to W of origin:
+add(pic_1.fit(),(-1mm,0),W);
+
+// Fit pic2 to E of (5mm,0):
+add(pic_2.fit(),(1mm,0),E);
+
+//draw((-3mm,0)--(3mm,0),black+1bp,EndArrow());
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-6mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+Physical systems often involve impulsive forces, which act over very short spans of time. To model these forces, the physicist Paul Dirac invented a \quotetext{function-like} object. 
+
+\vspace{2mm}
+Let us first look at a special function
+\begin{equation*}
+f_h(t)=
+\begin{cases}
+0 & \text{if}~t<0 \\
+\tfrac{1}{h} & \text{if}~0\leq t<h \\
+0 & \text{if}~y\geq h
+\end{cases}
+\end{equation*}
+such that 
+\begin{equation*}
+\int_{-\infty}^{\infty} f_h(t)~dt=1
+\end{equation*}
+Dirac suggested that 
+
+\vspace{-4mm}
+\begin{equation*}
+\delta(t)=\lim_{b\rightarrow 0} f_h(t)
+\end{equation*}
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{center}
+\begin{asy}
+size(175);
+
+real min_x=-1, max_x=2.5;
+real min_y=-1, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+pen dpen=next_color()+1bp;
+
+real[] h_values={0.4,1.0,1.5};
+
+for(real h : h_values)
+{
+	pen dotpen = next_color()+1bp;
+	draw((0,1/h)--(h,1/h), dotpen);
+	draw((h,0)--(max_x,0), dotpen);
+	draw((h,0)--(h,1/h), dashed+grey);
+	unfill(circle(r=0.05, c=(h,1/h)));
+	draw(circle(r=0.05, c=(h,1/h)), dotpen);
+	fill(circle(r=0.05, c=(0,1/h)), dotpen);
+	fill(circle(r=0.05, c=(h,0)), dotpen);
+}
+
+
+
+label("$h_1$", (h_values[0],-0.25));
+label("$\dfrac{1}{h_1}$", (-0.25,1/h_values[0]+0.1));
+
+label("$h_2$", (h_values[1],-0.25));
+label("$\dfrac{1}{h_2}$", (-0.25,1/h_values[1]+0.2));
+
+label("$h_3$", (h_values[2],-0.25));
+label("$\dfrac{1}{h_3}$", (-0.25,1/h_values[2]-0.1));
+
+draw((min_x,0)--(0,0), dpen);
+
+limits(start, end, Crop);
+
+xaxis("$t$",YEquals(0),NoTicks());
+yaxis("$y$",XEquals(0),NoTicks(),autorotate=false);
+
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Dirac Delta Function}
+The \textbf{Dirac Delta function} or \textbf{unit impulse function} $\delta(t)$ is defined by two condtitions:
+\begin{enumerate}
+\item \begin{equation*}
+\delta(t)=
+\begin{cases}
+0 & \text{if}~ t\neq 0 \\
+\lim_{h\rightarrow 0}\left(\dfrac{1}{h}\right) & \text{if}~t=0
+\end{cases}
+\end{equation*}
+\item \begin{equation*}
+\int_{-\infty}^{\infty} \delta(t)~dt=1
+\end{equation*}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Finding the Laplace Transform}
+To find that Laplace transform of $\delta(t)$, we will first calculate the transform of $f_h(t)$.
+\begin{equation*}
+\begin{aligned}
+\laplace\{f_h(t)\}
+&= \int_0^\infty e^{-st}f_h(t)~dt \\\pause
+&= \int_0^h e^{-st}f_h(t)~dt \\\pause
+&=\dfrac{1}{h} \int_0^h e^{-st}~dt \\\pause
+&=\dfrac{1-e^{-hs}}{hs}
+\end{aligned}
+\end{equation*}\pause
+We can then use l'H\^opital's rule to find that
+
+\vspace{-4mm}
+\begin{equation*}
+\lim_{h\rightarrow 0}\laplace\{f_h(t)\}=1
+\end{equation*}
+\end{block}\pause
+\begin{block}{Laplace Transform of the Delta Function}
+\begin{equation*}
+\laplace\{\delta(t)\}=1
+\qquad\text{and}\qquad
+\laplace\{\delta(t-a)\}=e^{-as}
+\end{equation*}
+\end{block}
+\end{frame}
+\end{document}

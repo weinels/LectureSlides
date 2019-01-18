@@ -1,0 +1,463 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{asy_helper}
+\usepackage{subcaption}
+
+
+\title[MATH 2250 - Section 2.1]{Linear Equations: The Nature of Their Solutions}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+An equation $F(x_1, x_2, \ldots, x_n)=C$ is \textbf{linear} if it is of the form
+\begin{equation*}
+a_1 x_1+a_2 x_2+\cdots+a_n x_n=C
+\end{equation*}
+where $a_1, a_2, \ldots, a_n$ and $C$ are constants.
+
+\vspace{2mm}
+If $C=0$, the equation is said to be \textbf{homogeneous}.
+\end{block}\pause
+
+\begin{example}
+Which of the following are linear equations?
+\begin{equation*}
+\begin{aligned}
+4x - 3e^x &= 15 & \visible<3->{\text{No}} \\
+4x - 2y + 3\sqrt{z} &= 12 & \visible<4->{\text{No}} \\
+2x - 3y +4z + 3 &= w & \visible<5->{\text{Yes}}
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+A differential equation $F(y, y^\prime, y^{\prime\prime},\ldots,y^{(n)})=f(t)$ is \textbf{linear} if it is of the form
+\begin{equation*}
+a_n(t)\dfrac{d^n y}{dt^n}+a_{n-1}(t)\dfrac{d^{n-1} y}{dt^{n-1}}+\cdots+a_1(t)\dfrac{dy}{dt}+a_0(t)y=f(t)
+\end{equation*}
+where all functions of $t$ are assumed to be defined over some common interval $I$.
+
+\vspace{2mm}
+If $f(t)=0$ over the interval $I$, the differential equation is said to be \textbf{homogeneous}.
+\end{block}\pause
+
+\begin{block}{First and Second Order Notation}
+It is common to write first-order differential equations as
+
+\vspace{-3mm}
+\begin{equation*}
+y^\prime+p(t)y=f(t)
+\end{equation*}
+and second-order differential equations as
+
+\vspace{-3mm}
+\begin{equation*}
+y^{\prime\prime}+p(t)y^\prime+q(t)y=f(t)
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us classify the following differential equations.
+
+\vspace{-2mm}
+\begin{center}
+\begin{tabular}{ccccc}
+Differential Equation & Order & Linear? & Homogeneous? & Coefficients \\\hline\\
+\visible<+->{$y^{\prime}+ty= 1$} & \visible<+->{1} & \visible<+->{Yes} & \visible<+->{No} & \visible<+->{Variable} \\\\
+\visible<+->{$y^{\prime\prime}+y y^\prime +y= t$} & \visible<+->{2} & \visible<+->{No & --- & ---}\\\\
+\visible<+->{$y^{\prime\prime} + ty^\prime +y^2 = 0$} & \visible<+->{2} & \visible<+->{No & --- & ---}\\\\
+\visible<+->{$y^{\prime\prime} +3 y^\prime + 2y = 0$} & \visible<+->{2} & \visible<+->{Yes}& \visible<+->{Yes} & \visible<+->{Constant}\\\\
+\visible<+->{$y^{\prime\prime} + y = \sin[y]$} & \visible<+->{2} & \visible<+->{No & --- & ---}\\\\
+\visible<+->{$y^{\prime\prime\prime} + 3y^\prime + y= \sin[t]$} & \visible<+->{3} & \visible<+->{Yes}& \visible<+->{No} & \visible<+->{Variable}
+\end{tabular}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Notation}
+We will use a \textbf{vector} notation to represent a whole set of variables:
+\begin{description}
+\item[Linear Algebraic Equations:] 
+\begin{equation*}
+\vect{x}=[x_1, x_2, \ldots, x_n]
+\end{equation*}
+\item[Linear Differential Equations:] 
+\begin{equation*}
+\vect{y}=[y^{(n)}, y^{(n-1)}, \ldots, y^\prime, y]
+\end{equation*}
+\end{description}
+\end{block}\pause
+
+\begin{block}{Definition}
+A \textbf{linear operator} $L$ is an entire operation performed on a set of variables.
+\begin{description}
+\item[Linear Algebraic Equations:]
+\begin{equation*}
+L(\vect{x}) = a_1 x_1 + a_2 x_2 + \cdots + a_n x_n
+\end{equation*}
+\item[Linear Differential Equations:] 
+\begin{equation*}
+L(\vect{y})= a_n(t)\dfrac{d^n y}{dt^n}+a_{n-1}(t)\dfrac{d^{n-1} y}{dt^{n-1}}+\cdots+a_1(t)\dfrac{dy}{dt}+a_0(t)y
+\end{equation*}
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+What is the linear operator for the following linear differential equations?
+\begin{center}
+\begin{tabular}{ccc}
+$y^{\prime}+ty=1$ & \visible<2->{$\rightarrow$ & $L(\vect{y})=y^\prime+ty$} \\ 
+\visible<3->{\alt<3>{$y^{\prime\prime} + 2y = 3y^\prime +t$}{$y^{\prime\prime} - 3 y^\prime + 2y=t$}} & \visible<5->{$\rightarrow$ & $L(\vect{y})=y^{\prime\prime} - 3 y^\prime + 2y$} \\
+\visible<6->{$y^{(4)} + 3y = \sin[t]$} & \visible<7->{$\rightarrow$ & $L(\vect{y})=y^{(4)}+3y$}
+\end{tabular}
+\end{center}
+\end{example}
+
+\onslide<8->
+\begin{block}{Linear Operator Properties}
+\begin{equation*}
+\begin{aligned}
+L(k\vect{u})&=kL(\vect{u}),\quad k\in\R \\
+L(\vect{u}+\vect{w}) &= L(\vect{u})+L(\vect{w})
+\end{aligned}
+\end{equation*}
+\end{block}
+
+\onslide<9->
+\begin{block}{Proof}
+The properties can be proved directly for algebraic operators.
+
+\vspace{2mm}
+For differential operators, the proof follows from the derivative properties:
+\begin{itemize}
+\item ${(kf)}^\prime = k f^\prime$
+\item ${(f+g)}^\prime = f^\prime+g^\prime$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Superposition Principle for Linear Homogeneous Equations}
+Let $\vect{u}_1$ and $\vect{u}_2$ be any solutions of the \emph{homogeneous linear} equation
+\begin{equation*}
+L(\vect{u})=0
+\end{equation*}
+
+\vspace{-3mm}
+\begin{itemize}
+\item The sum $\vect{u}=\vect{u}_1+\vect{u}_2$ is also a solution.
+\item For any constant $k$, $\vect{u}=k\vect{u}_1$ is also a solution.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Proof}
+The proof of the Superposition Principle follows directly from the properties of linear operators from the previous slides.
+\begin{equation*}
+\begin{aligned}
+L(\vect{u}) = L(\vect{u_1}+\vect{u_2})
+= L(\vect{u_1}) + L(\vect{u_2})
+= 0 + 0 = 0
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+L(\vect{u}) = L(k \vect{u_1})
+= k L(\vect{u_1})
+= k\cdot 0 = 0
+\end{aligned}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The point $(1,3)$ is on the line $y=3x$.\pause~So is the point $(2,6) = (2\cdot 1, 2\cdot 3)$.
+
+\vspace{2mm}\pause
+Additionally, the point $(3,9)=(1+2,3+6)=(1,3)+(2,6)$ is on the line.
+\end{example}\pause
+
+\begin{example}
+The differential equation
+\begin{equation*}
+y^{\prime\prime}-4y=0
+\end{equation*}
+has the solutions $y=e^{2t}$ and $y=e^{-2t}$.\pause
+
+\vspace{2mm}
+By superposition, $y=2e^{2t}+3e^{-2t}$ must also be a solution.\pause
+
+\vspace{2mm}
+This is easily verified:
+\begin{equation*}
+\begin{aligned}
+y^\prime &= 4e^{2t}-6e^{-2t} \\\pause
+y^{\prime\prime} &= 8e^{2t}+12e^{-2t} \\\pause
+y^{\prime\prime}-4y &= \left(8e^{2t}+12e^{-2t}\right) -4\left(2e^{2t}+3e^{-2t}\right)\pause \\
+& = 8e^{2t}+12e^{-2t} -8e^{2t}-12e^{-2t}\pause = 0
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Nonhomogeneous Principle}
+Let $\vect{u}_p$ be any solution (called a particular solution) to \emph{linear nonhomogeneous} equation
+\begin{equation*}
+L(\vect{u})=C\qquad\text{(algebraic)} 
+\end{equation*}
+or
+\begin{equation*}
+L(\vect{u})=f(t)\qquad\text{(differential)}
+\end{equation*}
+Then,
+\begin{equation*}
+\vect{u}=\vect{u}_h+\vect{u}_p
+\end{equation*}
+is also a solution, here $\vect{u}_h$ is a solution to the \textbf{associated homogeneous} equation
+\begin{equation*}
+L(\vect{u})=0
+\end{equation*}
+Furthermore, \emph{every solution of the nonhomogeneous equation must be of the form $\vect{u}=\vect{u}_h+\vect{u}_p$.}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Proof}
+It is easy to show that $\vect{u}=\vect{u}_h+\vect{u}_p$ is a solution.
+\begin{equation*}
+L(\vect{u}) = L(\vect{u}_h+\vect{u}_p) = L(\vect{u}_h) + L(\vect{u}_p) = 0 + f(t) = f(t)
+\end{equation*}\pause
+
+\vspace{-5mm}
+To show that every solution has to be of this form, suppose that $\vect{u}_q$ is any solution. Note that $\vect{u}_q=\vect{u}_p + (\vect{u}_q - \vect{u}_p)$.\pause
+
+\vspace{2mm}
+We can then show that $\vect{u}_q-\vect{u}_p$ is also a solution to $L(\vect{u})=0$:
+\begin{equation*}
+\begin{aligned}
+L(\vect{u}_q-\vect{u}_p) &=\pause  L(\vect{u}_q) + L(-\vect{u}_p)\pause \\
+&= L(\vect{u}_q)-L(\vect{u}_p)\pause \\
+&= f(t) - f(t) = 0
+\end{aligned}
+\end{equation*}
+\end{block}\pause
+\begin{block}{Process for Solving Nonhomogeneous Linear Equations}
+\begin{description}
+\item[Step 1:] Find all solutions $\vect{u}_h$ of $L(\vect{u})=0$.
+\item[Step 2:] Find any solution $\vect{u}_p$ of $L(\vect{u})=f$.
+\item[Step 3:] Add $\vect{u}_h+\vect{u}_p=\vect{u}$ to find all solutions of $L(\vect{u})=f$.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider
+\begin{equation*}
+y^\prime-y=t
+\end{equation*}
+\begin{overprint}
+\onslide<1-4>
+To solve using superposition we need to complete three steps.
+\begin{description}
+\item[Step 1:] \mbox{}\visible<2->{Solve the associated homogeneous equation $y^\prime-y=0$, or $y^\prime = y$. (Note: first-order homogeneous linear differential equations are always separable.)
+\begin{equation*}
+y_{h}=c e^{t},\quad\text{for any}~c\in\R
+\end{equation*}}
+\item[Step 2:] \mbox{}\visible<3->{We can verify by differentiation and substitution that $y_{p}=-t-1$ is a particular solution.}
+\item[Step 3:] \mbox{}\visible<4->{Superposition tells us that 
+\begin{equation*}
+y=y_h+y_p=c e^t-t-1
+\end{equation*}
+is a solution for any $c\in\R$.}
+\end{description}
+\onslide<5->
+\begin{figure}[h]
+\begin{subfigure}{.29\linewidth}
+%\centering
+\begin{asy}
+size(103);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y);
+
+real yp (real t, real y) { return y; }
+
+add(slopefield(yp, start, end, 10));
+
+draw(curve((0,0.5), yp, start, end), red+1bp);
+draw(curve((0,2), yp, start, end), red+1bp);
+draw(curve((0,-0.5), yp, start, end), red+1bp);
+draw(curve((0,-2), yp, start, end), red+1bp);
+draw(curve((0,0.1), yp, start, end), red+1bp);
+draw(curve((0,-0.1), yp, start, end), red+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis(XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption*{$\{y_h\}$}
+\end{subfigure}
+\begin{subfigure}{1em}
++
+\end{subfigure}
+\begin{subfigure}{.29\linewidth}
+\centering
+\begin{asy}
+size(103);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y);
+
+real yp (real t, real y) { return y+t; }
+
+add(slopefield(yp, start, end, 10));
+
+draw(curve((0,-1), yp, start, end), blue+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis(XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption*{$y_p$}
+\end{subfigure}
+\begin{subfigure}{1em}
+=
+\end{subfigure}
+\begin{subfigure}{.29\linewidth}
+\centering
+\begin{asy}
+size(103);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw_grid_lines(min_x, max_x, min_y, max_y);
+
+real yp (real t, real y) { return y+t; }
+
+add(slopefield(yp, start, end, 10));
+
+draw(curve((0,-0.51), yp, start, end), heavymagenta+1bp);
+draw(curve((0,0.9), yp, start, end), heavymagenta+1bp);
+draw(curve((0,2.3), yp, start, end), heavymagenta+1bp);
+draw(curve((-1.55,0), yp, start, end), heavymagenta+1bp);
+draw(curve((-2.1,0), yp, start, end), heavymagenta+1bp);
+draw(curve((-1.3,0), yp, start, end), heavymagenta+1bp);
+
+draw(curve((0,-1), yp, start, end), blue+1bp);
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis(XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\caption*{$\{y_h\}+y_p$}
+\end{subfigure}
+\end{figure}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Note}
+Many of you may be wondering how exactly we go about finding particular solutions?\pause
+
+\vspace{2mm}
+In the next section we will start talking about different methods to do just that.\pause
+
+\vspace{2mm}
+But, sometimes a particular solution may be staring us in the face.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Let us solve
+\begin{equation*}
+y^\prime + ay = b
+\end{equation*}
+where $a$ and $b$ are constants.
+\begin{overprint}
+\onslide<1-4>
+\begin{description}
+\item[Step 1:] \mbox{}\visible<2->{The associated homogeneous equation $y^\prime+ay=0$ will soon become an old friend. \\It has the solution $y_h=c e^{-at}$, where $c\in\R$.}
+\item[Step 2:] \mbox{}\visible<3->{Looking at the DE we can see that $y_p=\dfrac{b}{a}$ will satisfy this equation. (Recall that that derivative of a constant is zero.)}
+\item[Step 3:] \mbox{}\visible<4->{Superposition tells us that 
+\begin{equation*}
+y=y_h+y_p=c e^{-at}+\dfrac{b}{a}
+\end{equation*}
+is a solution for any $c\in\R$.}
+\end{description}
+\onslide<5->
+Alternatively, we can look for a horizontal line in the direction field.
+\begin{center}
+\begin{asy}
+size(150);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real yp (real t, real y) { return 1-2*y; }
+
+add(slopefield(yp, start, end, 20));
+unfill(box((min_x,0.6),(max_x, 0.4)));
+
+draw_grid_lines(min_x, max_x, min_y, max_y);
+
+draw((min_x, 0.5)--(max_x, 0.5),dashed+blue);
+
+limits(start,end,Crop);
+
+label("$\dfrac{b}{a}$", (-5.5,1), blue);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,NoTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$", XEquals(min_x),min_y,max_y,NoTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+\end{document}

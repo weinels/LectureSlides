@@ -1,0 +1,44 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\title[MATH 2250 - Section 2.6]{Systems of Differential Equations: A First Look}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Systems of Differential Equations}
+Often a population study will involve two or more interacting species. This leans two two for more \textbf{coupled} differential equations. (Similar systems arise in electrical and mechanical engineering.)\pause
+
+\vspace{2mm}
+For example:
+\begin{equation*}
+\begin{matrix}[rrrrr]
+x^\prime &=& 2x &-& xy \\
+y^\prime &=& -3y &+& 0.5y
+\end{matrix}
+\end{equation*}
+where we are looking for two functions $x$ and $y$ that both depend on $t$.\pause
+
+\vspace{2mm}
+A simpler case is where the equations in the system are \textbf{uncoupled}:
+\begin{equation*}
+\begin{matrix}[rrr]
+x^\prime &=& 2x \\
+y^\prime &=& -3y
+\end{matrix}
+\end{equation*}
+\end{block}\pause
+
+\begin{block}{Analytic Definition of a Solution of a DE System}
+A \textbf{solution} of a system of two differential equations is a pair of functions $x(t)$ and $y(t)$ that simultaneously satisfies both equations.
+\end{block}
+\end{frame}
+
+\end{document}

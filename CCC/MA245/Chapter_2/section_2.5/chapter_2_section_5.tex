@@ -1,0 +1,955 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{asy_helper}
+
+\title[MATH 2250 - Section 2.5]{Nonlinear Models: Logistic Equation}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Nonlinear Differential Equations}
+Consider the following nonlinear differential equations.
+\begin{equation*}
+\begin{aligned}
+y^\prime &= y(1-y) \\
+y^\prime &= \cos[y-t] \\
+y^\prime &= \dfrac{1}{t^2+y^2}
+\end{aligned}
+\end{equation*}
+What options do we have for solving them?\pause
+
+\begin{description}
+\item[Analytical:] Sadly, analytical methods cannot always provide formulas for a solutions. Since none of these are linear, the methods we have discussed this chapter won't help us. While the first equation is separable, the other two are not.
+
+\item[Numerical:] We could apply a numerical method, though this only gives a single approximate solution. Moreover, the further you move from the initial conditions, the less accurate your numerical solution is likely to be.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Qualitative Analysis}
+Graphical solutions such as direction fields and isoclines give a quick picture of all solutions (and can help gauge the accuracy of numerical solutions).
+\end{block}\pause
+
+\begin{example}
+\begin{equation*}
+y^\prime=\cos[y-t]
+\end{equation*}
+
+\vspace{-3mm}
+\begin{columns}
+\begin{column}{0.5\linewidth}
+\begin{overprint}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return cos(y-t); }
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return cos(y-t); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { // y' = 0
+				1*pi/2, 3*pi/2, 5*pi/2, -1*pi/2, -3*pi/2, -5*pi/2,
+				// y' = 1
+				//0, 2*pi, 4*pi, 6*pi, -2*pi, -4*pi, -6*pi,
+				// y' = -1
+				//1*pi, 3*pi, 5*pi, -1*pi, -3*pi, -5*pi
+			  };
+
+for (real m : vals)
+{
+    real f (real t) { return t + m; }
+    
+    draw(graph(f,min_x, max_x), gray+0.75bp);
+    draw(isocline(f,yp,min_x, max_x, n=15), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<4>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return cos(y-t); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { // y' = 0
+				1*pi/2, 3*pi/2, 5*pi/2, -1*pi/2, -3*pi/2, -5*pi/2,
+				// y' = 1
+				0, 2*pi, 4*pi, 6*pi, -2*pi, -4*pi, -6*pi,
+				// y' = -1
+				//1*pi, 3*pi, 5*pi, -1*pi, -3*pi, -5*pi
+			  };
+
+for (real m : vals)
+{
+    real f (real t) { return t + m; }
+    
+    draw(graph(f,min_x, max_x), gray+0.75bp);
+    draw(isocline(f,yp,min_x, max_x, n=15), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<5>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return cos(y-t); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { // y' = 0
+				1*pi/2, 3*pi/2, 5*pi/2, -1*pi/2, -3*pi/2, -5*pi/2,
+				// y' = 1
+				0, 2*pi, 4*pi, 6*pi, -2*pi, -4*pi, -6*pi,
+				// y' = -1
+				1*pi, 3*pi, 5*pi, -1*pi, -3*pi, -5*pi
+			  };
+
+for (real m : vals)
+{
+    real f (real t) { return t + m; }
+    
+    draw(graph(f,min_x, max_x), gray+0.75bp);
+    draw(isocline(f,yp,min_x, max_x, n=15), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<6->
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-5, max_x=5;
+real min_y=-5, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return cos(y-t); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { // y' = 0
+				1*pi/2, 3*pi/2, 5*pi/2, -1*pi/2, -3*pi/2, -5*pi/2,
+				// y' = 1
+				0, 2*pi, 4*pi, 6*pi, -2*pi, -4*pi, -6*pi,
+				// y' = -1
+				1*pi, 3*pi, 5*pi, -1*pi, -3*pi, -5*pi
+			  };
+
+for (real m : vals)
+{
+    real f (real t) { return t + m; }
+    
+    draw(graph(f,min_x, max_x), gray+0.75bp);
+    draw(isocline(f,yp,min_x, max_x, n=15), blue+1bp);
+}
+
+real inc = 2.0;
+for(real x = min_x; x <= max_x; x += inc)
+	for(real y = min_y; y <= max_y; y += inc)
+		draw(curve((x,y), yp, start, end), red+0.5bp); 
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{column}
+\begin{column}{0.5\linewidth}
+\onslide<2->
+We have the following Isoclines:
+\begin{itemize}
+\item<3-> When $y^\prime=0$: $y-t=\pm \dfrac{n\pi}{2}$\\ for odd $n\in\N$.
+\item<4-> When $y^\prime=1$: $y-t=\pm n\pi$\\ for even $n\in\N$.
+\item<5-> When $y^\prime=-1$: $y-t=\pm n\pi$\\ for odd $n\in\N$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{equation*}
+y^\prime=\dfrac{1}{t^2+y^2}
+\end{equation*}
+
+\vspace{-3mm}
+\begin{columns}
+\begin{column}{0.5\linewidth}
+\begin{overprint}
+\onslide<1>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return 1/(t^2+y^2); }
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return 1/(t^2+y^2); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { 1};
+
+for (real m : vals)
+{
+    real ft (real t) { return sqrt(m-t^2); }
+    real fb (real t) { return -1*sqrt(m-t^2); }
+    
+    draw(graph(ft, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(ft ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+    
+    draw(graph(fb, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(fb ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return 1/(t^2+y^2); }
+
+//add(slopefield(yp, start, end, 20));
+
+//pair[] pts = {(-2,0), (-1,0), (1,0), (2,0), (0,-2), (0,-0.5), (-1.5, 0)};
+
+//for (pair p : pts)
+//real inc=0.9;
+//for(real x=min_x; x<max_x; x+=inc)
+//	for(real y=min_y; y<max_y; y+=inc) 
+//		draw(curve((x,y), yp, start, end), blue+0.5bp);
+
+real[] vals = { 1, 4};
+
+for (real m : vals)
+{
+    real ft (real t) { return sqrt(m-t^2); }
+    real fb (real t) { return -1*sqrt(m-t^2); }
+    
+    draw(graph(ft, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(ft ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+    
+    draw(graph(fb, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(fb ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\onslide<4>
+\begin{center}
+\begin{asy}
+size(155);
+
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return 1/(t^2+y^2); }
+
+real inc=1.3;
+for(real x=min_x; x<max_x; x+=inc)
+	for(real y=min_y; y<max_y; y+=inc) 
+		draw(curve((x,y), yp, start, end), red+0.5bp);
+
+real[] vals = { 1, 4};
+
+for (real m : vals)
+{
+    real ft (real t) { return sqrt(m-t^2); }
+    real fb (real t) { return -1*sqrt(m-t^2); }
+    
+    draw(graph(ft, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(ft ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+    
+    draw(graph(fb, -sqrt(m), sqrt(m)), gray+0.75bp);
+    draw(isocline(fb ,yp, -sqrt(m), sqrt(m), n=5, width=0.3), blue+1bp);
+}
+
+limits(start,end,Crop);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{overprint}
+\end{column}
+\begin{column}{0.5\linewidth}
+We have the following Isoclines:
+\begin{itemize}
+\item<2-> When $y^\prime=1$: $t^2+y^2=1^2$.
+\item<3-> When $y^\prime=2$: $t^2+y^2=2^2$.
+\item<4-> When $t^2+y^2\rightarrow \infty$, Slope $\rightarrow 0$.
+\item<4-> When $t^2+y^2\rightarrow 0$, Slope $\rightarrow$ vertical.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Autonomous Differential Equation}
+A differential equation is \textbf{autonomous} if
+\begin{equation*}
+\dfrac{dy}{dt} = f(y)
+\end{equation*}
+that is, if the independent variable $t$ for not explicitly appear on the right-hand side of the equation.
+\end{block}\pause
+
+\begin{block}{Note}
+This means that the slope of any solutions \emph{does not depend} on $t$.\\ Thus, on a $t-y$ graph, all isoclines are horizontal lines.
+\end{block}\pause
+\begin{block}{Phase Line}
+Thus, for a given $y$ value, all solutions are horizontal translations. Which means we can encapsulate information about all solutions with a vertical line, called a \textbf{phase line}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{equation*}
+y^\prime = y(1-y)
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(240);
+
+real min_x=-3, max_x=3;
+real min_y=-2, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+for(real gx=min_x+1; gx<=max_x-1; ++gx)
+	draw((gx,min_y)--(gx,max_y),dotted+darkgray);
+    
+for(real gy=min_y+1; gy<=max_y-1; ++gy)
+	draw((min_x,gy)--(max_x,gy),dotted+darkgray); 
+	
+real yp (real t, real y) { return y*(1-y); }
+real[] zeros = {0, 1};
+
+pair[] pts = { (0,0), (0,1), 
+			   (0,1.5), (0, 0.5), (0, -1.5),
+			   (-1.5,1.5), (-1.5, 0.5), (-1.5, -1.5),
+			   (1.5,1.5), (1.5, 0.5), (1.5, -1.5),
+			   (3,1.5), (3, 0.5), (3, -1.5)};
+
+for(pair p : pts)
+{
+	draw(curve(p, yp, start, end), black);
+}
+
+draw((-2.5,2.25)--(-2,1.25), black+0.75bp, EndArrow());
+draw((-2.75,0.5)--(-2.0,0.75), black+0.75bp, EndArrow());
+draw((-2.5,-0.75)--(-2,-1.75), black+0.75bp, EndArrow());
+
+limits(start,end,Crop);
+
+phase_line(yp, zeros, min_y, max_y, 0, blue+0.75bp);
+
+xaxis("$t$",YEquals(min_y),min_x,max_x,LeftTicks());
+xaxis(YEquals(max_y),min_x,max_x);
+yaxis("$y$",XEquals(min_x),min_y,max_y,LeftTicks());
+yaxis(XEquals(max_x),min_y,max_y);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Phase Lines}
+We say that an equilibrium point is:
+\begin{description}[<+- | alert@+>]
+\item[\textbf{Stable}] If the phase-line arrows above and below the equilibrium point towards the equilibrium. (Also called a \textbf{sink}.)
+\item[\textbf{Unstable}] If the phase-line arrows above and below the equilibrium point away from the equilibrium. (Also called a \textbf{source}.)
+\item[\textbf{Semistable}] If the phase-line one of the arrows above or below the equilibrium point towards the equilibrium and the other points away. (Also called a \textbf{node}.)
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{equation*}
+y^\prime = y(1-y)(2-y)
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(230);
+
+real min_x=-1, max_x=5;
+real min_y=-1.5, max_y=3.5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+real yp (real t, real y) { return y*(1-y)*(2-y); }
+real[] zeros = {0, 1, 2};
+
+//draw((0,min_y) -- (0,max_y));
+
+for(real z : zeros)
+{
+	draw((0,z) -- (max_x,z));	
+	label("$"+string(z)+"$", (-0.5, z));
+}
+
+pair[] pts = {(0,2.2), (0,1.8), (0,0.4), (0,-.2)};
+
+for(pair p : pts)
+{
+	draw(curve(p, yp, (0.1,min_y), end), black);
+}
+
+//limits(start,end,Crop);
+
+phase_line(yp, zeros, min_y, max_y, 0, blue+0.75bp);
+
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{equation*}
+y^\prime = (y-1)(y-3){(y-5)}^2;
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(200);
+
+real min_x=-1, max_x=7;
+real min_y=-1, max_y=7;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+real yp (real t, real y) { return (y-1)*(y-3)*(y-5)*(y-5); }
+real[] zeros = {1, 3, 5};
+
+//draw((0,min_y) -- (0,max_y));
+
+for(real z : zeros)
+{
+	draw((0,z) -- (max_x,z));	
+	label("$"+string(z)+"$", (-0.5, z));
+}
+
+pair[] pts = {(0,5.1), (0,3.2), (0, 2.8), (1,0)};
+
+for(pair p : pts)
+{
+	draw(curve(p, yp, (0.1,min_y), end), black);
+}
+
+limits(start,end,Crop);
+
+phase_line(yp, zeros, min_y, max_y, 0, blue+0.75bp);
+
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Population Models}
+Consider the unrestricted growth equation:
+\begin{equation*}
+\dfrac{dy}{dt} = ky, \quad k>0
+\end{equation*}
+which assumes that the rate of growth of a population is always proportional to it's size. This equation predicts exponential growth that cannot continue indefinitely.
+
+\vspace{2mm}
+For long-range predictions we need to consider how the population interacts with it's environment. That is, as a population will level off as it reaches a limited food supply, increased disease, crowding, etc. 
+
+\vspace{2mm}
+To build a model that includes these factors we need to replace the constant growth rate $k$ with a \text{variable growth rate} $k(y)$ that depends on the population size:
+\begin{equation*}
+\dfrac{dy}{dt} = k(y)\cdot y, \quad k>0
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\onslide<+->
+\begin{block}{Logistic Equation}
+A population may be modeled using
+\begin{equation*}
+\dfrac{dy}{dt} = r\left(1-\dfrac{y}{L}\right)y
+\end{equation*}
+where positive parameter $r$ is called the \textbf{initial growth rate} and $L$ is the \textbf{carrying capacity}.
+\end{block}
+
+\onslide<+->
+\begin{block}{Phase-Line analysis}
+\begin{columns}
+\begin{column}{0.4\linewidth}
+\begin{center}
+\begin{asy}
+size(100);
+
+real min_x=-1, max_x=3;
+real min_y=0, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+real r = 1;
+real L = 2;
+
+real yp (real t, real y) { return r*y*(1-y/L); }
+real[] zeros = {0, L};
+
+draw((0,0)--(max_x, 0), EndArrow());
+label("t", (max_x-0.1, -0.2));
+draw((0,0)--(0, max_y), EndArrow());
+label("y", (-0.2, max_y-0.1));
+
+draw((0,L)--(max_x,L));
+label("$L$", (-0.5, L));
+
+pair[] pts = {(0,0.25*L), (0,0.5*L), (0,0.75*L), (0,1.25*L)};
+
+for(pair p : pts)
+{
+	draw(curve(p, yp, (0.1,min_y), end), black);
+}
+
+//limits(start,end,Crop);
+
+phase_line(yp, zeros, min_y, max_y, 0, blue+0.75bp);
+
+\end{asy}
+\end{center}
+\end{column}
+\begin{column}{0.6\linewidth}
+\begin{itemize}[<+- | alert@+>]
+\item All nonzero initial values lead to solutions that tend towards $L$.
+\item $L$ is a stable equilibrium and $0$ is an unstable equilibrium.
+\item The solutions between $0$ and $L$ have an S-shape.
+\item There is an inflection point between $0$ and $L$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Analytic Solution of the Logistic Equation}
+\begin{overprint}
+\onslide<1-3>
+The logistic equation is separable
+\begin{equation*}
+\dfrac{dy}{\left(1-\tfrac{y}{L}\right)y} = r~dt
+\end{equation*}
+\visible<2->{and can be solved with the aid of the partial fraction decomposition:
+\begin{equation*}
+\dfrac{1}{\left(1-\tfrac{y}{L}\right)y} = \dfrac{1}{y} + \dfrac{\tfrac{1}{L}}{1-\tfrac{1}{L}}
+\end{equation*}}
+\visible<3->{So, we are really solving
+\begin{equation*}
+\left(\dfrac{1}{y} + \dfrac{\tfrac{1}{L}}{1-\tfrac{1}{L}}\right)dy = r~dt
+\end{equation*}}
+\onslide<4-8>
+Integrating both sides gives
+\begin{equation*}
+\ln\abs{y}-\ln\abs{1-\dfrac{y}{L}} = rt+C
+\end{equation*}
+Where $C$ will be determined by the initial condition $y(0)=y_0$.
+
+\vspace{2mm}
+\visible<5->{From our phase-line analysis we know that if $0<y_0<L$ then $0<y<L$ for all $t>0$. This means that $0<\tfrac{y}{L}<1$.}
+
+\vspace{2mm}
+\visible<6->{Thus, both $y$ and $1-\tfrac{y}{L}$ are positive and the absolute values can be dropped.
+\begin{equation*}
+\begin{aligned}
+\ln[\dfrac{y}{1-\tfrac{y}{L}}] = rt+C
+&\visible<7->{\Rightarrow \dfrac{y}{1-\tfrac{y}{L}} = ke^{rt}\quad \text{where}~k=e^C} \\
+&\visible<8->{\Rightarrow \dfrac{L}{1+k^{-1}Le^{-rt}}}
+\end{aligned}
+\end{equation*}}
+\onslide<9->
+To find $k$ we plug in the initial condition:
+\begin{equation*}
+\dfrac{y_0}{1-\tfrac{y_0}{L}} = ke^{r(0)} \Rightarrow \visible<10->{k = \dfrac{y_0}{1-\tfrac{y_0}{L}}}
+\end{equation*}
+\visible<11->{and finally we have
+\begin{equation*}
+y=\dfrac{L}{1+\left(\tfrac{L}{y_0}-1\right)e^{-rt}}
+\end{equation*}}
+
+\vspace{2mm}
+\visible<12->{Note: If $y_0>L$, we will arrive at the same solution.}
+\end{overprint}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Initial-Value Problem for the Logistic Equation}
+The solution for $t\geq 0$ of the logistic IVP
+\begin{equation*}
+\dfrac{dy}{dt} = r\left(1-\dfrac{y}{L}\right)y,\quad y(0)=y_0 
+\end{equation*}
+is given by
+\begin{equation*}
+y(t)=\dfrac{L}{1+\left(\tfrac{L}{y_0}-1\right)e^{-rt}}
+\end{equation*}
+where $r>0$ is the \textbf{initial growth rate} and $L>0$ is the \textbf{carrying capacity}.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{overprint}
+\onslide<2-4>
+Consider the Bureau of Census population data, which lists the population, in millions or people, for the U.S. in the 20th century.
+\begin{columns}
+\begin{column}{0.7\linewidth}
+\visible<3->{To model the U.S. population using the logistic equation, we will let $t=0$ represent the year 1990 and $t=1$ the year 2000. 
+
+\vspace{2mm}
+So, $t=1.5$ would be the year 1950 and $t=1.3$ would be the year 2030. }
+
+\vspace{2mm}
+\visible<4->{Given that we need to find both $r$, $L$, and $y_0$ we will need three data points:
+\begin{equation*}
+y(0)=y_0=76.1,\quad y(0.5)=151.1,\quad y(1)=271.3
+\end{equation*}}
+\end{column}
+\begin{column}{0.28\linewidth}
+\begin{tabular}{|cc|}
+\hline
+Year & Population \\
+\hline
+1900 & \phantom{1}76.1 \\
+1910 & \phantom{1}92.0 \\
+1920 & 105.7 \\
+1930 & 122.8 \\
+1940 & 131.7 \\
+1950 & 151.1 \\
+1960 & 179.3 \\
+1970 & 203.3 \\
+1980 & 226.5 \\
+1990 & 249.1 \\
+2000 & 271.3 \\
+\hline
+\end{tabular}
+\end{column}
+\end{columns}
+\onslide<5->
+Which means we have the two equations:
+\begin{equation*}
+151.1=\dfrac{L}{1+\left(\tfrac{L}{76.1}-1\right)e^{-r(1.5)}}
+\quad\text{and}\quad
+271.3=\dfrac{L}{1+\left(\tfrac{L}{76.1}-1\right)e^{-r(1)}}
+\end{equation*}
+\visible<6->{This system of equations is, to put it lightly, challenging to solve, but with the aid of a computer we can get a decent approximation. 
+
+In this case $r\approx 1.6$ and $L\approx 774$.}
+
+\vspace{2mm}
+\visible<7->{Therefore,
+
+\vspace{-3mm}
+\begin{equation*}
+y(t)\approx\dfrac{774}{1+\left(\tfrac{774}{76.1}-1\right)e^{-(1.6)t}} = \dfrac{774}{1+9.17e^{-1.6t}}
+\end{equation*}}
+
+\vspace{-2mm}
+\visible<8->{This allows us to make the following predictions:}
+\begin{itemize}
+\item<8-> The theoretical maximum U.S. population is roughly 774 million.
+\item<9-> The projected population in 2030 is $y(1.3)\approx 360.7$ million.
+\item<10-> The backward projected population in 1790 is $y(-1.1)\approx 14.3$ million. \visible<11->{(The actual population was 4 million. Why the discrepancy?)}
+\end{itemize}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Threshold Equation}
+\begin{columns}
+\begin{column}{0.6\linewidth}
+For some species there is a critical population size, such that if the population ever falls below this the species will go extinct. This level $T$, called the \textbf{threshold level} behaves like a carrying capacity, except solutions need to tend away from $T$.
+\end{column}
+\begin{column}{0.35\linewidth}
+\begin{center}
+\begin{asy}
+size(100);
+
+real min_x=-1, max_x=3;
+real min_y=0, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+real r = 1;
+real T = 2;
+
+real yp (real t, real y) { return -r*y*(1-y/T); }
+real[] zeros = {0, T};
+
+draw((0,0)--(max_x, 0), EndArrow());
+label("t", (max_x-0.1, -0.2));
+draw((0,0)--(0, max_y), EndArrow());
+label("y", (-0.2, max_y-0.1));
+
+draw((0,T)--(max_x,T));
+label("$T$", (-0.5, T));
+
+pair[] pts = {(0,0.25*T), (0,0.5*T), (0,0.75*T), (0,1.25*T)};
+
+for(pair p : pts)
+{
+	draw(curve(p, yp, (0.1,min_y), end), black);
+}
+
+//limits(start,end,Crop);
+
+phase_line(yp, zeros, min_y, max_y, 0, blue+0.75bp);
+
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+The \textbf{threshold equation} is the logistic equation with a negative sign:
+\begin{equation*}
+\dfrac{dy}{dt} = -r\left(1-\dfrac{y}{L}\right)y
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Initial-Value Problem for the Threshold Equation}
+the solution for $t\geq 0$ of the threshold IVP
+\begin{equation*}
+\dfrac{dy}{dt} = -r\left(1-\dfrac{y}{L}\right)y,\quad y(0)=y_0
+\end{equation*}
+is given by
+\begin{equation*}
+y(t)=\dfrac{T}{1+\left(\tfrac{T}{y_0}-1\right)e^{rt}}
+\end{equation*}
+where $r>0$ is the \textbf{initial growth rate} and $T>0$ the \textbf{threshold level}.
+\end{block}
+\end{frame}
+\end{document}

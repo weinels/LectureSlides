@@ -1,0 +1,959 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\begin{asydef}
+import graph;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+\end{asydef}
+
+\title[MATH 2250 - Section 5.3]{Eigenvalues and Eigenvectors}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider the linear transformation $\mapping{T}{\R^2}{\R^2}$ defined by $T(\vect{u})=\mat{A}\vect{u}$, where
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+1 & 2 \\
+2 & -2 \\
+\end{bmatrix}
+\end{equation*}
+\onslide<2->
+\begin{overprint}
+\onslide<2>
+We can see how $T$ maps a few vectors:
+
+\vspace{-4mm}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{equation*}
+T\left(\bvector{1,0}\right)=\bvector{1,2}
+\qquad\longrightarrow
+\end{equation*}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{center}
+\begin{asy}
+size(150);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw((0,0)--(1,0), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{u}$",(0.5,-0.4), black);
+
+draw((0,0)--(1,2), blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{u})$",(1.5,1.8), blue);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\onslide<3>
+We can see how $T$ maps a few vectors:
+
+\vspace{-4mm}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{equation*}
+T\left(\bvector{0,1}\right)=\bvector{\+2,-2}
+\qquad\longrightarrow
+\end{equation*}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{center}
+\begin{asy}
+size(150);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw((0,0)--(0,1), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{u}$",(0.3,0.7), black);
+
+draw((0,0)--(2,-2), blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{u})$",(1.1,-1.8), blue);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\onslide<4>
+We can see how $T$ maps a few vectors:
+
+\vspace{-4mm}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{equation*}
+T\left(\bvector{-1,-1}\right)=\bvector{-3,\+0}
+\qquad\longrightarrow
+\end{equation*}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{center}
+\begin{asy}
+size(150);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw((0,0)--(-1,-1), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{u}$",(-0.65,-0.25), black);
+
+draw((0,0)--(-3,0), blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{u})$",(-2.5,0.4), blue);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\onslide<5>
+But something interesting happens for some special vectors.
+
+\vspace{-4mm}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{equation*}
+T\left(\bvector{2,1}\right)=\bvector{4,2}=2\bvector{2,1}
+\quad\longrightarrow
+\end{equation*}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{center}
+\begin{asy}
+size(150,IgnoreAspect);
+real min_x=-1, max_x=5;
+real min_y=-1, max_y=5;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw((0,0)--(4,2), blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{u})$",(4,2.3), blue);
+
+draw((0,0)--(2,1), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{u}$",(1,0.9), black);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\onslide<6>
+But something interesting happens for some special vectors.
+
+\vspace{-4mm}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{equation*}
+T\left(\bvector{\+1,-2}\right)=\bvector{-3,\+6}=-3\bvector{\+1,-2}
+\quad\longrightarrow
+\end{equation*}
+\end{column}
+\begin{column}{0.55\textwidth}
+\begin{center}
+\begin{asy}
+size(150,IgnoreAspect);
+real min_x=-6, max_x=3;
+real min_y=-2, max_y=7;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+draw((0,0)--(1,-2), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{u}$",(1.2,-1.3), black);
+
+draw((0,0)--(-3,6), blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{u})$",(-2,6), blue);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(OmitTick(0,1),N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{column}
+\end{columns}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Eigenvalues and Eigenvectors}
+Let $\mapping{T}{\V}{\V}$ be a linear transformation from vector space $\V$ into itself. A scalar $\lambda$ is a \textbf{eigenvalue} of $T$ if there is a \emph{nonzero} vector $\vect{v}\in\V$ such that
+\begin{equation*}
+T(\vect{v})=\lambda\vect{v}
+\end{equation*}
+Such a nonzero vector $\vect{v}$ is called an \textbf{eigenvector} of $T$ corresponding to $\lambda$.
+\end{block}\pause
+\begin{block}{Note}
+Eigenvalues are also called \textbf{proper values} or \textbf{characteristic values}.
+\end{block}\pause
+\begin{block}{Note}
+If the linear transformation $T$ is represented by an $n\by n$ matrix $\mat{A}$, where $\V=\R^n$ and $T(\vect{v})=\mat{A}\vect{v}$, then $\lambda$ and $\vect{v}$ are characterized by the equation
+\begin{equation*}
+\mat{A}\vect{v}=\lambda\vect{v}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Computing Eigenvalues and Eigenvectors}
+If $\mat{A}$ is a $n\by n$ matrix, and $\identmat{n}$ is the $n\by n$ identity matrix, then 
+\begin{equation*}
+\begin{aligned}
+\mat{A}\vect{v}&=\lambda\vect{v}\\\pause
+\mat{A}\vect{v}&=\lambda\identmat{n}\vect{v}\\\pause
+(\mat{A}-\lambda\identmat{n})\vect{v}&=\vect{0}
+\end{aligned}
+\end{equation*}\pause
+While this equation always has the trivial solution $\vect{v}=\vect{0}$, we are looking for any non-zero solutions. Therefore, we are looking for when
+\begin{equation*}
+\abs{\mat{A}-\lambda\identmat{n}}=0
+\end{equation*}\pause
+This is called the \textbf{characteristic equation} of matrix $A$.\pause
+
+\vspace{2mm} The polynomial in $\lambda$ denoted by 
+\begin{equation*}
+p(\lambda)=\abs{\mat{A}-\lambda\identmat{n}}
+\end{equation*}
+is called the \textbf{characteristic polynomial} of $\mat{A}$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Summary of Steps for Finding Eigenvalues and Eigenvectors}
+\begin{enumerate}
+\item Write the characteristic equation $\abs{\mat{A}-\lambda\identmat{n}}=0$.
+\item Solve the characteristic equation for $\lambda$.
+\item For each eigenvalue $\lambda_i$, find the corresponding eigenvector $\vect{v_i}$ by solving the system of equations 
+\begin{equation*}
+(\mat{A}-\lambda_i\identmat{n})\vect{v_i}=\vect{0}
+\end{equation*}
+\end{enumerate}
+\end{block}\pause
+\begin{block}{Note}
+Eigenvectors are \emph{not} unique. An eigenvector is just a direction, any nonzero multiple of $\vect{v_i}$ works just as well.
+\end{block}\pause
+\begin{block}{Note}
+For large matrices these steps become cumbersome, so computer algebra systems are often employed.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In our first example we saw two eigenvectors, let us verify these using the characteristic equation.
+\begin{equation*}
+\begin{aligned}
+\abs{\begin{bmatrix}
+1 & 2 \\
+2 & -2 \\
+\end{bmatrix}
+-\lambda
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 \\
+\end{bmatrix}}=0\pause
+&\rightarrow
+\begin{vmatrix}
+1-\lambda & 2 \\
+2 & -2-\lambda \\
+\end{vmatrix}=0\\\pause
+\rightarrow
+(1-\lambda)(-2-\lambda)-4=0\pause
+&\rightarrow
+\lambda^2+\lambda-6=0\\\pause
+\rightarrow
+(\lambda-2)(\lambda+3)=0\pause
+&\rightarrow
+\lambda_1=2\quad\text{and}\quad\lambda_2=-3
+\end{aligned}
+\end{equation*}\pause
+To find the eigenvector for $\lambda_1$ we need to solve:
+\begin{equation*}\small
+\begin{bmatrix}
+1-(2) & 2 \\
+2 & -2-(2) \\
+\end{bmatrix}\vect{v}=\vect{0}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+-1 & 2 & 0 \\
+2 & -4 & 0 \\
+\end{bmatrix}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+1 & -2 & 0 \\
+0 & 0 & 0 \\
+\end{bmatrix}\pause
+\rightarrow
+\vect{v_1}=s\bvector{2,1}
+\end{equation*}\pause
+To find the eigenvector for $\lambda_2$ we need to solve:
+\begin{equation*}\small
+\begin{bmatrix}
+1-(-3) & 2 \\
+2 & -2-(-3) \\
+\end{bmatrix}\vect{v}=\vect{0}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+4 & 2 & 0 \\
+2 & 1 & 0 \\
+\end{bmatrix}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+1 & \tfrac{1}{2} & 0 \\
+0 & 0 & 0 \\
+\end{bmatrix}\pause
+\rightarrow
+\vect{v_2}=s\bvector{1,-2}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us find the eigenvalues and eigenvectors for the matrix
+\begin{equation*}
+A=
+\begin{bmatrix}
+1 & 1 \\ 
+4 & 1 \\
+\end{bmatrix}
+\end{equation*}\pause
+
+\vspace{-6mm}
+The characteristic equation is 
+
+\vspace{-6mm}
+\begin{equation*}
+\abs{\mat{A}-\lambda\identmat{2}}=0\pause
+\quad\rightarrow\quad
+\begin{vmatrix}
+1-\lambda & 1 \\
+4 & 1-\lambda \\
+\end{vmatrix}=0\pause
+\quad\rightarrow\quad
+{(1-\lambda)}^2-4=0
+\end{equation*}\pause
+
+\vspace{-4mm}
+Which has solutions $\lambda_1=3$ and $\lambda_2=-1$.\pause
+
+\vspace{1mm}
+To find the eigenvector for $\lambda_1$ we need to solve
+\begin{equation*}
+\begin{bmatrix}
+1-(3) & 1 \\
+4 & 1-(3) \\
+\end{bmatrix}\vect{v}=\vect{0}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+-2 & 1 & 0 \\
+4 & -2 & 0
+\end{bmatrix}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+1 & -\tfrac{1}{2} & 0 \\
+0 & 0 & 0
+\end{bmatrix}\pause
+\rightarrow
+\vect{v_1}=s\bvector{1,2}
+\end{equation*}\pause
+To find the eigenvector for $\lambda_2$ we need to solve
+\begin{equation*}
+\begin{bmatrix}
+1-(-1) & 1 \\
+4 & 1-(-1) \\
+\end{bmatrix}\vect{v}=\vect{0}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+2 & 1 & 0 \\
+4 & 2 & 0
+\end{bmatrix}\pause
+\rightarrow
+\begin{bmatrix}[rr|r]
+1 & \tfrac{1}{2} & 0 \\
+0 & 0 & 0
+\end{bmatrix}\pause
+\rightarrow
+\vect{v_2}=s\bvector{\+1,-2}
+\end{equation*}
+
+\vspace{-4mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us find the eigenvalues and eigenvectors for
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rrr]
+1 & 1 & -2 \\
+-1 & 2 & 1 \\
+0 & 1 & -1 \\
+\end{bmatrix}
+\end{equation*}
+\begin{overprint}
+\onslide<2-5>
+The characteristic equation is:
+\begin{equation*}
+\abs{\mat{A}-\lambda\identmat{2}}=
+\begin{vmatrix}
+1-\lambda & 1 & -2 \\
+-1 & 2-\lambda & 1 \\
+0 & 1 & -1-\lambda \\
+\end{vmatrix}=0
+\end{equation*}
+\visible<3->{Which simplifies to:
+\begin{equation*}
+\begin{aligned}
+\lambda^3-2\lambda^2-\lambda +2&=0\\
+\visible<4->{(\lambda-2)(\lambda-1)(\lambda+1)&=0}\\
+\end{aligned}
+\end{equation*}}
+
+\visible<5->{\vspace{-5mm}
+So, the eigenvalues are $\lambda_1=2$, $\lambda_2=1$, and $\lambda_3=-1$.}
+\onslide<6-11>
+To find the eigenvector for $\lambda_1=2$ we need to solve the system:
+\begin{equation*}
+\only<6-7>{%
+\begin{bmatrix}
+1-\alt<6>{\lambda}{(2)} & \+1 & -2 \\
+-1 & 2-\alt<6>{\lambda}{(2)} & \+1 \\
+\+0 & \+1 & -1-\alt<6>{\lambda}{(2)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<8>{%
+\begin{bmatrix}[rrr]
+-1 & 1 & -2 \\
+-1 & 0 &  1 \\
+ 0 & 1 & -3 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<9>{%
+\begin{bmatrix}[rrr|r]
+-1 & 1 & -2 & 0 \\
+-1 & 0 & 1 & 0 \\
+0 & 1 & -3 & 0 \\
+\end{bmatrix}}
+\only<10->{%
+\begin{bmatrix}[rrr|r]
+1 & 0 & -1 & 0 \\
+0 & 1 & -3 & 0 \\
+0 & 0 &  0 & 0 \\
+\end{bmatrix}}
+\end{equation*}
+\visible<11->{So, we have $v_1=v_3$ and $v_2=3v_3$. Replacing $v_3$ with parameter $s$ gives
+\begin{equation*}
+\vect{v_1}=\bvector{1,3,1}
+\end{equation*}}
+\onslide<12-17>
+To find the eigenvector for $\lambda_2=1$ we need to solve the system:
+\begin{equation*}
+\only<12-13>{%
+\begin{bmatrix}
+1-\alt<12>{\lambda}{(1)} & \+1 & -2 \\
+-1 & 2-\alt<12>{\lambda}{(1)} & \+1 \\
+\+0 & \+1 & -1-\alt<12>{\lambda}{(1)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<14>{%
+\begin{bmatrix}[rrr]
+ 0 & 1 & -2 \\
+-1 & 1 &  1 \\
+ 0 & 1 & -2 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<15>{%
+\begin{bmatrix}[rrr|r]
+ 0 & 1 & -2 & 0 \\
+-1 & 1 &  1 & 0 \\
+ 0 & 1 & -2 & 0 \\
+\end{bmatrix}}
+\only<16->{%
+\begin{bmatrix}[rrr|r]
+1 & 0 & -3 & 0 \\
+0 & 1 & -2 & 0 \\
+0 & 0 &  0 & 0 \\
+\end{bmatrix}}
+\end{equation*}
+\visible<17->{So, we have $v_1=3v_3$ and $v_2=2v_3$. Replacing $v_3$ with parameter $s$ gives
+\begin{equation*}
+\vect{v_2}=\bvector{3,2,1}
+\end{equation*}}
+\onslide<18-23>
+To find the eigenvector for $\lambda_3=-1$ we need to solve the system:
+\begin{equation*}
+\only<18-19>{%
+\begin{bmatrix}
+1-\alt<18>{\lambda}{(-1)} & \+1 & -2 \\
+-1 & 2-\alt<18>{\lambda}{(-1)} & \+1 \\
+\+0 & \+1 & -1-\alt<18>{\lambda}{(-1)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<20>{%
+\begin{bmatrix}[rrr]
+ 2 & 1 & -2 \\
+-1 & 3 &  1 \\
+ 0 & 1 & -2 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<21>{%
+\begin{bmatrix}[rrr|r]
+ 2 & 1 & -2 & 0 \\
+-1 & 3 &  1 & 0 \\
+ 0 & 1 & -2 & 0 \\
+\end{bmatrix}}
+\only<22->{%
+\begin{bmatrix}[rrr|r]
+1 & 0 & -1 & 0 \\
+0 & 1 &  0 & 0 \\
+0 & 0 &  0 & 0 \\
+\end{bmatrix}}
+\end{equation*}
+\visible<23->{So, we have $v_1=v_3$ and $v_2=0$. Replacing $v_3$ with parameter $s$ gives
+\begin{equation*}
+\vect{v_3}=\bvector{1,0,1}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Special Cases}
+\begin{description}[<+->]
+\item[Triangular Matrices:] The eigenvalues of an upper (or lower) triangular matrix appear on the main diagonal.
+\item[$2\by 2$ Matricies:] For
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22} \\
+\end{bmatrix}
+\end{equation*}
+The eigenvalues are the solutions to
+\begin{equation*}
+\lambda^2-(\trace\mat{A})\lambda+\abs{\mat{A}}=0
+\end{equation*}
+\end{description}
+\end{block}
+\onslide<+->
+\begin{block}{Trace}
+The \textbf{trace} of a matrix, $\trace\mat{A}$, is the sum of all elements in the diagonal.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Eigenspace Theorem for Linear Transformations}
+For each eigenvalue $\lambda$ of a linear transformations $\mapping{T}{\V}{\V}$, the \textbf{eigenspace}, defined by
+\begin{equation*}
+\E_\lambda=\setbuilder{\vect{v}\in\V}{T(\vect{v})=\lambda\vect{v}}
+\end{equation*}
+is a subspace of $\V$.
+\end{block}\pause
+\begin{example}
+\begin{center}
+\begin{asy}
+size(125);
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+real v1(real x) {return 2*x;}
+draw(graph(v1,min_x,max_x), blue+1.0bp);
+draw((0,0)--(1,2), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{v_1}=\bvector{\+1,\+2}$",(2.5,2), black);
+label("$\E_{\lambda_1}$",(2.4,3), blue);
+
+real v2(real x) {return -2*x;}
+draw(graph(v2,min_x,max_x), blue+1.0bp);
+draw((0,0)--(1,-2), black+1.0bp, EndArrow(2.0mm));
+label("$\vect{v_2}=\bvector{\+1,-2}$",(2.6,-2), black);
+label("$\E_{\lambda_2}$",(2.5,-3.5), blue);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(OmitTick(-1,0,1),N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+For the matrix
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rrr]
+1 & 1 & -2 \\
+-1 & 2 & 1 \\
+0 & 1 & -1 \\
+\end{bmatrix}
+\end{equation*}
+we had the following eigenvectors:
+\begin{center}
+\begin{tabular}{lll}
+$\lambda_1=2$ & $\vect{v_1}=\bvector{1,3,1}$ & \visible<2->{$\E_{\lambda_1}=\spn\left\{\bvector{1,3,1}\right\}$}\\
+$\lambda_2=1$ & $\vect{v_2}=\bvector{3,2,1}$ & \visible<2->{$\E_{\lambda_2}=\spn\left\{\bvector{3,2,1}\right\}$}\\
+$\lambda_3=-1$ & $\vect{v_3}=\bvector{1,0,1}$ & \visible<2->{$\E_{\lambda_3}=\spn\left\{\bvector{1,0,1}\right\}$} 
+\end{tabular}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Distinct Eigenvalue Theorem}
+Let $\mat{A}$ be an $n\by n$ matrix. If $\lambda_1, \lambda_2, \ldots, \lambda_p$ are distinct eigenvalues with corresponding eigenvectors $\vect{v_1}, \vect{v_2}, \ldots, \vect{v_p}$, then $\left\{\vect{v_1}, \vect{v_2}, \ldots, \vect{v_p}\right\}$ is a set of linearly independent vectors.
+\end{block}\pause
+\begin{block}{Proof (sketch)}
+If we have two eigenvalues with $\lambda_1\neq\lambda_2$, then if the associated eigenvectors $\vect{v_1}$ and $\vect{v_2}$ were linearly dependent, we have
+\begin{equation*}
+\begin{aligned}
+\vect{v_2}&=c\vect{v_1}\quad\text{where $c\neq 0$}\\\pause
+\lambda_2\vect{v_2} &= c\lambda_2\vect{v_1}
+\end{aligned}
+\end{equation*}\pause
+But, we could also have multiplied by $\mat{A}$
+\begin{equation*}
+\begin{aligned}
+\mat{A}\vect{v_2} &= c\mat{A}\vect{v_1}\\\pause
+\lambda_2\vect{v_2} &= c\lambda_1\vect{v_1}
+\end{aligned}
+\end{equation*}\pause
+Which would imply that $\lambda_1=\lambda_2$,
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the matrix
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rrr]
+-2 &  1 &  1 \\
+ 1 & -2 &  1 \\
+ 1 &  1 & -2 \\
+\end{bmatrix}
+\end{equation*}
+\begin{overprint}
+\onslide<2-4>
+The characteristic equation is
+\begin{equation*}
+\begin{aligned}
+\abs{\mat{A}-\lambda\mat{I}} &= 0\\
+\visible<3->{\lambda{(\lambda+3)}^2 &= 0}
+\end{aligned}
+\end{equation*}
+\visible<4->{So, the eigenvalues are $\lambda_1=0$, $\lambda_2=-3$. {\small(Note that $-3$ is a repeated root.)}}
+\onslide<5-10>
+To find the eigenvector for $\lambda_1=0$ we need to solve the system:
+\begin{equation*}
+\only<5-6>{%
+\begin{bmatrix}
+-2-\alt<5>{\lambda}{(0)} & \+1 & \+1 \\
+\+1 & -2-\alt<5>{\lambda}{(0)} & \+1 \\
+\+1 & \+1 & -2-\alt<5>{\lambda}{(0)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\vphantom{\begin{bmatrix}[rrr]
+-2 &  1 &  1 \\
+ 1 & -2 &  1 \\
+ 1 &  1 & -2 \\
+\end{bmatrix}}
+\only<7>{%
+\begin{bmatrix}[rrr]
+-2 &  1 &  1 \\
+ 1 & -2 &  1 \\
+ 1 &  1 & -2 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<8>{%
+\begin{bmatrix}[rrr|r]
+-2 &  1 &  1 & 0\\
+ 1 & -2 &  1 & 0\\
+ 1 &  1 & -2 & 0\\
+\end{bmatrix}}
+\only<9->{%
+\begin{bmatrix}[rrr|r]
+ 1 &  0 & -1 & 0\\
+ 0 &  1 & -1 & 0\\
+ 0 &  0 &  0 & 0\\
+\end{bmatrix}}
+\end{equation*}
+\visible<10->{So, we have $v_1=v_3$ and $v_2=v_3$. Replacing $v_3$ with parameter $s$ gives
+\begin{equation*}
+\vect{v_1}=\bvector{1,1,1}
+\end{equation*}}
+\onslide<11-16>
+To find the eigenvector for $\lambda_2=-3$ we need to solve the system:
+\begin{equation*}
+\only<11-12>{%
+\begin{bmatrix}
+-2-\alt<11>{\lambda}{(-3)} & \+1 & \+1 \\
+\+1 & -2-\alt<11>{\lambda}{(-3)} & \+1 \\
+\+1 & \+1 & -2-\alt<11>{\lambda}{(-3)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\vphantom{\begin{bmatrix}[rrr]
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+\end{bmatrix}}
+\only<13>{%
+\begin{bmatrix}[rrr]
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+ 1 &  1 &  1 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<14>{%
+\begin{bmatrix}[rrr|r]
+ 1 &  1 &  1 & 0\\
+ 1 &  1 &  1 & 0\\
+ 1 &  1 &  1 & 0\\
+\end{bmatrix}}
+\only<15->{%
+\begin{bmatrix}[rrr|r]
+ 1 &  1 &  1 & 0\\
+ 0 &  0 &  0 & 0\\
+ 0 &  0 &  0 & 0\\
+\end{bmatrix}}
+\end{equation*}
+\visible<16->{So, we have $v_1=-v_2-v_3$ This means we need two parameters, $v_2=r$ and $v_3=s$. Which means we have two linearly independent eigenvectors.
+\begin{equation*}
+\vect{v_2}=\bvector{-r-s,1,1}=r\bvector{-1,1,0}+s\bvector{-1,0,1}
+\end{equation*}}
+\onslide<17->
+This means the eigenspace is
+\begin{equation*}
+\E_{\lambda_2}=\spn\left\{\bvector{-1,1,0}, \bvector{-1,0,1}\right\}
+\end{equation*}
+which is a two-dimensional subspace of $\R^3$.
+
+\vspace{2mm}
+\visible<18->{Any linear combination of these two vectors is also an eigenvector, which means that the eigenspace is a plane.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the matrix
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rrr]
+ 1 &  1 &  1 \\
+ 0 &  1 &  1 \\
+ 0 &  0 &  1 \\
+\end{bmatrix}
+\end{equation*}
+\begin{overprint}
+\onslide<2>
+Since this is an upper diagonal matrix, we know that the eigenvalue\\ is $\lambda=1$, with multiplicity of 3.
+\onslide<3->
+To find the eigenvector for $\lambda=1$ we need to solve the system:
+\begin{equation*}
+\vphantom{\begin{bmatrix}[rrr]
+0 & 1 & 1 \\
+0 & 0 & 1 \\
+0 & 0 & 0 \\
+\end{bmatrix}}
+\only<3-4>{%
+\begin{bmatrix}
+ 1-\alt<3>{\lambda}{(1)} & 1 & 1 \\
+ 0 & 1-\alt<3>{\lambda}{(1)} & 1 \\
+ 0 & 0 & 1-\alt<3>{\lambda}{(1)} \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<5>{%
+\begin{bmatrix}[rrr]
+0 & 1 & 1 \\
+0 & 0 & 1 \\
+0 & 0 & 0 \\
+\end{bmatrix}\bvector{v_1,v_2,v_3}=\bvector{0,0,0}}
+\only<6->{%
+\begin{bmatrix}[rrr|r]
+0 & 1 & 1 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+\end{bmatrix}}
+\end{equation*}
+\visible<7->{So, we have $v_2+v_3=0$ and $v_3=0$. Replacing $v_1$ with parameter $s$ gives
+\begin{equation*}
+\vect{v}=\bvector{s,0,0}=s\bvector{1,0,0}
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<8->{Which means the eigenspace has dimension 1.}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+0 & 1 \\
+-1 & 1 \\
+\end{bmatrix}
+\end{equation*}\pause
+Which has characteristic equation
+\begin{equation*}
+\abs{\mat{A}-\lambda\mat{I}}=0\pause
+\quad\rightarrow\quad
+\begin{vmatrix}
+-\lambda & 1 \\
+-1 & -\lambda \\
+\end{vmatrix}=0\pause
+\quad\rightarrow\quad
+\lambda^2+1=0
+\end{equation*}\pause
+The only solutions to this equation is $\lambda=\pm i$.\pause
+
+\vspace{2mm}
+The situation here is like that with quadratic equations: there are some things which just cannot be done in a real-valued world.\pause
+
+\vspace{2mm}
+We can continue in the same way and find that the eigenvectors are
+\begin{equation*}
+\vect{v_1}=\bvector{-i,1}
+\quad\text{and}\quad
+\vect{v_2}=\bvector{-1,-i}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider the rotation transformation
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rr]
+\cos[\theta] & -\sin[\theta] \\
+\sin[\theta] &  \cos[\theta] \\
+\end{bmatrix}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-8>
+The characteristic equation is 
+\begin{equation*}
+\begin{aligned}
+\abs{\mat{A}-\lambda\mat{I}}=0
+\visible<3->{\quad&\rightarrow\quad
+\begin{vmatrix}
+\cos[\theta]-\lambda & -\sin[\theta] \\
+\sin[\theta] &  \cos[\theta]-\lambda \\
+\end{vmatrix}=0\\}
+\visible<4->{\quad&\rightarrow\quad
+{(\cos[\theta]-\lambda)}^2+\sin[\theta][2]=0\\}
+\visible<5->{\quad&\rightarrow\quad
+{(\cos[\theta]-\lambda)}^2=\sin[\theta][2]\\}
+\visible<6->{\quad&\rightarrow\quad
+\cos[\theta]-\lambda=\pm i\sin[\theta]\\}
+\visible<7->{\quad&\rightarrow\quad
+\lambda = \cos[\theta]\pm i \sin[\theta]}
+\end{aligned}
+\end{equation*}
+\visible<8->{Which means these eigenvalues rotate a vector, instead of scaling it.}
+\onslide<9>
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+pair u=(2.0,1.0);
+real ang=aTan(u.y/u.x);
+real rot=122;
+
+path g=(0,0)--u;
+
+draw(g, black+1.0bp, EndArrow(2.0mm));
+label("$\vect{v}$",(1.95,0.6), black);
+
+draw(rotate(rot)*g, blue+1.0bp, EndArrow(2.0mm));
+label("$T(\vect{v})$",(-2,1.5), blue);
+
+path h=arc((0,0), 0.5, ang, ang + rot);
+draw(h,black+0.75bp,EndArrow(size=1mm));
+label("$\theta$",(0.4,0.6),black); 
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(NoZero,N=0,Step=1,step=0.5,Size=0.75mm,size=0.375mm));
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-45mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Eigenvalue Properties}
+Let $\mat{A}$ be an $n\by n$ matrix
+\begin{itemize}[<+- | alert@+>]
+\item $\lambda$ is an eigenvalue of $\mat{A}$ if and only if $\abs{\mat{A}-\lambda\mat{I}}=0$.
+\item $\lambda$ is an eigenvalue of $\mat{A}$ if and only if $(\mat{A}-\lambda\mat{I})\vect{v}=\vect{0}$ has a nontrivial solution.
+\item $\mat{A}$ has a zero eigenvalue if and only if $\abs{\mat{A}}=0$
+\item $\mat{A}$ and $\transposeof{\mat{A}}$ have the same characteristic polynomials and the same eigenvalues.
+\item If $\lambda$ is an eigenvalue of an invertible matrix $\mat{A}$, then $\dfrac{1}{\lambda}$ is an eigenvalue of $\inverseof{\mat{A}}$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\onslide<+->
+\begin{block}{Note}
+Characteristic roots of a linear homogeneous DEs are eigenvalues.
+\end{block}
+\onslide<+->
+\begin{block}{Properties of Linear Homogeneous DEs with Distinct Eigenvalues}
+For the DE $\vect{x^\prime}=\mat{A}\vect{x}$ with distinct eigenvalues, the following hold:
+\begin{itemize}[<+- | alert@+>]
+\item The domain of the linear transformation is a vector space of vector functions.
+\item The solution set is also a vector space of vector functions.
+\item The eigenspace for each eigenvalue is a one-dimensional line in the direction of a vector in $\R^n$.
+\end{itemize}
+\end{block}
+\onslide<+->
+\begin{block}{Note}
+We will explore the connection between eigenvalues and solutions to differential equations next chapter.
+\end{block}
+\end{frame}
+\end{document}

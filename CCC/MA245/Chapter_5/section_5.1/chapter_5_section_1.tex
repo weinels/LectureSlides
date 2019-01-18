@@ -1,0 +1,1115 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+path box(pair l, pair r) 
+{
+	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
+}
+path pbox(pair p)
+{
+	pair l = (p.x - 0.5, p.y - 0.5);
+	pair r = (p.x + 0.5, p.y + 0.5);
+	return box(l,r);
+}
+\end{asydef}
+
+\title[MATH 2250 - Section 5.1]{Linear Transformations}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Linear Transformation}
+A \textbf{Linear Transformation} $T$ on a vector space $\V$ to a vector space $\W$ is a function $\mapping{T}{\V}{\W}$ that preserves \emph{scalar multiplication} and \emph{vector addition}. That is, for all $\vect{u}, \vect{v}\in\V$ and $c\in\R$:
+\begin{itemize}
+\item $T (c\vect{u})=cT (\vect{u})$
+\item $T (\vect{u}+\vect{v})=T (\vect{u})+T (\vect{v})$
+\end{itemize}\pause
+These conditions are commonly checked together.
+\begin{equation*}
+T(c\vect{u}+d\vect{v})=cT(\vect{u})+dT(\vect{v})
+\end{equation*}
+\end{block}\pause
+\begin{block}{}
+The vector space $\V$ is called the \textbf{domain} for $T$\\
+The vector space $\W$ is called the \textbf{codomain} (or \textbf{range} or \textbf{target}) for $T$.
+\end{block}\pause
+\begin{block}{Image of a Linear Transformation}
+The \textbf{image} of a linear transformation $\mapping{T}{\V}{\W}$ is the set of vectors in $\W$ to which $T$ maps the vectors in $\V$:
+
+\vspace{-4mm}
+\begin{equation*}
+\im(T) = \setbuilder{\vect{w}\in\W}{\vect{w}=T(\vect{v})\text{ for some } \vect{v}\in\V}
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+A linear transformation always associates the zero vector of the domain with the zero vector of the codomain.
+\end{block}\pause
+\begin{example}
+\begin{equation*}
+\begin{aligned}
+T(0\cdot \vect{v}) &= 0\cdot T(\vect{v}) \\\pause
+T(\vect{0}) &= \vect{0}
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+\begin{example}
+\begin{equation*}
+\begin{aligned}
+T(\vect{0} + \vect{v}) &= T(\vect{0}) + T(\vect{v}) \\\pause
+T(\vect{v}) &= T(\vect{0})+T(\vect{v})\\\pause
+T(\vect{v})-T(\vect{v}) &= T(\vect{0})\\\pause
+\vect{0} &= T(\vect{v})
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+\begin{block}{Note}
+Linear transformations may map nonzero vectors from the domain into the zero vector of the codomain.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the mapping $\mapping{T}{\R^3}{\R^3}$ defined by $T(\cvector{x,y,z})=\cvector{x,y,0}$. Let's check that this is a linear transformation:\pause
+\begin{equation*}
+\begin{aligned}
+T(c\cvector{x_1, y_1, z_1}+d\cvector{x_2, y_2, z_2})\pause
+&= T(\cvector{c x_1, c y_1, c z_1}+\cvector{d x_2, d y_2, d z_2})\\\pause
+&=T(\cvector{c x_1 + d x_2, c y_1 + d y_2 , c z_1 + d z_2})\\\pause
+&=\cvector{c x_1 + d x_2, c y_1 + d y_2, 0}\\\pause
+&=\cvector{c x_1, c y_1, 0}+\cvector{d x_2, d y_2, 0}\\\pause
+&=c\cvector{x_1, y_1, 0}+d\cvector{x_2, y_2, 0}\\\pause
+&=cT(\cvector{x_1, y_1, z_1})+dT(\cvector{x_2, y_2, z_2})
+\end{aligned}
+\end{equation*}\pause
+Therefore, $T$ is a linear transformation.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the mapping $\mapping{T}{\R^3}{\R^3}$ defined by $T(\cvector{x,y,z})=\cvector{x,0,3x}$. Let's check that this is a linear transformation:\pause
+\begin{equation*}
+\begin{aligned}
+T(c\cvector{x_1, y_1, z_1}+d\cvector{x_2, y_2, z_2})\pause
+&=T(\cvector{c x_1 + d x_2, c y_1 + d y_2 , c z_1 + d z_2})\\\pause
+&=\cvector{c x_1 + d x_2, 0, 3 c x_1 + 3 d x_2}\\\pause
+&=c\cvector{x_1, 0 , 3 x_1}+d\cvector{x_2, 0, 3 x_2}\\\pause
+&=cT(\cvector{x_1, y_1, z_1})+dT(\cvector{x_2, y_2, z_2})
+\end{aligned}
+\end{equation*}\pause
+Therefore, $T$ is a linear transformation.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Differentiation is a linear transformation. The \textbf{derivative operator} $\mapping{D}{\mathcal{C}^1\interval{\closed{a}}{\closed{b}}}{\mathcal{C}\interval{\closed{a}}{\closed{b}}}$ is defined by
+\begin{equation*}
+D(f)=f^{\prime}
+\end{equation*}\pause
+We know from calculus that $D$ satisfy both properties:
+\begin{equation*}
+\begin{aligned}
+D(cf) &= cD(f)\\
+D(f+g) &= D(f)+D(g)
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+
+\begin{example}
+Similarly, we can confirm that the \textbf{integration operator} $\mapping{I}{\mathcal{C}\interval{\closed{a}}{\closed{b}}}{\R}$, defined by
+\begin{equation*}
+I(f)=\int_a^b f(t) dt
+\end{equation*}
+is a linear transformation.
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Geometry of Matrix Linear Transformations}
+If $\mat{A}$ is an $m\by n$ matrix and $\vect{x}$ is a column $n$-vector, then $\mat{A}\vect{x}$ can be considered a linear transformation $\mapping{T}{\R^n}{\R^m}$, where $T(\vect{x})=\mat{A}\vect{x}$.
+
+\vspace{2mm}
+In this transformation, the matrix $\mat{A}$ allows vectors to be dynamic.
+\end{block}
+\onslide<2->
+\begin{example}
+The matrix
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}
+1 & 1 \\
+0 & 1 \\
+\end{bmatrix}
+\end{equation*}
+defines a \textbf{shear} of 1-unit in the $x$-direction.
+\begin{overprint}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-1, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\begin{asy}
+size(100);
+real min_x=-1, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+fill(slant(1)*g,gray(0.7)+opacity(0.5));
+draw(slant(1)*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\end{center}
+\onslide<4>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g1 = (-1,min_y) -- (-1,max_y) -- cycle;
+path g2 = (1,min_y) -- (1,max_y) -- cycle;
+
+draw(g1,black+1.0bp);
+draw(g2,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g1 = (-1,min_y) -- (-1,max_y) -- cycle;
+path g2 = (1,min_y) -- (1,max_y) -- cycle;
+
+draw(slant(1)*g1,black+1.0bp);
+draw(slant(1)*g2,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\end{center}
+\onslide<5>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+fill(unitcircle,gray(0.7)+opacity(0.5));
+draw(unitcircle,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(-1,0)), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(-1,0,1)), Arrows());
+\end{asy}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+fill(slant(1)*unitcircle,gray(0.7)+opacity(0.5));
+draw(slant(1)*unitcircle,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0, -1)), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0,-1)), Arrows());
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+The \emph{Counterclockwise} rotation about the origin by angle $\theta$ is given by:
+\begin{equation*}
+\mat{R}_\theta=
+\begin{bmatrix}
+\cos[\theta] & -\sin[\theta] \\
+\sin[\theta] &  \cos[\theta]
+\end{bmatrix}
+\end{equation*}
+\begin{overprint}
+\onslide<2>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-1, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\begin{asy}
+size(100);
+real min_x=-1, max_x=2;
+real min_y=-1, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+fill(rotate(30)*g,gray(0.7)+opacity(0.5));
+draw(rotate(30)*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0)), Arrows());
+\end{asy}
+\end{center}
+\onslide<3>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g1 = (-1,min_y) -- (-1,max_y) -- cycle;
+path g2 = (1,min_y) -- (1,max_y) -- cycle;
+
+draw(g1,black+1.0bp);
+draw(g2,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g1 = (-1,min_y) -- (-1,max_y) -- cycle;
+path g2 = (1,min_y) -- (1,max_y) -- cycle;
+
+draw(rotate(30)*g1,black+1.0bp);
+draw(rotate(30)*g2,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, NoZero), Arrows());
+\end{asy}
+\end{center}
+\onslide<4>
+\begin{center}
+\begin{asy}
+size(100);
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+fill(unitcircle,gray(0.7)+opacity(0.5));
+draw(unitcircle,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0,-1)), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(-1,1,0)), Arrows());
+\end{asy}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(100);
+ngraph=1000;
+real min_x=-2, max_x=2;
+real min_y=-2, max_y=2;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+fill(rotate(30)*unitcircle,gray(0.7)+opacity(0.5));
+draw(rotate(30)*unitcircle,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0, -1)), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,Ticks(begin=false, beginlabel=false, end=false, endlabel=false, OmitTick(0,-1,1)), Arrows());
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{overprint}
+\onslide<1>
+Reflection about the $x$-axis
+\begin{equation*}
+\begin{bmatrix}[rr]
+1 & 0 \\
+0 & -1 \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(160);
+ngraph=1000;
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+transform T = reflect((0,0),(1,0));
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<2>
+Reflection about the $y$-axis
+\begin{equation*}
+\begin{bmatrix}[rr]
+-1 & 0 \\
+0 & 1 \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(160);
+ngraph=1000;
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+transform T = reflect((0,0),(0,1));
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<3>
+Rotation clockwise about the origin of $\tfrac{\pi}{4}$
+\begin{equation*}
+\begin{bmatrix}[rr]
+\cos[\tfrac{\pi}{4}] & \sin[\tfrac{\pi}{4}] \\
+-\sin[\tfrac{\pi}{4}] & \cos[\tfrac{\pi}{4}] \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+transform T = rotate(-45);
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<4>
+Rotation counterclockwise about the origin of $\tfrac{3\pi}{4}$
+\begin{equation*}
+\begin{bmatrix}[rr]
+\cos[\tfrac{3\pi}{4}] & -\sin[\tfrac{3\pi}{4}] \\
+\sin[\tfrac{3\pi}{4}] & \cos[\tfrac{3\pi}{4}] \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,2) -- (2,2) -- (2,0) -- cycle;
+
+transform T = rotate(135);
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<5>
+Reflection about the line $y=x$
+\begin{equation*}
+\begin{bmatrix}[rr]
+0 & 1 \\
+1 & 0 \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (2,1) -- (2,0) -- cycle;
+draw((min_x,min_y)--(max_x,max_y),dashed+blue+0.5bp);
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (2,1) -- (2,0) -- cycle;
+draw((min_x,min_y)--(max_x,max_y),dashed+blue+0.5bp);
+
+transform T = reflect((0,0),(1,1));
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<6>
+Reflection about the line $y=2x$
+\begin{equation*}
+\begin{bmatrix}[rr]
+-\tfrac{3}{5} & \tfrac{4}{5} \\
+\tfrac{4}{5} & \tfrac{3}{5} \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (2,1) -- (2,0) -- cycle;
+real f(real x) {return 2*x;}
+draw(graph(f,min_x, max_x),dashed+blue+0.5bp);
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (2,1) -- (2,0) -- cycle;
+real f(real x) {return 2*x;}
+draw(graph(f,min_x, max_x),dashed+blue+0.5bp);
+
+transform T = reflect((0,f(0)),(1,f(1)));
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\onslide<7>
+Shear of 2 in the $y$-direction
+\begin{equation*}
+\begin{bmatrix}[rr]
+1 & 0 \\
+2 & 1 \\
+\end{bmatrix}
+\end{equation*}
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+fill(g,gray(0.7)+opacity(0.5));
+draw(g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path g = (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle;
+
+transform T = reflect((0,0),(1,1))*slant(2);
+
+fill(T*g,gray(0.7)+opacity(0.5));
+draw(T*g,black+1.0bp);
+
+limits(start,end,Crop);
+
+xaxis("$x$",YEquals(0),min_x,max_x,NoTicks(), Arrows());
+yaxis("$y$",XEquals(0),min_y,max_y,NoTicks(), Arrows());
+\end{asy}
+\end{center}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the transformation $\mapping{T}{\R^3}{\R^2}$ defined by
+\begin{equation*}
+T(\vect{v})=\mat{A}\vect{v}=
+\begin{bmatrix}
+1 & 1 & 2 \\
+2 & 3 & 5 \\
+\end{bmatrix}\vect{v}
+\end{equation*}
+maps
+\begin{equation*}
+\bvector{v_1,v_2,v_3}
+\quad\text{to}\quad
+\begin{bmatrix}
+1 & 1 & 2 \\
+2 & 3 & 5 \\
+\end{bmatrix}
+\bvector{v_1,v_2,v_3}=
+\bvector{v_1+v_2+2v_3, 2v_1+3v_2+5v_3}
+\end{equation*}\pause
+What is the image of $T$?\pause
+
+\vspace{2mm}
+A typical vector in the range is
+\begin{equation*}
+\vect{u}=\mat{A}\vect{v}=v_1\bvector{1,2}+v_2\bvector{1,3}+v_3\bvector{2,5}
+\end{equation*}\pause
+It can be easily verified that $[1,2]$ and $[1,3]$ are independent in $\R^2$. Which means the image must contain their span, which is exactly $\R^2$.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{The Standard Matrix for a Linear Transform}
+Let $\mapping{T}{\R^n}{\R^n}$ be a linear transformation. The \textbf{standard matrix} associated with $T$ is defined by
+\begin{equation*}
+\mat{A}=\left[T(\vect{e_1})|T(\vect{e_2})|\cdots|T(\vect{e_n})\right]
+\end{equation*}
+where the columns $T(\vect{e_j})$ are the images under $T$ of the standard basis vectors $\vect{e_1}, \vect{e_2},\ldots,\vect{e_n}$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{proof}
+We can check that this matrix satisfies $T(\vect{v})=\mat{A}\vect{v}$ by
+\begin{equation*}
+\begin{aligned}
+T\left(\bvector{v_1,v_2,\vdots,v_n}\right)&=\pause
+T(v_1 \vect{e_1} + v_2 \vect{e_2} + \cdots + v_n \vect{e_n})\\\pause
+&= v_1 T(\vect{e_1}) + v_2 T(\vect{e_2}) + \cdots + v_n T(\vect{e_n})\\\pause
+&= \left[T(\vect{e_1})|T(\vect{e_2})|\cdots|T(\vect{e_n})\right]\bvector{v_1,v_2,\vdots,v_n}\\\pause
+&=\mat{A}\bvector{v_1,v_2,\vdots,v_n}
+\end{aligned}
+\end{equation*}
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Find the standard matrix that will describe the transformation
+\begin{equation*}
+T\left(\bvector{x,y}\right)=\bvector{x-y, x+y, 2x}
+\end{equation*}\pause
+We are looking for a matrix $\mat{A}$ that will satisify
+\begin{equation*}
+\mat{A}\bvector{x,y}=\bvector{x-y, x+y, 2x}
+\end{equation*}\pause
+Thus, for dimensions in the product to match, $\mat{A}$ must be a $3\by 2$ matrix. Which means:
+\begin{equation*}
+\mat{A} = \left[ T\left(\bvector{1,0}\right)\vrule T\left(\bvector{0,1}\right)\right]=
+\begin{bmatrix}[rr]
+1 & -1 \\
+1 &  1 \\
+2 &  0 \\
+\end{bmatrix}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let $\mapping{D_2}{\Poly_3}{\Poly_1}$ be the second-derivative operator. So, for a typical cubic polynomial:
+\begin{equation*}
+D_2(a x^3 + b x^2 + c x + d)=6ax+2b
+\end{equation*}\pause
+The standard matrix is made up of
+\begin{equation*}
+\left[
+D_2\left(\bvector{1,0,0,0}\right)\vrule
+D_2\left(\bvector{0,1,0,0}\right)\vrule
+D_2\left(\bvector{0,0,1,0}\right)\vrule
+D_2\left(\bvector{0,0,0,1}\right)
+\right]
+=
+\begin{bmatrix}
+6 & 0 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+\end{bmatrix}
+\end{equation*}\pause
+Which gives us a matrix that satisfies:
+\begin{equation*}
+\begin{bmatrix}
+6 & 0 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+\end{bmatrix}
+\bvector{a,b,c,d}=\bvector{6a,2b}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Linear transforms are used extensively in computer graphics, where images or models are just collections of points and line segments. Let us look at a simple example, where we can think of each pixel as a point at it's center:
+\begin{center}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+pair A = (0,0);
+pair B = (0,1);
+pair C = (0,2);
+pair D = (1,1);
+pair E = (-1,2);
+
+path Ab = pbox(A);
+path Bb = pbox(B);
+path Cb = pbox(C);
+path Db = pbox(D);
+path Eb = pbox(E);
+
+fill(Ab,red+opacity(1));
+fill(Bb,blue+opacity(1));
+fill(Cb,green+opacity(1));
+fill(Db,purple+opacity(1));
+fill(Eb,cyan+opacity(1));
+
+path g = A -- B -- D -- B -- C -- E;
+
+//draw(g,black+0.75bp);
+
+limits(start,end,Crop);
+\end{asy}
+\begin{asy}
+size(160);
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+path box(pair l, pair r) 
+{
+	return (l.x,l.y) -- (l.x,r.y) -- (r.x,r.y) -- (r.x,l.y) -- cycle;
+}
+path pbox(pair p)
+{
+	pair l = (p.x - 0.5, p.y - 0.5);
+	pair r = (p.x + 0.5, p.y + 0.5);
+	return box(l,r);
+}
+	
+pair A = (0,0);
+pair B = (0,1);
+pair C = (0,2);
+pair D = (1,1);
+pair E = (-1,2);
+
+path Ab = pbox(A);
+path Bb = pbox(B);
+path Cb = pbox(C);
+path Db = pbox(D);
+path Eb = pbox(E);
+
+fill(Ab,red+opacity(0.2));
+fill(Bb,blue+opacity(0.2));
+fill(Cb,green+opacity(0.2));
+fill(Db,purple+opacity(0.2));
+fill(Eb,cyan+opacity(0.2));
+
+path g = A -- B -- D -- B -- C -- E;
+
+draw(g,black+0.75bp);
+
+dot(A);
+dot(B);
+dot(C);
+dot(D);
+dot(E);
+
+label("$A=(0,0)$", (A.x,     A.y-0.2), black);
+label("$B=(0,1)$", (B.x-0.5, B.y),     black);
+label("$C=(0,2)$", (C.x,     C.y+0.2), black);
+label("$D=(1,1)$", (D.x,     D.y-0.2), black);
+label("$E=(-1,2)$",(E.x,     E.y-0.2), black);
+
+limits(start,end,Crop);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+We can rotate this image $90^\circ$ clockwise with the matrix
+\begin{equation*}
+\begin{bmatrix}[rr]
+\cos[\theta] & -\sin[\theta] \\
+\sin[\theta] & \cos[\theta] \\
+\end{bmatrix}=
+\begin{bmatrix}[rr]
+0 & 1 \\
+-1 & 0 \\
+\end{bmatrix}
+\end{equation*}\pause
+When applying this linear transformation to our image we get
+\begin{equation*}
+\begin{bmatrix}[rr]
+0 & 1 \\
+-1 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}[rrrrr]
+0 & 0 & 0 & 1 & -1 \\
+0 & 1 & 2 & 1 &  2 \\
+\end{bmatrix}=
+\begin{bmatrix}[rrrrr]
+0 & 1 & 2 & 1 & 2 \\
+0 & 0 & 0 & -1 & 1\\
+\end{bmatrix}
+\end{equation*}\pause
+
+\vspace{-6mm}
+\begin{center}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(100);
+ngraph=1000;
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+pair A = (0,0);
+pair B = (0,1);
+pair C = (0,2);
+pair D = (1,1);
+pair E = (-1,2);
+
+path Ab = pbox(A);
+path Bb = pbox(B);
+path Cb = pbox(C);
+path Db = pbox(D);
+path Eb = pbox(E);
+
+fill(Ab,red+opacity(0.2));
+fill(Bb,blue+opacity(0.2));
+fill(Cb,green+opacity(0.2));
+fill(Db,purple+opacity(0.2));
+fill(Eb,cyan+opacity(0.2));
+
+path g = A -- B -- D -- B -- C -- E;
+
+draw(g,black+0.75bp);
+
+dot(A);
+dot(B);
+dot(C);
+dot(D);
+dot(E);
+
+label("$A=(0,0)$", (A.x,     A.y-0.2), black);
+label("$B=(0,1)$", (B.x-0.65, B.y),     black);
+label("$C=(0,2)$", (C.x,     C.y+0.2), black);
+label("$D=(1,1)$", (D.x,     D.y-0.2), black);
+label("$E=(-1,2)$",(E.x,     E.y-0.2), black);
+
+limits(start,end,Crop);
+\end{asy}
+\begin{asy}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+size(100);
+ngraph=1000;
+real min_x=-3, max_x=3;
+real min_y=-3, max_y=3;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+	
+pair A = (0,0);
+pair B = (1,0);
+pair C = (2,0);
+pair D = (1,-1);
+pair E = (2,1);
+
+path Ab = pbox(A);
+path Bb = pbox(B);
+path Cb = pbox(C);
+path Db = pbox(D);
+path Eb = pbox(E);
+
+fill(Ab,red+opacity(0.2));
+fill(Bb,blue+opacity(0.2));
+fill(Cb,green+opacity(0.2));
+fill(Db,purple+opacity(0.2));
+fill(Eb,cyan+opacity(0.2));
+
+path g = A -- B -- D -- B -- C -- E;
+
+draw(g,black+0.75bp);
+
+dot(A);
+dot(B);
+dot(C);
+dot(D);
+dot(E);
+
+label("$A^*=(0,0)$", (A.x,     A.y-0.2), black);
+label("$B^*=(1,0)$", (B.x,     B.y+0.2),     black);
+label("$C^*=(2,0)$", (C.x,     C.y-0.2), black);
+label("$D^*=(1,-1)$", (D.x,     D.y-0.2), black);
+label("$E^*=(2,1)$",(E.x,     E.y+0.2), black);
+
+limits(start,end,Crop);
+\end{asy}
+\end{center}
+\end{example}
+\end{frame}
+\end{document}

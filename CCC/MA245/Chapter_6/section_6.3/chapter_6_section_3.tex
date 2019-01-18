@@ -1,0 +1,564 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\begin{asydef}
+import graph;
+import slopefield;
+import fontsize;
+defaultpen(fontsize(9pt));
+ngraph=1000;
+
+int pen_pos=-1;
+pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
+pens.cyclic=true;
+pen next_color() {return pens[++pen_pos];}
+
+DefaultHead.size=new real(pen p=currentpen) {return 2.5mm;};
+
+void drawgrid(real xmin, real xmax, real ymin, real ymax, pen p=dotted+darkgray)
+{
+	for(real gx=xmin+1; gx<=xmax-1; ++gx)
+		draw((gx,ymin)--(gx,ymax),p);
+    
+	for(real gy=ymin+1; gy<=ymax-1; ++gy)
+		draw((xmin,gy)--(xmax,gy),p); 
+}
+
+real length(pair z) {return (z.x == 0) && (z.y == 0) ? 0.0001 : sqrt(z.x*z.x+z.y*z.y);}
+
+path eigenpath(real lambda, pair v)
+{
+	if (lambda >= 0)
+		return (0,0)--v;
+	else
+		return v--(0,0);
+}
+
+void drawequilibrium(pair c, real r, bool stable)
+{
+	if (stable == true)
+		fill(circle(c,r),black);
+	else
+		unfill(circle(c,r));
+
+	draw(circle(c,r),black);
+}
+\end{asydef}
+
+\newcommand{\xReal}{\vect{x}_{\text{Re}}}
+\newcommand{\xImag}{\vect{x}_{\text{Im}}}
+
+\title[MATH 2250 - Section 6.3]{Linear Systems with Nonreal Eigenvalues}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Complex Eigenvalues and Eigenvectors}
+For a real matrix $\mat{A}$, nonreal eigenvalues come in complex conjugate pairs,
+\begin{equation*}
+\lambda_1=\alpha+\beta i
+\quad\text{and}\quad
+\lambda_2=\alpha-\beta i
+\end{equation*}
+with $\alpha,\beta\in\R$ and $\beta\neq0$.
+
+\vspace{2mm}
+The corresponding eigenvectors are also complex conjugate pairs and can be written
+\begin{equation*}
+\vect{v_1}=\vect{p}+\vect{q}i
+\quad\text{and}\quad
+\vect{v_2}=\vect{p}-\vect{q}i
+\end{equation*}
+where $\vect{p}$ and $\vect{q}$ are real vectors.
+\end{block}\pause
+\begin{block}{Note}
+We only need to find one eigenvalue/eigenvector pair.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the matrix
+\begin{equation*}
+\mat{A}=
+\begin{bmatrix}[rr]
+6 & -1 \\
+5 &  4 \\
+\end{bmatrix}
+\end{equation*}\pause
+The characteristic equation is:
+\begin{equation*}
+(6-\lambda)(4-\lambda)+5=0\pause
+\quad\rightarrow\quad
+\lambda=5\pm 2i
+\end{equation*}\pause
+The eigenvectors are
+\begin{equation*}
+\vect{v_1}=\bvector{1,1-2i}
+\quad\text{and}\quad
+\vect{v_2}=\overline{\vect{v_1}}=\bvector{1,1+2i}
+\end{equation*}\pause
+Alternately, we can write
+\begin{equation*}
+\vect{v}=\underbrace{\bvector{1,1}}_{\vect{p}}\pm i\underbrace{\bvector{\+0,-2}}_{\vect{q}}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the DE system:
+\begin{equation*}
+\vect{x}^\prime=\mat{A}\vect{x}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-4>
+Which has nonreal eigenvalues $\lambda_1,\lambda_2=\alpha\pm\beta i$ and corresponding eigenvectors $\vect{v_1}$ and $\vect{v_2}$. We can then write:
+\begin{equation*}
+\vect{x}=c_1 e^{\lambda_1 t}\vect{v_1}+c_2 e^{\lambda_2 t}\vect{v_2}.
+\end{equation*}
+\visible<2->{However, we want this solution in terms of the real vectors $\vect{p}$ and $\vect{q}$.}
+
+\vspace{2mm}
+\visible<3->{So, for eigenvalue $\lambda_1=\alpha+\beta i$ and corresponding eigenvector $\vect{v_1}=\vect{p}+\vect{q}i$ we get the solution
+\begin{equation*}
+\vect{x_1}(t)=e^{\lambda_1 t}\vect{v_1}=e^{\alpha+\beta i}\left(\vect{p}+\vect{q}i\right)
+\end{equation*}}
+
+\visible<4->{\vspace{-5mm}
+Just like with second-order systems, we shall find that the real and imaginary parts of the complex solution above are both real and linearly independent solutions of the system.}
+\onslide<5-11>
+Suppose that
+\begin{equation*}
+\vect{x}(t)=\xReal(t)+i\xImag(t)
+\end{equation*}
+is a complex vector solution to the system, with $\xImag\neq\vect{0}$.
+
+\vspace{2mm}
+\visible<6->{Then
+\begin{equation*}
+\visible<6-9>{\vect{x}^{\prime}}
+\visible<7-9>{=}
+\visible<7->{\xReal^\prime(t)+i \xImag^\prime(t)}
+\visible<8->{=\mat{A}\xReal(t)+i\mat{A}\xImag(t)}
+\visible<9>{=\mat{A}\vect{x}(t)}
+\end{equation*}}
+
+\visible<10->{\vspace{-2mm}
+Separately equating the real and imaginary parts, we get:
+\begin{equation*}
+\xReal^\prime(t)=\mat{A}\xReal(t)
+\quad\text{and}\quad
+\xImag^\prime(t)=\mat{A}\xImag(t)
+\end{equation*}}
+
+\visible<11->{\vspace{-2mm}
+Thus, $\xReal(t)$ and $\xImag(t)$ are separate real solutions to the system.}
+\onslide<12-18>
+For the complex solution
+\begin{equation*}
+\vect{x_1}(t)=e^{\lambda_1 t}\vect{v_1}=e^{\alpha+\beta i}\left(\vect{p}+\vect{q}i\right)
+\end{equation*}
+we can determine the real and imaginary parts by using Euler's formula:
+\begin{equation*}
+e^{i\theta}=\cos[\theta]+i\sin[\theta]
+\end{equation*}
+
+\visible<13->{\vspace{-6mm}
+to write:
+\begin{equation*}
+\begin{aligned}
+e^{\lambda_1 t}\vect{v_1}&=e^{\alpha t+\beta t i}\left(\vect{p}+\vect{q}i\right)\\
+\visible<14->{&=e^{\alpha t}e^{\beta t i}\left(\vect{p}+\vect{q}i\right)}\\
+\visible<15->{&=e^{\alpha t}\left(\cos[\beta t]+i\sin[\beta t]\right)\left(\vect{p}+\vect{q}i\right)}\\
+\visible<16->{&=e^{\alpha t}\left(\cos[\beta t]\left(\vect{p}+\vect{q}i\right)+i\sin[\beta t]\left(\vect{p}+\vect{q}i\right)\right)}\\
+&\vphantom{=\underbrace{e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)}_{\xReal(t)}+i \underbrace{e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}_{\xImag(t)}}
+\temporal<17>{\phantom{{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}}}%
+{=e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)+i e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}%
+{=\underbrace{e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q}\right)}_{\xReal(t)}+i \underbrace{e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right)}_{\xImag(t)}}\\
+\end{aligned}
+\end{equation*}}
+\onslide<19->
+Since $\xReal(t)$ and $\xImag(t)$ are linearly independent solutions they must span the solution space. Thus, the general solution, for $c_1,c_2\in\R$, is
+\begin{equation*}
+\vect{x}(t)=c_1\xReal(t)+c_2\xImag(t)
+\end{equation*}
+\visible<20->{Any solutions derived from $\lambda_2$ and $\vect{v_2}$ will be linear combinations \\ of $\xReal(t)$ and $\xImag(t)$.}
+\end{overprint}
+\vspace{-5mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Solving $2\by 2$ DE System with Nonreal Eigenvalues}
+For the two-dimensional linear homogeneous differential equation $\vect{x}^\prime=\mat{A}\vect{x}$ with real matrix $\mat{A}$, eigenvalues $\lambda_1,\lambda_2=\alpha\pm i\beta$ ($\beta\neq 0$) the general solution can be found using the following steps:
+\onslide<+->
+\begin{enumerate}[<+- | alert@+>]
+\item For one eigenvector $\lambda_1$, find it's corresponding eigenvector $\vect{v_1}$. The second eigenvalue $\lambda_2$ and it's eigenvector $\vect{v_2}$ are complex conjugates of the first. The eigenvectors are of the form $\vect{v_1},\vect{v_2}=\vect{p}\pm i\vect{q}$.
+\item Construxt the linearly independent real ($\xReal$) and imaginary ($\xImag$) parts of the solutions as follows:
+\begin{equation*}
+\begin{aligned}
+\xReal(t) &= e^{\alpha t}\left(\cos[\beta t]\vect{p}-\sin[\beta t]\vect{q} \right)\\
+\xImag(t) &= e^{\alpha t}\left(\sin[\beta t]\vect{p}+\cos[\beta t]\vect{q} \right) \\
+\end{aligned}
+\end{equation*}
+\item The general solution is
+\begin{equation*}
+\vect{x}(t)=c_1\xReal(t)+c_2\xImag(t)
+\end{equation*}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{overprint}
+\onslide<1-4>
+Consider the system
+\begin{equation*}
+\vect{x}^\prime=\mat{A}\vect{x}=
+\begin{bmatrix}[rr]
+6 & -1 \\
+5 &  4 \\
+\end{bmatrix}\vect{x}
+\end{equation*}
+\visible<2->{The eigenvalues are $\lambda_1,\lambda_2=5\pm 2i$ and
+\begin{equation*}
+\vect{v_1}=\bvector{1,1}+i\bvector{\+0,-2}
+\end{equation*}}
+
+\vspace{-5mm}
+\visible<3->{Thus
+
+\vspace{-8mm}
+\begin{equation*}
+\begin{aligned}
+\xReal(t)&=e^{5t}\cos[2t]\bvector{1,1}-e^{5t}\sin[2t]\bvector{\+0,-2}=e^{5t}\bvector{\cos[2t],\cos[2t]+2\sin[2t]}\\
+\xImag(t)&=e^{5t}\sin[2t]\bvector{1,1}+e^{5t}\cos[2t]\bvector{\+0,-2}=e^{5t}\bvector{\sin[2t],\sin[2t]-2\cos[2t]}\\
+\end{aligned}
+\end{equation*}}
+
+\visible<4->{\vspace{-2mm}
+And general solution
+\begin{equation*}
+\vect{x}(t)=e^{5t}\left(c_1 \bvector{\cos[2t],\cos[2t]+2\sin[2t]}+c_2 \bvector{\sin[2t],\sin[2t]-2\cos[2t]}\right)
+\end{equation*}}
+\onslide<5->
+\begin{center}
+\begin{asy}
+size(235);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+// eigenvectors and eigenvalues
+pair p=(1,1);
+pair q=(0,-2);
+real alpha=5;
+real beta=2;
+
+real Xreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.x-sin(beta*t)*q.x);}
+real Yreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.y-sin(beta*t)*q.y);}
+
+real Ximag (real t) { return exp(alpha*t)*(sin(beta*t)*p.x+cos(beta*t)*q.x);}
+real Yimag (real t) { return exp(alpha*t)*(sin(beta*t)*p.y+cos(beta*t)*q.y);}
+
+// draw some trajectories
+real t_start=-1.5;
+real t_end=1.0;
+
+triple[] curves = {	(  0.1,  0.0, 0.08), 
+					(  1.5,  0.0, 0.003), 
+					(  2.9,  0.0, 0.003), 
+					( -0.2,  0.0, 0.01), 
+					( -1.5,  0.0, 0.003), 
+					( -3.0,  0.0, 0.003), 
+					(  0.0,  1.5, 0.01), 
+					(  0.0,  2.9, 0.005), 
+					(  1.0,  0.1, 0.0101), 
+					(  0.0, -0.2, 0.06), 
+					(  0.0, -1.5, 0.01), 
+					(  0.0, -3.0, 0.005)};
+					
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=A-B/2;
+	real X(real t) {return c_1*Xreal(t)+c_2*Ximag(t);}
+	real Y(real t) {return c_1*Yreal(t)+c_2*Yimag(t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+// draw axes
+xaxis("$x$", YEquals(0), min_x, max_x, Ticks(OmitFormat(0,1)));
+yaxis("$y$", XEquals(0), min_y, max_y, Ticks(OmitFormat(0,4,-4)));
+
+// draw origin stability
+drawequilibrium((0,0),0.1,false);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-81mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{overprint}
+\onslide<1-4>
+Consider the system
+\begin{equation*}
+\vect{x}^\prime=\mat{A}\vect{x}=
+\begin{bmatrix}[rr]
+ 0 &  1 \\
+-5 & -2 \\
+\end{bmatrix}\vect{x}
+\end{equation*}
+\visible<2->{The eigenvalues are $\lambda_1,\lambda_2=-1\pm 2i$ and
+\begin{equation*}
+\vect{v_1}=\bvector{\+1,-1}+i\bvector{0,2}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<3->{Thus
+
+\vspace{-4mm}
+\begin{equation*}
+\begin{aligned}
+\xReal(t)&=e^{-t}\cos[2t]\bvector{\+1,-1}-e^{-t}\sin[2t]\bvector{0,2}\\
+\xImag(t)&=e^{-t}\sin[2t]\bvector{\+1,-1}+e^{-t}\cos[2t]\bvector{0,2}\\
+\end{aligned}
+\end{equation*}}
+
+\visible<4->{\vspace{-2mm}
+And general solution
+\begin{equation*}
+\vect{x}(t)=e^{-t}\left(c_1 \bvector{\cos[2t],-\cos[2t]-2\sin[2t]}+c_2 \bvector{\sin[2t],-\sin[2t]+2\cos[2t]}\right)
+\end{equation*}}
+\onslide<5->
+\begin{center}
+\begin{asy}
+size(235);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+// eigenvectors and eigenvalues
+pair p=(1,-1);
+pair q=(0,2);
+real alpha=-1;
+real beta=2;
+
+real Xreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.x-sin(beta*t)*q.x);}
+real Yreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.y-sin(beta*t)*q.y);}
+
+real Ximag (real t) { return exp(alpha*t)*(sin(beta*t)*p.x+cos(beta*t)*q.x);}
+real Yimag (real t) { return exp(alpha*t)*(sin(beta*t)*p.y+cos(beta*t)*q.y);}
+
+// draw some trajectories
+real t_start=-1.0;
+real t_end=4.0;
+
+triple[] curves = {	(  1.1,  0.0, 0.6), 
+					(  2.1,  0.0, 0.6), 
+					( -1.0,  0.0, 0.6), 
+					( -2.0,  0.0, 0.6)};
+					
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=A-B/2;
+	real X(real t) {return c_1*Xreal(t)+c_2*Ximag(t);}
+	real Y(real t) {return c_1*Yreal(t)+c_2*Yimag(t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+// draw axes
+xaxis("$x$", YEquals(0), min_x, max_x, Ticks(OmitFormat(0,1)));
+yaxis("$y$", XEquals(0), min_y, max_y, Ticks(OmitFormat(0,4,-4)));
+
+// draw origin stability
+drawequilibrium((0,0),0.11,true);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-81mm}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{overprint}
+\onslide<1-4>
+Consider the system
+\begin{equation*}
+\vect{x}^\prime=\mat{A}\vect{x}=
+\begin{bmatrix}[rr]
+ 4 & -5 \\
+ 5 & -4 \\
+\end{bmatrix}\vect{x}
+\end{equation*}
+\visible<2->{The eigenvalues are $\lambda_1,\lambda_2=0\pm 3i$ and
+\begin{equation*}
+\vect{v_1}=\bvector{5,4}+i\bvector{\+0,-3}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<3->{Thus
+
+\vspace{-4mm}
+\begin{equation*}
+\begin{aligned}
+\xReal(t)&=\cos[3t]\bvector{5,4}-\sin[3t]\bvector{\+0,-3}=\bvector{5\cos[3t],4\cos[3t]+3\sin[3t]}\\
+\xImag(t)&=\sin[3t]\bvector{5,4}+\cos[3t]\bvector{\+0,-3}=\bvector{5\sin[3t],4\sin[3t]-3\cos[3t]}\\
+\end{aligned}
+\end{equation*}}
+
+\visible<4->{\vspace{-2mm}
+And general solution
+\begin{equation*}
+\vect{x}(t)=c_1 \bvector{5\cos[3t],4\cos[3t]+3\sin[3t]}+c_2 \bvector{5\sin[3t],4\sin[3t]-3\cos[3t]}
+\end{equation*}}
+\onslide<5->
+\begin{center}
+\begin{asy}
+size(235);
+
+real min_x=-4, max_x=4;
+real min_y=-4, max_y=4;
+
+pair start=(min_x,min_y);
+pair end=(max_x,max_y);
+
+// eigenvectors and eigenvalues
+pair p=(5,4);
+pair q=(0,-3);
+real alpha=0;
+real beta=3;
+
+real Xreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.x-sin(beta*t)*q.x);}
+real Yreal (real t) { return exp(alpha*t)*(cos(beta*t)*p.y-sin(beta*t)*q.y);}
+
+real Ximag (real t) { return exp(alpha*t)*(sin(beta*t)*p.x+cos(beta*t)*q.x);}
+real Yimag (real t) { return exp(alpha*t)*(sin(beta*t)*p.y+cos(beta*t)*q.y);}
+
+// draw some trajectories
+real t_start=-1.0;
+real t_end=4.0;
+
+triple[] curves = {	(  0.4,  1.6, 0.1), 
+					(  0.3,  1.3, 0.25), 
+					(  0.2,  1.0, 0.3), 
+					(  0.1,  0.5, 0.5)};
+					
+for (triple k : curves)
+{
+	real A=k.x;
+	real B=k.y;
+	real c_1=A;
+	real c_2=A-B/2;
+	real X(real t) {return c_1*Xreal(t)+c_2*Ximag(t);}
+	real Y(real t) {return c_1*Yreal(t)+c_2*Yimag(t);}
+	draw(graph(X,Y,t_start,t_end),next_color()+1.0bp,Arrow(Relative(k.z)));
+}
+
+limits(start,end,Crop);
+
+// draw axes
+xaxis("$x$", YEquals(0), min_x, max_x, Ticks(OmitFormat(0,1)));
+yaxis("$y$", XEquals(0), min_y, max_y, Ticks(OmitFormat(0,4,-4)));
+
+// draw origin stability
+drawequilibrium((0,0),0.11,true);
+\end{asy}
+\end{center}
+\end{overprint}
+\vspace{-81mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Behavior of Solutions}
+\begin{itemize}[<+- | alert@+>]
+\item An \textbf{unstable equilibrium} is one where all solutions spiral away from the origin. (Since $\alpha>0$.)
+\item A \textbf{asymptotically stable equilibrium} is one where all solutions spiral towards the origin. (Since $\alpha<0$.) Technically they never reach zero, because the origin is a separate, fixed-point solution.
+\item An \textbf{stable equilibrium} is one where the trajectories neither grow nor decay, they just circle in a periodic motion. (Since $\alpha=0$.)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Nullclines for a DE System}
+For a two-dimensional system
+\begin{equation*}
+\begin{aligned}
+x^\prime &= f(x,y) \\
+y^\prime &= g (x,y) \\
+\end{aligned}
+\end{equation*}
+\begin{itemize}
+\item The \textbf{$v$-nullcline} is the set of all points with vertical slope, which occur on the curve obtained by solving $x^\prime=f (x,y)=0$.
+\item The \textbf{$h$-nullcline} is the set of all points with horizontal slope, which occur on the curve obtained by solving $y^\prime=g (x,y)=0$.
+\end{itemize}
+When an $h$-nullcline and an $v$-nullcline intersect, an \textbf{equilibrium} occurs.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Interpreting the Solutions}
+\onslide<+->
+For $\vect{x}^\prime=\mat{A}\vect{x}$ with nonreal eigenvalues $\lambda_1,\lambda_2=\alpha\pm\beta i$ and comple eigenvectors $\vect{v_1},\vect{v_2}=\vect{p}+\vect{q}i$, arrange the components of the solution as
+\begin{equation*}
+\bvector{\xReal,\xImag}=
+\underbrace{%
+\vphantom{%
+\begin{bmatrix}[rr]
+\cos[\beta t] & -\sin[\beta t] \\
+\sin[\beta t] &  \cos[\beta t] \\
+\end{bmatrix}}
+e^{\alpha t}}_{\text{expansion}}
+\underbrace{%
+\begin{bmatrix}[rr]
+\cos[\beta t] & -\sin[\beta t] \\
+\sin[\beta t] &  \cos[\beta t] \\
+\end{bmatrix}}_{\text{rotation}}
+\underbrace{\bvector{\vect{p},\vect{q}}}_{\text{tilt and shape}}
+\end{equation*}
+\begin{enumerate}[<+- | alert@+>]
+\item The first factor $e^{\alpha t}$ determines \emph{expansion} or \emph{contraction}.
+\begin{itemize}[<.->]
+\item If $\alpha>0$, then trajectories spiral outward, representing unbound growth.
+\item If $\alpha<0$, then trajectories spiral inward, decay to zero.
+\item If $\alpha=0$, then trajectories are closed loops, representing periodic solutions.
+\end{itemize}
+\item The second factor is the rotation matrix, which describes the spiral. The angle of rotation $\beta t$ is ever growing.
+\item The third factor, containing $\vect{p}$ and $\vect{q}$, determines the \emph{tilt} and \emph{shape} of the \emph{elliptical trajectories} that would result with $\alpha=0$.
+\end{enumerate}
+\end{block}
+\end{frame}
+\end{document}

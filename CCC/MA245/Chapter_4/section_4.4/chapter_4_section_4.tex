@@ -1,0 +1,601 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\title[MATH 2250 - Section 4.4]{Undetermined Coefficients}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Remember}
+If $L$ is a linear differential operator defined by
+\begin{equation*}
+L(y)=a_n(t)y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y^\prime+a_0(t)y
+\end{equation*}
+(where all functions of $t$ are assumed to be defined over some interval $I$) then we can look at superposition for the DE $L(y)=f(t)$.
+\end{block}\pause
+
+\begin{block}{Superposition Principle for Nonhomogeneous Linear DEs}
+If $y_i(t)$ is a solution of $L(y)=f_i(t)$, for $i=1,2,\ldots,n$, and\\ constants $c_1,c_2,\ldots,c_n\in\R$, then
+\begin{equation*}
+y(t)=c_1 y_1(t) + c_2 y_2(t) + \cdots + c_n y_n(t)
+\end{equation*}
+is a solution of
+\begin{equation*}
+L(y)=c_1 f_1(t) + c_2 f_2(t) + \cdots + c_n f_n(t)
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Nonhomogeneous Principle for Linear DEs}
+The general solution of the nonhomogeneous linear DE $L(y)=f$ is
+\begin{equation*}
+y=y_h+y_p
+\end{equation*}
+where
+\begin{itemize}
+\item $y_h$ is the general solution of $L(y)=0$
+\item $y_p$ is a particular solution of $L(y)=f$
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Note}
+This is just applying the superposition principle for $f_1(t)=0$ and $f_2(t)=f$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the nonhomogeneous second-order DE
+
+\vspace{-4mm}
+\begin{overprint}
+\onslide<1>
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=2t+1-2e^{t}
+\end{equation*}
+\onslide<2->
+\begin{equation*}
+\underbrace{y^{\prime\prime}-y^{\prime}-2y}_{L(y)}=\underbrace{2t+1}_{f_1}\underbrace{-2e^{t}}_{f_2}
+\end{equation*}
+\end{overprint}
+\onslide<3->
+
+\vspace{1mm}
+We can verify the following following:
+
+\vspace{-3mm}
+\begin{center}
+\begin{tabular}{ccc}
+\onslide<3->
+$y_1=-t$  & is a solution to & $L(y)=f_1$\\
+\onslide<4->
+$y_2=e^t$ & is a solution to & $L(y)=f_2$.
+\end{tabular}
+\end{center}
+\onslide<5->
+
+\vspace{-1mm}
+We can then use superposition to build a particular solution
+
+\vspace{-3mm}
+\begin{equation*}
+y_p=y_1+y_2=-t+e^t
+\end{equation*}
+\onslide<6->
+
+\vspace{-5mm}
+Finally, we use characteristic roots to solve $L(y)=0$
+
+\vspace{-3mm}
+\begin{equation*}
+r^2-r-2=0
+\onslide<7->
+\rightarrow r_1=2,\ r_2=-1
+\onslide<8->
+\rightarrow y_h=c_1e^{2t}+c_2e^{-t}
+\end{equation*}
+\onslide<9->
+
+\vspace{-6mm}
+Thus, the general solution is
+
+\vspace{-4mm}
+\begin{equation*}
+y=y_h+y_p=c_1e^{2t}+c_2e^{-t}-t+e^t
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the nonhomogeneous second-order DE
+
+\vspace{-4mm}
+\begin{overprint}
+\onslide<1>
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=t+\tfrac{1}{2}+8e^t
+\end{equation*}
+\onslide<2->
+\begin{equation*}
+\underbrace{y^{\prime\prime}-y^{\prime}-2y}_{L(y)}=\underbrace{t+\tfrac{1}{2}}_{\tfrac{1}{2}f_1}+\underbrace{8e^t}_{-4f_2}
+\end{equation*}
+\end{overprint}
+\onslide<3->
+Using the solutions found in the last example, we can use superposition to build a particular solution to this DE\@.
+\begin{equation*}
+y_p=\tfrac{1}{2}y_1-4y_2
+\onslide<4->
+=-\tfrac{1}{2}t-4e^t
+\end{equation*}
+\onslide<5->
+Finally, we have already solved $L(y)=0$. So, the general solution is
+\begin{equation*}
+y=y_h+y_p=c_1e^{2t}+c_2e^{-t}-\tfrac{1}{2}t-4e^t
+\end{equation*}
+\end{example}
+\onslide<6->
+\begin{block}{Note}
+After accumulating some experience, a solution can be guessed by just \quotetext{inspecting} the equation. By recognizing the patterns.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the second-order DE 
+\begin{equation*}
+ay^{\prime\prime}+by^{\prime}+cy=d
+\end{equation*}
+where all the coefficients and forcing term are constant.\pause
+
+\vspace{2mm}
+We can see that, when $c\neq 0$, $y_p=\tfrac{d}{c}$ is a particular solution.
+\end{example}\pause
+\begin{block}{Note}
+This idea works well for the $n$th-order equation
+\begin{equation*}
+a_n(t)y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y^\prime+a_0(t)y=d
+\end{equation*}
+provided that $a_0\neq 0$.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Inspection of
+\begin{equation*}
+y^{\prime\prime}+y^{\prime}=1
+\end{equation*}\pause 
+leads to the solution $y_p=t$.
+\end{example}\pause
+
+\begin{example}
+Inspection of
+\begin{equation*}
+y^{\prime\prime}-y=\sin[t]
+\end{equation*}\pause
+leads to the solution $y_p=-\tfrac{1}{2}\sin[t]$
+\end{example}\pause
+
+\begin{example}
+Inspection of
+\begin{equation*}
+y^{\prime\prime}+y^{\prime}-3y=9e^{3t}
+\end{equation*}\pause
+leads to the solution $y_p=e^{3t}$
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Note}
+There are a few limitations of this method:\\ It only works for linear differential equations with specific forcing terms.
+\end{block}\pause
+
+\begin{block}{Forcing Terms That Work With Undetermined Coefficients}
+Any finite products or sums of:
+\begin{itemize}
+\item Polynomials in $t$.
+\item Exponentials $e^{at}$.
+\item Sinusoidal functions of the form $\cos[kt]$ and $\sin[kt]$.
+\end{itemize}
+\end{block}\pause
+\begin{block}{Note}
+Even with these limitations, undetermined coefficients is widely used, given that many functions are built from the above parts.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=3t^2-1
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ in $\Poly_2$. Which means $y_p$ will be of the form
+\begin{equation*}
+y_p=At^2+Bt+C
+\end{equation*}
+
+\visible<3->{%
+We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=2At+B\\
+y_p^{\prime\prime}&=2A
+\end{aligned}
+\end{equation*}}
+\onslide<4-7>
+Plugging these into the DE gives
+\begin{equation*}
+\begin{aligned}
+2A-(2At+B)-2(At^2+Bt+C)&=3t^2-1\\
+\visible<5->{(-2A)t^2+(-2A-2B)t+(2A-B-2C)&=3t^2-1}
+\end{aligned}
+\end{equation*}
+\visible<6->{So, equating both sides gives the system
+\begin{equation*}
+-2A=3
+,\quad
+-2A-2B=0
+,\quad
+2A-B-2C=-1
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<7->{Which has solution $A=-\dfrac{3}{2}$, $B=\dfrac{3}{2}$, and $C=-\dfrac{7}{4}$.}
+
+\onslide<8->
+Thus, the particular solution is
+\begin{equation*}
+y_p=-\dfrac{3}{2}t^2+\dfrac{3}{2}t+\dfrac{7}{4}
+\end{equation*}
+
+\visible<9->{Since the homogeneous equation has characteristic equation 
+\begin{equation*}
+r^2-r-2=(r-2)(r+1)=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<10->{
+The general solution is
+\begin{equation*}
+y=c_1e^{2t}+c_2e^{-t}-\dfrac{3}{2}t^2+\dfrac{3}{2}t+\dfrac{7}{4}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=2e^{-3t}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=Ae^{-3t}
+\end{equation*}
+\visible<3->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=-3Ae^{-3t}\\
+y_p^{\prime\prime}&=9Ae^{-3t}
+\end{aligned}
+\end{equation*}}
+\onslide<4-6>
+Plugging these into the DE gives
+\begin{equation*}
+\begin{aligned}
+9Ae^{-3t}+3Ae^{-3t}-2Ae^{-3t}&=2e^{-3t}\\
+\visible<5->{10Ae^{-3t}&=2e^{-3t}}
+\end{aligned}
+\end{equation*}
+\visible<6->{So, equating both sides gives
+\begin{equation*}
+10A=2
+\quad\rightarrow\quad
+A=\dfrac{1}{5}
+\end{equation*}}
+
+\onslide<7->
+Thus, the particular solution is
+\begin{equation*}
+y_p=\dfrac{1}{5}e^{-3t}
+\end{equation*}
+
+\visible<8->{Since the homogeneous equation has characteristic equation 
+\begin{equation*}
+r^2-r-2=(r-2)(r+1)=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<9->{
+The general solution is
+\begin{equation*}
+y=c_1e^{2t}+c_2e^{-t}+\dfrac{1}{5}e^{-3t}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=2\cos[3t]
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=A\cos[3t]+B\sin[3t]
+\end{equation*}
+
+\visible<3->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=-3A\sin[3t]+3B\cos[3t]\\
+y_p^{\prime\prime}&=-9A\cos[3t]-9B\sin[3t]\end{aligned}
+\end{equation*}}
+\onslide<4-7>
+Plugging these into the DE gives
+\begin{equation*}
+\begin{aligned}
+\left(-9A\cos[3t]-9\sin[3t]\right)\qquad\qquad\qquad&\\
+-\left(-3A\sin[3t]+3B\cos[3t]\right)\qquad&\\
+-2\left(A\cos[3t]+B\sin[3t]\right)&=2\cos[3t]\\
+\visible<5->{(-11A-3B)\cos[3t]+(3A-11B)\sin[3t]&=2\cos[3t]}
+\end{aligned}
+\end{equation*}
+\visible<6->{So, equating both sides gives the system
+\begin{equation*}
+-11A-3B=2
+,\quad
+3A-11B=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<7->{Which has solution $A=-\dfrac{11}{65}$ and $B=-\dfrac{3}{65}$.}
+
+\onslide<8->
+Thus, the particular solution is
+\begin{equation*}
+y_p=-\dfrac{11}{65}\cos[3t]-\dfrac{3}{65}\sin[3t]
+\end{equation*}
+
+\visible<9->{Since the homogeneous equation has characteristic equation 
+\begin{equation*}
+r^2-r-2=(r-2)(r+1)=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<10->{
+The general solution is
+\begin{equation*}
+y=c_1e^{2t}+c_2e^{-t}-\dfrac{11}{65}\cos[3t]-\dfrac{3}{65}\sin[3t]\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=t^2 e^t
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-3>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=\left(At^2+Bt+C\right)e^t
+\end{equation*}
+
+\visible<3->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=\left(At^2+(2A+B)t+(B+C)\right)e^t\\
+y_p^{\prime\prime}&=\left(At^2+(4A+B)t+(2A+2B+C)\right)e^t
+\end{aligned}
+\end{equation*}}
+\onslide<4-7>
+Plugging these into the DE gives
+\begin{equation*}
+\begin{aligned}
+\left(At^2+(4A+B)t+(2A+2B+C)\right)e^t\qquad&\\
+-\left(At^2+(2A+B)t+(B+C)\right)e^t\quad&\\
++2\left(At^2+Bt+C\right)e^t&=t^2 e^t\\
+\visible<5->{\left((-2A)t^2+(2A-2B)t+(2A+B-2C)\right)e^t&=t^2 e^t}
+\end{aligned}
+\end{equation*}
+\visible<6->{So, equating both sides gives the system
+\begin{equation*}
+-2A=1
+,\quad
+2A-2B=0
+,\quad
+2A+B-2C=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<7->{Which has solution $A=-\dfrac{1}{2}$, $B=-\dfrac{1}{2}$, and $C=-\dfrac{3}{4}$.}
+
+\onslide<8->
+Thus, the particular solution is
+\begin{equation*}
+y_p=\left(-\dfrac{1}{2}t^2-\dfrac{1}{2}t-\dfrac{3}{4}\right)e^t
+\end{equation*}
+
+\visible<9->{Since the homogeneous equation has characteristic equation 
+\begin{equation*}
+r^2-r-2=(r-2)(r+1)=0
+\end{equation*}}
+
+\vspace{-3mm}
+\visible<10->{
+The general solution is
+\begin{equation*}
+y=c_1e^{2t}+c_2e^{-t}+\left(-\dfrac{1}{2}t^2-\dfrac{1}{2}t-\dfrac{3}{4}\right)e^t\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider
+\begin{equation*}
+y^{\prime\prime}-y^{\prime}-2y=5e^{2t}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=Ae^{2t}
+\end{equation*}
+
+\visible<3->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=2Ae^{2t}\\
+y_p^{\prime\prime}&=4Ae^{2t}
+\end{aligned}
+\end{equation*}}
+\visible<4->{Substituting into the DE gives
+\begin{equation*}
+\begin{aligned}
+4Ae^{2t}-2Ae^{2t}-2Ae^{2t}&=5e^{2t}\\
+\visible<5->{0&=5e^{2t}}
+\end{aligned}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<6->{Thats not good. We'll have to try something else.}
+\onslide<7-8>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=Ate^{2t}
+\end{equation*}
+\visible<8->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=(2At+A)e^{2t}\\
+y_p^{\prime\prime}&=(4A+4A)e^{2t}
+\end{aligned}
+\end{equation*}}
+\onslide<9->
+Substituting into the DE gives
+\begin{equation*}
+\begin{aligned}
+(4A+4A)e^{2t}-2Ae^{2t}-2Ate^{2t}&=5e^{2t}\\
+\visible<10->{3Ae^{2t}&=5e^{2t}}
+\end{aligned}
+\end{equation*}
+\visible<11->{When we equate both sides we get $3A=5$ and so $A=\dfrac{5}{3}$.}
+
+\visible<12->{And so, the particular solution is
+\begin{equation*}
+y_p=\dfrac{5}{3}te^{2t}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}Consider
+\begin{equation*}
+y^{\prime\prime}-2y^{\prime}+y=3e^{t}
+\end{equation*}
+\begin{overprint}
+\onslide<1>
+\onslide<2-6>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=Ae^{t}
+\end{equation*}
+\visible<3->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=Ae^{t}\\
+y_p^{\prime\prime}&=Ae^{t}
+\end{aligned}
+\end{equation*}}
+\visible<4->{Substituting into the DE gives
+\begin{equation*}
+\begin{aligned}
+Ae^{t}-2Ae^{t}+Ae^{2t}&=3e^{t}\\
+\visible<5->{0&=3e^{t}}
+\end{aligned}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<6->{Thats not good. We'll have to try something else.}
+
+\onslide<7-11>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=Ate^{t}
+\end{equation*}
+\visible<8->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=Ae^{t}+Ate^t\\
+y_p^{\prime\prime}&=2Ae^t+Ate^t
+\end{aligned}
+\end{equation*}}
+\visible<9->{Substituting into the DE gives
+\begin{equation*}
+\begin{aligned}
+2Ae^t+Ate^t-2\left(Ae^{t}+Ate^t\right)+Ate^{t}&=3e^{t}\\
+\visible<10->{0&=3e^{t}}
+\end{aligned}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<11->{This too is a problem. We'll have to try something else.}
+\onslide<12-13>
+Let us look for $y_p$ of the form
+\begin{equation*}
+y_p=At^2e^{t}
+\end{equation*}
+\visible<13->{We can then calculate:
+\begin{equation*}
+\begin{aligned}
+y_p^{\prime}&=2Ate^t+At^2 e^t\\
+y_p^{\prime\prime}&=2Ae^t+4Ate^t+At^2e^t
+\end{aligned}
+\end{equation*}}
+\onslide<14->
+Substituting into the DE gives
+\begin{equation*}
+\begin{aligned}
+2Ae^t+4Ate^t+At^2e^t-2\left(2Ate^t+At^2 e^t\right)+At^2e^{t}&=5e^{2t}\\
+\visible<15->{2Ae^{t}&=5e^{2t}}
+\end{aligned}
+\end{equation*}
+\visible<16->{When we equate both sides we get $2A=5$ and so $A=\dfrac{5}{2}$.}
+
+\visible<17->{\vspace{2mm}
+And so, the particular solution is
+\begin{equation*}
+y_p=\dfrac{5}{2}te^{2t}
+\end{equation*}}
+\end{overprint}
+\end{example}
+\end{frame}
+\end{document}

@@ -1,0 +1,380 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\title[MATH 2250 - Section 2.2]{Solving the First-Order Linear Differential Equation}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Euler-Lagrange Two-Stage Method}
+We saw last section that the general solution for the linear first-order differential equation
+\begin{equation*}
+y^\prime+p(t) y = f(t)
+\end{equation*}
+has the form $y=y_h+y_p$.\pause
+
+\vspace{2mm}
+We solved the corresponding homogenous equation using separation of variables, getting a one-parameter family
+\begin{equation*}
+y_h=c e^{-\int p(t) dt}
+\end{equation*}
+where $c\in\R$.\pause
+
+\vspace{2mm}
+The second step is to find a particular solution, which we will accomplish using \textbf{variation of parameters}, which was developed by French mathematician Joseph Louis Lagrange.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Variation of Parameters}
+The idea of variation of parameters is to start with
+\begin{equation*}
+y_h(t)=c e^{-\int p(t) dt}
+\end{equation*}
+\onslide<2->
+and change the constant $c$ to a function $v(t)$ and try a solution of the form
+\begin{equation*}
+y_p(t)=v(t) e^{-\int p(t) dt}
+\end{equation*}
+where the unknown function $v(t)$ is called the \textbf{varying parameter}.
+
+\onslide<3->
+\vspace{2mm}
+Our goal is to find $v(t)$, to do so we need to substitute $y_p$ into the DE\@.
+
+\vspace{-4mm}
+\begin{overprint}
+\onslide<3>
+\begin{equation*}
+\underbrace{\left(v^\prime(t) e^{-\int p(t)dt}-p(t)v(t) e^{-\int p(t)dt}\right)}_{y^\prime_p}
++
+\underbrace{p(t)v(t)e^{-\int p(t)dt}}_{p(t)y_p} = f(t)
+\end{equation*}
+\onslide<4>
+\vspace{4mm}
+\begin{equation*}
+v^\prime(t) e^{-\int p(t)dt} = f(t)
+\end{equation*}
+\onslide<5>
+\vspace{4mm}
+\begin{equation*}
+v^\prime(t) = f(t) e^{\int p(t)dt}
+\end{equation*}
+\onslide<6->
+\vspace{3mm}
+\begin{equation*}
+v(t) = \int f(t) e^{\int p(t)dt} dt
+\end{equation*}
+\end{overprint}
+\onslide<7->
+\vspace{-4mm}
+Now that we have $v(t)$, we have determined a particular solution.
+\begin{equation*}
+y_p(t) = v(t) e^{-\int p(t) dt} = e^{-\int p(t) dt} \int f(t) e^{\int p(t)dt} dt 
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the IVP
+\begin{equation*}
+y^\prime + \left(\dfrac{1}{t+1}\right)y = 2,\quad y(0)=0,\quad t\geq 0
+\end{equation*}
+\begin{overprint}
+\onslide<2-8>
+\textbf{Step 1.} We start by solving the associated homogeneous equation.
+\begin{equation*}
+y^\prime + \left(\dfrac{1}{t+1}\right)y = 0
+\end{equation*}
+\visible<3->{Let us assume for the moment that $y\neq0$ and use separation of variables.
+\begin{center}
+\begin{tabular}{rcl}
+\only<3>{$\dfrac{dy}{y}$ &$=$& $-\dfrac{dt}{t+1}$ \\}
+\only<4>{$\ln \abs{y}$ &$=$& $-\ln[t+1] + c$ \\}
+\only<5-6>{$\abs{y}$ & $=$ &}\only<5>{$e^{{\ln[t+1]}^{-1} + c}$}\only<6>{$e^c {\left(t+1\right)}^{-1}$}\only<5-6>{\\}
+\only<7->{$y_h$ &$=$&} \only<7>{$\pm\dfrac{e^c}{t+1}$}\only<8->{$\dfrac{k}{t+1}$}
+\end{tabular}
+\end{center}}
+\visible<8->{where $k=\pm e^c$}
+\onslide<9-14>
+\textbf{Step 2.} Next, using variation of parameters, we try
+\begin{equation*}
+y_p = \dfrac{v(t)}{t+1}
+\end{equation*}
+\visible<10->{which gives:
+\begin{equation*}
+\vphantom{\dfrac{v^\prime(t)}{t+1} = 2}
+\only<10>{v^\prime(t) e^{-\int p(t) dt} = f(t)}
+\only<11>{\dfrac{v^\prime(t)}{t+1} = 2}
+\only<12>{v^\prime(t) = 2t+2}
+\only<13->{v(t) = t^2+2t+c}
+\end{equation*}}
+
+\vspace{-5mm}
+\visible<14->{But, we only need a single $v(t)$, so we can let $c=0$, giving
+\begin{equation*}
+y_p=\dfrac{t^2+2t}{t+1}
+\end{equation*}}
+\onslide<15->
+\textbf{Step 3.} Thus, the general solution is:
+\begin{equation*}
+y(t) = y_h + y_p = \dfrac{k}{t+1}+\dfrac{t^2+2t}{t+1}
+\end{equation*}
+\visible<16->{\textbf{Step 4.} Substituting the initial condition into the general solution gives:
+\begin{equation*}
+0 = y(0) = \dfrac{k}{(0)+1}+\dfrac{{(0)}^2+2(0)}{(0)+1}
+\visible<17->{\Rightarrow k=0}
+\end{equation*}}
+\visible<18->{Which means that the solution to the IVP is
+\begin{equation*}
+y(t)=\dfrac{t^2+2t}{t+1}
+\end{equation*}}
+\end{overprint}
+\vspace{-5mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Euler Lagrange Method for Solving Linear First-Order DEs}
+To solve a linear differential equation
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+where $p$ and $f$ are continuous on a domain $I$, use the following steps.
+\begin{description}
+\item[Step 1.] Solve the corresponding homogenous equation $y^\prime+p(t)y=0$ to obtain the one-parameter family.
+
+\vspace{-3mm}
+\begin{equation*}
+y_h=c e^{-\int p(t) dt}
+\end{equation*}\vspace{-8mm}
+\item[Step 2.] Solve
+\begin{equation*}
+v^\prime(t) e^{-\int p(t)dt} = f(t)
+\end{equation*}
+for $v(t)$ to obtain a particular solution $y_p = v(t) e^{-\int p(t)dt}$.
+\item[Step 3.] Combine the results of Step 1 and Step 2 to form the general solution
+\begin{equation*}
+y(t)=y_h + y_p
+\end{equation*}
+\item[Step 4.] If you are solving an IVP, only after Step 3 can you plug in the initial condition.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Note}
+Variation of Parameters is a very powerful method, and we will see it again in our study of higher order differential equations later in the course. But, for first-order (and \emph{only} first-order) equations we have a second method, called the \textbf{Integrating Factor Method} which may also be used. \pause
+
+\vspace{2mm}
+For the differential equation
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+we will break this new method down into two cases:
+\begin{itemize}
+\item $p(t)$ is constant.
+\item $p(t)$ is variable.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Integrating Factor Method (Constant Coefficient)}
+Let us look at the first-order linear differential equation
+\begin{equation*}
+y^\prime+ ay = f(t),\quad a\in\R
+\end{equation*}
+\onslide<2->
+This method uses a simple observation made by Euler:
+\begin{equation*}
+e^{at}\left(y^\prime+ay\right) = \dfrac{d}{dt}\left(e^{at} y\right)
+\end{equation*}
+\begin{overprint}
+\onslide<3>
+Let us start with the differential equation.
+\begin{equation*}
+y^\prime+ ay = f(t)
+\end{equation*}
+\onslide<4>
+We first multiply both sides of the equation by $e^{at}$.
+\begin{equation*}
+e^{at}\left(y^\prime+ay\right) = e^{at} f(t) 
+\end{equation*}
+\onslide<5>
+We then apply Euler's observation to the left-hand side.
+\begin{equation*}
+\dfrac{d}{dt}\left(e^{at} y\right) = e^{at} f(t) 
+\end{equation*}
+\onslide<6>
+Next we integrate both sides.
+\begin{equation*}
+e^{at} y = \int e^{at} f(t)  dt + c
+\end{equation*}
+\onslide<7->
+Solving for $y$ gives:
+\begin{equation*}
+y(t) = e^{-at} \int e^{at} f(t)  dt + c e^{-at}
+\end{equation*}
+\end{overprint}
+\end{block}
+\onslide<8->
+\begin{block}{Note}
+This is the same answer we got from Variation of Parameters, though achieved through a different route. We have obtained both $y_h$ and $y_p$ at the same time.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Integrating Factor Method (Variable Coefficient)}
+Now let us look at the more general first-order differential equation
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\begin{overprint}
+\onslide<2>
+We seek a function $\mu(t)$ that satisfies Euler's observation, i.e.
+\begin{equation*}
+\mu(t)\cdot\left(y^\prime + p(t) y\right) = \dfrac{d}{dt}\left(\mu(t)\cdot y\right)
+\end{equation*}
+\onslide<3>
+Let us carry out the differentiation on the right-hand side
+\begin{equation*}
+\mu(t) y^\prime + p(t)\mu(t) y = \mu^\prime (t) y + \mu(t) y^\prime
+\end{equation*}
+\onslide<4>
+If we assume $y(t)\neq 0$, this simplifies to
+\begin{equation*}
+\mu^\prime (t) = p(t)\mu(t)
+\end{equation*}
+\onslide<5>
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\dfrac{\mu^\prime (t)}{\mu(t)} = p(t)
+\end{equation*}
+\onslide<6>
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\ln\abs{\mu(t)} = \int p(t) dt
+\end{equation*}
+\onslide<7->
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\mu(t) = e^{\int p(t) dt}
+\end{equation*}
+\end{overprint}
+\begin{overprint}
+\onslide<8>
+We now know the integrating factor, and perform the same steps as before.
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\onslide<9>
+Multiply both sides by the integrating factor.
+\begin{equation*}
+\mu(t)\cdot\left(y^\prime + p(t) y\right) = \mu(t)\cdot f(t)
+\end{equation*}
+\onslide<10>
+Apply the property $\mu(t)\cdot\left(y^\prime + p(t) y\right) = {\left(\mu(t)\cdot y\right)}^\prime$ to the left-hand side.
+\begin{equation*}
+{\left(\mu(t) y\right)}^\prime = \mu(t) f(t)
+\end{equation*}
+\onslide<11>
+Integrate both sides.
+\begin{equation*}
+\mu(t) y(t) = \int \mu(t) f(t) dt + c
+\end{equation*}
+\onslide<12->
+Assuming $\mu(t)\neq 0$, we can solve for $y$.
+\begin{equation*}
+y(t) = \dfrac{1}{\mu(t)} \int \mu(t) f(t) dt + \dfrac{c}{\mu(t)}
+\end{equation*}
+\end{overprint}
+\end{block}
+\onslide<13->
+\begin{block}{Note}
+We have again found $y_h$ and $y_p$ at the same time.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Integrating Factor Method for First-Order Linear DEs}
+\small
+To solve the linear first-order DE, where $p$ and $f$ are continuous on a domain $I$.
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\begin{description}
+\vspace{-8mm}
+\item[Step 1.] Find the integrating factor $\mu(t) = e^{\int p(t) dt}$, where $\int p(t) dt$ represents \emph{any} anti-derivative of $p(t)$.
+\item[Step 2.] Multiply both sides of the DE by $mu(t)$, which always simplifies to:
+
+\vspace{-2mm}
+\begin{equation*}
+{\left(e^{\int p(t) dt} y(t)\right)}^\prime = e^{\int p(t) dt} f(t)
+\end{equation*}
+\item[Step 3.] Find the anti-derivative to get:
+
+\vspace{-2mm}
+\begin{equation*}
+e^{\int p(t) dt} y(t) = \int e^{\int p(t) dt} f(t) dt +c
+\end{equation*}
+\item[Step 4.] Solve algebraically for $y$.
+
+\vspace{-2mm}
+\begin{equation*}
+y = e^{-\int p(t) dt} \int e^{\int p(t) dt} f(t) dt + c e^{-\int p(t) dt}
+\end{equation*}
+\item[Step 5.] For IVPs, substitute the initial conditions in to find $c$.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the IVP
+\begin{equation*}
+y^\prime - y = t,\quad y(0) = 1
+\end{equation*}
+Let us solve this DE using the Integrating Factor method.
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<2-6>
+\textbf{Step 1.} Find the integrating factor:
+\begin{equation*}
+\mu(t) = \alt<3->{e^{\int (-1) dt}}{e^{\int p(t) dt}} \visible<4->{=e^{-t}}
+\end{equation*}
+\visible<5->{\textbf{Step 2.} Multiply both sides of the DE by $\mu(t)$:
+\begin{equation*}
+e^{-t}\left(y^\prime - y\right) = te^{-t}
+\end{equation*}}
+\visible<6->{Which reduces to:
+\begin{equation*}
+{\left(e^{-t} y\right)}^\prime = t e^{-t}
+\end{equation*}}
+\onslide<7->
+\textbf{Step 3.} Find the antiderivative:
+\begin{equation*}
+e^{-t} y = \int t e^{-t} dt \visible<8->{= e^{-t}(-t-1)+c}
+\end{equation*}
+\visible<9->{\textbf{Step 4.} Solve for $y$:
+\begin{equation*}
+y(t) = e^t \left(e^{-t}\right)\left(-t-1\right) + c e^{t} \visible<10->{=-t-1+ce^{t}}
+\end{equation*}}
+\visible<11->{\textbf{Step 5.} Plug in the initial conditions to find the solution to the IVP\@:
+\begin{equation*}
+1 = y(0) = -0-1+c e^{0} \visible<12->{\Rightarrow c = 2}
+\end{equation*}}
+\visible<13->{Thus, the solution to the IVP is $y(t) = -t -1 + 2 e^t$}
+\end{overprint}
+\end{example}
+\end{frame}
+\end{document}
