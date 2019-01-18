@@ -7,7 +7,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-\title[MATH 2250 - Section 6.1]{Linear Systems of Differential Equations}
+\title[MA245 - Section 6.1]{Linear Systems of Differential Equations}
 
 \begin{asydef}
 import graph;
@@ -21,6 +21,10 @@ pen[] pens={blue, red, heavycyan, heavymagenta, lightolive};
 pens.cyclic=true;
 pen next_color() {return pens[++pen_pos];}
 \end{asydef}
+
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
 
 \begin{document}
 
