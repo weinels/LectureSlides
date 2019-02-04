@@ -72,7 +72,7 @@ A common problem consists of liquids being mixed in a tank. We will start with a
 \node[align=left,right=1cm] (outlet-unit) at (exit) {Out};
 \draw[-myarrow] ([xshift=5mm]exit) -- (outlet-unit);
 
-% Fall water (i use `parabola` operation, it's more realistic, bacause it's a fall water) 
+% Fall water (i use `parabola` operation, it's more realistic, because it's a fall water) 
 \fill[water] ([shift={(0.5pt,-2.5mm)}]entrance) parabola (0.3*\tankwidth,1pt) -- 
  (0.5*\tankwidth,1pt) parabola[bend at end] ([shift={(0.5pt,2.5mm)}]entrance);
  
@@ -159,13 +159,13 @@ A tank initially contains 50 gal of pure water. A solution containing 2 lb/gal o
 \begin{aligned}
 \visible<2->{\thingin{Rate} &= \temporal<3>{(\thingin{Concentration})(\thingin{Flow})}{(2~\text{lb/gal})(3~\text{gal/min})}{6~\text{lb/min}}\\}
 \vphantom{\dfrac{x}{50}\dfrac{3}{50}}
-\visible<2->{\thingout{Rate} &= \temporal<5>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{50}~\text{gal/min}\right)(3~\text{gal/min})}{\dfrac{3}{50}x~\text{lb/min}}}
+\visible<2->{\thingout{Rate} &= \temporal<5>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{50}~\text{lb/gal}\right)(3~\text{gal/min})}{\dfrac{3}{50}x~\text{lb/min}}}
 \end{aligned}
 \end{equation*}}
 \visible<7->{The IVP is:
 \begin{equation*}
 \vphantom{\dfrac{3}{50}}
-\only<7-8>{x^\prime = \alt<8>{\thingin{Rate} - \thingout{Rate}}{6~\text{lb/min}-\dfrac{3}{50}x~\text{lb/min}}}
+\only<7-8>{x^\prime = \alt<8>{6~\text{lb/min}-\dfrac{3}{50}x~\text{lb/min}}{\thingin{Rate} - \thingout{Rate}}}
 \only<9->{x^\prime + 0.06x = 6}
 ,\quad x(0)=0
 \end{equation*}}
@@ -188,7 +188,7 @@ x(t) = 100\left(1-e^{-0.06t}\right)
 \vspace{2mm}
 \visible<13->{We need to plug $t=20$ into the above solution:
 \begin{equation*}
-x(20) = 100\left(1-e^{-0.06(2)}\right)\approx 69.9~\text{lb}
+x(20) = 100\left(1-e^{-0.06(20)}\right)\approx 69.9~\text{lb}
 \end{equation*}}
 \onslide<14-15>
 \vspace{2mm}
@@ -283,7 +283,7 @@ A tank initially contains 100 gal of pure water. A brine containing 1 lb/gal of 
 
 \draw[|-|] ([xshift=-2mm]0,0) -- node[xshift=-12mm]{$V_{0} = 100$ gal}([xshift=-2mm]0,\waterheight); 
 
-% Fall water (i use `parabola` operation, it's more realistic, bacause it's a fall water) 
+% Fall water (i use `parabola` operation, it's more realistic, because it's a fall water) 
 \fill[water] ([shift={(0.5pt,-2.5mm)}]entrance) parabola (0.3*\tankwidth,1pt) -- 
  (0.5*\tankwidth,1pt) parabola[bend at end] ([shift={(0.5pt,2.5mm)}]entrance);
 
@@ -302,7 +302,7 @@ A tank initially contains 100 gal of pure water. A brine containing 1 lb/gal of 
 \begin{aligned}
 \visible<3->{\thingin{Rate} &= \temporal<4>{(\thingin{Concentration})(\thingin{Flow})}{(1~\text{lb/gal})(1~\text{gal/min})}{1~\text{lb/min}}\\} 
 \vphantom{\dfrac{2x}{100-t}\dfrac{x}{100-t}} % chktex 29
-\visible<3->{\thingout{Rate} &= \temporal<6>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{100-t}~\text{gal/min}\right)(2~\text{gal/min})}{\dfrac{2x}{100-t}~\text{lb/min}}} % chktex 29
+\visible<3->{\thingout{Rate} &= \temporal<6>{(\thingout{Concentration})(\thingout{Flow})}{\left(\dfrac{x}{100-t}~\text{lb/gal}\right)(2~\text{gal/min})}{\dfrac{2x}{100-t}~\text{lb/min}}} % chktex 29
 \end{aligned}
 \end{equation*}}
 \visible<8->{The IVP is:
@@ -448,7 +448,8 @@ T^\prime = k(20-T),\quad T(0) = 70
 
 \vspace{-3mm}
 \begin{equation*}
-\alt<4>{T(t) = 70 e^{-kt} + 20(1-e^{-kt})}{T(t) = 20+50 e^{-kt}}
+T(t) = 70 e^{-kt} + 20(1-e^{-kt})
+\visible<5->{ = 20+50 e^{-kt}}
 \end{equation*}}
 
 \vspace{-5mm}
@@ -459,7 +460,7 @@ T^\prime = k(20-T),\quad T(0) = 70
 T(t) = 20+50 e^{t\ln[0.6]/2}
 \end{equation*}}
 \onslide<7->
-\question{At what time will the temperature inside be $70^\circ$F?}
+\question{At what time will the temperature inside be $40^\circ$F?}
 
 \vspace{2mm}
 \visible<8->{This is the same as asking what $t$-value gives $T(t)=40$.}
@@ -468,6 +469,7 @@ T(t) = 20+50 e^{t\ln[0.6]/2}
 \begin{equation*}
 40 = 20 + 50 e^{t\ln[0.6]/2}
 \end{equation*}}
+
 \visible<10->{Which has solution:
 \begin{equation*}
 t= \dfrac{2\ln[0.4]}{\ln[0.6]}\approx 3.592
