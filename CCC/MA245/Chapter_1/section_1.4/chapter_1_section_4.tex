@@ -569,7 +569,7 @@ y_2&=y_1+h\cdot f(t_1, y_1) \\
 &= -1+(0.1)(0.1)(1-2(-1))=-0.97\\\\}
 \visible<5->{%
 t_3&=t_2+h=0.2+0.1=0.3\\
-y_3&=y_0+h\cdot f(t_2, y_2) \\
+y_3&=y_2+h\cdot f(t_2, y_2) \\
 &= -0.97+(0.1)(0.2)(1-2(-0.97))=-0.9112\\\\}
 \visible<6->{%
 t_4&=t_3+h=0.3+0.1=0.4\\
@@ -754,7 +754,7 @@ We call this error the \textbf{local discretization error} because it estimates 
 \begin{frame}
 \begin{block}{Global Discretization Error in Euler's Method}
 If the solution of the IVP $y^\prime=f(t,y)$, $y(t_0)=y_0$ has a continuous second derivative on the interval $[t_0, t_k]$, and $y_n$ is the value of the Euler approximation at $t_n$, $t_0<t_1<\cdots<t_n\cdots<t_k$, then there exists a constant $C$ such that 
-\[\abs{y_n-y(t_n)}\leq C\cdot h,\ \ \ \ n=1,2,\dots,k.\]
+\[\abs{y_n-y(t_n)}\leq C\cdot h^2,\ \ \ \ n=1,2,\dots,k.\]
 where step size $h=t_n-t_{n-1}$.
 \end{block}
 \end{frame}
@@ -788,7 +788,7 @@ where
 k_{n_1}&=f(t_n,y_n)\\
 k_{n_2}&=f\left(t_n+\dfrac{h}{2},y_n+\dfrac{h}{2}\cdot k_{n_1}\right)\\
 k_{n_3}&=f\left(t_n+\dfrac{h}{2},y_n+\dfrac{h}{2}\cdot k_{n_2}\right)\\
-k_{n_2}&=f\left(t_n+h,y_n+h\cdot k_{n_3}\right)
+k_{n_4}&=f\left(t_n+h,y_n+h\cdot k_{n_3}\right)
 \end{aligned}
 \end{equation*}
 \end{block}
