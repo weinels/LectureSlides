@@ -1,0 +1,257 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{asy_helper}
+\usepackage{subcaption}
+
+\title[MA230 - Section 9.5]{Linear Equations}
+
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Definition}
+A first-order linear differential equation is one that can be put into the form
+\begin{equation*}
+\dfrac{dy}{dt}+P(t)\cdot y = Q(t)
+\end{equation*}
+\end{block}
+\onslide<2->
+\begin{block}{Integrating Factor Method (Constant Coefficient)}
+Let us look at the first-order linear differential equation
+\begin{equation*}
+y^\prime+ ay = f(t),\quad a\in\R
+\end{equation*}
+\onslide<3->
+This method uses a simple observation made by Euler:
+\begin{equation*}
+e^{at}\left(y^\prime+ay\right) = \dfrac{d}{dt}\left(e^{at} y\right)
+\end{equation*}
+\begin{overprint}
+\onslide<4>
+Let us start with the differential equation.
+\begin{equation*}
+y^\prime+ ay = f(t)
+\end{equation*}
+\onslide<5>
+We first multiply both sides of the equation by $e^{at}$.
+\begin{equation*}
+e^{at}\left(y^\prime+ay\right) = e^{at} f(t) 
+\end{equation*}
+\onslide<6>
+We then apply Euler's observation to the left-hand side.
+\begin{equation*}
+\dfrac{d}{dt}\left(e^{at} y\right) = e^{at} f(t) 
+\end{equation*}
+\onslide<7>
+Next we integrate both sides.
+\begin{equation*}
+e^{at} y = \int e^{at} f(t)  dt + c
+\end{equation*}
+\onslide<8->
+Solving for $y$ gives:
+\begin{equation*}
+y(t) = e^{-at} \int e^{at} f(t)  dt + c e^{-at}
+\end{equation*}
+\end{overprint}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Integrating Factor Method (Variable Coefficient)}
+Now let us look at the more general first-order differential equation
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\begin{overprint}
+\onslide<2>
+We seek a function $\mu(t)$ that satisfies Euler's observation, i.e.
+\begin{equation*}
+\mu(t)\cdot\left(y^\prime + p(t) y\right) = \dfrac{d}{dt}\left(\mu(t)\cdot y\right)
+\end{equation*}
+\onslide<3>
+Let us carry out the differentiation on the right-hand side
+\begin{equation*}
+\mu(t) y^\prime + p(t)\mu(t) y = \mu^\prime (t) y + \mu(t) y^\prime
+\end{equation*}
+\onslide<4>
+If we assume $y(t)\neq 0$, this simplifies to
+\begin{equation*}
+\mu^\prime (t) = p(t)\mu(t)
+\end{equation*}
+\onslide<5>
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\dfrac{\mu^\prime (t)}{\mu(t)} = p(t)
+\end{equation*}
+\onslide<6>
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\ln\abs{\mu(t)} = \int p(t) dt
+\end{equation*}
+\onslide<7->
+We can find a solution $\mu(t)>0$ by Separation of Variables.
+\begin{equation*}
+\mu(t) = e^{\int p(t) dt}
+\end{equation*}
+\end{overprint}
+\begin{overprint}
+\onslide<8>
+We now know the integrating factor, and perform the same steps as before.
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\onslide<9>
+Multiply both sides by the integrating factor.
+\begin{equation*}
+\mu(t)\cdot\left(y^\prime + p(t) y\right) = \mu(t)\cdot f(t)
+\end{equation*}
+\onslide<10>
+Apply the property $\mu(t)\cdot\left(y^\prime + p(t) y\right) = {\left(\mu(t)\cdot y\right)}^\prime$ to the left-hand side.
+\begin{equation*}
+{\left(\mu(t) y\right)}^\prime = \mu(t) f(t)
+\end{equation*}
+\onslide<11>
+Integrate both sides.
+\begin{equation*}
+\mu(t) y(t) = \int \mu(t) f(t) dt + c
+\end{equation*}
+\onslide<12->
+Assuming $\mu(t)\neq 0$, we can solve for $y$.
+\begin{equation*}
+y(t) = \dfrac{1}{\mu(t)} \int \mu(t) f(t) dt + \dfrac{c}{\mu(t)}
+\end{equation*}
+\end{overprint}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Integrating Factor Method for First-Order Linear DEs}
+\small
+To solve the linear first-order DE, where $p$ and $f$ are continuous on a domain $I$.
+\begin{equation*}
+y^\prime + p(t) y = f(t)
+\end{equation*}
+\begin{description}
+\item[Step 1.] Find the integrating factor $\mu(t) = e^{\int p(t) dt}$, where $\int p(t) dt$ represents \emph{any} anti-derivative of $p(t)$.
+\item[Step 2.] Multiply both sides of the DE by $mu(t)$, which always simplifies to:
+
+\vspace{-2mm}
+\begin{equation*}
+{\left(e^{\int p(t) dt} y(t)\right)}^\prime = e^{\int p(t) dt} f(t)
+\end{equation*}
+\item[Step 3.] Find the anti-derivative to get:
+
+\vspace{-2mm}
+\begin{equation*}
+e^{\int p(t) dt} y(t) = \int e^{\int p(t) dt} f(t) dt +c
+\end{equation*}
+\item[Step 4.] Solve algebraically for $y$.
+
+\vspace{-2mm}
+\begin{equation*}
+y = e^{-\int p(t) dt} \int e^{\int p(t) dt} f(t) dt + c e^{-\int p(t) dt}
+\end{equation*}
+\item[Step 5.] For IVPs, substitute the initial conditions in to find $c$.
+\end{description}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the IVP
+\begin{equation*}
+y^\prime - y = t,\quad y(0) = 1
+\end{equation*}
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<2-6>
+\textbf{Step 1.} Find the integrating factor:
+\begin{equation*}
+\mu(t) = \alt<3->{e^{\int (-1) dt}}{e^{\int p(t) dt}} \visible<4->{=e^{-t}}
+\end{equation*}
+\visible<5->{\textbf{Step 2.} Multiply both sides of the DE by $\mu(t)$:
+\begin{equation*}
+e^{-t}\left(y^\prime - y\right) = e^{-t}
+\end{equation*}}
+\visible<6->{Which reduces to:
+\begin{equation*}
+{\left(e^{-t} y\right)}^\prime = t e^{-t}
+\end{equation*}}
+\onslide<7->
+\textbf{Step 3.} Find the antiderivative:
+\begin{equation*}
+e^{-t} y = \int t e^{-t} dt \visible<8->{= e^{-t}(-t-1)+c}
+\end{equation*}
+\visible<9->{\textbf{Step 4.} Solve for $y$:
+\begin{equation*}
+y(t) = e^t \left(e^{-t}\right)\left(-t-1\right) + c e^{t} \visible<10->{=-t-1+ce^{t}}
+\end{equation*}}
+\visible<11->{%
+
+\vspace{-5mm}
+\textbf{Step 5.} Plug in the initial conditions to find the solution to the IVP\@:
+\begin{equation*}
+1 = y(0) = -0-1+c e^{0} \visible<12->{\Rightarrow c = 2}
+\end{equation*}}
+\visible<13->{Thus, the solution to the IVP is $y(t) = -t -1 + 2 e^t$}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the IVP
+\begin{equation*}
+y^\prime + \dfrac{1}{t}y = \dfrac{1}{t^2}\quad(\text{assume}~t>0),\quad y(1) = 3
+\end{equation*}
+
+\vspace{2mm}
+\begin{overprint}
+\onslide<2-6>
+\textbf{Step 1.} Find the integrating factor:
+\begin{equation*}
+\mu(t) = \alt<3->{e^{\int (\tfrac{1}{t}) dt}}{e^{\int p(t) dt}} \visible<4->{=e^{\ln[t]}=t}
+\end{equation*}
+\visible<5->{\textbf{Step 2.} Multiply both sides of the DE by $\mu(t)$:
+\begin{equation*}
+t\left(y^\prime - y\right) = \dfrac{1}{t^2}\cdot t
+\end{equation*}}
+\visible<6->{Which reduces to:
+\begin{equation*}
+{\left(t \cdot y\right)}^\prime = \dfrac{1}{t}
+\end{equation*}}
+\onslide<7->
+\textbf{Step 3.} Find the antiderivative:
+\begin{equation*}
+t y = \int \dfrac{1}{t} dt  \visible<8->{= \ln[t] + c}
+\end{equation*}
+\visible<9->{\textbf{Step 4.} Solve for $y$:
+\begin{equation*}
+y(t) = \dfrac{\ln[t] + c}{t}
+\end{equation*}}
+\visible<10->{%
+
+\vspace{-5mm}
+\textbf{Step 5.} Plug in the initial conditions to find the solution to the IVP\@:
+\begin{equation*}
+3 = y(1) = \dfrac{\ln[1] + c}{1} \visible<11->{\Rightarrow c = 3}
+\end{equation*}}
+
+\vspace{-4mm}
+\visible<12->{Thus, the solution to the IVP is $y(t) = \dfrac{\ln[t] + 3}{t}$}
+\end{overprint}
+\end{example}
+\end{frame}
+
+\end{document}
