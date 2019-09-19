@@ -157,7 +157,7 @@ If two events are \textbf{disjoint}, then $\prob{A~\text{or}~B} = \prob{A}+\prob
 
 \begin{frame}
 \begin{example}
-Suppose we draw one card from a standard deck. Let us calculate the probability that we get a red card for a King.\pause
+Suppose we draw one card from a standard deck. Let us calculate the probability that we get a red card or a King.\pause
 
 \vspace{2mm}
 Half the cards are red, so $\prob{\text{Red}}=\dfrac{26}{52}$.\pause
@@ -244,9 +244,9 @@ The probability that the first card is a heart is $\prob{\text{\nth{1} $\suithea
 The probability that the second card is a heart, given that the first card was a heart, is $\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}}=\dfrac{12}{51}$.\pause
 
 \vspace{2mm}
-So, the probability that both are spades is
+So, the probability that both are hearts is
 \begin{equation*}
-\prob{\text{both $\suitheart$}}=\prob{\text{\nth{1} $\suitheart$}}\cdot\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}} =  \dfrac{13}{52} \cdot \dfrac{12}{52} = \dfrac{156}{2652} \approx 5.9\%
+\prob{\text{both $\suitheart$}}=\prob{\text{\nth{1} $\suitheart$}}\cdot\condprob{\text{\nth{2} $\suitheart$}}{\text{\nth{1} $\suitheart$}} =  \dfrac{13}{52} \cdot \dfrac{12}{51} = \dfrac{156}{2652} \approx 5.9\%
 \end{equation*}
 \end{example}
 \end{frame}
@@ -256,9 +256,9 @@ So, the probability that both are spades is
 If you draw two cards from a deck, find the probability that you will get the Ace of Diamonds and a black card.\pause
 
 \vspace{1mm}
-There are two events we have to consider:\pause
+The order you draw the two cards doesn't matter, so there are two events:\pause
 \begin{description}
-\item[Event $A$] Drawing the Ace of Diamonds then a black card.
+\item[Event $A$] Drawing the Ace of Diamonds then drawing a black card.
 \begin{equation*}
 \begin{aligned}
 \prob{\suitdiamond[A]~\text{and Black}} &= \prob{\suitdiamond[A]}\cdot\condprob{\text{Black}}{\suitdiamond[A]}\\
@@ -267,7 +267,7 @@ There are two events we have to consider:\pause
 \end{equation*}\pause
 
 \vspace{-4mm}
-\item[Event $B$] Drawing a black card then the Ace of Diamonds.
+\item[Event $B$] Drawing a black card then drawing the Ace of Diamonds.
 \begin{equation*}
 \begin{aligned}
 \prob{\text{Black and}~\suitdiamond[A]} &= \prob{\text{Black}}\cdot\condprob{\suitdiamond[A]}{\text{Black}} \\
