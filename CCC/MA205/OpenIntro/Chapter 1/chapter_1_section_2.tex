@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+
+\setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
+\setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
+\setbeamerfont{footnote}{size*={6pt}{2pt}}
+
+\title[MA205 - Section 1.2]{Data Basics}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{data matrix} is common way to organize data, especially if collecting data in a spreadsheet.
+\end{definition}\pause
+
+\begin{example}
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{cccccccc}\hline
+& loan\textunderscore amount & interest\_rate & term & grade & state & total\_income & homeownership \\\hline
+1 & 7500 & 7.34 & 36 & A & MD & 70000 & rent \\
+2 & 25000 & 9.43 & 60 & B & OH & 254000 & mortgage \\
+3 & 14500 & 6.08 & 36 & A & MO & 80000 & mortgage \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+50 & 3000 & 7.96 & 36 & A & CA & 34000 & rent 
+\end{tabular}
+\end{center}
+\end{example}
+\end{frame}
+
+\end{document}

@@ -253,7 +253,7 @@ Which means
 &=\int_0^\infty t^2~e^{-st}~\step(t)~dt + \int_0^\infty (1-t^2)~e^{-st}~\step(t-1)~dt\\
 \visible<4->{&=\int_0^\infty t^2~e^{-st}~dt + \int_1^\infty e^{-st}~dt - \int_1^\infty t^2~e^{-st}~dt\\}
 \visible<5->{&=\int_0^1 t^2~e^{-st}~dt + \int_1^\infty e^{-st}~dt \\}
-\visible<6->{&=\dfrac{2}{s}-e^{-st}\left(\dfrac{1}{s}+\dfrac{2}{s^2}+\dfrac{2}{s^3}\right)+\dfrac{1}{s}e^{-s} \\}
+\visible<6->{&=\dfrac{2}{s}-e^{-s}\left(\dfrac{1}{s}+\dfrac{2}{s^2}+\dfrac{2}{s^3}\right)+\dfrac{1}{s}e^{-s} \\}
 \visible<7->{&=\dfrac{2}{s^2}-2e^{-s}\left(\dfrac{1}{s^2}+\dfrac{1}{s^3}\right) \\}
 \end{aligned}
 \end{equation*}
@@ -602,10 +602,10 @@ f(t)&=
 Thus,
 \begin{equation*}
 \begin{aligned}
-\laplace\{f(t)\}&=-e^{-s}\laplace\{-\sin[\pi (t+1)]\}+e^{2s}\laplace\{\sin[\pi (t+2)]\}\\\pause
+\laplace\{f(t)\}&=-e^{-s}\laplace\{-\sin[\pi (t+1)]\}+e^{-2s}\laplace\{\sin[\pi (t+2)]\}\\\pause
 \laplace\{f(t)\}&=-e^{-s}\laplace\{-\sin[\pi t]\cos[\pi]-\cos[\pi t]\sin[\pi]\}\\
-&\hspace{4.2mm}+e^{2s}\laplace\{\sin[\pi t]\cos[2\pi]+\cos[\pi t]\sin[2\pi]\}\\\pause
-&=-e^{-s}\laplace\{\sin[\pi t]\}+e^{2s}\laplace\{\sin[\pi t]\}\\\pause
+&\hspace{4.2mm}+e^{-2s}\laplace\{\sin[\pi t]\cos[2\pi]+\cos[\pi t]\sin[2\pi]\}\\\pause
+&=-e^{-s}\laplace\{\sin[\pi t]\}+e^{-2s}\laplace\{\sin[\pi t]\}\\\pause
 &=\laplace\{\sin[\pi t]\}(e^{-s}+e^{-2s})\\\pause
 &=\dfrac{\pi}{s^2+\pi^2}(e^{-s}+e^{-2s})
 \end{aligned}
@@ -759,7 +759,7 @@ f_h(t)=
 \begin{cases}
 0 & \text{if}~t<0 \\
 \tfrac{1}{h} & \text{if}~0\leq t<h \\
-0 & \text{if}~y\geq h
+0 & \text{if}~t\geq h
 \end{cases}
 \end{equation*}
 such that 
@@ -770,7 +770,7 @@ Dirac suggested that
 
 \vspace{-4mm}
 \begin{equation*}
-\delta(t)=\lim_{b\rightarrow 0} f_h(t)
+\delta(t)=\lim_{h\rightarrow 0} f_h(t)
 \end{equation*}
 \end{column}
 \begin{column}{0.45\textwidth}

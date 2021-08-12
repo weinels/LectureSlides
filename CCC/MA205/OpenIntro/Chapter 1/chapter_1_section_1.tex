@@ -1,0 +1,221 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{blindtext}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
+\setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
+\setbeamerfont{footnote}{size*={6pt}{2pt}}
+
+\title[MA205 - Section 1.1]{Case Study: Using Stents to Prevent Strokes}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{Efficacy of a Medical Treatment}
+A classic challenge in statistics is to determine how effective a medical treatment truly is.
+\end{block}\pause
+
+\begin{note}
+The terms introduced in this first chapter will be revisited later. 
+\end{note}\pause
+
+\begin{definition}
+A \textbf{stent} is a device put inside blood vessels that assist in patient recovery after cardiac events and reduce the risk of an additional heart attack or death.
+\end{definition}\pause
+
+\begin{block}{Case Study}
+Many doctors have hoped that stents would have similar benefits for patients at risk of strokes.\pause
+
+The question researchers need to answer is: 
+\vspace{-1.5mm}\begin{center}\textbf{Does the use of stents reduce the risk of stroke?}\end{center}\vspace{0.1mm}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Experiment}
+The researchers conducted an experiment with 451 at-risk patients.
+
+Each volunteer patient was randomly assigned into one of two groups.
+\end{block}\pause
+
+\begin{block}{Treatment group (224 patients)}
+These patients received a stent and medical management. 
+\end{block}\pause
+
+\begin{note}
+The medical management included medications, management of risk factors, and help in lifestyle modification.
+\end{note}\pause
+
+\begin{block}{Control group (227 patients)}
+These patients received the same medical management, but did not receive a stent.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Data Gathering}
+The researchers studied the effect of stents at two time points:\pause
+\begin{itemize}
+\item 30 days after enrollment\pause
+\item 365 days after enrollment\pause
+\end{itemize}
+\end{block}
+
+\begin{block}{Data}
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{lccc}\hline
+Patient & group & 0-30 days & 0-365 days \\\hline
+1 & treatment & no event & no event \\
+2 & treatment & stroke & stroke \\
+3 & treatment & no event & no event \\
+4 & treatment & no event & stroke \\
+\vdots & \vdots & \vdots & \vdots \\
+451 & control & no event & no event
+\end{tabular}
+\end{center}
+\end{block}\pause
+
+\begin{note}
+Listing each patient line-by-line is very cumbersome.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Descriptive Statistics}
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{lccccc}
+&\multicolumn{2}{c}{0-30 days}&&\multicolumn{2}{c}{0-365 days} \\
+&stroke & no event & & stroke& no event \\\hline
+treatment & 33 & 191 & & 45 & 179 \\
+control & 13 & 214 & & 28 & 199 \\\hline
+total & 46 & 405 & & 73 & 378\\
+\end{tabular}
+\end{center}
+\end{block}\pause
+
+\begin{block}{Question}
+What percentage of the treatment group had a stroke in the first year?\pause
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{\text{number of treatment group that had a stroke}}{\text{total size of treatment group}}\pause
+=\dfrac{45}{224}\pause
+ = 0.20 = 20\%
+\end{equation*}
+\vspace{-3mm}
+\end{block}\pause
+\begin{block}{Question}
+What percentage of the control group had a stroke in the first year?\pause
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{\text{number of control group that had a stroke}}{\text{total size of control group}}\pause
+= \dfrac{28}{224}\pause
+ = 0.12 = 12\%
+\end{equation*}
+\vspace{-3mm}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+This means an additional 8\% of patients with a stent had a stroke!
+\end{note}\pause
+
+\begin{definition}
+A \textbf{summary statistic} is a single number summarizing a large amount of data.
+\end{definition}\pause
+
+\begin{block}{Why is this important?}
+\begin{enumerate}
+\item Many doctors expected stents to reduce the chance of a stroke.\pause
+\item Does the data show a \textquote{real} difference between the groups?
+\end{enumerate}
+\end{block}\pause
+
+\begin{note}
+The second question is a real subtle one and most of the statistical tools we discuss will be used to address this question.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Signifigance}
+What is the chance of getting a head when flipping a quarter?\pause 
+
+Theoretically it is 50\%. But if you flip a large number of coins, you rarely get exactly half heads and half tails.\pause
+
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{ccccc}\hline
+\multicolumn{2}{c}{heads} & \multicolumn{2}{c}{tails} & total \\\hline
+5,045 & 50.4\% & 4,955 & 49.5\% & 10,000\\
+4,969 & 49.7\% & 5,031 & 50.3\% & 10,000\\
+5,064 & 50.6\% & 4,936 & 49.4\% & 10,000\\
+5,091 & 50.9\% & 4,909 & 49.1\% & 10,000\\
+4,972 & 49.7\% & 5,028 & 50.3\% & 10,000\\
+5,021 & 50.2\% & 4,979 & 49.8\% & 10,000\\
+5,007 & 50.1\% & 4,993 & 49.9\% & 10,000\\
+5,031 & 50.3\% & 4,969 & 49.7\% & 10,000\\
+5,056 & 50.6\% & 4,944 & 49.4\% & 10,000\\
+5,006 & 50.1\% & 4,994 & 49.9\% & 10,000\\
+\end{tabular}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+The published results of the study were:
+\vspace{-1.5mm}\begin{center}\usebeamerfont{quote}There was compelling evidence of harm by stents in this study of stroke patients.\end{center}\vspace{-4mm}
+\rule{0.5\linewidth}{0.4pt}
+
+{\usebeamerfont{footnote} Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003. \url{http://nejm.org/doi/full/10.1056/NEJMoa1105335}}
+\end{note}\pause
+
+\begin{block}{Be careful}
+Do not generalize the results of this study to all patients and all stents.\pause
+
+\begin{itemize}
+\item This study considered patients with very specific characteristics who volunteered to be a part of the study and may not be representative of all stroke patients.\pause
+\item There are many types of stents and this study only considered the self-expanding Wingspan stent.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Percentages Review}
+\begin{itemize}
+\item \textbf{Percentage of:} To find a percentage of an amount, replace the \% symbol with division by 100 and multiply by the amount.
+\begin{description}
+\item[Example:] 6\% of 1200 responses is $\frac{6}{100}\cdot 1200=72$
+\end{description}
+\item \textbf{Decimal to Percentage:} To convert from a decimal to a percentage, multiply by 100\%.
+\begin{description}
+\item[Example:] $0.25\rightarrow 0.25\cdot100\%=25\%$
+\end{description}
+\item \textbf{Fraction to Percentage:} To convert from a fraction to a percentage, divide the denominator into the numerator and multiply by 100\%.
+\begin{description}
+\item[Example:] $\frac{3}{4}=0.75\rightarrow 0.75\cdot 100\%=75\%$
+\end{description}
+\item \textbf{Percentage to Decimal:} To convert from a percentage to a decimal number, replace the \% by division by 100. 
+\begin{description}
+\item[Example:] $85\%\rightarrow \frac{85}{100}=0.85$
+\end{description}
+\end{itemize}
+\end{block}
+\end{frame}
+\end{document}
