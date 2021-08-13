@@ -6,6 +6,11 @@
 \usepackage{textcomp}
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
 
 \setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
 \setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
@@ -23,11 +28,11 @@
 A \textbf{data matrix} is common way to organize data, especially if collecting data in a spreadsheet.
 \end{definition}\pause
 
-\begin{example}
+\begin{example}\label{loans}
 \begin{center}
 \usebeamerfont{datamatrix}
 \begin{tabular}{cccccccc}\hline
-& loan\textunderscore amount & interest\_rate & term & grade & state & total\_income & homeownership \\\hline
+& loan\textunderscore amount & interest\textunderscore rate & term & grade & state & total\textunderscore income & homeownership \\\hline
 1 & 7500 & 7.34 & 36 & A & MD & 70000 & rent \\
 2 & 25000 & 9.43 & 60 & B & OH & 254000 & mortgage \\
 3 & 14500 & 6.08 & 36 & A & MO & 80000 & mortgage \\
@@ -35,7 +40,495 @@ A \textbf{data matrix} is common way to organize data, especially if collecting 
 50 & 3000 & 7.96 & 36 & A & CA & 34000 & rent 
 \end{tabular}
 \end{center}
+\end{example}\pause
+
+\begin{definition}
+Each row is called a \textbf{case} or \textbf{observational unit}.
+\end{definition}\pause
+
+\begin{definition}
+Each column is called a \textbf{variable}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+It is very important to provide descriptions of all the variables in a data matrix. Be sure to include the units of measurement.
+\end{note}\pause
+
+\begin{example}
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{cccccccc}\hline
+& loan\textunderscore amount & interest\textunderscore rate & term & grade & state & total\textunderscore income & homeownership \\\hline
+1 & 7500 & 7.34 & 36 & A & MD & 70000 & rent \\
+2 & 25000 & 9.43 & 60 & B & OH & 254000 & mortgage \\
+3 & 14500 & 6.08 & 36 & A & MO & 80000 & mortgage \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+50 & 3000 & 7.96 & 36 & A & CA & 34000 & rent 
+\end{tabular}
+
+\vspace{2mm}
+\begin{tabular}{ll}\hline
+\textbf{variable} & \textbf{description} \\\hline
+ loan\textunderscore amount & Amount of the load received, in US dollars. \\
+ interest\textunderscore rate & Interest rate on the loan, in an annual percentage. \\
+ term & The length of the loan, which is always a whole number of months. \\
+ grade & Loan grade, which takes values A through G and represents the quality\\ 
+ & of the loan and its likelihood of being repaid. \\
+ state & US state where the borrower resides. \\
+ total\textunderscore income & Borrower's total income, including any second income, in US dollars. \\
+ homeownership & Indicates whether the person owns, owns but has a mortgage, or rents.
+\end{tabular}
+\end{center}
 \end{example}
 \end{frame}
 
+\begin{frame}
+\begin{definition}
+\textbf{Numerical} data consisting of numbers representing counts or measurements. Sometimes referred to as \textbf{Quantitative} data.
+\end{definition}\pause
+
+\begin{definition}
+\textbf{Categorical} data consisting of names or labels (not numbers). Sometimes referred to as \textbf{Qualitative} data.
+\end{definition}\pause
+
+\begin{note}
+The names and labels in categorical data are sometimes coded with numbers. When a number is used as a name it is \textbf{not} quantitative.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\question{The ages (in years) of subjects enrolled in a clinical trail are?}\pause
+
+\vspace{1mm}
+Numerical data.\pause
+\end{example}
+
+\begin{example}
+\question{The genders (male / female / non-binary) of subjects enrolled in a clinical trial are?}\pause
+
+\vspace{1mm}
+Categorical data. \pause
+
+\end{example}
+
+\begin{example}\label{idnums}
+\question{Identification numbers $1, 2, 3, \ldots, 25$ are assigned randomly to 25 subjects in a clinical trail. The identification numbers are?}\pause
+
+\vspace{1mm}
+Categorical Data.
+\end{example}\pause
+
+\begin{note}
+The numbers in Example~\ref{idnums} don't actually measure or count anything.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Discrete data} result when the data values are numerical and the number of values is finite, or countable.
+\end{definition}\pause
+
+\begin{example}
+Each of several physicians plans to count the number of physical examinations given during the next full week.
+\end{example}\pause
+
+\begin{example}
+Casino employees plan to roll a fair die until the number 5 is rolled, and they count the number of rolls required to get a 5. (It is possible, but unlikely, that a 5 could never be rolled.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Continuous data} result from infinitely many possible numerical values, where the collection of values is not countable.
+\end{definition}\pause
+
+\begin{example}
+When a typical patient has blood drawn as part of a routine examination, the volume of blood drawn is between 0 mL and 50 mL.
+\end{example}\pause
+
+\begin{example}
+The unemployment rate for Los Angeles County is 4.69\%.
+\end{example}\pause
+
+\begin{example}
+A grade school teacher measures the heights of his students.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{nominal level of measurement} is characterized by data that consist of names, labels, or categories only. The data cannot be arranged in some meaningful order, such as low to high.
+\end{definition}\pause
+
+\begin{example}
+A survey has responses of \textquote{yes}, \textquote{no}, and \textquote{undecided}
+\end{example}\pause
+
+\begin{example}
+For an item on a survey, respondents are given a choice of possible answers, and they are coded as follows:
+\begin{itemize}
+\item[] 1 is coded as \textquote{I agree}
+\item[] 2 is coded as \textquote{I disagree}
+\item[] 3 is coded as \textquote{I don't care}
+\item[] 4 is coded as \textquote{I refuse to answer}
+\end{itemize}
+The numbers 1,2,3, and 4 don't count or measure anything.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{ordinal level of measurement} if they can be arranged in some order, but differences between data values either cannot be determined or are meaningless.
+\end{definition}\pause
+
+\begin{example}
+A college professor assigns grades of A, B, C, D, or F. These grades can be arranged in a meaningful order, but grades are very individualized so the difference between two students grades cannot be calculated.
+\end{example}\pause
+
+\begin{example}
+A survey asks people what they felt their blood pressure was. The possible answers are \textquote{Low}, \textquote{Normal}, \textquote{High.} These responses can be arranged in a meaningful order, but the differences between \textquote{Low} and \textquote{High} doesn't make sense.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{interval level of measurement} if they can be arranged in order, and differences between data values can be found and are meaningful. \emph{Data at this level do not have a natural zero starting point at which none of the quantity is present.}
+\end{definition}\pause
+
+\begin{example}
+Body temperatures of $\degrees{98.2}$F and $\degrees{98.9}$F are examples of data at this interval level of measurement. The values are ordered, and we can calculate their difference. There is no natural starting point. (The value $\degrees{0}$F is an arbitrary choice and doesn't represent the complete absence of heat.)
+\end{example}\pause
+
+\begin{example}
+The years 1492 and 1776 can be arranged in order, and the difference of 284 years is meaningful. But, time doesn't not have a natural starting point that represents \textquote{no time.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data are at the \textbf{ratio level of measurement} if they can be arranged in order, differences can be found and are meaningful, and there is a natural starting point which indicates that none of the quantity is present. 
+\end{definition}\pause
+
+\begin{example}
+Heights of 180cm and 90cm for a high school student and a preschool student are at the ratio level of measurement. (The starting point is 0cm and 180cm is twice as tall as 90cm.)
+\end{example}\pause
+
+\begin{example}
+The times of 50 minutes and 100 minutes for a math class are at the ratio level of measurement. (The starting point is 0 minutes and 100 minutes is twice as long as 50 minutes.)
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Classification of Variables}
+\begin{center}
+\definecolor{flow_clr}{RGB}{238, 214, 234}
+\tikzstyle{box} = [rectangle, rounded corners, minimum width=2cm, minimum height=0.7cm, outer sep=.1cm, text centered, draw=black, fill=flow_clr]
+\tikzstyle{arrow} = [thick,->,>=to]
+\begin{tikzpicture}[node distance=1.4cm]
+\node (variables) [box] {all variables};
+\node (numerical) [box, below of=variables, left of=variables, xshift=-1.5cm] {numerical};
+\node (categorical) [box, below of=variables, right of=variables, xshift=1.5cm] {categorical};
+\node (continuous) [box, below of=numerical, left of=numerical] {continuous};
+\node (discrete) [box, below of=numerical, right of=numerical] {discrete};
+\node(nominal) [box, below of=categorical, left of=categorical] {nominal};
+\node(ordinal) [box, below of=categorical, right of=categorical] {ordinal};
+\draw [arrow] (variables) -- (numerical);
+\draw [arrow] (variables) -- (categorical);
+\draw [arrow] (numerical) -- (continuous);
+\draw [arrow] (numerical) -- (discrete);
+\draw [arrow] (categorical) -- (nominal);
+\draw [arrow] (categorical) -- (ordinal);
+\end{tikzpicture}
+\end{center}
+\end{block}\pause
+
+\begin{note}
+For simplicities sake, we will often treat ordinal data as nominal data.
+\end{note}\pause 
+\begin{note} 
+If your data consists of real numbers, then it is generally continuous.
+\end{note}\pause
+
+\begin{note}
+If your data consists of only integers, then it is generally discrete.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Relationships Between Variables}
+Often, researchers will want to study the relationship between variables.\pause
+
+\begin{itemize}
+\item If homeownership is lower than the national average in one county, will the percent of multi-unit structures in that county tend to be above or below the national average?\pause
+\item Does a higher than average increase in county population tend to correspond to counties with higher or lower median household incomes?\pause
+\item How useful a predictor is median education level for the median household income for US counties?
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{scatterplot} is a plot of paired $(x,y)$ numerical data with a horizontal x-axis and a vertical y-axis. The horizontal axis is used for the first variable ($x$), and the vertical axis for the second variable ($y$).
+\end{definition}\pause
+\begin{example}
+%\begin{center}
+%\begin{tikzpicture}
+%\tikzstyle{every pin}=[
+%fill=white,
+%draw=black,
+%font=\tiny,
+%]
+%\pgfkeys{/pgf/number format/.cd,
+%fixed,
+%precision=999,
+%set thousands separator={},
+%1000 sep in fractionals=false,
+%}
+%\begin{axis}[
+%clip mode=individual,
+%clip marker paths=true,
+%width=11cm,
+%height=5.0cm,
+%xlabel={Percent of Units in Multi-Unit Structures},
+%ylabel={Homeownership Rate},
+%%ymajorgrids=true,
+%%xmajorgrids=true,
+%%enlarge x limits=false,
+%%enlarge y limits=false,
+%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=\pgfmathprintnumber{\tick}\%,
+%yticklabel=\pgfmathprintnumber{\tick}\%,
+%xtick={100, 80, 60, 40, 20, 0},
+%ytick={100, 80, 60, 40, 20, 0},
+%ymin=-5,
+%ymax=100,
+%xmin=-5,
+%xmax=100,
+%scatter/use mapped color={
+%%draw=mapped color,
+%fill=black,
+%},
+%]
+%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+%table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
+%\node [coordinate,pin={[pin distance=0.65cm]75:{Washington D.C. $(43.5\%, 61.7\%)$}}] at (axis cs:43.5, 61.7) {};
+%\node [coordinate,pin={[pin distance=0.75cm]235:{Charlottesville, VA $(43.5\%, 41.3\%)$}}] at (axis cs:43.2, 41.3) {};
+%\node [coordinate,pin={[pin distance=0.5cm]270:{San Fransisco, CA $(66.6\%, 37.5\%)$}}] at (axis cs:66.6, 37.5) {};
+%\node [coordinate,pin={[pin distance=0.9cm]30:{St. Louis, MO $(53.5\%, 47.2\%)$}}] at (axis cs:53.5, 47.2) {};
+%\node [coordinate,pin={[pin distance=0.95cm]87:{Thomas County, KS. $(18.3\%, 65.1\%)$}}] at (axis cs:18.3, 65.1) {};
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When two variables show some connection with one another, they are called \textbf{associated} variables. Sometimes referred to as \textbf{dependent}.
+\end{definition}\pause
+
+\begin{definition}
+If there is a downward trend in the scatter plot, the variables are said to be \textbf{negatively associated}.
+\end{definition}\pause
+
+\begin{definition}
+If there is an upward trend in the scatter plot, the variables are said to be \textbf{positive associated}.
+\end{definition}\pause
+
+\begin{definition}
+If variables are not associated, then they are said to be \textbf{independent}.
+\end{definition}\pause
+
+\begin{note}
+It is impossible to be both associated and independent.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+%\begin{center}
+%\begin{tikzpicture}
+%\tikzstyle{every pin}=[
+%fill=white,
+%draw=black,
+%font=\tiny,
+%]
+%\pgfkeys{/pgf/number format/.cd,
+%fixed,
+%precision=999,
+%set thousands separator={},
+%1000 sep in fractionals=false,
+%}
+%\begin{axis}[
+%clip mode=individual,
+%clip marker paths=true,
+%width=11cm,
+%height=5.9cm,
+%xlabel={Percent of Units in Multi-Unit Structures},
+%ylabel={Homeownership Rate},
+%%ymajorgrids=true,
+%%xmajorgrids=true,
+%%enlarge x limits=false,
+%%enlarge y limits=false,
+%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=\pgfmathprintnumber{\tick}\%,
+%yticklabel=\pgfmathprintnumber{\tick}\%,
+%xtick={100, 80, 60, 40, 20, 0},
+%ytick={100, 80, 60, 40, 20, 0},
+%ymin=-5,
+%ymax=100,
+%xmin=-5,
+%xmax=100,
+%scatter/use mapped color={
+%%draw=mapped color,
+%fill=black,
+%},
+%]
+%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+%table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+\question{Are the Multi-Unit Structure Rate and the Homeownership Rate associated?}\pause
+
+Yes, they are negatively associated.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+%\begin{center}
+%\begin{tikzpicture}
+%\tikzstyle{every pin}=[
+%fill=white,
+%draw=black,
+%font=\tiny,
+%]
+%\pgfkeys{/pgf/number format/.cd,
+%fixed,
+%precision=999,
+%set thousands separator={},
+%1000 sep in fractionals=false,
+%}
+%\begin{axis}[
+%clip mode=individual,
+%clip marker paths=true,
+%width=11cm,
+%height=5.9cm,
+%xlabel={Median Household Income},
+%ylabel style={align=center},
+%ylabel={Population Change\\over 7 years},
+%%ymajorgrids=true,
+%%xmajorgrids=true,
+%%enlarge x limits=false,
+%%enlarge y limits=false,
+%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=\$\pgfmathprintnumber{\tick}k,
+%yticklabel=\pgfmathprintnumber{\tick}\%,
+%xtick={20000, 40000, 60000, 80000, 100000, 120000},
+%ytick={-10, 0, 10, 20},
+%scaled x ticks=base 10:-3
+%xtick scale label code/.code={}
+%ymin=-15,
+%ymax=30,
+%xmin=0,
+%xmax=130000,
+%scatter/use mapped color={
+%%draw=mapped color,
+%fill=black,
+%},
+%]
+%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt,restrict y to domain=-15:30] 
+%table [y=pop_change, x=median_hh_income, col sep=comma] {county.csv};
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+\question{Are the Median Household Income and the Population Change associated?}\pause
+
+Yes, they are positively associated.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider the question:
+\begin{center}
+\usebeamerfont{quote}
+If there is an increase in the median household income in a county, does this drive an increase in its population?
+\end{center}\pause
+
+A higher median income is likely one of the causes of an increased population.
+\end{example}\pause
+
+\begin{definition}
+When we suspect one variable might causally affect another, we label the first variable the \textbf{explanatory variable} and the second the \textbf{response variable}.
+\vspace{-4mm}
+\begin{center}
+\definecolor{box_clr}{RGB}{205, 228, 236}
+\tikzstyle{box} = [rectangle, rounded corners, minimum width=2cm, minimum height=0.5cm, outer sep=.1cm, text centered, draw=black, fill=box_clr]
+\tikzstyle{arrow} = [thick,->,>=to]
+\begin{tikzpicture}[node distance=1.4cm]
+\node (left) [box] {explanatory variable};
+\node (right) [box, right of=left, xshift=6cm] {response variable};
+\draw [arrow] (left) --  node[midway, above] {might affect} (right);
+\end{tikzpicture}
+\end{center}
+\end{definition}\pause
+
+\begin{note}
+Labeling variable like this does \textbf{nothing} to guarantee that a casual relationship exists!
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{Placebo} is a treatment that has no medicinal effect. (Such as a sugar pill or saline injection.)
+\end{definition}\pause
+
+\begin{example}
+In 1954, an experiment was designed to test the effectiveness of the Salk vaccine in preventing polio, which had killed or paralyzed thousands of children.\pause
+
+By random selection, $401, 974$ children were assigned to two groups:
+\begin{itemize}
+\item $200,745$ children were given injections of the Salk vaccine.
+\item $201,229$ children were given placebo injections that contained no drug.
+\end{itemize}\pause
+
+Among the children given the Salk vaccine, 33 later developed paralytic polio, and among the children given a placebo, 115 later developed paralytic polio.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+In an \textbf{experiment}, we apply some treatment and then proceed to observe its effects on the individuals. (The individuals in experiments are called \textbf{subjects}.)
+\end{definition}\pause
+
+\begin{note}
+In general, association does not imply causation, and causation can only be inferred from a randomized experiment.
+\end{note}\pause
+
+\begin{definition}
+In an \textbf{observational study}, we observe and measure specific characteristics, but we don't attempt to \emph{modify} the individuals being studied.
+\end{definition}\pause
+
+\begin{note}
+In general, experiments are preferable to observational studies. But there are times where there are cost, time, or ethical concerns that prohibit the use of an experiment.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose we want to determine if listening to music while driving increases the chance of being in an collision.\pause
+\begin{itemize}
+\item \textbf{Observational study:} If we gathered police reports about collisions and used them to determine if the person was listening to music or not.\pause
+\item \textbf{Experiment:} We randomly assign subjects to either listen to music while driving or listen to nothing. We then count how many collisions each subject is involved in.\pause
+\end{itemize}
+\question{Is music likely to be the cause of a collision?}\pause
+
+Automobile collisions happen due to a large number of reasons, many of which have nothing to do with music.
+\end{example}
+\end{frame}
 \end{document}
