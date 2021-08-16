@@ -12,10 +12,6 @@
 \pgfplotsset{compat=1.5} 
 \usepgfplotslibrary{statistics}
 
-\setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
-\setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
-\setbeamerfont{footnote}{size*={6pt}{2pt}}
-
 \title[MA205 - Section 1.3]{Sampling Principles and Strategies}
 
 \begin{document}
@@ -23,4 +19,63 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{definition}
+A \textbf{population} is the complete collection of all measurements or data that are being considered.
+\end{definition}\pause
+
+\begin{example}
+A researcher asks:
+\blockquote{What is the average mercury content in swordfish in the Atlantic Ocean?}
+\question{What is the target population?}\pause
+\answer{The target population is all the swordfish in the Atlantic ocean.}
+\end{example}\pause
+
+\begin{definition}
+A \textbf{census} is the collection of data from every member of a population.
+\end{definition}\pause
+
+\begin{note}
+It is often prohibitively expensive to collect data from every member of a population.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\onslide<+->{\begin{definition}
+A \textbf{sample} is a subset of members selected from a population.
+\end{definition}}
+
+\onslide<+->{\begin{example}
+In a journal article it was stated that there are 38 million carbon monoxide detectors installed in the United States. When 30 of them were randomly selected and tested, it was found that 12 of them failed an alarm in hazardous carbon monoxide conditions.
+
+\vspace{1mm}
+\question{What is the population?}}
+\onslide<+->{\answer{All 38 million carbon monoxide detectors in the United states.}}
+
+\vspace{1mm}
+\onslide<+->{\question{What is the sample?}}
+\onslide<+->{\answer{The 30 carbon monoxide detectors that were selected and tested.}}
+
+\vspace{-1mm}
+\uncover<2->{\blockfootnote{\textquote{Residential Carbon Monoxide Detector Failure Rates in the United States} (by Ryan and Arnold, \emph{American Journal of Public Health}, Vol. 101, No. 10)}}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Anecdotal evidence} is a factual claim relying only on personal observation, collected in a casual or non-systematic manner.
+\end{definition}\pause
+
+\begin{example}
+A man on the news got mercury poisoning from eating swordfish, so the average mercury concentration in a swordfish must be dangerously high.
+\end{example}\pause
+
+\begin{example}
+My friend's dad had a heart attack and died after they game him a new heart disease drug, so the drug must not work.
+\end{example}\pause
+
+\begin{note}
+Such evidence may be true and verifiable, but it may only represent extraordinary cases. 
+\end{note}
+\end{frame}
 \end{document}
