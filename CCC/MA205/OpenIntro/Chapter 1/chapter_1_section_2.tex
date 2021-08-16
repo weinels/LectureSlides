@@ -12,10 +12,6 @@
 \pgfplotsset{compat=1.5} 
 \usepgfplotslibrary{statistics}
 
-\setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
-\setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
-\setbeamerfont{footnote}{size*={6pt}{2pt}}
-
 \title[MA205 - Section 1.2]{Data Basics}
 
 \begin{document}
@@ -446,10 +442,7 @@ table [y=pop_change, x=median_hh_income, col sep=comma] {county.csv};
 \begin{frame}
 \begin{example}
 Consider the question:
-\begin{center}
-\usebeamerfont{quote}
-If there is an increase in the median household income in a county, does this drive an increase in its population?
-\end{center}\pause
+\blockquote{If there is an increase in the median household income in a county, does this drive an increase in its population?}\pause
 
 A higher median income is likely one of the causes of an increased population.
 \end{example}\pause
