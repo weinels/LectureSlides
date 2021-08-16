@@ -6,17 +6,6 @@
 \usepackage{textcomp}
 \usepackage[inline]{asymptote}
 \usepackage{slide_helper}
-\usepackage{blindtext}
-\newcommand\blfootnote[1]{%
-\begingroup
-\renewcommand\thefootnote{}\footnote{#1}%
-\addtocounter{footnote}{-1}%
-\endgroup
-}
-
-\setbeamerfont{datamatrix}{family=\ttfamily,size*={7pt}{10pt}}
-\setbeamerfont{quote}{size=\small, shape=\itshape} %chktex 6
-\setbeamerfont{footnote}{size*={6pt}{2pt}}
 
 \title[MA205 - Section 1.1]{Case Study: Using Stents to Prevent Strokes}
 
@@ -41,8 +30,9 @@ A \textbf{stent} is a device put inside blood vessels that assist in patient rec
 \begin{block}{Case Study}
 Many doctors have hoped that stents would have similar benefits for patients at risk of strokes.\pause
 
+\vspace{2mm}
 The question researchers need to answer is: 
-\vspace{-1.5mm}\begin{center}\textbf{Does the use of stents reduce the risk of stroke?}\end{center}\vspace{0.1mm}
+\blockquote{\textbf{Does the use of stents reduce the risk of stroke?}}
 \end{block}
 \end{frame}
 
@@ -111,22 +101,22 @@ total & 46 & 405 & & 73 & 378\\
 
 \begin{block}{Question}
 \question{What percentage of the treatment group had a stroke in the first year?}\pause
-\vspace{-2mm}
-\begin{equation*}
+\vspace{-5mm}
+\answer{\begin{equation*}
 \dfrac{\text{number of treatment group that had a stroke}}{\text{total size of treatment group}}\pause
 =\dfrac{45}{224}\pause
  = 0.20 = 20\%
-\end{equation*}
+\end{equation*}}
 \vspace{-3mm}
 \end{block}\pause
 \begin{block}{Question}
 \question{What percentage of the control group had a stroke in the first year?}\pause
-\vspace{-2mm}
-\begin{equation*}
+\vspace{-5mm}
+\answer{\begin{equation*}
 \dfrac{\text{number of control group that had a stroke}}{\text{total size of control group}}\pause
 = \dfrac{28}{224}\pause
  = 0.12 = 12\%
-\end{equation*}
+\end{equation*}}
 \vspace{-3mm}
 \end{block}
 \end{frame}
@@ -156,7 +146,8 @@ The second question is a real subtle one and most of the statistical tools we di
 \begin{block}{Signifigance}
 What is the chance of getting a head when flipping a quarter?\pause 
 
-Theoretically it is 50\%. But if you flip a large number of coins, you rarely get exactly half heads and half tails.\pause
+\vspace{2mm}
+Theoretically it is 50\%. But if you flip a large number of coins, you rarely get exactly half heads and half tails.
 
 \begin{center}
 \usebeamerfont{datamatrix}
@@ -181,9 +172,7 @@ Theoretically it is 50\%. But if you flip a large number of coins, you rarely ge
 \begin{note}
 The published results of the study were:
 \vspace{-1.5mm}\begin{center}\usebeamerfont{quote}There was compelling evidence of harm by stents in this study of stroke patients.\end{center}\vspace{-4mm}
-\rule{0.5\linewidth}{0.4pt}
-
-{\usebeamerfont{footnote} Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003. \url{http://nejm.org/doi/full/10.1056/NEJMoa1105335}}
+\blockfootnote{Chimowitz MI, Lynn MJ, Derdeyn CP, et al. 2011. Stenting versus Aggressive Medical Therapy for Intracranial Arterial Stenosis. New England Journal of Medicine 365:993-1003. \url{http://nejm.org/doi/full/10.1056/NEJMoa1105335}}
 \end{note}\pause
 
 \begin{block}{Be careful}

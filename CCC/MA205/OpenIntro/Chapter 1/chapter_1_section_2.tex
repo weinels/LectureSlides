@@ -101,24 +101,17 @@ The names and labels in categorical data are sometimes coded with numbers. When 
 \begin{frame}
 \begin{example}
 \question{The ages (in years) of subjects enrolled in a clinical trail are?}\pause
-
-\vspace{1mm}
-Numerical data.\pause
-\end{example}
+\answer{Numerical data.}
+\end{example}\pause
 
 \begin{example}
 \question{The genders (male / female / non-binary) of subjects enrolled in a clinical trial are?}\pause
-
-\vspace{1mm}
-Categorical data. \pause
-
-\end{example}
+\answer{Categorical data.}
+\end{example}\pause
 
 \begin{example}\label{idnums}
 \question{Identification numbers $1, 2, 3, \ldots, 25$ are assigned randomly to 25 subjects in a clinical trail. The identification numbers are?}\pause
-
-\vspace{1mm}
-Categorical Data.
+\answer{Categorical Data.}
 \end{example}\pause
 
 \begin{note}
@@ -274,54 +267,54 @@ Often, researchers will want to study the relationship between variables.\pause
 A \textbf{scatterplot} is a plot of paired $(x,y)$ numerical data with a horizontal x-axis and a vertical y-axis. The horizontal axis is used for the first variable ($x$), and the vertical axis for the second variable ($y$).
 \end{definition}\pause
 \begin{example}
-%\begin{center}
-%\begin{tikzpicture}
-%\tikzstyle{every pin}=[
-%fill=white,
-%draw=black,
-%font=\tiny,
-%]
-%\pgfkeys{/pgf/number format/.cd,
-%fixed,
-%precision=999,
-%set thousands separator={},
-%1000 sep in fractionals=false,
-%}
-%\begin{axis}[
-%clip mode=individual,
-%clip marker paths=true,
-%width=11cm,
-%height=5.0cm,
-%xlabel={Percent of Units in Multi-Unit Structures},
-%ylabel={Homeownership Rate},
-%%ymajorgrids=true,
-%%xmajorgrids=true,
-%%enlarge x limits=false,
-%%enlarge y limits=false,
-%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
-%xticklabel=\pgfmathprintnumber{\tick}\%,
-%yticklabel=\pgfmathprintnumber{\tick}\%,
-%xtick={100, 80, 60, 40, 20, 0},
-%ytick={100, 80, 60, 40, 20, 0},
-%ymin=-5,
-%ymax=100,
-%xmin=-5,
-%xmax=100,
-%scatter/use mapped color={
-%%draw=mapped color,
-%fill=black,
-%},
-%]
-%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
-%table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
-%\node [coordinate,pin={[pin distance=0.65cm]75:{Washington D.C. $(43.5\%, 61.7\%)$}}] at (axis cs:43.5, 61.7) {};
-%\node [coordinate,pin={[pin distance=0.75cm]235:{Charlottesville, VA $(43.5\%, 41.3\%)$}}] at (axis cs:43.2, 41.3) {};
-%\node [coordinate,pin={[pin distance=0.5cm]270:{San Fransisco, CA $(66.6\%, 37.5\%)$}}] at (axis cs:66.6, 37.5) {};
-%\node [coordinate,pin={[pin distance=0.9cm]30:{St. Louis, MO $(53.5\%, 47.2\%)$}}] at (axis cs:53.5, 47.2) {};
-%\node [coordinate,pin={[pin distance=0.95cm]87:{Thomas County, KS. $(18.3\%, 65.1\%)$}}] at (axis cs:18.3, 65.1) {};
-%\end{axis}
-%\end{tikzpicture}
-%\end{center}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=11cm,
+height=5.0cm,
+xlabel={Percent of Units in Multi-Unit Structures},
+ylabel={Homeownership Rate},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\pgfmathprintnumber{\tick}\%,
+yticklabel=\pgfmathprintnumber{\tick}\%,
+xtick={100, 80, 60, 40, 20, 0},
+ytick={100, 80, 60, 40, 20, 0},
+ymin=-5,
+ymax=100,
+xmin=-5,
+xmax=100,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
+\node [coordinate,pin={[pin distance=0.65cm]75:{Washington D.C. $(43.5\%, 61.7\%)$}}] at (axis cs:43.5, 61.7) {};
+\node [coordinate,pin={[pin distance=0.75cm]235:{Charlottesville, VA $(43.5\%, 41.3\%)$}}] at (axis cs:43.2, 41.3) {};
+\node [coordinate,pin={[pin distance=0.5cm]270:{San Fransisco, CA $(66.6\%, 37.5\%)$}}] at (axis cs:66.6, 37.5) {};
+\node [coordinate,pin={[pin distance=0.9cm]30:{St. Louis, MO $(53.5\%, 47.2\%)$}}] at (axis cs:53.5, 47.2) {};
+\node [coordinate,pin={[pin distance=0.95cm]87:{Thomas County, KS. $(18.3\%, 65.1\%)$}}] at (axis cs:18.3, 65.1) {};
+\end{axis}
+\end{tikzpicture}
+\end{center}
 \end{example}
 \end{frame}
 
@@ -349,106 +342,104 @@ It is impossible to be both associated and independent.
 
 \begin{frame}
 \begin{example}
-%\begin{center}
-%\begin{tikzpicture}
-%\tikzstyle{every pin}=[
-%fill=white,
-%draw=black,
-%font=\tiny,
-%]
-%\pgfkeys{/pgf/number format/.cd,
-%fixed,
-%precision=999,
-%set thousands separator={},
-%1000 sep in fractionals=false,
-%}
-%\begin{axis}[
-%clip mode=individual,
-%clip marker paths=true,
-%width=11cm,
-%height=5.9cm,
-%xlabel={Percent of Units in Multi-Unit Structures},
-%ylabel={Homeownership Rate},
-%%ymajorgrids=true,
-%%xmajorgrids=true,
-%%enlarge x limits=false,
-%%enlarge y limits=false,
-%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
-%xticklabel=\pgfmathprintnumber{\tick}\%,
-%yticklabel=\pgfmathprintnumber{\tick}\%,
-%xtick={100, 80, 60, 40, 20, 0},
-%ytick={100, 80, 60, 40, 20, 0},
-%ymin=-5,
-%ymax=100,
-%xmin=-5,
-%xmax=100,
-%scatter/use mapped color={
-%%draw=mapped color,
-%fill=black,
-%},
-%]
-%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
-%table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
-%\end{axis}
-%\end{tikzpicture}
-%\end{center}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=11cm,
+height=5.9cm,
+xlabel={Percent of Units in Multi-Unit Structures},
+ylabel={Homeownership Rate},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\pgfmathprintnumber{\tick}\%,
+yticklabel=\pgfmathprintnumber{\tick}\%,
+xtick={100, 80, 60, 40, 20, 0},
+ytick={100, 80, 60, 40, 20, 0},
+ymin=-5,
+ymax=100,
+xmin=-5,
+xmax=100,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+table [y=homeownership, x=multi_unit, col sep=comma] {county.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
 \question{Are the Multi-Unit Structure Rate and the Homeownership Rate associated?}\pause
-
-Yes, they are negatively associated.
+\answer{Yes, they are negatively associated.}
 \end{example}
 \end{frame}
 
 \begin{frame}
 \begin{example}
-%\begin{center}
-%\begin{tikzpicture}
-%\tikzstyle{every pin}=[
-%fill=white,
-%draw=black,
-%font=\tiny,
-%]
-%\pgfkeys{/pgf/number format/.cd,
-%fixed,
-%precision=999,
-%set thousands separator={},
-%1000 sep in fractionals=false,
-%}
-%\begin{axis}[
-%clip mode=individual,
-%clip marker paths=true,
-%width=11cm,
-%height=5.9cm,
-%xlabel={Median Household Income},
-%ylabel style={align=center},
-%ylabel={Population Change\\over 7 years},
-%%ymajorgrids=true,
-%%xmajorgrids=true,
-%%enlarge x limits=false,
-%%enlarge y limits=false,
-%%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
-%xticklabel=\$\pgfmathprintnumber{\tick}k,
-%yticklabel=\pgfmathprintnumber{\tick}\%,
-%xtick={20000, 40000, 60000, 80000, 100000, 120000},
-%ytick={-10, 0, 10, 20},
-%scaled x ticks=base 10:-3
-%xtick scale label code/.code={}
-%ymin=-15,
-%ymax=30,
-%xmin=0,
-%xmax=130000,
-%scatter/use mapped color={
-%%draw=mapped color,
-%fill=black,
-%},
-%]
-%\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt,restrict y to domain=-15:30] 
-%table [y=pop_change, x=median_hh_income, col sep=comma] {county.csv};
-%\end{axis}
-%\end{tikzpicture}
-%\end{center}
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=11cm,
+height=5.9cm,
+xlabel={Median Household Income},
+ylabel style={align=center},
+ylabel={Population Change\\over 7 years},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\$\pgfmathprintnumber{\tick}k,
+yticklabel=\pgfmathprintnumber{\tick}\%,
+xtick={20000, 40000, 60000, 80000, 100000, 120000},
+ytick={-10, 0, 10, 20},
+scaled x ticks=base 10:-3
+xtick scale label code/.code={}
+ymin=-15,
+ymax=30,
+xmin=0,
+xmax=130000,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt,restrict y to domain=-15:30] 
+table [y=pop_change, x=median_hh_income, col sep=comma] {county.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
 \question{Are the Median Household Income and the Population Change associated?}\pause
-
-Yes, they are positively associated.
+\answer{Yes, they are positively associated.}
 \end{example}
 \end{frame}
 
@@ -479,7 +470,7 @@ When we suspect one variable might causally affect another, we label the first v
 \end{definition}\pause
 
 \begin{note}
-Labeling variable like this does \textbf{nothing} to guarantee that a casual relationship exists!
+Labeling a variable like this does \textbf{nothing} to guarantee that a casual relationship exists!
 \end{note}
 \end{frame}
 
@@ -527,8 +518,7 @@ Suppose we want to determine if listening to music while driving increases the c
 \item \textbf{Experiment:} We randomly assign subjects to either listen to music while driving or listen to nothing. We then count how many collisions each subject is involved in.\pause
 \end{itemize}
 \question{Is music likely to be the cause of a collision?}\pause
-
-Automobile collisions happen due to a large number of reasons, many of which have nothing to do with music.
+\answer{Automobile collisions happen due to a large number of reasons, many of which have nothing to do with music.}
 \end{example}
 \end{frame}
 \end{document}
