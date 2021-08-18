@@ -11,6 +11,8 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.5} 
 \usepgfplotslibrary{statistics}
+\usetikzlibrary{external}
+\tikzexternalize%
 
 \title[MA205 - Section 1.2]{Data Basics}
 
@@ -85,12 +87,16 @@ It is very important to provide descriptions of all the variables in a data matr
 \textbf{Numerical} data consisting of numbers representing counts or measurements. Sometimes referred to as \textbf{Quantitative} data.
 \end{definition}\pause
 
+\begin{note}
+Most of the data we will be considering in this course will be numerical.
+\end{note}\pause
+
 \begin{definition}
 \textbf{Categorical} data consisting of names or labels (not numbers). Sometimes referred to as \textbf{Qualitative} data.
 \end{definition}\pause
 
 \begin{note}
-The names and labels in categorical data are sometimes coded with numbers. When a number is used as a name it is \textbf{not} quantitative.
+The names and labels in categorical data are sometimes coded with numbers. When a number is used as a name it is \textbf{not} numerical data.
 \end{note}
 \end{frame}
 
@@ -238,11 +244,11 @@ The times of 50 minutes and 100 minutes for a math class are at the ratio level 
 For simplicities sake, we will often treat ordinal data as nominal data.
 \end{note}\pause 
 \begin{note} 
-If your data consists of real numbers, then it is generally continuous.
+If your data consists of real numbers, then it is usually continuous.
 \end{note}\pause
 
 \begin{note}
-If your data consists of only integers, then it is generally discrete.
+If your data consists of only integers, then it is usually discrete.
 \end{note}
 \end{frame}
 
@@ -463,55 +469,85 @@ When we suspect one variable might causally affect another, we label the first v
 \end{definition}\pause
 
 \begin{note}
-Labeling a variable like this does \textbf{nothing} to guarantee that a casual relationship exists!
+Labeling a variable like this does \textbf{nothing} to guarantee that a causal relationship exists!
 \end{note}
 \end{frame}
 
 \begin{frame}
 \begin{definition}
+In an \textbf{experiment}, we apply some treatment and then proceed to observe its effects on the individuals.
+\end{definition}\pause
+
+\begin{definition}
+The individuals in an experiment are called \textbf{subjects}.
+\end{definition}\pause
+
+\begin{definition}
 A \textbf{Placebo} is a treatment that has no medicinal effect. (Such as a sugar pill or saline injection.)
 \end{definition}\pause
 
-\begin{example}
-In 1954, an experiment was designed to test the effectiveness of the Salk vaccine in preventing polio, which had killed or paralyzed thousands of children.\pause
+\begin{definition}
+The group that receives a placebo is called the \textbf{control group}.
+\end{definition}\pause
 
-By random selection, $401, 974$ children were assigned to two groups:
+\begin{definition}
+The group that receives a treatment is called the \textbf{treatment group}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Replication} is the repetition of an experiment on more than one individual. This means larger sample sizes are often needed.
+\end{definition}\pause
+
+\begin{definition}
+\textbf{Blinding} is used when the subject doesn't know if they are receiving a placebo or a real treatment.
+\end{definition}\pause
+
+\begin{definition} 
+\textbf{Double blinding} is when both the patients and the researchers are unaware of who is getting the placebo and who is getting the treatment.
+\end{definition}\pause
+
+\begin{definition}
+\textbf{Randomization} is used when individuals are assigned to different groups through a process of random selection.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+In 1954, an experiment was designed to test the effectiveness of the vaccine developed by Jonas Salk in preventing polio, which had killed or paralyzed thousands of children.\pause
+
+\vspace{2mm}
+By random selection $401,974$ children were assigned to two groups:
 \begin{itemize}
 \item $200,745$ children were given injections of the Salk vaccine.
 \item $201,229$ children were given placebo injections that contained no drug.
 \end{itemize}\pause
 
+\vspace{2mm}
 Among the children given the Salk vaccine, 33 later developed paralytic polio, and among the children given a placebo, 115 later developed paralytic polio.
-\end{example}
-\end{frame}
-
-\begin{frame}
-\begin{definition}
-In an \textbf{experiment}, we apply some treatment and then proceed to observe its effects on the individuals. (The individuals in experiments are called \textbf{subjects}.)
-\end{definition}\pause
+\end{example}\pause
 
 \begin{note}
-In general, association does not imply causation, and causation can only be inferred from a randomized experiment.
-\end{note}\pause
-
-\begin{definition}
-In an \textbf{observational study}, we observe and measure specific characteristics, but we don't attempt to \emph{modify} the individuals being studied.
-\end{definition}\pause
-
-\begin{note}
-In general, experiments are preferable to observational studies. But there are times where there are cost, time, or ethical concerns that prohibit the use of an experiment.
+In general, causation can only be inferred from a randomized experiment.
 \end{note}
 \end{frame}
 
 \begin{frame}
+\begin{definition}
+In an \textbf{observational study}, we observe and measure specific characteristics, but we don't attempt to \emph{modify} the subjects.
+\end{definition}\pause
+
+\begin{note}
+Experiments are preferable to observational studies. But there may be cost, time, or ethical concerns that prohibit an experiment.
+\end{note}\pause
+
 \begin{example}
 Suppose we want to determine if listening to music while driving increases the chance of being in an collision.\pause
 \begin{itemize}
-\item \textbf{Observational study:} If we gathered police reports about collisions and used them to determine if the person was listening to music or not.\pause
-\item \textbf{Experiment:} We randomly assign subjects to either listen to music while driving or listen to nothing. We then count how many collisions each subject is involved in.\pause
+\item \textbf{Observational study:} We gather police reports about collisions and use them to determine if the person was listening to music or not.\pause
+\item \textbf{Experiment:} We randomly assign subjects to either listen to music while driving or listen to nothing. We then count how many collisions each subject is involved in.
 \end{itemize}
-\question{Is music likely to be the cause of a collision?}\pause
-\answer{Automobile collisions happen due to a large number of reasons, many of which have nothing to do with music.}
 \end{example}
 \end{frame}
 \end{document}
