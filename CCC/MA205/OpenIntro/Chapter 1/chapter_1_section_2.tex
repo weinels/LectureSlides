@@ -54,7 +54,7 @@ Each column is called a \textbf{variable}.
 It is very important to provide descriptions of all the variables in a data matrix. Be sure to include the units of measurement.
 \end{note}\pause
 
-\begin{example}
+\begin{dataset}
 \begin{center}
 \usebeamerfont{datamatrix}
 \begin{tabular}{cccccccc}\hline
@@ -67,19 +67,18 @@ It is very important to provide descriptions of all the variables in a data matr
 \end{tabular}
 
 \vspace{2mm}
-\begin{tabular}{ll}\hline
+\begin{tabular}{rp{9cm}}\hline
 \textbf{variable} & \textbf{description} \\\hline
  loan\textunderscore amount & Amount of the load received, in US dollars. \\
  interest\textunderscore rate & Interest rate on the loan, in an annual percentage. \\
  term & The length of the loan, which is always a whole number of months. \\
- grade & Loan grade, which takes values A through G and represents the quality\\ 
- & of the loan and its likelihood of being repaid. \\
+ grade & Loan grade, which takes values A through G and represents the quality of the loan and its likelihood of being repaid. \\
  state & US state where the borrower resides. \\
  total\textunderscore income & Borrower's total income, including any second income, in US dollars. \\
  homeownership & Indicates whether the person owns, owns but has a mortgage, or rents.
 \end{tabular}
 \end{center}
-\end{example}
+\end{dataset}
 \end{frame}
 
 \begin{frame}
@@ -250,6 +249,35 @@ If your data consists of real numbers, then it is usually continuous.
 \begin{note}
 If your data consists of only integers, then it is usually discrete.
 \end{note}
+\end{frame}
+
+\begin{frame}
+\begin{dataset}
+The following slides will use the \texttt{county} data set, which contains data on all 3142 counties in the United States.
+
+\vspace{-5mm}
+\begin{center}
+\usebeamerfont{datamatrix}
+\begin{tabular}{rp{9cm}}\hline
+\textbf{variable} & \textbf{description} \\\hline
+name	&	County names.	\\
+state	&	State names.	\\
+pop2000	&	Population in 2000.	\\
+pop2010	&	Population in 2010.	\\
+pop2017	&	Population in 2017.	\\
+pop\_change	&	Population change from 2010 to 2017.	\\
+poverty	&	Percent of population in poverty in 2017.	\\
+homeownership	&	Home ownership rate, 2006-2010.	\\
+multi\_unit	&	Percent of housing units in multi-unit structures, 2006-2010.	\\
+unemployment\_rate	&	Unemployment rate in 2017.	\\
+metro	&	Whether the county contains a metropolitan area.	\\
+median\_edu	&	Median education level (2013-2017).	\\
+per\_capita\_income	&	Per capita (per person) income (2013-2017).	\\
+median\_hh\_income	&	Median household income.	\\
+smoking\_ban	&	Describes whether the type of county-level smoking ban in place in 2010, taking one of the values \textquote{none}, \textquote{partial}, or \textquote{comprehensive}.	\\
+\end{tabular}
+\end{center}
+\end{dataset}
 \end{frame}
 
 \begin{frame}
