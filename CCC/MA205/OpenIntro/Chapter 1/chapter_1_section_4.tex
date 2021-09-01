@@ -1,0 +1,240 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usetikzlibrary{external}
+\tikzexternalize%
+
+\title[MA205 - Section 1.4]{Experiments}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+In an \textbf{experiment}, we apply some treatment and then proceed to observe its effects on the individuals.
+\end{definition}\pause
+
+\begin{definition}
+The individuals in an experiment are called \textbf{subjects}.
+\end{definition}\pause
+
+\begin{definition}
+A \textbf{Placebo} is a treatment that has no medicinal effect. (Such as a sugar pill or saline injection.)
+\end{definition}\pause
+
+\begin{definition}
+The group that receives a placebo is called the \textbf{control group}.
+\end{definition}\pause
+
+\begin{definition}
+The group that receives a treatment is called the \textbf{treatment group}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+As researchers assign treatments to cases, they do their best to \textbf{control} any differences in the groups.
+\end{definition}\pause
+
+\begin{example}
+Consider an experiment that wants to test a new drug in pill form.\pause
+
+\vspace{2mm}
+Some patients may take their pills with only a sip of water and some may take their pills with an entire glass.\pause
+
+\vspace{2mm}
+To control for the effect of water consumption, the researchers ask all subjects take the treatment pill with a 12oz glass of water.\pause
+
+\vspace{2mm}
+The treatment drug may have a different reaction to full versus empty stomachs.\pause
+
+\vspace{2mm}
+To control for food consumption, researchers ask all subjects to take the treatment pill immediately after a meal.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{negative control} is a control group that receives a treatment that is expected to not have a noticeable effect.
+\end{definition}\pause
+
+\begin{note}
+Placebos like sugar pills and saline injections are common examples.
+\end{note}\pause
+
+\begin{example}\label{caffeine}
+Researchers want to study the effects of caffeine on blood pressure.
+
+\vspace{2mm}
+The researchers split their sample into four groups:\pause
+\begin{description}
+\item[Treatment Group:] This group drinks two cups of coffee.\pause
+\item[Negative Control:] This group drinks two cups of decaf coffee.\pause
+\item[Negative Control:] This group drinks two cups of water.\pause
+\item[Negative Control:] This group drinks nothing.\pause
+\end{description}
+
+\vspace{1mm}
+Afterwards the blood pressure of each subject is measured.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{positive control} is a sample group that receives a known treatment and is expected to change the subjects in a predictable way.
+\end{definition}\pause
+
+\begin{example}
+It's unlikely, but the blood pressure machine used in Example~\ref{caffeine} may be faulty or miscalibrated.\pause
+
+\vspace{2mm}
+The researchers could add a fifth group who drinks nothing, but their blood pressure is measured using a completely independent second machine.
+\end{example}\pause
+
+\begin{example}
+A researcher swabs an existing colony of bacteria and wipes it on a growth plate.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+An experiment of a new acne treatment randomly assigns 300 patients into the following groups:
+\begin{description}
+\item[Treatment Group:] Receives the treatment being tested.
+\item[Negative Control:] Receives a placebo treatment.
+\item[Positive Control:] Receives a commercially available medication.
+\end{description}
+\end{example}\pause
+
+\begin{note}
+The negative control is used to show that any positive effects of the new treatment aren't caused by some confounding variable.
+
+\vspace{2mm}
+The positive control is used to detect any problems with the new treatment or how it is administered.
+\end{note}\pause
+
+\begin{note}
+A positive control can also be used to benchmark the results of the new treatment against existing treatments.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Some times researchers will suspect that variables, other than the treatment, will influence the result.
+\end{note}\pause
+
+\begin{definition}
+Researchers can first group individuals based on a suspected confounding variable into \textbf{blocks} and then randomize the cases within each block to the treatment groups. This is called \textbf{blocking}.
+\end{definition}\pause
+
+\begin{example}
+If researchers are looking into the effect of a drug on heart attack patients, they might split all the patients into high-risk and low-risk blocks. Then half of each block is assigned to the treatment group and half to the control group.
+\end{example}
+\end{frame}
+
+\newcommand{\low}[1]{{\color{blue}#1}}
+\newcommand{\high}[1]{{\color{red}#1}}
+
+\input{blocking}
+
+\newcommand{\control}[0]{\begin{tabular}{cc}
+\multicolumn{2}{l}{Control group} \\\hline
+\vspace{-3mm}\\
+\randlowcontrol &
+\randhighcontrol
+\end{tabular}}% chktex 31
+
+\newcommand{\treatment}[0]{\begin{tabular}{cc}
+\multicolumn{2}{l}{Treatment group} \\\hline
+\vspace{-3mm}\\
+\randlowtreatment &
+\randhightreatment
+\end{tabular}}% chktex 31
+
+\newcommand{\slidea}[0]{\unsorted} %chktex 31
+\newcommand{\slideb}[0]{$\swarrow$ \hspace{10mm}Split into blocks\hspace{10mm} $\searrow$ \\
+\begin{tabular}{cc}
+\lowrisk&\highrisk
+\end{tabular}} %chktex 31
+
+\newcommand{\slidec}[0]{$\downarrow$\hspace{5mm}Randomly split each block in half\hspace{5mm}$\downarrow$\\
+\control%
+
+\treatment} %chktex 31
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\slidea\pause
+
+\slideb\pause
+
+\slidec%
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Experimental Design}
+A good experiment is built on four principles.
+
+\begin{tabular}{rl}
+\textbf{Controlling} & Researchers do their best to control for\\
+& differences in the treatment and control groups. \\
+\textbf{Randomization} & Sampling and assignment into treatment \\
+& and/or control groups are done randomly. \\
+\textbf{Replication} & A sufficiently large sample is used. \\
+\textbf{Blocking} & Researchers suspect that variables other than \\
+& the treatment may influence the response.
+\end{tabular}
+\end{block}\pause
+
+\begin{note}
+While blocking is a slightly more advanced topic, the statistical methods we discuss in this course can be extended to analyze such experiments.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Ethics in human experimentation is a very complicated topic, and there are multiple viewpoints on the use of placebos.
+\end{note}\pause
+
+\begin{example}
+Suppose researchers want to test the effectiveness of a new treatment for cervical cancer. They decided to use a control group that receives no treatment.
+
+\vspace{1mm}
+\question{Is this ethical?}\pause
+\answer{No, there are existing, effective treatments for cervical cancer. It is unethical to withhold all treatment from a patient.}
+\end{example}\pause
+
+\begin{note}
+If there is no known effective treatment, then having a control group that receives no treatment may be ethical.
+\end{note}\pause
+\end{frame}
+
+\begin{frame}
+\begin{example}
+If researchers want to study the effectiveness of a new surgical procedure, they may need to perform a sham surgery on the control group patients.\pause
+
+\vspace{1mm}
+\question{Is it ethical to use a sham surgery?}\pause
+\answer{It's complicated. Surgery always carries the risk of infection and complication. But at the same time, you don't want to promote a new, costly surgery if it doesn't have proven benefit for the patient.}
+\end{example}\pause
+
+\begin{note}
+In practice, research groups are responsible to review boards which must weigh the ethical concerns of an experiment before any patients are treated. 
+\end{note}
+\end{frame}
+\end{document}
