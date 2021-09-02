@@ -21,4 +21,220 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\begin{example}
+Let us consider a scatterplot of borrowers total income and the loan amount from the \texttt{loan50} data set.
+
+\only<1| handout:0>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=10cm,
+height=5cm,
+xlabel={Total Income},
+ylabel={Loan Amount},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\$\pgfmathprintnumber{\tick}k,,
+yticklabel=\$\pgfmathprintnumber{\tick}k,,
+xtick={0, 50000, 100000, 150000, 200000, 250000, 300000},
+ytick={0, 10000, 20000, 30000, 40000},
+scaled x ticks=base 10:-3,
+xtick scale label code/.code={},
+scaled y ticks=base 10:-3,
+ytick scale label code/.code={},
+ymin=-5,
+ymax=35000,
+xmin=-5,
+xmax=325000,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.8pt] 
+table [y=loan_amount, x=total_income, col sep=comma] {loan50.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+}
+\only<2->{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=10cm,
+height=5cm,
+xlabel={Total Income},
+ylabel={Loan Amount},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\$\pgfmathprintnumber{\tick}k,,
+yticklabel=\$\pgfmathprintnumber{\tick}k,,
+xtick={0, 50000, 100000, 150000, 200000, 250000, 300000},
+ytick={0, 10000, 20000, 30000, 40000},
+scaled x ticks=base 10:-3,
+xtick scale label code/.code={},
+scaled y ticks=base 10:-3,
+ytick scale label code/.code={},
+ymin=-5,
+ymax=35000,
+xmin=-5,
+xmax=325000,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, red, scatter src=y, mark size=1.0pt]
+table [y=loan_amount, x=total_income, col sep=comma, x expr={\thisrow{total_income} / (\thisrow{total_income} <= 100000)}] {loan50.csv};
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.8pt]
+table [y=loan_amount, x=total_income, col sep=comma, x expr={\thisrow{total_income} / (\thisrow{total_income} > 100000)}] {loan50.csv};
+\addplot [mark size=0pt, red] coordinates {(100000,0) (100000,35000)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+}\pause
+
+We can see that the many of borrowers earn less than \$100,000 a year.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let us consider a scatterplot of borrowers total income and the loan amount from the \texttt{loan50} data set.
+
+\only<1| handout:0>{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=10cm,
+height=5cm,
+xlabel={Poverty Rate},
+ylabel={Median Household Income},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\pgfmathprintnumber{\tick}\%,
+yticklabel=\$\pgfmathprintnumber{\tick}k,
+xtick={0, 10, 20, 30, 40, 50},
+ytick={0, 20000, 40000, 60000, 80000, 100000, 120000},
+%scaled x ticks=base 10:-3,
+%xtick scale label code/.code={},
+scaled y ticks=base 10:-3,
+ytick scale label code/.code={},
+ymin=-5,
+ymax=125000,
+xmin=-5,
+xmax=60,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+table [y=median_hh_income, x=poverty, col sep=comma,ignore chars={N,A}] {county.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+}
+\only<2->{
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{every pin}=[
+fill=white,
+draw=black,
+font=\tiny,
+]
+\pgfkeys{/pgf/number format/.cd,
+fixed,
+precision=999,
+set thousands separator={},
+1000 sep in fractionals=false,
+}
+\begin{axis}[
+clip mode=individual,
+clip marker paths=true,
+width=10cm,
+height=5cm,
+xlabel={Poverty Rate},
+ylabel={Median Household Income},
+%ymajorgrids=true,
+%xmajorgrids=true,
+%enlarge x limits=false,
+%enlarge y limits=false,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=\pgfmathprintnumber{\tick}\%,
+yticklabel=\$\pgfmathprintnumber{\tick}k,
+xtick={0, 10, 20, 30, 40, 50},
+ytick={0, 20000, 40000, 60000, 80000, 100000, 120000},
+%scaled x ticks=base 10:-3,
+%xtick scale label code/.code={},
+scaled y ticks=base 10:-3,
+ytick scale label code/.code={},
+ymin=-5,
+ymax=125000,
+xmin=-5,
+xmax=60,
+scatter/use mapped color={
+%draw=mapped color,
+fill=black,
+},
+]
+\addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.3pt] 
+table [y=median_hh_income, x=poverty, col sep=comma,ignore chars={N,A}] {county.csv};
+\addplot [domain=0:50,red, mark size=1.5pt] {84923*e^(-0.0342*x)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+}\pause
+It is clear there is a \textbf{nonlinear} association between the median household income and the poverty rate.
+\end{example}
+\end{frame}
 \end{document}
