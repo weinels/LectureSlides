@@ -22,21 +22,24 @@ mean = round(sum(nums)/len(nums),3)
 print(f"Largest y-value is {ymax}")
 print(f"Mean is {mean}")
 
-i = 0
 s = r"\dfrac{\tiny\left(\begin{array}{c}"
+l = ""
 for x in sorted(nums):
-    s += str(x)
-    s += r" + "
-    i += 1
-    if i >= 10:
-        s = s[:-2]
-        s += r"\\ + "
-        i = 0
-s = s[:-3]
+    l += str(x)
+    l += r"\%"
+    l += r"+"
+    if len(l) >= 60:
+        l = l[:-1]
+        l += r"\\+"
+        s += l
+        l = ""
+s += l
+s = s[:-1]
 if s[-2:] == r"\\":
     s = s[:-3]
 s += r"\end{array}\right)}{"
 s += str(len(nums))
 s += r"}="
 s += str(mean)
+s += r"\%"
 print(s)
