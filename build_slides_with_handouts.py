@@ -126,21 +126,27 @@ def build_slides(f):
                 top, bottom = base.split(sep, maxsplit=1)
                 
                 # build the full slides
-                print(f"{f.name}: building slides")
+                print(f"{f}: building slides")
                 slides_latex.write_text(top + r"\documentclass{beamer}" + bottom)
                 run_LaTeX(slides_latex, working)
                 #print(f"Move {slides_pdf} to {finished_slides}")
                 shutil.copy(slides_pdf, finished_slides)
                 
                 # build the handout
-                print(f"{f.name}: building handout")
+                print(f"{f}: building handout")
                 slides_latex.write_text(top + r"\documentclass[handout]{beamer}" + bottom)
                 run_LaTeX(slides_latex, working)
                 #print(f"Move {slides_pdf} to {finished_handout}")
                 shutil.copy(slides_pdf, finished_handout)
                 
+                # remove working version of pdf if it exists in the parent dir.
+                old_pdf = f.parent / f"{f.stem}.pdf"
+                if old_pdf.exists():
+                        print(f"{old_pdf}: removing old working copy.")
+                        old_pdf.unlink()
+                
                 # update hash
-                print(f"{f.name}: updating hash in db")
+                print(f"{f}: updating hashes in db")
                 db.update_hash(f)
                 db.update_hash(finished_slides)
                 db.update_hash(finished_handout)
@@ -162,7 +168,6 @@ def build_all_slides(d, pattern):
                         if db.check_hash(p) and db.check_hash(slides) and db.check_hash(handout):
                                 print(f"{p} is up to date")
                         else:
-                                print(f"{p} needs to be rebuilt")
                                 build_slides(p)
 
 db = HashDB('hashes.sqlite')
