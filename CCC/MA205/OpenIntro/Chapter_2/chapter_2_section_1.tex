@@ -743,12 +743,14 @@ The table contains drive-through service times, in seconds.
 \vspace{-2mm}
 \begin{center}
 \begin{tabular}{rrrrrrrrrrrr}
-\barcolor{2}{107} & \barcolor{3}{139} & \barcolor{4}{197} & \barcolor{4}{209} & \barcolor{6}{281} & \barcolor{5}{254} & \barcolor{3}{163} & \barcolor{3}{150} & \barcolor{3}{127} & \barcolor{6}{308} & \barcolor{5}{206} \\
+\barcolor{2}{107} & \barcolor{3}{139} & \barcolor{4}{197} & \barcolor{4}{209} & \barcolor{6}{281} & \barcolor{5}{254} & \barcolor{3}{163} & \barcolor{3}{150} & \barcolor{3}{127} & \barcolor{6}{308} & \barcolor{4}{206} \\
 \barcolor{3}{169} &  \barcolor{2}{83} & \barcolor{3}{127} & \barcolor{3}{133} & \barcolor{3}{140} & \barcolor{3}{143} & \barcolor{3}{130} & \barcolor{3}{144} &  \barcolor{2}{91} &\barcolor{2}{113} & \barcolor{3}{153} \\
-252 & \barcolor{4}{200} & \barcolor{2}{117} & \barcolor{3}{167} & \barcolor{3}{148} & \barcolor{4}{184} & \barcolor{2}{123} & \barcolor{3}{153} & \barcolor{3}{155} & \barcolor{3}{154} & \barcolor{2}{100} \\
+\barcolor{5}{252} & \barcolor{4}{200} & \barcolor{2}{117} & \barcolor{3}{167} & \barcolor{3}{148} & \barcolor{4}{184} & \barcolor{2}{123} & \barcolor{3}{153} & \barcolor{3}{155} & \barcolor{3}{154} & \barcolor{2}{100} \\
 \barcolor{2}{101} & \barcolor{3}{138} & \barcolor{4}{186} & \barcolor{4}{196} & \barcolor{3}{146} &  \barcolor{2}{90} & \barcolor{3}{144} &\barcolor{2}{119} & \barcolor{3}{135} & \barcolor{3}{151} & \barcolor{4}{197} \\
 \end{tabular}
 \end{center}
+
+\vspace{-1mm}
 Let's build a histrogram:
 
 \vspace{0mm}
@@ -756,7 +758,7 @@ Let's build a histrogram:
 \begin{tikzpicture}
 \begin{axis}[
 small,
-height=5.1cm,
+height=5.0cm,
 width=12.0cm,
 enlarge x limits=false,
 enlarge y limits=false,
@@ -783,24 +785,30 @@ xticklabel=
 \draw [blue,fill=blue!30!white] (axis cs: 275,0) rectangle (axis cs: 325,2);
 }
 \temporal<2| handout:0>{\draw [style={opacity=0}] (axis cs: 75,0) rectangle (axis cs: 125,10);}%
-                     {\draw [blue,fill=red] (axis cs: 75,0) rectangle (axis cs: 125,10);}%
+                     {\draw [blue,fill=red] (axis cs: 75,0) rectangle (axis cs: 125,10);
+                      \path (axis cs: 75,10) --  (axis cs: 125,10) node[red,midway,above,yshift = -1pt] {Count of 10};}%
                      {\draw [blue,fill=blue!30!white] (axis cs: 75,0) rectangle (axis cs: 125,10);}%
 \temporal<3| handout:0>{\draw [style={opacity=0}] (axis cs: 125,0) rectangle (axis cs: 175,22);}%
-                     {\draw [blue,fill=red] (axis cs: 125,0) rectangle (axis cs: 175,22);}%
+                     {\draw [blue,fill=red] (axis cs: 125,0) rectangle (axis cs: 175,22);
+                      \path (axis cs: 125,22) --  (axis cs: 175,22) node[red,midway,above,yshift = -1pt] {Count of 22};}%
                      {\draw [blue,fill=blue!30!white] (axis cs: 125,0) rectangle (axis cs: 175,22);}%
 \temporal<4| handout:0>{\draw [style={opacity=0}] (axis cs: 175,0) rectangle (axis cs: 225,8);}%
-                     {\draw [blue,fill=red] (axis cs: 175,0) rectangle (axis cs: 225,8);}%
+                     {\draw [blue,fill=red] (axis cs: 175,0) rectangle (axis cs: 225,8);
+                      \path (axis cs: 175,8) --  (axis cs: 225,8) node[red,midway,above,yshift = -1pt] {Count of 8};}%
                      {\draw [blue,fill=blue!30!white] (axis cs: 175,0) rectangle (axis cs: 225,8);}%
 \temporal<5| handout:0>{\draw [style={opacity=0}] (axis cs: 225,0) rectangle (axis cs: 275,2);}%
-                     {\draw [blue,fill=red] (axis cs: 225,0) rectangle (axis cs: 275,2);}%
+                     {\draw [blue,fill=red] (axis cs: 225,0) rectangle (axis cs: 275,2);
+                      \path (axis cs: 225,2) --  (axis cs: 275,2) node[red,midway,above,yshift = -1pt] {Count of 2};}%
                      {\draw [blue,fill=blue!30!white] (axis cs: 225,0) rectangle (axis cs: 275,2);}%
 \temporal<6| handout:0>{\draw [style={opacity=0}] (axis cs: 275,0) rectangle (axis cs: 325,2);}%
-                     {\draw [blue,fill=red] (axis cs: 275,0) rectangle (axis cs: 325,2);}%
+                     {\draw [blue,fill=red] (axis cs: 275,0) rectangle (axis cs: 325,2);
+                      \path (axis cs: 275,2) --  (axis cs: 325,2) node[red,midway,above,yshift = -1pt] {Count of 2};}%
                      {\draw [blue,fill=blue!30!white] (axis cs: 275,0) rectangle (axis cs: 325,2);}%
 \end{axis}
 \end{tikzpicture}
 \end{center}
 \end{example}
+\onslide<7>
 \end{frame}
 
 \begin{frame}
