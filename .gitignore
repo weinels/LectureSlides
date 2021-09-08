@@ -189,3 +189,6 @@ TSWLatexianTemp*
 *.DS_Store
 
 *.old
+
+# Script related files
+hashes.sqlite
