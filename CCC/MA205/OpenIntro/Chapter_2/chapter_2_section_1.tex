@@ -42,7 +42,7 @@ set thousands separator={},
 \begin{axis}[
 clip mode=individual,
 clip marker paths=true,
-width=10cm,
+width=11.5cm,
 height=5cm,
 xlabel={Total Income},
 ylabel={Loan Amount},
@@ -92,7 +92,7 @@ set thousands separator={},
 \begin{axis}[
 clip mode=individual,
 clip marker paths=true,
-width=10cm,
+width=11.5cm,
 height=5cm,
 xlabel={Total Income},
 ylabel={Loan Amount},
@@ -154,7 +154,7 @@ set thousands separator={},
 \begin{axis}[
 clip mode=individual,
 clip marker paths=true,
-width=10cm,
+width=11cm,
 height=5cm,
 xlabel={Poverty Rate},
 ylabel={Median Household Income},
@@ -204,7 +204,7 @@ set thousands separator={},
 \begin{axis}[
 clip mode=individual,
 clip marker paths=true,
-width=10cm,
+width=11cm,
 height=5cm,
 xlabel={Poverty Rate},
 ylabel={Median Household Income},
@@ -267,7 +267,7 @@ axis x line=bottom,
 xticklabel=\pgfmathprintnumber{\tick}\%,
 xtick={5,10,15,20,25},
 ymin=0,
-ymax=9,
+ymax=10,
 xmin=0,
 xmax=30,
 scatter/use mapped color={
@@ -275,8 +275,8 @@ scatter/use mapped color={
  fill=blue,
 },
 ]
-\addplot [domain=0:30]  {1};
-\addplot[scatter, only marks, blue, scatter src=y, mark size=3pt]
+\addplot[domain=0:30]  {1};
+\addplot[scatter, only marks, blue, scatter src=y, mark size=2.8pt]
 coordinates
 {
 (11, 1.8)
@@ -439,7 +439,7 @@ axis x line=bottom,
 xticklabel=\pgfmathprintnumber{\tick}\%,
 xtick={5,10,15,20,25},
 ymin=0,
-ymax=9,
+ymax=10,
 xmin=0,
 xmax=30,
 scatter/use mapped color={
@@ -447,7 +447,7 @@ scatter/use mapped color={
  fill=blue,
 },
 ]
-\addplot [domain=0:30]  {1};
+\addplot[domain=0:30]  {1};
 \addplot[scatter, only marks, blue, scatter src=y, mark size=2.5pt]
 coordinates
 {
@@ -730,9 +730,9 @@ A \textbf{histogram} is a graph consisting of bars of equal width drawn adjacent
 \end{itemize}
 \end{block}
 
-\begin{note}
-Histograms are similar to dot plots, except that each bar represents a range of data values.
-\end{note}
+\begin{definition}
+Histograms provide a view of the \textbf{data density}. Higher bars represent where the data is relatively more common.
+\end{definition}
 \end{frame}
 
 \newcommand{\barcolor}[2]{\color<#1|handout:0>{red}{#2}}
@@ -764,6 +764,8 @@ enlarge x limits=false,
 enlarge y limits=false,
 ybar interval,
 ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
 ylabel={Frequency},
 xlabel={Service Time (seconds)},
 x tick label style={rotate=0,anchor=center},
@@ -812,6 +814,663 @@ xticklabel=
 \end{frame}
 
 \begin{frame}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4.5cm,
+width=12.0cm,
+enlarge x limits=true,
+enlarge y limits=false,
+%ybar interval,
+grid=both,
+minor y tick num=1,
+minor x tick num=1,
+ylabel={Frequency},
+xlabel={Interest Rate},
+%x tick label style={rotate=0,anchor=south east},
+tick align=outside, % <-- this positions the ticks "outside"
+xtick={5, 10,...,30},
+ytick={0,5,...,15},
+ymin=0,
+ymax=15,
+xmin=5,
+xmax=30,
+xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=
+\pgfmathprintnumber\tick\%,%--\pgfmathprintnumber\nexttick\%,
+]
+%\draw[red] (axis cs: 5,-1) -- (axis cs: 5,16);
+%\draw[red] (axis cs: 10,0) -- (axis cs: 10,15);
+%\draw[red] (axis cs: 15,0) -- (axis cs: 15,15);
+%\draw[red] (axis cs: 20,0) -- (axis cs: 20,15);
+%\draw[red] (axis cs: 25,0) -- (axis cs: 25,15);
+\addplot+ [ybar interval, mark=none, fill=blue!30!white, hist={bins=10, data min=5, data max=30}]
+table [y=interest_rate, col sep=comma] {loan50.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
 
+\begin{center}
+\begin{tikzpicture}
+\pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
+     every non boxed y axis/.append style={y axis line style=-}}
+\begin{axis}[
+small,
+width=12cm,
+height=3.7cm,
+xlabel={Interest Rate (Rounded to Nearest Percent)},
+ylabel={},
+yticklabels={},
+axis y line=none,
+axis x line=bottom,
+xticklabel=\pgfmathprintnumber{\tick}\%,
+xtick={5,10,15,20,25},
+ymin=0,
+ymax=10,
+xmin=0,
+xmax=30,
+scatter/use mapped color={
+ %draw=mapped color,
+ fill=blue,
+},
+]
+\addplot [domain=0:30]  {1};
+\addplot[scatter, only marks, blue, scatter src=y, mark size=2.5pt]
+coordinates
+{
+(11, 1.8)
+(11, 2.8)
+(11, 3.8)
+(11, 4.8)
+(11, 5.8)
+(10, 1.8)
+(10, 2.8)
+(10, 3.8)
+(10, 4.8)
+(10, 5.8)
+(10, 6.8)
+(10, 7.8)
+(10, 8.8)
+(26, 1.8)
+(9, 1.8)
+(9, 2.8)
+(9, 3.8)
+(9, 4.8)
+(9, 5.8)
+(17, 1.8)
+(17, 2.8)
+(17, 3.8)
+(6, 1.8)
+(6, 2.8)
+(6, 3.8)
+(8, 1.8)
+(8, 2.8)
+(8, 3.8)
+(8, 4.8)
+(13, 1.8)
+(13, 2.8)
+(13, 3.8)
+(5, 1.8)
+(5, 2.8)
+(5, 3.8)
+(7, 1.8)
+(7, 2.8)
+(7, 3.8)
+(7, 4.8)
+(7, 5.8)
+(25, 1.8)
+(18, 1.8)
+(18, 2.8)
+(19, 1.8)
+(14, 1.8)
+(20, 1.8)
+(15, 1.8)
+(12, 1.8)
+(16, 1.8)
+(21, 1.8)
+};
+\addplot [scatter, only marks, red, scatter src=y, mark size=3pt, scatter/use mapped color={fill=red,}, mark=triangle*] coordinates {(11.567, 0.4)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+If all of the bars in a histogram are close to the same height, then the distribution is said to be \textbf{uniformly distributed}.
+\end{definition}
+
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=7.0cm,
+width=11.75cm,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Frequency},
+xlabel={},
+x tick label style={rotate=0,anchor=center},
+%xtick={0,1,2,3,4,5,6,7,8,9},
+%ytick={0,1,...,10},
+ymin=0,
+ymax=1100,
+%xmin=0,
+%xmax=9,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick,
+%yticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%yticklabel=
+%\pgfmathprintnumber\tick\%
+]
+\addplot+ [hist={bins=10, data min=0, data max=10}]
+table [y=nums] {randu.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When the data trails off to the right and has a longer right tail, the distribution is said to be \textbf{right skewed}.
+\end{definition}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=7.0cm,
+width=12cm,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Frequency},
+xlabel={},
+x tick label style={rotate=0,anchor=center},
+xtick={0,10,...,60},
+%ytick={0,1,...,10},
+ymin=0,
+ymax=700,
+%xmin=0,
+%xmax=9,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick,
+%yticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%yticklabel=
+%\pgfmathprintnumber\tick\%
+]
+\addplot+ [hist={bins=60, data min=0, data max=60}]
+table [y=nums] {randsr.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+When the data trails off to the left and has a longer left tail, the distribution is said to be \textbf{left skewed}.
+\end{definition}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=7.0cm,
+width=12cm,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Frequency},
+xlabel={},
+x tick label style={rotate=0,anchor=center},
+xtick={0,10,...,60},
+%ytick={0,1,...,10},
+ymin=0,
+ymax=700,
+%xmin=0,
+%xmax=9,
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick,
+%yticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%yticklabel=
+%\pgfmathprintnumber\tick\%
+]
+\addplot+ [hist={bins=60, data min=0, data max=60}]
+table [y=nums] {randsl.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+\begin{columns}
+\begin{column}{0.18\textwidth}
+Skewed to the left resembles the toes on your left foot.
+\end{column}
+\begin{column}{0.54\textwidth}
+\includegraphics[width=\textwidth]{feet.png}
+\end{column}
+\begin{column}{0.18\textwidth}
+Skewed to the right resembles the toes on your right foot.
+\end{column}
+\end{columns}
+\end{note}\pause
+
+\begin{definition}
+If the distribution of data is skewed to the left or skewed to the right, the distribution is called \textbf{skewed}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Data sets that show roughly equal trailing off in both directions are called \textbf{symmetric}.
+\end{definition}\pause
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=6.7cm,
+width=12.0cm,
+enlarge x limits=false,
+enlarge y limits=false,
+ybar interval,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Frequency},
+xlabel={},
+%x tick label style={rotate=0,anchor=center},
+xtick={10,20,...,500},
+%ytick={0,10,...,1000},
+xmin=0,
+xmax=190,
+ymin=0,
+ymax=500
+%xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%xticklabel=
+%\pgfmathprintnumber\tick--\pgfmathprintnumber\nexttick,
+%yticklabel style={/pgf/number format/.cd,fixed,precision=0},
+%yticklabel=
+%\pgfmathprintnumber\tick\%
+]
+\addplot+ [hist={bins=75}]
+table [y=nums] {randn.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{mode} is represented by a prominent peak in the distribution.
+\end{definition}\pause
+
+\begin{definition}
+If a distribution has exactly one mode, it is called \textbf{unimodal}.
+\end{definition}\pause
+
+\begin{definition}
+If the distribution has exactly two modes, it is called \textbf{bimodal}.
+\end{definition}\pause
+
+\begin{definition}
+If the distribution has more than two modes, it is called \textbf{multimodal}.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4.5cm,
+width=12.0cm,
+enlarge x limits=false,
+enlarge y limits=false,
+%ybar interval,
+grid=both,
+minor y tick num=1,
+minor x tick num=1,
+ylabel={Frequency},
+xlabel={Interest Rate},
+%x tick label style={rotate=0,anchor=south east},
+tick align=outside, % <-- this positions the ticks "outside"
+xtick={5, 10,...,30},
+ytick={0,5,...,20},
+ymin=0,
+ymax=20,
+xmin=0,
+xmax=25,
+xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=
+\pgfmathprintnumber\tick,%--\pgfmathprintnumber\nexttick\%,
+]
+\draw [blue,fill=blue!30!white] (axis cs: 0,0) rectangle (axis cs: 2.5,3);
+\draw [blue,fill=blue!30!white] (axis cs: 2.5,0) rectangle (axis cs: 5,16);
+\draw [blue,fill=blue!30!white] (axis cs: 5,0) rectangle (axis cs: 7.5,16);
+\draw [blue,fill=blue!30!white] (axis cs: 7.5,0) rectangle (axis cs: 10,9);
+\draw [blue,fill=blue!30!white] (axis cs: 10,0) rectangle (axis cs: 12.5,11);
+\draw [blue,fill=blue!30!white] (axis cs: 12.5,0) rectangle (axis cs: 15,6);
+\draw [blue,fill=blue!30!white] (axis cs: 15,0) rectangle (axis cs: 17.5,5);
+\draw [blue,fill=blue!30!white] (axis cs: 17.5,0) rectangle (axis cs: 20,2);
+\draw [blue,fill=blue!30!white] (axis cs: 20,0) rectangle (axis cs: 22.5,2);
+\draw [blue,fill=blue!30!white] (axis cs: 22.5,0) rectangle (axis cs: 25,1);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\question{How many modes does this distribution have?}\pause
+\answer{One}\pause
+
+\vspace{1mm}
+\question{Is this distribution unimodal, bimodal, or multimodal?}\pause
+\answer{Unimodal}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4.5cm,
+width=12.0cm,
+enlarge x limits=false,
+enlarge y limits=false,
+%ybar interval,
+grid=both,
+minor y tick num=1,
+minor x tick num=1,
+ylabel={Frequency},
+xlabel={Interest Rate},
+%x tick label style={rotate=0,anchor=south east},
+tick align=outside, % <-- this positions the ticks "outside"
+xtick={5, 10,...,30},
+ytick={0,5,...,20},
+ymin=0,
+ymax=20,
+xmin=0,
+xmax=25,
+xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=
+\pgfmathprintnumber\tick,%--\pgfmathprintnumber\nexttick\%,
+]
+\draw [blue,fill=blue!30!white] (axis cs: 0,0) rectangle (axis cs: 2.5,2);
+\draw [blue,fill=blue!30!white] (axis cs: 2.5,0) rectangle (axis cs: 5,9);
+\draw [blue,fill=blue!30!white] (axis cs: 5,0) rectangle (axis cs: 7.5,5);
+\draw [blue,fill=blue!30!white] (axis cs: 7.5,0) rectangle (axis cs: 10,1);
+\draw [blue,fill=blue!30!white] (axis cs: 10,0) rectangle (axis cs: 12.5,1);
+\draw [blue,fill=blue!30!white] (axis cs: 12.5,0) rectangle (axis cs: 15,1);
+\draw [blue,fill=blue!30!white] (axis cs: 15,0) rectangle (axis cs: 17.5,10);
+\draw [blue,fill=blue!30!white] (axis cs: 17.5,0) rectangle (axis cs: 20,18);
+\draw [blue,fill=blue!30!white] (axis cs: 20,0) rectangle (axis cs: 22.5,9);
+\draw [blue,fill=blue!30!white] (axis cs: 22.5,0) rectangle (axis cs: 25,1);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\question{How many modes does this distribution have?}\pause
+\answer{Two}\pause
+
+\vspace{1mm}
+\question{Is this distribution unimodal, bimodal, or multimodal?}\pause
+\answer{Bimodal}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4.5cm,
+width=12.0cm,
+enlarge x limits=false,
+enlarge y limits=false,
+%ybar interval,
+grid=both,
+minor y tick num=1,
+minor x tick num=1,
+ylabel={Frequency},
+xlabel={Interest Rate},
+%x tick label style={rotate=0,anchor=south east},
+tick align=outside, % <-- this positions the ticks "outside"
+xtick={5, 10,...,30},
+ytick={0,5,...,20},
+ymin=0,
+ymax=20,
+xmin=0,
+xmax=25,
+xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+xticklabel=
+\pgfmathprintnumber\tick,%--\pgfmathprintnumber\nexttick\%,
+]
+\draw [blue,fill=blue!30!white] (axis cs: 0,0) rectangle (axis cs: 2.5,10);
+\draw [blue,fill=blue!30!white] (axis cs: 2.5,0) rectangle (axis cs: 5,8);
+\draw [blue,fill=blue!30!white] (axis cs: 5,0) rectangle (axis cs: 7.5,3);
+\draw [blue,fill=blue!30!white] (axis cs: 7.5,0) rectangle (axis cs: 10,2);
+\draw [blue,fill=blue!30!white] (axis cs: 10,0) rectangle (axis cs: 12.5,19);
+\draw [blue,fill=blue!30!white] (axis cs: 12.5,0) rectangle (axis cs: 15,15);
+\draw [blue,fill=blue!30!white] (axis cs: 15,0) rectangle (axis cs: 17.5,3);
+\draw [blue,fill=blue!30!white] (axis cs: 17.5,0) rectangle (axis cs: 20,15);
+\draw [blue,fill=blue!30!white] (axis cs: 20,0) rectangle (axis cs: 22.5,17);
+\draw [blue,fill=blue!30!white] (axis cs: 22.5,0) rectangle (axis cs: 25,6);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\question{How many modes does this distribution have?}\pause
+\answer{Three}\pause
+
+\vspace{1mm}
+\question{Is this distribution unimodal, bimodal, or multimodal?}\pause
+\answer{Multimodal}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+Consider the waiting times at a bank.
+
+\vspace{-3mm}
+\begin{center}
+\begin{tikzpicture}
+\pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
+     every non boxed y axis/.append style={y axis line style=-}}
+\begin{axis}[
+width=12cm,
+height=5cm,
+xlabel={Wait Time (seconds)},
+ylabel={},
+yticklabels={},
+axis y line=none,
+axis x line=bottom,
+ymin=0,
+ymax=20,
+xmin=80,
+xmax=125,
+scatter/use mapped color={
+ %draw=mapped color,
+ fill=blue,
+},
+]
+\addplot[scatter, only marks, blue, scatter src=y]
+coordinates
+{
+(84, 0.75)
+(85, 0.75)
+(87, 0.75)
+(90, 0.75)
+(91, 0.75)
+(91, 1.75)
+(95, 0.75)
+(96, 0.75)
+(98, 0.75)
+(99, 0.75)
+(99, 1.75)
+(100, 0.75)
+(100, 1.75)
+(100, 2.75)
+(100, 3.75)
+(100, 4.75)
+(101, 0.75)
+(101, 1.75)
+(104, 0.75)
+(105, 0.75)
+(106, 0.75)
+(112, 0.75)
+(115, 0.75)
+(116, 0.75)
+(125, 0.75)
+};
+
+\draw (axis cs:80,8) -- (axis cs:125,8);
+\draw (axis cs:115,8) node[above]{Single Line};
+\draw (axis cs:115,8) node[below]{Multiple Lines};
+
+\addplot[scatter, only marks, blue, scatter src=y]
+coordinates
+{
+(98, 8.75)
+(99, 8.75)
+(99, 9.75)
+(99, 10.75)
+(99, 11.75)
+(99, 12.75)
+(99, 13.75)
+(100, 8.75)
+(100, 9.75)
+(100, 10.75)
+(100, 11.75)
+(100, 12.75)
+(100, 13.75)
+(100, 14.75)
+(100, 15.75)
+(100, 16.75)
+(100, 17.75)
+(100, 18.75)
+(101, 8.75)
+(101, 9.75)
+(101, 10.75)
+(101, 11.75)
+(101, 12.75)
+(101, 13.75)
+(102, 8.75)
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}\pause
+
+\vspace{-3mm}
+Both of these data sets have the same mean, but they are very different.
+\end{example}\pause
+
+\begin{definition}
+A \textbf{measure of variation} describes how spread out a distribution is.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The distance between an observation and it's mean is called it's \textbf{deviation}. You calculate the deviation as: $x-\bar{x}$.
+\end{definition}\pause
+
+\begin{example}
+Recall that the mean of \texttt{interest\_rate} is $11.57$\%.
+\begin{center}
+\begin{tabular}{ll}
+data & deviation \\\hline\pause
+10.90 & $x_1-\bar{x} = 10.90 - 11.57 = -0.67$ \\\pause
+9.92 & $x_2-\bar{x}=9.92-11.57=-1.65$ \\\pause
+26.30 & $x_3-\bar{x}=26.30-11.57=14.73$ \\\pause
+&\vdots\\
+6.08 & $x_{50}-\bar{x}=6.08-11.57=-5.49$\pause
+\end{tabular}
+\end{center}
+\end{example}
+
+\begin{note}
+A positive deviation means the data value is larger than the mean.\\ A negative deviation means the data value is smaller than the mean.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{variance} of a sample, denoted as $s^2$, is
+\begin{equation*}
+s^2 = \dfrac{\sum \left(x-\bar{x}\right)}{n-1}
+\end{equation*}
+\end{definition}\pause
+
+\begin{note}
+When computing a variance of a population, you divide by $N$ instead of $n-1$ for fiddly mathematical reasons.
+\end{note}\pause
+
+\begin{definition}
+The \textbf{standard deviation}, denoted $s$, is the square root of the variance.
+\end{definition}\pause
+
+\begin{note}
+The standard deviation of a population is denoted $\sigma$ and variance $\sigma^2$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The variance of \texttt{interest\_rate} is
+\begin{equation*}
+\begin{aligned}
+s^2 &= \dfrac{\sum \left(x-\bar{x}\right)}{n-1}\\\pause
+&=  \dfrac{{(-0.67)}^2+{(-1.65)}^2+{(14.73)}^2+\cdots+{(-5.49)}^2}{50-1}  \\\pause
+&= \dfrac{0.45+2.72+216.97+\cdots+30.14}{49} \\\pause
+&= 25.524\pause
+\end{aligned}
+\end{equation*}
+The standard deviation of \texttt{interest\_rate} is
+\begin{equation*}
+\begin{aligned}
+s &= \sqrt{s^2} \pause = \sqrt{25.524} \pause = 5.052
+\end{aligned}
+\end{equation*}
+\end{example}\pause
+\begin{note}
+Computers are often used to compute variance and standard deviation.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Properties}
+\begin{itemize}[<+- | alert@+>]
+\item The standard deviation is a measure of how much most of the data values deviate from the mean.
+\item The value of the standard deviation is never negative.
+\item The value of the standard deviation is only zero when all of the data values are exactly the same.
+\item Larger values of s indicate greater amounts of variation.
+\item The standard deviation can increase dramatically with one or more extreme values.
+\item The units of the standard deviation are the same units as the original data values.
+\end{itemize}
+\end{block}
 \end{frame}
 \end{document}
