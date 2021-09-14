@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{helvet}
@@ -1602,7 +1602,7 @@ To find which data value is in the $P_k$ percentile:
 
 \begin{frame}
 \begin{example}
-The table lists the \textcolor<4-5>{red}{50} Verizon airport data speeds, in Mbps, from\\ Data Set 32 in Appendix B.
+The table lists the \textcolor<4-5|handout:0>{red}{50} Verizon airport data speeds, in Mbps, from\\ Data Set 32 in Appendix B.
 \temporal<2-6>{%
 \begin{center}
 \begin{tabular}{|rrrrrrrrrr|}\hline
@@ -1679,7 +1679,7 @@ The table lists the \textcolor<4-5>{red}{50} Verizon airport data speeds, in Mbp
 \end{tabular}
 \end{center}
 }
-Let us find which value is in the \textcolor<4-5>{blue}{25}th percentile, $P_{25}$.\pause
+Let us find which value is in the \textcolor<4-5|handout:0>{blue}{25}th percentile, $P_{25}$.\pause
 
 \vspace{1mm}
 First, sort the data.\pause
@@ -1688,13 +1688,13 @@ First, sort the data.\pause
 We next need to compute
 \begin{equation*}
 L=\dfrac{k}{100}\cdot n\pause
-=\dfrac{\textcolor<4-5>{blue}{25}}{100}\cdot \textcolor<4-5>{red}{50}\pause
+=\dfrac{\textcolor<4-5|handout:0>{blue}{25}}{100}\cdot \textcolor<4-5|handout:0>{red}{50}\pause
 =12.5\pause
 \end{equation*}
 Since $L=12.5$ is not a whole number, we round up to $13$.\pause
 
 \vspace{1mm}
-So, $P_{25}$ is the 13th data value, \textcolor<7->{red}{7.9} Mbps.
+So, $P_{25}$ is the 13th data value, \textcolor<7-|handout:0>{red}{7.9} Mbps.
 \end{example}
 \end{frame}
 
@@ -1791,56 +1791,56 @@ The table lists, in order from lowest to highest, the 50 smart phone speeds, in 
 }{%
 \begin{center}
 \begin{tabular}{|rrrrrrrrrr|}\hline
-\textcolor{blue}{0.8} &
-\textcolor{blue}{1.4} &
-\textcolor{blue}{1.8} &
-\textcolor{blue}{1.9} &
-\textcolor{blue}{3.2} &
-\textcolor{blue}{3.6} &
-\textcolor{blue}{4.5} &
-\textcolor{blue}{4.5} &
-\textcolor{blue}{4.6} &
-\textcolor{blue}{6.2} \\
-\textcolor{blue}{6.5} &
-\textcolor{blue}{7.7} &
+\textcolor<1-|handout:0>{blue}{\textcolor<handout:1>{red}{0.8}} &
+\textcolor<1-|handout:0>{blue}{1.4} &
+\textcolor<1-|handout:0>{blue}{1.8} &
+\textcolor<1-|handout:0>{blue}{1.9} &
+\textcolor<1-|handout:0>{blue}{3.2} &
+\textcolor<1-|handout:0>{blue}{3.6} &
+\textcolor<1-|handout:0>{blue}{4.5} &
+\textcolor<1-|handout:0>{blue}{4.5} &
+\textcolor<1-|handout:0>{blue}{4.6} &
+\textcolor<1-|handout:0>{blue}{6.2} \\
+\textcolor<1-|handout:0>{blue}{6.5} &
+\textcolor<1-|handout:0>{blue}{7.7} &
 \temporal<2>{\textcolor{blue}{7.9}}{\textcolor{red}{7.9}}{\textcolor{blue}{7.9}} &
-\temporal<3>{\textcolor{cyan}{9.9}}{\textcolor{blue}{9.9}}{\textcolor{blue}{9.9}} &
-\temporal<3>{\textcolor{cyan}{10.2}}{\textcolor{blue}{10.2}}{\textcolor{blue}{10.2}} &
-\temporal<3>{\textcolor{cyan}{10.3}}{\textcolor{blue}{10.3}}{\textcolor{blue}{10.3}} &
-\temporal<3>{\textcolor{cyan}{10.9}}{\textcolor{blue}{10.9}}{\textcolor{blue}{10.9}} &
-\temporal<3>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{11.1}} &
-\temporal<3>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{11.1}} &
-\temporal<3>{\textcolor{cyan}{11.6}}{\textcolor{blue}{11.6}}{\textcolor{blue}{11.6}} \\
-\temporal<3>{\textcolor{cyan}{11.8}}{\textcolor{blue}{11.8}}{\textcolor{blue}{11.8}} &
-\temporal<3>{\textcolor{cyan}{12.0}}{\textcolor{blue}{12.0}}{\textcolor{blue}{12.0}} &
-\temporal<3>{\textcolor{cyan}{13.1}}{\textcolor{blue}{13.1}}{\textcolor{blue}{13.1}} &
-\temporal<3>{\textcolor{cyan}{13.5}}{\textcolor{blue}{13.5}}{\textcolor{blue}{13.5}} &
+\temporal<3|handout:0>{\textcolor{cyan}{9.9}}{\textcolor{blue}{9.9}}{\textcolor{blue}{\textcolor<handout:1>{black}{9.9}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{10.2}}{\textcolor{blue}{10.2}}{\textcolor{blue}{\textcolor<handout:1>{black}{10.2}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{10.3}}{\textcolor{blue}{10.3}}{\textcolor{blue}{\textcolor<handout:1>{black}{10.3}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{10.9}}{\textcolor{blue}{10.9}}{\textcolor{blue}{\textcolor<handout:1>{black}{10.9}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{\textcolor<handout:1>{black}{11.1}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{\textcolor<handout:1>{black}{11.1}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{11.6}}{\textcolor{blue}{11.6}}{\textcolor{blue}{\textcolor<handout:1>{black}{11.6}}} \\
+\temporal<3|handout:0>{\textcolor{cyan}{11.8}}{\textcolor{blue}{11.8}}{\textcolor{blue}{\textcolor<handout:1>{black}{11.8}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{12.0}}{\textcolor{blue}{12.0}}{\textcolor{blue}{\textcolor<handout:1>{black}{12.0}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{13.1}}{\textcolor{blue}{13.1}}{\textcolor{blue}{\textcolor<handout:1>{black}{13.1}}} &
+\temporal<3|handout:0>{\textcolor{cyan}{13.5}}{\textcolor{blue}{13.5}}{\textcolor{blue}{\textcolor<handout:1>{black}{13.5}}} &
 \temporal<3>{\textcolor{cyan}{13.7}}{\textcolor{red}{13.7}}{\textcolor{blue}{13.7}} &
 \temporal<3>{\textcolor{cyan}{14.1}}{\textcolor{red}{14.1}}{\textcolor{blue}{14.1}} &
-\temporal<4>{\textcolor{cyan}{14.2}}{\textcolor{blue}{14.2}}{\textcolor{blue}{14.2}} &
-\temporal<4>{\textcolor{cyan}{14.7}}{\textcolor{blue}{14.7}}{\textcolor{blue}{14.7}} &
-\temporal<4>{\textcolor{cyan}{15.0}}{\textcolor{blue}{15.0}}{\textcolor{blue}{15.0}} &
-\temporal<4>{\textcolor{cyan}{15.1}}{\textcolor{blue}{15.1}}{\textcolor{blue}{15.1}} \\
-\temporal<4>{\textcolor{cyan}{15.5}}{\textcolor{blue}{15.5}}{\textcolor{blue}{15.5}} &
-\temporal<4>{\textcolor{cyan}{15.8}}{\textcolor{blue}{15.8}}{\textcolor{blue}{15.8}} &
-\temporal<4>{\textcolor{cyan}{16.0}}{\textcolor{blue}{16.0}}{\textcolor{blue}{16.0}} &
-\temporal<4>{\textcolor{cyan}{17.5}}{\textcolor{blue}{17.5}}{\textcolor{blue}{17.5}} &
-\temporal<4>{\textcolor{cyan}{18.2}}{\textcolor{blue}{18.2}}{\textcolor{blue}{18.2}} &
-\temporal<4>{\textcolor{cyan}{20.2}}{\textcolor{blue}{20.2}}{\textcolor{blue}{20.2}} &
-\temporal<4>{\textcolor{cyan}{21.1}}{\textcolor{blue}{21.1}}{\textcolor{blue}{21.1}} &
+\temporal<4|handout:0>{\textcolor{cyan}{14.2}}{\textcolor{blue}{14.2}}{\textcolor{blue}{\textcolor<handout:1>{black}{14.2}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{14.7}}{\textcolor{blue}{14.7}}{\textcolor{blue}{\textcolor<handout:1>{black}{14.7}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{15.0}}{\textcolor{blue}{15.0}}{\textcolor{blue}{\textcolor<handout:1>{black}{15.0}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{15.1}}{\textcolor{blue}{15.1}}{\textcolor{blue}{\textcolor<handout:1>{black}{15.1}}} \\
+\temporal<4|handout:0>{\textcolor{cyan}{15.5}}{\textcolor{blue}{15.5}}{\textcolor{blue}{\textcolor<handout:1>{black}{15.5}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{15.8}}{\textcolor{blue}{15.8}}{\textcolor{blue}{\textcolor<handout:1>{black}{15.8}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{16.0}}{\textcolor{blue}{16.0}}{\textcolor{blue}{\textcolor<handout:1>{black}{16.0}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{17.5}}{\textcolor{blue}{17.5}}{\textcolor{blue}{\textcolor<handout:1>{black}{17.5}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{18.2}}{\textcolor{blue}{18.2}}{\textcolor{blue}{\textcolor<handout:1>{black}{18.2}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{20.2}}{\textcolor{blue}{20.2}}{\textcolor{blue}{\textcolor<handout:1>{black}{20.2}}} &
+\temporal<4|handout:0>{\textcolor{cyan}{21.1}}{\textcolor{blue}{21.1}}{\textcolor{blue}{\textcolor<handout:1>{black}{21.1}}} &
 \temporal<4>{\textcolor{cyan}{21.5}}{\textcolor{red}{21.5}}{\textcolor{blue}{21.5}} &
-\textcolor{cyan}{22.2} &
-\textcolor{cyan}{22.4} \\
-\textcolor{cyan}{23.1} &
-\textcolor{cyan}{24.5} &
-\textcolor{cyan}{25.7} &
-\textcolor{cyan}{28.5} &
-\textcolor{cyan}{34.6} &
-\textcolor{cyan}{38.5} &
-\textcolor{cyan}{43.0} &
-\textcolor{cyan}{55.6} &
-\textcolor{cyan}{71.3} &
-\textcolor{cyan}{77.8} \\\hline
+\textcolor<1-||handout:0>{cyan}{22.2} &
+\textcolor<1-||handout:0>{cyan}{22.4} \\
+\textcolor<1-||handout:0>{cyan}{23.1} &
+\textcolor<1-||handout:0>{cyan}{24.5} &
+\textcolor<1-||handout:0>{cyan}{25.7} &
+\textcolor<1-||handout:0>{cyan}{28.5} &
+\textcolor<1-||handout:0>{cyan}{34.6} &
+\textcolor<1-||handout:0>{cyan}{38.5} &
+\textcolor<1-||handout:0>{cyan}{43.0} &
+\textcolor<1-||handout:0>{cyan}{55.6} &
+\textcolor<1-||handout:0>{cyan}{71.3} &
+\textcolor<1-||handout:0>{cyan}{\textcolor<handout:1>{red}{77.8}} \\\hline
 \end{tabular}
 \end{center}
 }{%
@@ -1926,7 +1926,7 @@ The table lists 50 smartphone speeds, in Mbps.
 \begin{center}
 \begin{tabular}{|rrrrrrrrrr|}\hline
 38.5 & \textcolor<11|handout: 1>{red}{55.6} & 22.4 & 14.1 & 23.1 & 24.5 & 6.5 & 21.5 & 25.7 & 14.7 \\
-\textcolor<11|handout: 1>{red}{77.8} & \textcolor<11|handout: 1>{red}{71.3} & \textcolor<11>{red}{43.0} & 20.2 & 15.5 & 13.7 & 11.1 & 13.5 & 10.2 & 21.1 \\
+\textcolor<11|handout: 1>{red}{77.8} & \textcolor<11|handout: 1>{red}{71.3} & \textcolor<11|handout: 1>{red}{43.0} & 20.2 & 15.5 & 13.7 & 11.1 & 13.5 & 10.2 & 21.1 \\
 15.1 & 14.2 & 4.5 & 7.9 & 9.9 & 10.3 & 6.2 & 17.5 & 22.2 & 13.1 \\
 18.2 & 28.5 & 15.8 & 15.0 & 11.1 & 11.8 & 16.0 & 10.9 & 1.8 & 34.6 \\
 4.6 & 12.0 & 11.6 & 3.6 & 1.9 & 7.7 & 0.8 & 4.5 & 1.4 & 3.2 \\\hline
@@ -1937,14 +1937,14 @@ The table lists 50 smartphone speeds, in Mbps.
 Recall that the five number summary is:
 \vspace{-2mm}
 \begin{center}
-minimum=$0.8$, $Q_1=\textcolor<6>{red}{\textcolor<3>{blue}{7.9}}$, Median=$13.9$, $Q_3=\textcolor<9>{red}{\textcolor<3>{red}{21.5}}$, maximum=$77.8$\pause
+minimum=$0.8$, $Q_1=\textcolor<6|handout: 0>{red}{\textcolor<3|handout: 0>{blue}{7.9}}$, Median=$13.9$, $Q_3=\textcolor<9|handout: 0>{red}{\textcolor<3|handout: 0>{red}{21.5}}$, maximum=$77.8$\pause
 \end{center}
 
 \vspace{-1.5mm}
 The IQR would then be:
 \vspace{-2mm}
 \begin{equation*}
-\text{IQR} = Q_3 - Q_1\pause = \textcolor<3>{red}{21.5} - \textcolor<3>{blue}{7.9}\pause = \textcolor<9>{blue}{\textcolor<6>{blue}{13.6}}
+\text{IQR} = Q_3 - Q_1\pause = \textcolor<3|handout: 0>{red}{21.5} - \textcolor<3|handout: 0>{blue}{7.9}\pause = \textcolor<9|handout: 0>{blue}{\textcolor<6|handout: 0>{blue}{13.6}}
 \end{equation*}\pause
 
 \vspace{-7mm}
@@ -1952,8 +1952,8 @@ The limits for outliers would be:
 \vspace{-2.5mm}
 \begin{equation*}
 \begin{aligned}
-\text{Lower Limit} &= Q_1 - 1.5 \cdot \text{IQR}\pause = \textcolor<6>{red}{7.9} - 1.5\cdot \textcolor<6>{blue}{13.6}\pause = -12.5 \\\pause
-\text{Upper Limit} &= Q_3 + 1.5\cdot \text{IQR}\pause = \textcolor<9>{red}{21.5} + 1.5\cdot \textcolor<9>{blue}{13.6}\pause  = 41.9
+\text{Lower Limit} &= Q_1 - 1.5 \cdot \text{IQR}\pause = \textcolor<6|handout: 0>{red}{7.9} - 1.5\cdot \textcolor<6|handout: 0>{blue}{13.6}\pause = -12.5 \\\pause
+\text{Upper Limit} &= Q_3 + 1.5\cdot \text{IQR}\pause = \textcolor<9|handout: 0>{red}{21.5} + 1.5\cdot \textcolor<9|handout: 0>{blue}{13.6}\pause  = 41.9
 \end{aligned}
 \end{equation*}\pause
 
