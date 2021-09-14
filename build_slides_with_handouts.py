@@ -50,28 +50,40 @@ create table if not exists file_hashes (path text,
         def _hash(self, f):
                 # hash the file
                 h = hashlib.md5()
+                
+                try:
+                        # read the file in as binary
+                        with f.open('br') as f:
+                                while True:
+                                        buffer = f.read(BLOCKSIZE)
+                                        
+                                        if len(buffer) == 0:
+                                                break
+                                        
+                                        h.update(buffer)
+                                        
+                                        # return hash
+                        return h.hexdigest()
+                except FileNotFoundError:
+                        pass
+                
+                return ""
         
-                # read the file in as binary
-                with f.open('br') as f:
-                        while True:
-                                buffer = f.read(BLOCKSIZE)
-                                
-                                if len(buffer) == 0:
-                                        break
-                                
-                                h.update(buffer)
-                                
-                                # return hash
-                return h.hexdigest()
-        
-        def check_hash(self, f):
+        def file_changed(self, f):
                 with self.pool.get_resource() as c:
                         hash_in_db = c.execute(('select hash '
                                           'from file_hashes '
                                           'where path=? '
                                           'limit 1;'),
                                          (str(f.resolve()),)).fetchone()
-                return hash_in_db is not None and self._hash(f) == hash_in_db[0]
+                file_hash = self._hash(f)
+                if hash_in_db is None:
+                        return True
+                if file_hash == "":
+                        return True
+                if self._hash(f) != hash_in_db[0]:
+                        return True
+                return False
         
         def update_hash(self, f):
                 with self.pool.get_resource() as c:
@@ -110,7 +122,17 @@ def file_to_pdf_names(f):
                 
 def build_slides(f):
         global db
-        
+
+        update_hashes = False
+        finished_slides, finished_handout = file_to_pdf_names(f)
+        tex_changed = db.file_changed(f)
+        slides_changed = db.file_changed(finished_slides)
+        handout_changed = db.file_changed(finished_handout)
+
+        if not tex_changed and not slides_changed and not handout_changed:
+                print(f"{f}: all files are up-to-date")
+                return
+
         with tempfile.TemporaryDirectory() as tmpdirname:
                 working = Path(tmpdirname) / f"{f.stem}"
 
@@ -119,7 +141,6 @@ def build_slides(f):
 
                 slides_latex = working / f.name
                 slides_pdf = working / f"{f.stem}.pdf"
-                finished_slides, finished_handout = file_to_pdf_names(f)
 
                 base = slides_latex.read_text()
                 sep = r"\documentclass{beamer}"
@@ -130,18 +151,26 @@ def build_slides(f):
                         top, bottom = base.split(sep, maxsplit=1)
                 
                 # build the full slides
-                print(f"{f}: building slides")
-                slides_latex.write_text(top + r"\documentclass{beamer}" + bottom)
-                run_LaTeX(slides_latex, working)
-                #print(f"Move {slides_pdf} to {finished_slides}")
-                shutil.copy(slides_pdf, finished_slides)
+                if tex_changed or slides_changed:
+                        print(f"{f}: building slides")
+                        slides_latex.write_text(top + r"\documentclass{beamer}" + bottom)
+                        run_LaTeX(slides_latex, working)
+                        #print(f"Move {slides_pdf} to {finished_slides}")
+                        shutil.copy(slides_pdf, finished_slides)
+                        update_hashes = True
+                else:
+                        print(f"{f}: slides up-to-date")
                 
                 # build the handout
-                print(f"{f}: building handout")
-                slides_latex.write_text(top + r"\documentclass[handout]{beamer}" + bottom)
-                run_LaTeX(slides_latex, working)
-                #print(f"Move {slides_pdf} to {finished_handout}")
-                shutil.copy(slides_pdf, finished_handout)
+                if tex_changed or handout_changed:
+                        print(f"{f}: building handout")
+                        slides_latex.write_text(top + r"\documentclass[handout]{beamer}" + bottom)
+                        run_LaTeX(slides_latex, working)
+                        #print(f"Move {slides_pdf} to {finished_handout}")
+                        shutil.copy(slides_pdf, finished_handout)
+                        update_hashes = True
+                else:
+                        print(f"{f}: handout up-to-date")
                 
                 # remove working version of pdf if it exists in the parent dir.
                 old_pdf = f.parent / f"{f.stem}.pdf"
@@ -150,10 +179,11 @@ def build_slides(f):
                         old_pdf.unlink()
                 
                 # update hash
-                print(f"{f}: updating hashes in db")
-                db.update_hash(f)
-                db.update_hash(finished_slides)
-                db.update_hash(finished_handout)
+                if update_hashes:
+                        print(f"{f}: updating hashes in db")
+                        db.update_hash(f)
+                        db.update_hash(finished_slides)
+                        db.update_hash(finished_handout)
                 
 # d must be a pathlib path. i.e. Path("...")
 def build_all_slides(d, pattern):
@@ -167,12 +197,7 @@ def build_all_slides(d, pattern):
                                 continue
                         build_all_slides(p, pattern)
                 if p.is_file() and re.match(pattern, str(p.name)):
-                        slides, handout = file_to_pdf_names(p)
-                        
-                        if db.check_hash(p) and db.check_hash(slides) and db.check_hash(handout):
-                                print(f"{p} is up to date")
-                        else:
-                                build_slides(p)
+                        build_slides(p)
 
 db = HashDB('hashes.sqlite')
 build_all_slides(Path("./CCC/MA205/OpenIntro/"), r"chapter\_.\_section\_.\.tex")
