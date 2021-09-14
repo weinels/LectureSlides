@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{helvet}
@@ -1298,7 +1298,7 @@ Let us consider the weights of randomly selected pennies.
 \begin{tikzpicture}
 \begin{axis}[
 small,
-height=4cm,
+height=3.5cm,
 width=12.0cm,
 enlarge x limits=false,
 enlarge y limits=false,
@@ -1307,7 +1307,7 @@ grid=both,
 minor y tick num=1,
 minor x tick num=1,
 ylabel={Frequency},
-xlabel={Interest Rate},
+xlabel={Weight (grams)},
 %x tick label style={rotate=0,anchor=south east},
 tick align=outside, % <-- this positions the ticks "outside"
 xtick={2.4,2.5,...,3.3},
@@ -1330,17 +1330,15 @@ xticklabel=
 \draw [blue,fill=blue!30!white] (axis cs: 3.1,0) rectangle (axis cs: 3.2,8);
 \end{axis}
 \end{tikzpicture}
-\end{center}
-\question{How many modes does this distribution have?}\pause
-\answer{Two}\pause
+\end{center}\pause
 
-\vspace{1mm}
+\vspace{-1mm}
 The modes describe two different types of pennies in circulation:
 \begin{itemize}
 \item Pennies made before 1983 are 95\% copper and 5\% zinc.
 \item Pennies made after 1983 are 2.5\% copper and 97.5\% zinc.
 \end{itemize}
-Since copper is more dense than zinc, pennies made after 1983 weigh less.
+Since copper is more dense than zinc, pennies made after 1983 weigh less than those made before 1983.
 \end{example}
 \end{frame}
 
@@ -1474,7 +1472,7 @@ A positive deviation means the data value is larger than the mean.\\ A negative 
 \begin{definition}
 The \textbf{variance} of a sample, denoted as $s^2$, is
 \begin{equation*}
-s^2 = \dfrac{\sum \left(x-\bar{x}\right)}{n-1}
+s^2 = \dfrac{\sum {\left(x-\bar{x}\right)}^2}{n-1}
 \end{equation*}
 \end{definition}\pause
 
@@ -1496,7 +1494,7 @@ The standard deviation of a population is denoted $\sigma$ and variance $\sigma^
 The variance of \texttt{interest\_rate} is
 \begin{equation*}
 \begin{aligned}
-s^2 &= \dfrac{\sum \left(x-\bar{x}\right)}{n-1}\\\pause
+s^2 &= \dfrac{\sum {\left(x-\bar{x}\right)}^2}{n-1}\\\pause
 &=  \dfrac{{(-0.67)}^2+{(-1.65)}^2+{(14.73)}^2+\cdots+{(-5.49)}^2}{50-1}  \\\pause
 &= \dfrac{0.45+2.72+216.97+\cdots+30.14}{49} \\\pause
 &= 25.524\pause
@@ -1602,7 +1600,7 @@ To find which data value is in the $P_k$ percentile:
 
 \begin{frame}
 \begin{example}
-The table lists the \textcolor<4-5|handout:0>{red}{50} Verizon airport data speeds, in Mbps, from\\ Data Set 32 in Appendix B.
+The table lists the \textcolor<4-5|handout:0>{red}{50} smartphone data speeds, in Mbps.
 \temporal<2-6>{%
 \begin{center}
 \begin{tabular}{|rrrrrrrrrr|}\hline
