@@ -123,7 +123,11 @@ def build_slides(f):
 
                 base = slides_latex.read_text()
                 sep = r"\documentclass{beamer}"
-                top, bottom = base.split(sep, maxsplit=1)
+                try:
+                        top, bottom = base.split(sep, maxsplit=1)
+                except ValueError:
+                        sep = r"\documentclass[handout]{beamer}"
+                        top, bottom = base.split(sep, maxsplit=1)
                 
                 # build the full slides
                 print(f"{f}: building slides")
