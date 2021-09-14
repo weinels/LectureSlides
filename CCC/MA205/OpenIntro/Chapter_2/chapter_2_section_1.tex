@@ -119,7 +119,7 @@ scatter/use mapped color={
 fill=black,
 },
 ]
-\addplot [scatter, only marks, red, scatter src=y, mark size=1.0pt,, scatter/use mapped color={fill=red,}]
+\addplot [scatter, only marks, red, scatter src=y, mark size=1.0pt, scatter/use mapped color={fill=red,}]
 table [y=loan_amount, x=total_income, col sep=comma, x expr={\thisrow{total_income} / (\thisrow{total_income} <= 100000)}] {loan50.csv};
 \addplot [scatter, only marks, blue!50!black, scatter src=y, mark size=0.8pt]
 table [y=loan_amount, x=total_income, col sep=comma, x expr={\thisrow{total_income} / (\thisrow{total_income} > 100000)}] {loan50.csv};
@@ -1085,7 +1085,7 @@ If the distribution of data is skewed to the left or skewed to the right, the di
 \begin{frame}
 \begin{definition}
 Data sets that show roughly equal trailing off in both directions are called \textbf{symmetric}.
-\end{definition}\pause
+\end{definition}
 \begin{example}
 \begin{center}
 \begin{tikzpicture}
@@ -1291,6 +1291,59 @@ xticklabel=
 \end{example}
 \end{frame}
 
+\begin{frame}
+\begin{example}
+Let us consider the weights of randomly selected pennies.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+small,
+height=4cm,
+width=12.0cm,
+enlarge x limits=false,
+enlarge y limits=false,
+%ybar interval,
+grid=both,
+minor y tick num=1,
+minor x tick num=1,
+ylabel={Frequency},
+xlabel={Interest Rate},
+%x tick label style={rotate=0,anchor=south east},
+tick align=outside, % <-- this positions the ticks "outside"
+xtick={2.4,2.5,...,3.3},
+ytick={0,5,...,30},
+ymin=0,
+ymax=30,
+xmin=2.4,
+xmax=3.2,
+xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+xticklabel=
+\pgfmathprintnumber\tick,%--\pgfmathprintnumber\nexttick\%,
+]
+\draw [blue,fill=blue!30!white] (axis cs: 2.4,0) rectangle (axis cs: 2.5,18);
+\draw [blue,fill=blue!30!white] (axis cs: 2.5,0) rectangle (axis cs: 2.6,19);
+\draw [blue,fill=blue!30!white] (axis cs: 2.6,0) rectangle (axis cs: 2.7,0);
+\draw [blue,fill=blue!30!white] (axis cs: 2.7,0) rectangle (axis cs: 2.8,0);
+\draw [blue,fill=blue!30!white] (axis cs: 2.8,0) rectangle (axis cs: 2.9,0);
+\draw [blue,fill=blue!30!white] (axis cs: 2.9,0) rectangle (axis cs: 3.0,2);
+\draw [blue,fill=blue!30!white] (axis cs: 3.0,0) rectangle (axis cs: 3.1,25);
+\draw [blue,fill=blue!30!white] (axis cs: 3.1,0) rectangle (axis cs: 3.2,8);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\question{How many modes does this distribution have?}\pause
+\answer{Two}\pause
+
+\vspace{1mm}
+The modes describe two different types of pennies in circulation:
+\begin{itemize}
+\item Pennies made before 1983 are 95\% copper and 5\% zinc.
+\item Pennies made after 1983 are 2.5\% copper and 97.5\% zinc.
+\end{itemize}
+Since copper is more dense than zinc, pennies made after 1983 weigh less.
+\end{example}
+\end{frame}
+
 \begin{frame}[fragile]
 \begin{example}
 Consider the waiting times at a bank.
@@ -1472,5 +1525,605 @@ Computers are often used to compute variance and standard deviation.
 \item The units of the standard deviation are the same units as the original data values.
 \end{itemize}
 \end{block}
+\onslide<+->
+\begin{note}
+For reason will explore in Chapter 4, we expect most of the data to fall within one standard deviation of the mean.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Percentiles} are measures of location, denoted $P_{1},P_{2},\ldots,P_{99}$, which divide a set of data into 100 groups with about $1\%$ of the values in each group.
+\end{definition}\pause
+
+\begin{block}{Formula}
+The process of finding the percentile that corresponds to a particular data value $x$ is given by the following:
+\begin{equation*}
+\text{Percentile of value $x$} = \dfrac{\text{number of values less than $x$}}{\text{total number of values}}\cdot 100
+\end{equation*}
+\end{block}\pause
+
+\begin{note}
+Round percentiles to the nearest whole number.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The table lists the 50 smartphone data speeds, in Mbps.
+\begin{center}
+\begin{tabular}{rrrrrrrrrr}
+38.5 & 55.6 & 22.4 & 14.1 & 23.1 & 24.5 & \textcolor<2->{blue}{6.5} & 21.5 & 25.7 & 14.7 \\
+77.8 & 71.3 & 43.0 & 20.2 & 15.5 & 13.7 & \textcolor<2->{blue}{11.1} & 13.5 & \textcolor<2->{blue}{10.2} & 21.1 \\
+15.1 & 14.2 & \textcolor<2->{blue}{4.5} & \textcolor<2->{blue}{7.9} & \textcolor<2->{blue}{9.9} & \textcolor<2->{blue}{10.3} & \textcolor<2->{blue}{6.2} & 17.5 & 22.2 & 13.1 \\
+18.2 & 28.5 & 15.8 & 15.0 & \textcolor<2->{blue}{11.1} & \textcolor<2->{red}{11.8} & 16.0 & \textcolor<2->{blue}{10.9} & \textcolor<2->{blue}{1.8} & 34.6 \\
+\textcolor<2->{blue}{4.6} & 12.0 & \textcolor<2->{blue}{11.6} & \textcolor<2->{blue}{3.6} & \textcolor<2->{blue}{1.9} & \textcolor<2->{blue}{7.7} & \textcolor<2->{blue}{0.8} & \textcolor<2->{blue}{4.5} & \textcolor<2->{blue}{1.4} & \textcolor<2->{blue}{3.2} \\
+\end{tabular}
+\end{center}
+Let us find which percentile the data value 11.8 Mbps in.\pause
+
+\vspace{1mm}
+There are 20 \textcolor{blue}{data values less than} \textcolor{red}{11.8} Mbps.\pause 
+
+\vspace{-3mm}
+\begin{equation*}
+\text{Percentile of}~\textcolor{red}{11.8}=\dfrac{20}{50}\cdot 100 = 40\pause
+\end{equation*}
+
+\vspace{-5mm}
+A data speed of 11.8 Mbps is in the 40th percentile.
+\end{example}\pause
+
+\begin{note}
+This can be interpreted loosely as 40\% of the data speeds are slower than 11.8 Mbps and 60\% of the data speeds are faster than 11.8 Mbps.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Converting a Percentile to a Data Value}
+Notation:
+\begin{itemize}
+\item $n$ is the total number of values in the data set.
+\item $k$ is the percentile being used.
+\item $L$ is the locator that gives the position of a value.
+\item $P_k$ is the $k$th percentile.
+\end{itemize}\pause
+To find which data value is in the $P_k$ percentile:
+\begin{enumerate}
+\item Sort the data from lowest to highest.\pause
+\item Compute $L=\left(\dfrac{k}{100}\right)n$\pause
+\item \begin{itemize}
+\item If $L$ is a whole number, the value of the $k$th percentile is midway between the $L$th value and the next value in the sorted data. Add the $L$th value and $(L+1)$th value, then divide by 2.\pause
+\item If $L$ is not a whole number, round $L$ up to the nearest whole number. $P_k$is the $L$th data value. 
+\end{itemize}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The table lists the \textcolor<4-5>{red}{50} Verizon airport data speeds, in Mbps, from\\ Data Set 32 in Appendix B.
+\temporal<2-6>{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+38.5 & 55.6 & 22.4 & 14.1 & 23.1 & 24.5 & 6.5 & 21.5 & 25.7 & 14.7 \\
+77.8 & 71.3 & 43.0 & 20.2 & 15.5 & 13.7 & 11.1 & 13.5 & 10.2 & 21.1 \\
+15.1 & 14.2 & 4.5 & 7.9 & 9.9 & 10.3 & 6.2 & 17.5 & 22.2 & 13.1 \\
+18.2 & 28.5 & 15.8 & 15.0 & 11.1 & 11.8 & 16.0 & 10.9 & 1.8 & 34.6 \\
+4.6 & 12.0 & 11.6 & 3.6 & 1.9 & 7.7 & 0.8 & 4.5 & 1.4 & 3.2 \\\hline
+\end{tabular}
+\end{center}
+}{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+0.8 & 1.4 & 1.8 & 1.9 & 3.2 & 3.6 & 4.5 & 4.5 & 4.6 & 6.2 \\
+6.5 & 7.7 & 7.9 & 9.9 & 10.2 & 10.3 & 10.9 & 11.1 & 11.1 & 11.6 \\
+11.8 & 12.0 & 13.1 & 13.5 & 13.7 & 14.1 & 14.2 & 14.7 & 15.0 & 15.1 \\
+15.5 & 15.8 & 16.0 & 17.5 & 18.2 & 20.2 & 21.1 & 21.5 & 22.2 & 22.4 \\
+23.1 & 24.5 & 25.7 & 28.5 & 34.6 & 38.5 & 43.0 & 55.6 & 71.3 & 77.8 \\\hline
+\end{tabular}
+\end{center}
+}{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+\textcolor<2->{blue}{0.8} &
+\textcolor<2->{blue}{1.4} &
+\textcolor<2->{blue}{1.8} &
+\textcolor<2->{blue}{1.9} &
+\textcolor<2->{blue}{3.2} &
+\textcolor<2->{blue}{3.6} &
+\textcolor<2->{blue}{4.5} &
+\textcolor<2->{blue}{4.5} &
+\textcolor<2->{blue}{4.6} &
+\textcolor<2->{blue}{6.2} \\
+\textcolor<2->{blue}{6.5} &
+\textcolor<2->{blue}{7.7} &
+\textcolor<2->{red}{7.9} &
+\textcolor<2->{cyan}{9.9} &
+\textcolor<2->{cyan}{10.2} &
+\textcolor<2->{cyan}{10.3} &
+\textcolor<2->{cyan}{10.9} &
+\textcolor<2->{cyan}{11.1} &
+\textcolor<2->{cyan}{11.1} &
+\textcolor<2->{cyan}{11.6} \\
+\textcolor<2->{cyan}{11.8} &
+\textcolor<2->{cyan}{12.0} &
+\textcolor<2->{cyan}{13.1} &
+\textcolor<2->{cyan}{13.5} &
+\textcolor<2->{cyan}{13.7} &
+\textcolor<2->{cyan}{14.1} &
+\textcolor<2->{cyan}{14.2} &
+\textcolor<2->{cyan}{14.7} &
+\textcolor<2->{cyan}{15.0} &
+\textcolor<2->{cyan}{15.1} \\
+\textcolor<2->{cyan}{15.5} &
+\textcolor<2->{cyan}{15.8} &
+\textcolor<2->{cyan}{16.0} &
+\textcolor<2->{cyan}{17.5} &
+\textcolor<2->{cyan}{18.2} &
+\textcolor<2->{cyan}{20.2} &
+\textcolor<2->{cyan}{21.1} &
+\textcolor<2->{cyan}{21.5} &
+\textcolor<2->{cyan}{22.2} &
+\textcolor<2->{cyan}{22.4} \\
+\textcolor<2->{cyan}{23.1} &
+\textcolor<2->{cyan}{24.5} &
+\textcolor<2->{cyan}{25.7} &
+\textcolor<2->{cyan}{28.5} &
+\textcolor<2->{cyan}{34.6} &
+\textcolor<2->{cyan}{38.5} &
+\textcolor<2->{cyan}{43.0} &
+\textcolor<2->{cyan}{55.6} &
+\textcolor<2->{cyan}{71.3} &
+\textcolor<2->{cyan}{77.8} \\\hline
+\end{tabular}
+\end{center}
+}
+Let us find which value is in the \textcolor<4-5>{blue}{25}th percentile, $P_{25}$.\pause
+
+\vspace{1mm}
+First, sort the data.\pause
+
+\vspace{1mm}
+We next need to compute
+\begin{equation*}
+L=\dfrac{k}{100}\cdot n\pause
+=\dfrac{\textcolor<4-5>{blue}{25}}{100}\cdot \textcolor<4-5>{red}{50}\pause
+=12.5\pause
+\end{equation*}
+Since $L=12.5$ is not a whole number, we round up to $13$.\pause
+
+\vspace{1mm}
+So, $P_{25}$ is the 13th data value, \textcolor<7->{red}{7.9} Mbps.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+\textbf{Quartiles} are measures of location, denoted $Q_1$, $Q_2$, and $Q_3$, which divide a set of data into four groups with about 25\% of the values in each group.
+\end{definition}\pause
+
+\begin{block}{Quartile Descriptions}
+\begin{description}
+\item[\textbf{First Quartile, $\boldsymbol{Q_1}$:}] Same value as $P_{25}$. It separates the bottom 25\% of the sorted values from the top 75\%.\pause
+\item[\textbf{Second Quartile, $\boldsymbol{Q_2}$:}] Same as the $P_{50}$ and the median. It separates the bottom 50\% of the sorted values from the top 50\%\pause
+\item[\textbf{Third Quartile, $\boldsymbol{Q_3}$}:] Same as $P_{75}$. It separates the bottom 75\% of the sorted values from the top 25\%.
+\end{description}
+\end{block}\pause
+
+\begin{note}
+Use the same procedure for calculating percentiles to calculate quartiles.
+\end{note}
+\end{frame}
+
+
+\begin{frame}
+\begin{definition}
+For a set of data, the \textbf{5-number summary} consists of the five values:
+\begin{enumerate}
+\item Minimum
+\item $Q_1$
+\item Median ($Q_2$)
+\item $Q_3$
+\item Maximum
+\end{enumerate}
+\end{definition}\pause
+
+\begin{definition}
+A \textbf{boxplot} is a graph of a data set that consists of a line extending from the minimum value to the maximum value, and a box with lines drawn at the first quartile $Q_1$, the median, and the third quartile $Q_3$.
+
+\vspace{-2mm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+y=1.4cm, 
+ymax=2,
+ytick=\empty,
+xtick=\empty,
+axis lines=none
+]
+\addplot+[
+boxplot,
+]
+table[row sep=\\,y index=0] {
+data\\
+-2\\ 1\\ 2\\ 1\\ 5\\ 4\\ 10\\
+7\\ 10\\ 9\\ 8\\ 9\\ 9\\ 15\\
+}
+[above]
+node at
+(boxplot box cs: \boxplotvalue{lower whisker},1)
+{min}
+node at
+(boxplot box cs: \boxplotvalue{lower quartile},1)
+{$Q_1$}
+node[left] at
+(boxplot box cs: \boxplotvalue{median},0.5)
+{median}
+node at
+(boxplot box cs: \boxplotvalue{upper quartile},1)
+{$Q_3$}
+node at
+(boxplot box cs: \boxplotvalue{upper whisker},1)
+{max}
+;
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The table lists, in order from lowest to highest, the 50 smart phone speeds, in Mbps.
+
+\vspace{-3mm}
+\temporal<2-4>{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+\textcolor{red}{0.8} & 1.4 & 1.8 & 1.9 & 3.2 & 3.6 & 4.5 & 4.5 & 4.6 & 6.2 \\
+6.5 & 7.7 & 7.9 & 9.9 & 10.2 & 10.3 & 10.9 & 11.1 & 11.1 & 11.6 \\
+11.8 & 12.0 & 13.1 & 13.5 & 13.7 & 14.1 & 14.2 & 14.7 & 15.0 & 15.1 \\
+15.5 & 15.8 & 16.0 & 17.5 & 18.2 & 20.2 & 21.1 & 21.5 & 22.2 & 22.4 \\
+23.1 & 24.5 & 25.7 & 28.5 & 34.6 & 38.5 & 43.0 & 55.6 & 71.3 & 77.8 \\\hline
+\end{tabular}
+\end{center}
+}{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+\textcolor{blue}{0.8} &
+\textcolor{blue}{1.4} &
+\textcolor{blue}{1.8} &
+\textcolor{blue}{1.9} &
+\textcolor{blue}{3.2} &
+\textcolor{blue}{3.6} &
+\textcolor{blue}{4.5} &
+\textcolor{blue}{4.5} &
+\textcolor{blue}{4.6} &
+\textcolor{blue}{6.2} \\
+\textcolor{blue}{6.5} &
+\textcolor{blue}{7.7} &
+\temporal<2>{\textcolor{blue}{7.9}}{\textcolor{red}{7.9}}{\textcolor{blue}{7.9}} &
+\temporal<3>{\textcolor{cyan}{9.9}}{\textcolor{blue}{9.9}}{\textcolor{blue}{9.9}} &
+\temporal<3>{\textcolor{cyan}{10.2}}{\textcolor{blue}{10.2}}{\textcolor{blue}{10.2}} &
+\temporal<3>{\textcolor{cyan}{10.3}}{\textcolor{blue}{10.3}}{\textcolor{blue}{10.3}} &
+\temporal<3>{\textcolor{cyan}{10.9}}{\textcolor{blue}{10.9}}{\textcolor{blue}{10.9}} &
+\temporal<3>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{11.1}} &
+\temporal<3>{\textcolor{cyan}{11.1}}{\textcolor{blue}{11.1}}{\textcolor{blue}{11.1}} &
+\temporal<3>{\textcolor{cyan}{11.6}}{\textcolor{blue}{11.6}}{\textcolor{blue}{11.6}} \\
+\temporal<3>{\textcolor{cyan}{11.8}}{\textcolor{blue}{11.8}}{\textcolor{blue}{11.8}} &
+\temporal<3>{\textcolor{cyan}{12.0}}{\textcolor{blue}{12.0}}{\textcolor{blue}{12.0}} &
+\temporal<3>{\textcolor{cyan}{13.1}}{\textcolor{blue}{13.1}}{\textcolor{blue}{13.1}} &
+\temporal<3>{\textcolor{cyan}{13.5}}{\textcolor{blue}{13.5}}{\textcolor{blue}{13.5}} &
+\temporal<3>{\textcolor{cyan}{13.7}}{\textcolor{red}{13.7}}{\textcolor{blue}{13.7}} &
+\temporal<3>{\textcolor{cyan}{14.1}}{\textcolor{red}{14.1}}{\textcolor{blue}{14.1}} &
+\temporal<4>{\textcolor{cyan}{14.2}}{\textcolor{blue}{14.2}}{\textcolor{blue}{14.2}} &
+\temporal<4>{\textcolor{cyan}{14.7}}{\textcolor{blue}{14.7}}{\textcolor{blue}{14.7}} &
+\temporal<4>{\textcolor{cyan}{15.0}}{\textcolor{blue}{15.0}}{\textcolor{blue}{15.0}} &
+\temporal<4>{\textcolor{cyan}{15.1}}{\textcolor{blue}{15.1}}{\textcolor{blue}{15.1}} \\
+\temporal<4>{\textcolor{cyan}{15.5}}{\textcolor{blue}{15.5}}{\textcolor{blue}{15.5}} &
+\temporal<4>{\textcolor{cyan}{15.8}}{\textcolor{blue}{15.8}}{\textcolor{blue}{15.8}} &
+\temporal<4>{\textcolor{cyan}{16.0}}{\textcolor{blue}{16.0}}{\textcolor{blue}{16.0}} &
+\temporal<4>{\textcolor{cyan}{17.5}}{\textcolor{blue}{17.5}}{\textcolor{blue}{17.5}} &
+\temporal<4>{\textcolor{cyan}{18.2}}{\textcolor{blue}{18.2}}{\textcolor{blue}{18.2}} &
+\temporal<4>{\textcolor{cyan}{20.2}}{\textcolor{blue}{20.2}}{\textcolor{blue}{20.2}} &
+\temporal<4>{\textcolor{cyan}{21.1}}{\textcolor{blue}{21.1}}{\textcolor{blue}{21.1}} &
+\temporal<4>{\textcolor{cyan}{21.5}}{\textcolor{red}{21.5}}{\textcolor{blue}{21.5}} &
+\textcolor{cyan}{22.2} &
+\textcolor{cyan}{22.4} \\
+\textcolor{cyan}{23.1} &
+\textcolor{cyan}{24.5} &
+\textcolor{cyan}{25.7} &
+\textcolor{cyan}{28.5} &
+\textcolor{cyan}{34.6} &
+\textcolor{cyan}{38.5} &
+\textcolor{cyan}{43.0} &
+\textcolor{cyan}{55.6} &
+\textcolor{cyan}{71.3} &
+\textcolor{cyan}{77.8} \\\hline
+\end{tabular}
+\end{center}
+}{%
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+0.8 & 1.4 & 1.8 & 1.9 & 3.2 & 3.6 & 4.5 & 4.5 & 4.6 & 6.2 \\
+6.5 & 7.7 & 7.9 & 9.9 & 10.2 & 10.3 & 10.9 & 11.1 & 11.1 & 11.6 \\
+11.8 & 12.0 & 13.1 & 13.5 & 13.7 & 14.1 & 14.2 & 14.7 & 15.0 & 15.1 \\
+15.5 & 15.8 & 16.0 & 17.5 & 18.2 & 20.2 & 21.1 & 21.5 & 22.2 & 22.4 \\
+23.1 & 24.5 & 25.7 & 28.5 & 34.6 & 38.5 & 43.0 & 55.6 & 71.3 & \textcolor<5>{red}{77.8} \\\hline
+\end{tabular}
+\end{center}
+}
+
+\vspace{-1.5mm}
+The five number summary is:
+
+\vspace{-3mm}
+\begin{center}
+minimum=$\textcolor<1>{red}{0.8}$,\pause~$Q_1=\textcolor<2>{red}{7.9}$,\pause~Median=$\textcolor<3>{red}{13.9}$,\pause~$Q_3=\textcolor<4>{red}{21.5}$,\pause~maximum=$\textcolor<5>{red}{77.8}$\pause
+\end{center}
+
+\vspace{-2mm}
+The box plot is:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+width=\linewidth,
+height=5cm,
+xlabel={},
+ylabel={},
+yticklabels={},
+axis y line=none,
+axis x line=bottom,
+y=2cm,
+xmin=0,
+xmax=80,
+]
+\addplot+ [
+boxplot prepared={
+lower whisker=0.8,
+lower quartile=7.9,
+median=13.9,
+upper quartile=21.5,
+upper whisker=77.8,
+},
+]
+table [row sep=\\,y index=0] {
+data\\
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The \textbf{interquartile range} (\textbf{IQR}) is $Q_3-Q_1$.
+\end{definition}\pause
+
+\begin{definition}
+A data value is often considered an \textbf{outlier} if
+\begin{itemize}
+\item  The data value is greater than $Q_3 + 1.5\cdot\textbf{IQR}$.
+\item  The data value is less than $Q_1 - 1.5\cdot\textbf{IQR}$.
+\end{itemize}
+\end{definition}\pause
+
+\begin{block}{Why Care About Outliers?}
+Examining data for outliers can help identify:
+\begin{itemize}
+\item Strong skew in the distribution.\pause
+\item Possible data collection or data entry errors.\pause
+\item Insights into some interesting property of the data.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The table lists 50 smartphone speeds, in Mbps.
+\begin{center}
+\begin{tabular}{|rrrrrrrrrr|}\hline
+38.5 & \textcolor<11|handout: 1>{red}{55.6} & 22.4 & 14.1 & 23.1 & 24.5 & 6.5 & 21.5 & 25.7 & 14.7 \\
+\textcolor<11|handout: 1>{red}{77.8} & \textcolor<11|handout: 1>{red}{71.3} & \textcolor<11>{red}{43.0} & 20.2 & 15.5 & 13.7 & 11.1 & 13.5 & 10.2 & 21.1 \\
+15.1 & 14.2 & 4.5 & 7.9 & 9.9 & 10.3 & 6.2 & 17.5 & 22.2 & 13.1 \\
+18.2 & 28.5 & 15.8 & 15.0 & 11.1 & 11.8 & 16.0 & 10.9 & 1.8 & 34.6 \\
+4.6 & 12.0 & 11.6 & 3.6 & 1.9 & 7.7 & 0.8 & 4.5 & 1.4 & 3.2 \\\hline
+\end{tabular}
+\end{center}
+
+\vspace{-0.9mm}
+Recall that the five number summary is:
+\vspace{-2mm}
+\begin{center}
+minimum=$0.8$, $Q_1=\textcolor<6>{red}{\textcolor<3>{blue}{7.9}}$, Median=$13.9$, $Q_3=\textcolor<9>{red}{\textcolor<3>{red}{21.5}}$, maximum=$77.8$\pause
+\end{center}
+
+\vspace{-1.5mm}
+The IQR would then be:
+\vspace{-2mm}
+\begin{equation*}
+\text{IQR} = Q_3 - Q_1\pause = \textcolor<3>{red}{21.5} - \textcolor<3>{blue}{7.9}\pause = \textcolor<9>{blue}{\textcolor<6>{blue}{13.6}}
+\end{equation*}\pause
+
+\vspace{-7mm}
+The limits for outliers would be:
+\vspace{-2.5mm}
+\begin{equation*}
+\begin{aligned}
+\text{Lower Limit} &= Q_1 - 1.5 \cdot \text{IQR}\pause = \textcolor<6>{red}{7.9} - 1.5\cdot \textcolor<6>{blue}{13.6}\pause = -12.5 \\\pause
+\text{Upper Limit} &= Q_3 + 1.5\cdot \text{IQR}\pause = \textcolor<9>{red}{21.5} + 1.5\cdot \textcolor<9>{blue}{13.6}\pause  = 41.9
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-3.5mm}
+The outliers are marked in red.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+\texttt{intrest\_rate} has an outlier at $26.3\%$.
+\begin{center}
+\begin{tikzpicture}
+\pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
+     every non boxed y axis/.append style={y axis line style=-}}
+\begin{axis}[
+width=12cm,
+height=4cm,
+xlabel={Interest Rate (Rounded to Nearest Percent)},
+ylabel={},
+yticklabels={},
+axis y line=none,
+axis x line=bottom,
+xticklabel=\pgfmathprintnumber{\tick}\%,
+xtick={5,10,...,40},
+ymin=0,
+ymax=10,
+xmin=0,
+xmax=40,
+scatter/use mapped color={
+ %draw=mapped color,
+ fill=blue,
+},
+]
+\addplot[domain=0:40]  {1};
+\addplot[scatter, only marks, blue, scatter src=y, mark size=2.8pt]
+coordinates
+{
+(11, 1.8)
+(11, 2.8)
+(11, 3.8)
+(11, 4.8)
+(11, 5.8)
+(10, 1.8)
+(10, 2.8)
+(10, 3.8)
+(10, 4.8)
+(10, 5.8)
+(10, 6.8)
+(10, 7.8)
+(10, 8.8)
+(9, 1.8)
+(9, 2.8)
+(9, 3.8)
+(9, 4.8)
+(9, 5.8)
+(17, 1.8)
+(17, 2.8)
+(17, 3.8)
+(6, 1.8)
+(6, 2.8)
+(6, 3.8)
+(8, 1.8)
+(8, 2.8)
+(8, 3.8)
+(8, 4.8)
+(13, 1.8)
+(13, 2.8)
+(13, 3.8)
+(5, 1.8)
+(5, 2.8)
+(5, 3.8)
+(7, 1.8)
+(7, 2.8)
+(7, 3.8)
+(7, 4.8)
+(7, 5.8)
+(18, 1.8)
+(18, 2.8)
+(19, 1.8)
+(14, 1.8)
+(20, 1.8)
+(15, 1.8)
+(12, 1.8)
+(16, 1.8)
+(21, 1.8)
+(25,1.8)
+};
+\only<1-2|handout: 1>{\addplot[scatter, only marks, red, scatter src=y, mark size=2.8pt, scatter/use mapped color={fill=red,}] coordinates {(26, 1.8)};}
+\only<3|handout: 0>{\addplot[scatter, only marks, red, scatter src=y, mark size=2.8pt, scatter/use mapped color={fill=red,}] coordinates {(15, 2.8)};}
+\only<4|handout:0>{\addplot[scatter, only marks, red, scatter src=y, mark size=2.8pt, scatter/use mapped color={fill=red,}] coordinates {(35, 1.8)};}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+What would happen if this loan had a different interest rate?\pause
+
+\begin{center}
+\begin{tabular}{lcccc}
+scenario & median & IQR & $\bar{x}$ & $s$ \\\hline
+original value of $26.3\%$ & $9.93\%$ & $5.76\%$ & $11.57\%$ & $5.05\%$ \\\pause
+move $26.3\%\rightarrow 15\%$ & $9.93\%$ & $5.76\%$ & $11.34\%$ & $4.61\%$ \\\pause
+move $26.3\%\rightarrow 35\%$ & $9.93\%$ & $5.76\%$ & $11.74\%$ & $5.68\%$
+\end{tabular}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A statistic is called \textbf{robust} if extreme observations have little effect on the value.
+\end{definition}\pause
+
+\begin{block}{Robustness}
+The robust statistics are:
+\begin{itemize}
+\item The median.
+\item The IQR.\@
+\end{itemize}\pause
+
+The non-robust statistics are:
+\begin{itemize}
+\item The mean.
+\item The standard deviation.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The distribution of loan amounts in the \texttt{loan50} data set is skewed right, with a few large loans lingering out into the right tail.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+width=\linewidth,
+height=2.5cm,
+xlabel={},
+ylabel={},
+yticklabels={},
+axis y line=none,
+axis x line=bottom,
+xticklabel=\pgfmathprintnumber{\tick}k,
+scaled x ticks=base 10:-3,
+xtick scale label code/.code={},
+y=1.5cm,
+xmin=0,
+xmax=45000,
+]
+\addplot+ [
+boxplot prepared={
+lower whisker=3000,
+lower quartile=7125,
+median=15500,
+upper quartile=24000,
+upper whisker=40000,
+},
+]
+table [row sep=\\,y index=0] {
+data\\
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\question{If you wanted to understand a typical loan size, should you be more interested in the mean or the median?}\pause
+\answer{It depends!}\pause
+
+\vspace{1.5mm}
+If we wish to know what a typical loan looks like, the median would probably be more useful. \pause
+
+\vspace{1.5mm}
+But, if the goal is something that scales well, such as how much money a bank has to have on hand to cover 1,000 loans, the mean would be more useful.
+\end{example}
 \end{frame}
 \end{document}
