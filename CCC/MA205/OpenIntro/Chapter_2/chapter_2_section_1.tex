@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{helvet}
@@ -23,7 +23,7 @@
 
 \begin{frame}
 \begin{example}
-Let us consider a scatterplot of borrowers total income and the loan amount from the \texttt{loan50} data set.
+Let us consider a scatterplot of borrowers total income and the loan amount from the \dataset{loan50} data set.
 
 \only<1| handout:0>{
 \begin{center}
@@ -135,7 +135,7 @@ We can see that the many of borrowers earn \$100,000 a year or less.
 
 \begin{frame}
 \begin{example}
-Let us consider a scatterplot of borrowers total income and the loan amount from the \texttt{loan50} data set.
+Let us consider a scatterplot of borrowers total income and the loan amount from the \dataset{loan50} data set.
 
 \only<1| handout:0>{
 \begin{center}
@@ -393,8 +393,8 @@ Suppose we measure the of data speeds of smartphones from the four major carrier
 
 \begin{center}
 \begin{tabular}{|l|ccccc|}\hline
-\text{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon}\\
-\text{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
+\variable{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon}\\
+\variable{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
 \end{tabular}
 \end{center}\pause
 
@@ -418,7 +418,7 @@ It is common to mark the mean on a dot plot.
 \end{note}\pause
 
 \begin{example}\label{mean_dotplot}
-The mean of \texttt{interest\_rate} is: (Do not round the data values.)
+The mean of \variable{interest\_rate} is: (Do not round the data values.)
 \begin{equation*}
 \bar{x}=
 \dfrac{\tiny\left(\begin{array}{c}5.31\%+5.31\%+5.32\%+6.08\%+6.08\%+6.08\%+6.71\%+6.71\%+7.34\%\\+7.35\%+7.35\%+7.96\%+7.96\%+7.96\%+7.97\%+9.43\%+9.43\%+9.44\%\\+9.44\%+9.44\%+9.92\%+9.92\%+9.92\%+9.92\%+9.93\%+9.93\%+10.42\%\\+10.42\%+10.9\%+10.9\%+10.91\%+10.91\%+10.91\%+11.98\%+12.62\%\\+12.62\%+12.62\%+14.08\%+15.04\%+16.02\%+17.09\%+17.09\%+17.09\%\\+18.06\%+18.45\%+19.42\%+20\%+21.45\%+24.85\%+26.3\%\end{array}\right)}{50}=11.567\%
@@ -585,21 +585,21 @@ The mean gives a standardized a metric into something easier to interpret and co
 
 \begin{frame}
 \begin{example}
-Suppose we want to find the average income per person across the entire United States. To do so, we take the mean of the \texttt{per\_capita\_income} variable from the \texttt{county} data set.
+Suppose we want to find the average income per person across the entire United States. To do so, we take the mean of the \variable{per\_capita\_income} variable from the \dataset{county} data set.
 
 \vspace{1mm}
 \question{Is this the best approach?}\pause
-\answer{No. Each county represents multiple people. If we computed the mean of \texttt{per\_capita\_income} we  would be treating a county with $5,000$ residents and a county with $5,000,000$ residents the same.}\pause
+\answer{No. Each county represents multiple people. If we computed the mean of \variable{per\_capita\_income} we  would be treating a county with $5,000$ residents and a county with $5,000,000$ residents the same.}\pause
 
 \vspace{1mm}
 To account to differences in the population of each county, we should:
 \begin{enumerate}
-\item Calculate the total income for each county. {\small$\left(\texttt{pop2017}\times\texttt{per\_capita\_income}\right)$}\pause
+\item Calculate the total income for each county. {\small$\left(\variable{pop2017}\times\variable{per\_capita\_income}\right)$}\pause
 \item Add up all the county income totals\pause
 \item Then divide by the total number of people in the country.\pause
 \end{enumerate}
 
-Using this method we would find the average income per person in the US is $\$30,861$. If we had used the simple mean of \texttt{per\_capita\_income} the result would have been $\$26,093$, which is much lower.
+Using this method we would find the average income per person in the US is $\$30,861$. If we had used the simple mean of \variable{per\_capita\_income} the result would have been $\$26,093$, which is much lower.
 \end{example}
 \end{frame}
 
@@ -668,8 +668,8 @@ The median of a sample is denoted $\tilde{x}$.
 Let find the median data speed using the table from Example~\ref{verizon}.
 \begin{center}
 \begin{tabular}{|l|ccccc|}\hline
-\text{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon}\\
-\text{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
+\variable{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon}\\
+\variable{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1\\\hline
 \end{tabular}
 \end{center}\pause
 
@@ -693,8 +693,8 @@ This different than the mean 30.74 Mbps.
 Let find the median data speed using the table from Example~\ref{verizon}, but with an extreme value added in.
 \begin{center}
 \begin{tabular}{|l|cccccc|}\hline
-\text{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} \\
-\text{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1 & 192.6 \\\hline
+\variable{Carrier} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} & \text{Verizon} \\
+\variable{Mbps} & 38.5 & 55.6 & 22.4 & 14.1 & 23.1 & 192.6 \\\hline
 \end{tabular}
 \end{center}\pause
 
@@ -1450,7 +1450,7 @@ The distance between an observation and it's mean is called it's \textbf{deviati
 \end{definition}\pause
 
 \begin{example}
-Recall that the mean of \texttt{interest\_rate} is $11.57$\%.
+Recall that the mean of \variable{interest\_rate} is $11.57$\%.
 \begin{center}
 \begin{tabular}{ll}
 data & deviation \\\hline\pause
@@ -1491,7 +1491,7 @@ The standard deviation of a population is denoted $\sigma$ and variance $\sigma^
 
 \begin{frame}
 \begin{example}
-The variance of \texttt{interest\_rate} is
+The variance of \variable{interest\_rate} is
 \begin{equation*}
 \begin{aligned}
 s^2 &= \dfrac{\sum {\left(x-\bar{x}\right)}^2}{n-1}\\\pause
@@ -1500,7 +1500,7 @@ s^2 &= \dfrac{\sum {\left(x-\bar{x}\right)}^2}{n-1}\\\pause
 &= 25.524\pause
 \end{aligned}
 \end{equation*}
-The standard deviation of \texttt{interest\_rate} is
+The standard deviation of \variable{interest\_rate} is
 \begin{equation*}
 \begin{aligned}
 s &= \sqrt{s^2} \pause = \sqrt{25.524} \pause = 5.052
@@ -1962,7 +1962,7 @@ The outliers are marked in red.
 
 \begin{frame}
 \begin{example}
-\texttt{intrest\_rate} has an outlier at $26.3\%$.
+\variable{intrrest\_rate} has an outlier at $26.3\%$.
 \begin{center}
 \begin{tikzpicture}
 \pgfplotsset{ every non boxed x axis/.append style={x axis line style=-},
@@ -2081,7 +2081,7 @@ The non-robust statistics are:
 
 \begin{frame}
 \begin{example}
-The distribution of loan amounts in the \texttt{loan50} data set is skewed right, with a few large loans lingering out into the right tail.
+The distribution of loan amounts in the \dataset{loan50} data set is skewed right, with a few large loans lingering out into the right tail.
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[

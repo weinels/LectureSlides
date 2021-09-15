@@ -65,7 +65,7 @@ The researchers studied the effect of stents at two time points:\pause
 \end{itemize}
 \end{block}
 
-\begin{block}{Data}
+\begin{data}
 \begin{center}
 \usebeamerfont{datamatrix}
 \begin{tabular}{lccc}\hline
@@ -78,7 +78,7 @@ Patient & group & 0-30 days & 0-365 days \\\hline
 451 & control & no event & no event
 \end{tabular}
 \end{center}
-\end{block}\pause
+\end{data}\pause
 
 \begin{note}
 Listing each patient line-by-line is very cumbersome.
@@ -87,14 +87,13 @@ Listing each patient line-by-line is very cumbersome.
 
 \begin{frame}
 \begin{block}{Descriptive Statistics}
-\begin{center}
-\usebeamerfont{datamatrix}
+\begin{center}\small
 \begin{tabular}{lccccc}
-&\multicolumn{2}{c}{0-30 days}&&\multicolumn{2}{c}{0-365 days} \\
-&stroke & no event & & stroke& no event \\\hline
-treatment & 33 & 191 & & 45 & 179 \\
-control & 13 & 214 & & 28 & 199 \\\hline
-total & 46 & 405 & & 73 & 378\\
+&\multicolumn{2}{c}{\variable{0-30 days}}&&\multicolumn{2}{c}{\variable{0-365 days}} \\
+&\outcome{stroke} & \outcome{no event} & & \outcome{stroke}& \outcome{no event} \\\hline
+\outcome{treatment} & 33 & 191 & & 45 & 179 \\
+\outcome{control} & 13 & 214 & & 28 & 199 \\\hline
+\outcome{total} & 46 & 405 & & 73 & 378\\
 \end{tabular}
 \end{center}
 \end{block}\pause
@@ -117,7 +116,7 @@ total & 46 & 405 & & 73 & 378\\
 = \dfrac{28}{227}\pause
  = 0.12 = 12\%
 \end{equation*}}
-\vspace{-3mm}
+\vspace{-4mm}
 \end{block}
 \end{frame}
 
