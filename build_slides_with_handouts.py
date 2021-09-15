@@ -171,19 +171,20 @@ def build_slides(f):
                         update_hashes = True
                 else:
                         print(f"{f}: handout up-to-date")
-                
-                # remove working version of pdf if it exists in the parent dir.
-                old_pdf = f.parent / f"{f.stem}.pdf"
-                if old_pdf.exists():
-                        print(f"{old_pdf}: removing old working copy.")
-                        old_pdf.unlink()
-                
+                                
                 # update hash
                 if update_hashes:
                         print(f"{f}: updating hashes in db")
                         db.update_hash(f)
                         db.update_hash(finished_slides)
                         db.update_hash(finished_handout)
+
+        # remove working version of pdf if it exists in the parent dir.
+        old_pdf = f.parent / f"{f.stem}.pdf"
+        if old_pdf.exists():
+                print(f"{f}: removing PDF working copy.")
+                old_pdf.unlink()
+
                 
 # d must be a pathlib path. i.e. Path("...")
 def build_all_slides(d, pattern):
