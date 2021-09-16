@@ -131,53 +131,52 @@ def build_slides(f):
 
         if not tex_changed and not slides_changed and not handout_changed:
                 print(f"{f}: all files are up-to-date")
-                return
+        else:
+                with tempfile.TemporaryDirectory() as tmpdirname:
+                        working = Path(tmpdirname) / f"{f.stem}"
 
-        with tempfile.TemporaryDirectory() as tmpdirname:
-                working = Path(tmpdirname) / f"{f.stem}"
+                        # copy diectory contents is a quick and dirty way to not break any LaTeX includes
+                        shutil.copytree(f.parent, working, ignore=shutil.ignore_patterns('.*'))
 
-                # copy diectory contents is a quick and dirty way to not break any LaTeX includes
-                shutil.copytree(f.parent, working, ignore=shutil.ignore_patterns('.*'))
+                        slides_latex = working / f.name
+                        slides_pdf = working / f"{f.stem}.pdf"
 
-                slides_latex = working / f.name
-                slides_pdf = working / f"{f.stem}.pdf"
+                        base = slides_latex.read_text()
+                        sep = r"\documentclass{beamer}"
+                        try:
+                                top, bottom = base.split(sep, maxsplit=1)
+                        except ValueError:
+                                sep = r"\documentclass[handout]{beamer}"
+                                top, bottom = base.split(sep, maxsplit=1)
 
-                base = slides_latex.read_text()
-                sep = r"\documentclass{beamer}"
-                try:
-                        top, bottom = base.split(sep, maxsplit=1)
-                except ValueError:
-                        sep = r"\documentclass[handout]{beamer}"
-                        top, bottom = base.split(sep, maxsplit=1)
-                
-                # build the full slides
-                if tex_changed or slides_changed:
-                        print(f"{f}: building slides")
-                        slides_latex.write_text(top + r"\documentclass{beamer}" + bottom)
-                        run_LaTeX(slides_latex, working)
-                        #print(f"Move {slides_pdf} to {finished_slides}")
-                        shutil.copy(slides_pdf, finished_slides)
-                        update_hashes = True
-                else:
-                        print(f"{f}: slides up-to-date")
-                
-                # build the handout
-                if tex_changed or handout_changed:
-                        print(f"{f}: building handout")
-                        slides_latex.write_text(top + r"\documentclass[handout]{beamer}" + bottom)
-                        run_LaTeX(slides_latex, working)
-                        #print(f"Move {slides_pdf} to {finished_handout}")
-                        shutil.copy(slides_pdf, finished_handout)
-                        update_hashes = True
-                else:
-                        print(f"{f}: handout up-to-date")
-                                
-                # update hash
-                if update_hashes:
-                        print(f"{f}: updating hashes in db")
-                        db.update_hash(f)
-                        db.update_hash(finished_slides)
-                        db.update_hash(finished_handout)
+                        # build the full slides
+                        if tex_changed or slides_changed:
+                                print(f"{f}: building slides")
+                                slides_latex.write_text(top + r"\documentclass{beamer}" + bottom)
+                                run_LaTeX(slides_latex, working)
+                                #print(f"Move {slides_pdf} to {finished_slides}")
+                                shutil.copy(slides_pdf, finished_slides)
+                                update_hashes = True
+                        else:
+                                print(f"{f}: slides up-to-date")
+
+                        # build the handout
+                        if tex_changed or handout_changed:
+                                print(f"{f}: building handout")
+                                slides_latex.write_text(top + r"\documentclass[handout]{beamer}" + bottom)
+                                run_LaTeX(slides_latex, working)
+                                #print(f"Move {slides_pdf} to {finished_handout}")
+                                shutil.copy(slides_pdf, finished_handout)
+                                update_hashes = True
+                        else:
+                                print(f"{f}: handout up-to-date")
+
+                        # update hash
+                        if update_hashes:
+                                print(f"{f}: updating hashes in db")
+                                db.update_hash(f)
+                                db.update_hash(finished_slides)
+                                db.update_hash(finished_handout)
 
         # remove working version of pdf if it exists in the parent dir.
         old_pdf = f.parent / f"{f.stem}.pdf"
