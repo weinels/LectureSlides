@@ -34,6 +34,10 @@
 \newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
 \newcommand{\comb}[2]{_{#1}C_{#2}}
 
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)]  % chktex 36 chktex 1
+    \node (X) [draw, shape=circle, inner sep=0, fill=yellow!10] {\strut #1};} % chktex 36 chktex 1
+
 \begin{document}
 \begin{frame}
 \titlepage
@@ -447,10 +451,395 @@ There are 4 Queens and 4 Kings in the deck, hence eight outcomes out of 52 possi
 \prob{\text{Q or K}} = \dfrac{8}{52}
 \end{equation*}\pause
 
+\vspace{-3mm}
 Since there are no cards that are both Kings and Queens, we have
 \begin{equation*}
 \prob{\text{Q or K}} = \prob{\text{Q}} + \prob{K} - \prob{\text{Q and K}} = \dfrac{4}{52}+\dfrac{4}{52}-\dfrac{0}{52} = \dfrac{8}{52}
 \end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{probability distribution} is a table of all disjoint outcomes and their associated probabilities.
+\end{definition}\pause
+
+\begin{example}\label{dice sum prob. dist.}
+\vspace{-2mm}%beamer bug: extra space is added when a label is used, so this is to make this slide and the next look the same
+The probability distribution for the sum of two dies:
+\begin{center}
+\begin{tabular}{lccccccccccc}\hline
+Dice sum & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+Probability & $\tfrac{1}{36}$ & $\tfrac{2}{36}$ & $\tfrac{3}{36}$ & $\tfrac{4}{36}$ & $\tfrac{5}{36}$ & $\tfrac{6}{36}$ & $\tfrac{5}{36}$ & $\tfrac{4}{36}$ & $\tfrac{3}{36}$ & $\tfrac{2}{36}$ & $\tfrac{1}{36}$ \\[0.75mm]\hline
+\end{tabular}
+\end{center}
+\end{example}\pause
+
+\begin{block}{Rules for Probability Distributions}
+All probability distributions must satisfy the following rules:
+\begin{enumerate}
+\item The outcomes listed must be disjoint.
+\item Each probability must be between 0 and 1.
+\item The probabilities must sum to 1.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{three prob. dist.}
+\vspace{-2mm}%beamer bug: extra space is added when a label is used, so this is to make this slide and the next look the same
+The follow table contain three possible distributions for household income in the United States.
+\begin{center}
+\begin{tabular}{rcccc}\hline
+Income Range & \$0-\$25k & \$25k-\$50k & \$50k-\$100k & \$100k+ \\\hline
+\encircle{a} & \textcolor<2>{red}{0.18} & \textcolor<2>{red}{0.39} & \textcolor<2>{red}{0.33} & \textcolor<2>{red}{0.16} \\[1mm]
+\encircle{b} & 0.38 & \textcolor<3>{red}{-0.27} & 0.52 & 0.37 \\[1mm]
+\encircle{c} & \textcolor<4>{green!94!black}{0.28} & \textcolor<4>{green!94!black}{0.27} & \textcolor<4>{green!94!black}{0.29} & \textcolor<4>{green!94!black}{0.16} 
+\end{tabular}
+\end{center}
+\question{Only one of the three is actually a probability distribution. Which one?}\pause
+\begin{itemize}
+\item \encircle{a} sums to 2.5. \pause
+\item \encircle{b} contains a negative number. \pause
+\item \encircle{c} is the real probability distribution.
+\end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+A probability distribution can be represented with a bar plot, where each outcome is represented by a bar, the height of the bar being the probability of the outcome.
+\end{note}\pause
+
+\begin{example}
+Here is the bar plot for the probability distribution in Example~\ref{three prob. dist.}:
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+height=4.5cm,
+width=0.85\textwidth,
+enlarge x limits=0.2,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Probability},
+xlabel={US Household Income},
+bar width=1.5cm,
+symbolic x coords={\$0-\$25k, \$25k-\$50k, \$50k-\$100k, \$100k+},
+ybar,
+ymin=0,
+ymax=0.3,
+ytick={0,0.05,...,1.0},
+xtick=data,
+xticklabel=\outcome{\tick},
+yticklabel style={/pgf/number format/.cd,fixed, fixed zerofill,precision=2},
+]
+\addplot+
+coordinates
+{
+(\$0-\$25k, 0.28)
+(\$25k-\$50k, 0.27)
+(\$50k-\$100k, 0.29)
+(\$100k+, 0.16)
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Here is the bar plot for the dice sum distribution in Example~\ref{dice sum prob. dist.}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+height=5.5cm,
+width=0.9\textwidth,
+enlarge x limits=0.1,
+ymajorgrids=true,
+minor y tick num=1,
+yminorgrids=true,
+ylabel={Probability},
+xlabel={Sum of Two Dice},
+bar width=0.5cm,
+symbolic x coords={2,3,4,5,6,7,8,9,10,11,12},
+ybar,
+ymin=0,
+ymax=0.2,
+ytick={0,0.05,...,1.0},
+xtick=data,
+xticklabel=\outcome{\tick},
+yticklabel style={/pgf/number format/.cd,fixed, fixed zerofill,precision=2},
+]
+\addplot+
+coordinates
+{
+(2, 0.027777778)
+(3, 0.055555556)
+(4, 0.083333333)
+(5, 0.111111111)
+(6, 0.138888889)
+(7, 0.166666667)
+(8, 0.138888889)
+(9, 0.111111111)
+(10, 0.083333333)
+(11, 0.055555556)
+(12, 0.027777778)
+};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+The set of all possible outcomes is called the \textbf{sample space}, $S$.
+\end{definition}\pause
+
+\begin{example}
+The sample space of rolling a single die is:
+
+\vspace{-2mm}
+\begin{equation*}
+\set{\text{roll a 1},\text{roll a 2},\text{roll a 3},\text{roll a 4},\text{roll a 5},\text{roll a 6}}
+\end{equation*}
+\end{example}\pause
+
+\begin{definition}
+The \textbf{complement} of an event $D$ is all the outcomes in the sample space that are not in $D$. Denoted $D^C$.
+\begin{center}
+\includegraphics{complementOfD.pdf}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+$A$ and $A^C$ are disjoint events.
+\end{note}\pause
+
+\begin{note}
+Since every outcome in the sample space is either in $A$ or $A^C$:
+\begin{equation*}
+\prob{A~\text{or}~A^C} = 1
+\end{equation*}
+\end{note}\pause
+
+\begin{note}
+We can also use the Addition Rule $\left(\prob{A~\text{and}~A^C} = 0\right)$:
+\begin{equation*}
+\prob{A~\text{or}~A^C} = \prob{A} + \prob{A^C}
+\end{equation*}
+\end{note}\pause
+
+\begin{note}
+Finally, $\prob{A^C} = 1 - \prob{A}$ and $\prob{A} = 1 - \prob{A^C}$.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider rolling two dice and summing the numbers.
+
+\vspace{2mm}
+\question{What is the complement of the event \textquote{the total is less than 12?}}\pause
+\answer{The complement is \textquote{the total is 12.}}\pause
+
+\vspace{2mm}
+Finding $\prob{\text{total} < 12}$ can be calculated directly, but it is complicated.\pause
+
+\vspace{1mm}
+Complements give an easier way:
+\begin{equation*}
+\begin{aligned}
+\prob{\text{total} < 12} &= 1 - \prob{\text{total} = 12} \\\pause
+&= 1 - \dfrac{1}{36} \\\pause
+&= \dfrac{36}{36} - \dfrac{1}{36} \\\pause
+&= \dfrac{36-1}{36} \\\pause
+&= \dfrac{35}{36} \approx{97.2\%}
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Consider rolling two dice and summing the numbers.
+
+\vspace{2mm}
+\question{What is the complement of the event \textquote{the total is at least 4?}}\pause
+\answer{The complement is \textquote{the total is 2 or the total is 3.}}\pause
+
+\begin{equation*}
+\begin{aligned}
+\prob{\text{total} \geq 4} &= 1 - \prob{\text{total}=2~\text{or}~\text{total}=3} \\\pause
+&= 1 - \left( \prob{\text{total}=2} + \prob{\text{total}=3}\right) \\\pause
+&= 1 - \left(\dfrac{1}{36} + \dfrac{2}{36}\right) \\\pause
+&= 1 - \dfrac{3}{36} \\\pause
+&= \dfrac{36}{36} - \dfrac{3}{36} \\\pause
+&= \dfrac{33}{36}\approx 91.6\%
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+Events $A$ and $B$ are \textbf{independent events} if the probability of $B$ occurring is the same, whether or not $A$ occurs.
+\end{definition}\pause
+
+\begin{example}
+\begin{enumerate}
+\item A fair coin is tossed two times. The two events are:
+\begin{itemize}
+\item The first toss is a head.
+\item The second toss is a head.
+\end{itemize}\pause
+\question{Are these events independent?}\pause\answersingleline{Yes}\pause
+\item You draw a card from a deck, then without replacing the first, draw a second card.
+
+\vspace{1mm}
+\question{Are these events independent?}\pause\answersingleline{No}
+\end{enumerate}
+\end{example}\pause
+
+\begin{note}
+If two events are not independent, they are called \textbf{dependent}.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Multiplication Rule For Independent Events}
+If events $A$ and $B$ are independent, then the probability of both $A$ and $B$ occurring is
+\begin{equation*}
+\prob{A~\text{and}~B}=\prob{A} \cdot \prob{B}
+\end{equation*}
+\end{block}\pause
+
+\begin{example}
+Suppose we flip a fair coin and roll a fair die. 
+
+\vspace{2mm}
+The sample space is $\set{\text{H1}, \text{H2}, \text{H3}, \text{H4}, \text{H5}, \text{H6}, \text{T1}, \text{T2}, \text{T3}, \text{T4}, \text{T5}, \text{T6}}$.\pause
+
+\vspace{2mm}
+The probability of getting tails on the coin and three on the die is 
+\begin{equation*}
+\prob{\text{T3}}=\dfrac{1}{12}
+\end{equation*}\pause
+
+\vspace{-3mm}
+Since a coin and dice are independent, we could have used the Multiplication Rule:
+\begin{equation*}
+\prob{\text{T and 3}} = \prob{\text{T}}\cdot\prob{3} = \dfrac{1}{2}\cdot\dfrac{1}{6} = \dfrac{1}{12}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Modern aircraft are now highly reliable, and one design feature contributing to that reliability is the use of \textbf{redundancy}, whereby critical components are duplicated so that if one fails, the other will still work.\pause
+
+\vspace{1mm}
+The Airbus 310 airliner has three independent hydraulic systems, so if one system fails, full flight control is maintained. Let us assume the probability of a hydraulic system failing is 0.002.\pause
+
+\begin{itemize}
+\item \question{If the Airbus 310 had only a single hydraulic system, what is the probability that the flight control system would work for an entire flight?}\pause\answersingleline{$\prob{\text{safe flight}}=1-\prob{\text{system fails}}=1-0.002=0.998$}\pause
+\item \question{Given the Airbus 310 has three independent hydraulic systems, what is the probability that the flight control system would work for an entire flight?}\pause
+\vspace{-7mm}
+\answer{\begin{equation*}\small
+\begin{aligned}
+\prob{\text{safe flight}}
+&=1-\prob{\text{system}_1\text{ fails}\text{ and }\text{system}_2\text{ fails}\text{ and }\text{system}_3\text{ fails}}\\\pause
+&=1-\prob{\text{system}_1\text{ fails}}\cdot\prob{\text{system}_2\text{ fails}}\cdot\prob{\text{system}_3\text{ fails}}\\\pause
+&=1-0.002\cdot0.002\cdot0.002\\\pause
+&=1-0.000000008=.999999992
+\end{aligned}
+\end{equation*}}
+\end{itemize}
+\vspace{-5mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Sampling}
+Sampling methods are critically important, and the following relationships hold:
+\begin{itemize}
+\item Sampling \emph{with replacement}: Selections are \emph{independent} events.
+\item Sampling \emph{without replacement}: Selections are \emph{dependent} events.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Treating Dependent Events as Independent}
+When sampling without replacement and the sample size is very small compared to the size of the population, treat the selections as being independent (even though they are actually dependent).
+\end{block}\pause
+
+\begin{note}
+A good rule of thumb is that the sample size is very small if it is less than 5\% of the total population size.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Assume that three adults are randomly selected without replacement from the $333,373,690$ adults in the United States. If we assume that 10\% of adults use drugs, lets calculate is the probability that the three selected adults all use drugs.\pause
+
+\vspace{1mm}
+Because the three adults are randomly selected without replacement, the three events are dependent. This means the exact probability is rather cumbersome to calculate:
+\vspace{-1mm}
+\begin{equation*}\small
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{\small $1^{\text{st}}$ uses drugs and $2^{\text{nd}}$ uses drugs and $3^{\text{rd}}$ uses drugs}}\\
+&=\left(\dfrac{33,337,369}{333,373,690}\right)\cdot\left(\dfrac{33,337,368}{333,373,689}\right)\cdot\left(\dfrac{33,337,367}{333,373,688}\right)\\
+&=0.000999999919\pause\quad\text{(Imagine selecting 10,000 adults!)}
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-1mm}
+Since 3 adults is a very small part of the total population, we can simplify the calculations considerably:
+\vspace{-2mm}
+\begin{equation*}\small
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{$1^{\text{st}}$ uses drugs and $2^{\text{nd}}$ uses drugs and $3^{\text{rd}}$ uses drugs}}\\
+&=0.1\cdot0.1\cdot0.1=0.00100
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+We can also use the Multiplication Rule For Independent Events to check if two events are independent.
+\end{note}\pause
+
+\begin{example}
+If we shuffle a deck of playing cards and draw one card, let us check that the events \textquote{draw a heart} and \textquote{draw an ace} are independent.\pause
+
+\vspace{1mm}
+We know that
+\begin{equation*}\small
+\begin{aligned}
+\prob{\card{\suitheart}{A}} &= \dfrac{1}{52} \\\pause
+\prob{\suitheart} &= \dfrac{13}{52} = \dfrac{1}{4} \\\pause
+\prob{\text{Ace}} &= \dfrac{4}{52} = \dfrac{1}{13} \\\pause
+\end{aligned}
+\end{equation*}
+
+\vspace{-7mm}
+So,
+
+\vspace{-2mm}
+\begin{equation*}\small
+\prob{\suitheart}\cdot\prob{\text{Ace}}\pause
+= \dfrac{1}{4}\cdot\dfrac{1}{13}\pause
+= \dfrac{1}{4\cdot 13}\pause
+= \dfrac{1}{52}\pause
+= \prob{\suitheart~\text{and}~\text{Ace}}
+\end{equation*}\pause
+
+\vspace{-3mm}
+Since the equation holds, the two events must be independent.
 \end{example}
 \end{frame}
 \end{document}
