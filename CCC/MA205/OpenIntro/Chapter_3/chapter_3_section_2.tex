@@ -9,6 +9,8 @@
 \usepackage{multirow}
 \usepackage{cellspace}
 \usepackage{tikz}
+\usepackage{fp}
+\usepackage{cancel}
 \usepackage{subfigure}
 \usetikzlibrary{shapes.geometric, arrows}
 \usepackage{pgfplots}
@@ -31,8 +33,9 @@
 \newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
 \newcommand{\card}[2]{{#1{\color{black}\text{#2}}}}
 
-\newcommand{\prob}[1]{P\left(#1\right)}
-\newcommand{\condprob}[2]{\prob{#1~\middle|~#2}}
+\newcommand{\prob}[1]{P\left({#1}\right)}
+\newcommand{\jointprob}[3]{\prob{{#1}~\text{#2}~{#3}}}
+\newcommand{\condprob}[2]{\prob{{#1}~|~{#2}}}
 \newcommand{\comb}[2]{_{#1}C_{#2}}
 
 \newcommand\encircle[1]{%
@@ -63,11 +66,11 @@ The \dataset{photo\_classify} data set represents a machine learning algorithm c
 \question{If a photo is actually about fashion, what is the chance the algorithm will correctly identify the photo as being about fashion?}\pause
 \answer{Of the 309 fashion photos, the algorithm correctly classifies 197 of them.
 
-\vspace{-6mm}
+\vspace{-7mm}
 \begin{equation*}
-\prob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion} given \variable{truth} is \outcome{fashion}}}=\dfrac{197}{309} = 0.638
+\jointprob{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}{given}{\text{\small\variable{truth} is \outcome{fashion}}}=\dfrac{197}{309} = 0.638
 \end{equation*}}
-\vspace{-3mm}
+\vspace{-5mm}
 \end{example}
 \end{frame}
 
@@ -88,10 +91,11 @@ Using the same data set as in Example~\ref{ML classifier}.
 \question{If the algorithm predicts the photo as being about fashion, what is the probability is actually is?}\pause
 \answer{Of the 1603 photos predicted to be about fashion, 112 we actually about fashion.
 
-\vspace{-8mm}
+\vspace{-7mm}
 \begin{equation*}
-\prob{\small\text{\variable{truth} is \outcome{fashion} given \variable{mach\_learn} is \outcome{pred\_fashion}}}=\dfrac{112}{1603} = 0.070
+\jointprob{\text{\small\variable{truth} is \outcome{fashion}}}{given}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}=\dfrac{197}{219} = 0.900
 \end{equation*}}
+\vspace{-5mm}
 \end{example}
 \end{frame}
 
@@ -124,7 +128,7 @@ A \textbf{marginal probability} is a probability based on a single variable with
 
 \begin{example}
 \begin{equation*}
-\prob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion}}} = \dfrac{219}{1822} = 0.12
+\prob{\text{\variable{mach\_learn} is \outcome{pred\_fashion}}} = \dfrac{219}{1822} = 0.12
 \end{equation*}\pause
 \vspace{-3.5mm}
 \end{example}
@@ -136,7 +140,7 @@ A probability of outcomes for two or more variables is called a\\ \textbf{joint 
 \begin{example}
 \vspace{-4mm}
 \begin{equation*}
-\prob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion} and \variable{truth} is \outcome{fashion}}} = \dfrac{197}{1822} = 0.11
+\jointprob{\text{\variable{mach\_learn} is \outcome{pred\_fashion}}}{and}{\text{\variable{truth} is \outcome{fashion}}} = \dfrac{197}{1822} = 0.11
 \end{equation*}
 \vspace{-4.5mm}
 \end{example}
@@ -151,7 +155,7 @@ Sometimes a comma is substituted for \textquote{and} in a joint probability.
 \begin{tabular}{c}
 $\prob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion}, \variable{truth} is \outcome{fashion}}}$ \\
 means the same thing as \\
-$\prob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion} and \variable{truth} is \outcome{fashion}}}$
+$\jointprob{\small\text{\variable{mach\_learn} is \outcome{pred\_fashion}}}{and}{\text{\variable{truth} is \outcome{fashion}}}$
 \end{tabular}
 \end{center}
 \end{note}
@@ -208,10 +212,415 @@ Joint probabilities can be used to calculate marginal probabilities in simple ca
 \begin{equation*}
 \begin{aligned}
 \prob{\small\text{\variable{truth} is \outcome{fashion}}}
-&= \prob{\small\text{\variable{mac\_learn} is \outcome{pred\_fashion} and \variable{truth} is \outcome{fashion}}} \\
-&\qquad +\prob{\small\text{\variable{mac\_learn} is \outcome{pred\_not} and \variable{truth} is \outcome{fashion}}} \\\pause
+&= \jointprob{\text{\small\variable{mac\_learn} is \outcome{pred\_fashion}}}{and}{\text{\small\variable{truth} is \outcome{fashion}}} \\
+&\qquad +\jointprob{\text{\small\variable{mac\_learn} is \outcome{pred\_not}}}{and}{\text{\small\variable{truth} is \outcome{fashion}}} \\\pause
 &=0.1081 + 0.0615 \pause
 = 0.1696
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{conditional probability} is a probability computed under a condition.
+\end{definition}\pause
+
+\begin{example}
+\vspace{-4mm}
+\begin{equation*}
+\prob{\text{\small\variable{truth} is \outcome{fashion} given \variable{mach\_learn} is \outcome{pred\_fashion}}}=\dfrac{197}{219} = 0.900
+\end{equation*}
+\end{example}\pause
+
+\begin{definition}
+There are two parts to a conditional probability, the \textbf{outcome of interest} and the \textbf{condition}.
+\vspace{-3mm}
+\begin{equation*}
+\begin{array}{c}
+\prob{\text{outcome of interest given condition}}\\
+\text{is the same as}\\
+\condprob{\text{outcome of interest}}{\text{condition}}
+\end{array}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+\vspace{-4mm}
+\begin{equation*}
+\condprob{\text{\small\variable{truth} is \outcome{fashion}}}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}=\dfrac{197}{219} = 0.900
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+Conditional probabilities are computed as:
+\begin{equation*}
+\condprob{A}{B} = \dfrac{\jointprob{A}{and}{B}}{\prob{B}}
+\end{equation*}
+\end{note}\pause
+
+\begin{example}
+\begin{equation*}
+\begin{array}{l}
+\condprob{\text{\small\variable{truth} is \outcome{fashion}}}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}\\[2mm]
+\qquad= \dfrac{\jointprob{\text{\small\variable{truth} is \outcome{fashion}}}{and}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}{\prob{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}\\[2mm]
+\qquad=\dfrac{0.0615}{0.1696} \\[3mm]
+\qquad= 0.3626
+\end{array}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The \dataset{smallpox} data set provides a sample of 6,224 individuals from the year 1721 who were exposed to smallpox in Boston.
+\begin{center}\small
+\begin{tabular}{llrrrcrrr}
+&&\multicolumn{2}{c}{\variable{inoculated}} & & &\multicolumn{2}{c}{\variable{inoculated}} & \\\cline{3-4}\cline{7-8}
+&&\outcome{yes}&\outcome{no}&Total &&\outcome{yes}&\outcome{no}&Total  \\\cline{2-5}\cline{7-9}
+\multirow{2}{*}{\variable{result}} & \outcome{lived} & 238 & 5136 & 5374 && 0.0382 & 0.8252 & 0.8634  \\
+&\outcome{died} & 6 & 844 & 850 && 0.0010 & \color<5>{red!75}{0.1356} & 0.1366 \\\cline{2-5}\cline{7-9}
+&Total & 244 & 5980 & 6224 && 0.0392 & \color<5>{blue!75}{0.9608} & 1.0000
+\end{tabular}
+\end{center}\pause
+\question{What is the probability that a randomly selected person who was not inoculated died from smallpox?}\pause
+\answer{%
+\vspace{-2mm}
+\begin{equation*}
+\begin{array}{l}
+\condprob{\text{\small\variable{result} is \outcome{died}}}{\text{\variable{inoculated} is \outcome{no}}} \\[2mm]\pause\qquad=\dfrac{\jointprob{\text{\small\variable{result} is \outcome{died}}}{and}{\text{\small\variable{inoculated} is \outcome{no}}}}{\prob{\text{\small\variable{inoculated} is \outcome{no}}}} \\\pause
+\qquad=\dfrac{\color<5>{red!65}{0.1356}}{\color<5>{blue!65}{0.9608}} \\[4mm]\pause
+\qquad=0.1411\approx 14.11\%
+\end{array}
+\end{equation*}}
+\vspace{-3mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The \dataset{smallpox} data set provides a sample of 6,224 individuals from the year 1721 who were exposed to smallpox in Boston.
+\begin{center}\small
+\begin{tabular}{llrrrcrrr}
+&&\multicolumn{2}{c}{\variable{inoculated}} & & &\multicolumn{2}{c}{\variable{inoculated}} & \\\cline{3-4}\cline{7-8}
+&&\outcome{yes}&\outcome{no}&Total &&\outcome{yes}&\outcome{no}&Total  \\\cline{2-5}\cline{7-9}
+\multirow{2}{*}{\variable{result}} & \outcome{lived} & 238 & 5136 & 5374 && 0.0382 & 0.8252 & 0.8634  \\
+&\outcome{died} & 6 & 844 & 850 && \color<5>{red!75}{0.0010} & 0.1356 & 0.1366 \\\cline{2-5}\cline{7-9}
+&Total & 244 & 5980 & 6224 && \color<5>{blue!75}{0.0392} & 0.9608 & 1.0000
+\end{tabular}
+\end{center}\pause
+\question{What is the probability that a randomly selected inoculated person died from smallpox?}\pause
+\answer{%
+\vspace{-2mm}
+\begin{equation*}
+\begin{array}{l}
+\condprob{\text{\small\variable{result} is \outcome{died}}}{\text{\variable{inoculated} is \outcome{yes}}} \\[2mm]\pause\qquad=\dfrac{\jointprob{\text{\small\variable{result} is \outcome{died}}}{and}{\text{\small\variable{inoculated} is \outcome{yes}}}}{\prob{\text{\small\variable{inoculated} is \outcome{yes}}}} \\\pause
+\qquad=\dfrac{\color<5>{red!65}{0.0010}}{\color<5>{blue!65}{0.0392}} \\[4mm]\pause
+\qquad=0.0255\approx 2.55\%
+\end{array}
+\end{equation*}}
+\vspace{-3mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The \dataset{smallpox} data set provides a sample of 6,224 individuals from the year 1721 who were exposed to smallpox in Boston.
+
+\vspace{2mm}
+The residents of Boston self-selected whether or not to be inoculated.
+
+\vspace{2mm}
+\question{Is this study observational or experimental?}\pause\answersingleline{Observational}\pause
+
+\vspace{2mm}
+\question{Can we infer any causal connection using this data?}\pause
+\answer{No, the fact this is an observational study combined with the self-selecting bias means we cannot.}\pause
+
+\vspace{2mm}
+\question{What are some potential confounding variables that might influence whether someone \outcome{lived} or \outcome{died}?}\pause
+\answer{People die for many reasons, wealth determines level of medical care available, etc\ldots}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{General Multiplication Rule}
+If $A$ and $B$ represent two outcomes or events, then
+\begin{equation*}
+\jointprob{A}{and}{B} = \condprob{A}{B}\cdot\prob{B}
+\end{equation*}
+\end{block}\pause
+
+\begin{example}
+Suppose we are only given two pieces of information: 
+\begin{itemize}
+\item 96.08\% of Boston residents were not inoculated.
+\item 85.88\% of Boston residents who were not inoculated ended up surviving.
+\end{itemize}
+Let us find the probability that a resident who was no inoculated  and lived.\pause
+
+\vspace{-5mm}
+\begin{equation*}
+\begin{array}{l}
+\jointprob{\text{\small\variable{result} is \outcome{lived}}}{and}{\text{\small\variable{inoculated} is \outcome{no}}} \\\pause
+\qquad= \condprob{\text{\small\variable{result} is \outcome{lived}}}{\text{\small\variable{inoculated} is \outcome{no}}} \cdot \prob{\text{\small\variable{inoculated} is \outcome{no}}}\\\pause
+\qquad= 0.8588 \cdot 0.9698\\\pause
+\qquad= 0.8251 \approx 82.51\%
+\end{array}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let's use
+\begin{itemize}
+\item $\prob{\text{\small\variable{inoculated} is \outcome{yes}}}=0.0392$
+\item $\condprob{\text{\small\variable{result} is \outcome{lived}}}{\text{\small\variable{inoculated} is \outcome{yes}}}=0.9754$
+\end{itemize}
+to find the probability that a person was both inoculated and lived.\pause
+
+\vspace{-5mm}
+\begin{equation*}
+\begin{array}{l}
+\jointprob{\text{\small\variable{result} is \outcome{lived}}}{and}{\text{\small\variable{inoculated} is \outcome{yes}}} \\\pause
+\qquad= \condprob{\text{\small\variable{result} is \outcome{lived}}}{\text{\small\variable{inoculated} is \outcome{yes}}} \cdot \prob{\text{\small\variable{inoculated} is \outcome{yes}}}\\\pause
+\qquad= 0.0382 \cdot 0.9754\\\pause
+\qquad= 0.0382 \approx 3.82\%
+\end{array}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Sum of Conditional Probabilities}
+Let $A_1$, $A_2$, \ldots, $A_k$ represent all the disjoint outcomes for a variable. Then if $B$ is an event, possibly for another variable, we have:
+\begin{equation*}
+\condprob{A_1}{B} + \condprob{A_2}{B} + \cdots + \condprob{A_k}{B}  = 1
+\end{equation*}
+\end{block}\pause
+
+\begin{note}
+If an event and it's complement are conditioned on the same information, then:
+\begin{equation*}
+\condprob{A}{B} = 1 - \condprob{A^C}{B}
+\end{equation*}
+\end{note}\pause
+
+\begin{example}
+\question{If 97.54\% of the inoculated people lived, what is the proportion of people that must have died?}\pause
+\answer{There are only two outcomes: \outcome{lived} and \outcome{died}. Which means that $100\% - 97.54\% = 2.46\%$ people who were inoculated died.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Let $X$ and $Y$ represent the outcomes of rolling two dice.
+
+\vspace{2mm}
+Let us compute the following:
+\begin{equation*}
+\begin{array}{ll}
+\condprob{Y=1}{X=1} \pause
+&= \dfrac{\jointprob{Y=1}{and}{X=1}}{\prob{X=1}} \\\pause
+&= \dfrac{\prob{Y=1}\cdot\prob{X=1}}{\prob{X=1}} \\\pause
+&= \dfrac{\prob{Y=1}\cdot\cancel{\prob{X=1}}}{\cancel{\prob{X=1}}} \\\pause
+&= \prob{Y=1}
+\end{array}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+We have shown that if two events are independent, then knowing the outcome of one should provide no information about the other.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Ron is watching a roulette table in a casino and notices that the last five outcomes were \outcome{black}. He figures that the chances of getting \outcome{black} six times in  a row is very small and puts his paycheck on red.
+
+\vspace{2mm}
+\question{Why is this a really bad idea?}\pause
+
+\answer{Each spin of a roulette wheel is independent of any of the previous spins. The next spin has the exact same probability of getting black and any other.}
+\end{example}\pause
+
+\begin{note}
+Posting the last several outcomes of a betting game is a real practice casinos use to trick people into believing the odds are in their favor. It's known as the \textbf{gambler's fallacy}.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{tree diagram} is a tool to organize outcomes and probabilities around the structure of the data.
+
+\vspace{2mm}
+They are most useful when two or more processes occur in a sequence and each process is conditioned on its predecessor.
+\end{definition}\pause
+
+\begin{example}
+Here is the tree diagram for \dataset{smallpox} dataset.
+
+\vspace{-2.5mm}
+\begin{center}
+\begin{tikzpicture}
+\newcommand{\varA}{\variable{Inoculated}}
+\newcommand{\varB}{\variable{Result}}
+\newcommand{\outAone}{\outcome{yes}}
+\newcommand{\outAtwo}{\outcome{no}}
+\newcommand{\outBone}{\outcome{lived}}
+\newcommand{\outBtwo}{\outcome{died}}
+\newcommand{\outAoneprob}{0.0392}
+\newcommand{\outAtwoprob}{0.9608}
+\newcommand{\outAoneBoneprob}{0.9754}
+\newcommand{\outAoneBtwoprob}{0.0246}
+\newcommand{\outAtwoBoneprob}{0.8589}
+\newcommand{\outAtwoBtwoprob}{0.1411}
+
+\newcommand{\rowlabel}{2.5}
+\newcommand{\rowthreeup}{1.5}
+\newcommand{\rowtwoup}{1.0}
+\newcommand{\rowoneup}{0.5}
+\newcommand{\rowonedown}{-0.5}
+\newcommand{\rowtwodown}{-1.0}
+\newcommand{\rowthreedown}{-1.5}
+
+\newcommand{\colone}{0.5}
+\newcommand{\coltwo}{3}
+\newcommand{\colthree}{3.5}
+\newcommand{\colfour}{6}
+\newcommand{\colfive}{8.5}
+
+\FPeval\midone{clip((\colone+\coltwo)/2)} % chktex 36
+\FPeval\midtwo{clip((\colthree+\colfour)/2)} % chktex 36
+\FPeval\ansa{clip(\outAoneprob * \outAoneBoneprob)} 
+\FPeval\ansa{round(ansa:5)}
+\FPeval\ansb{clip(\outAoneprob * \outAoneBtwoprob)} 
+\FPeval\ansb{round(ansb:5)}
+\FPeval\ansc{clip(\outAtwoprob * \outAtwoBoneprob)} 
+\FPeval\ansc{round(ansc:5)}
+\FPeval\ansd{clip(\outAtwoprob * \outAtwoBtwoprob)} 
+\FPeval\ansd{round(ansd:5)}
+
+\draw (0,0) -- (\colone, \rowtwoup);
+\draw[dashed] (\colone, \rowtwoup) -- (\coltwo, \rowtwoup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowthreeup);
+\draw[dashed] (\colthree, \rowthreeup) -- (\colfour, \rowthreeup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowoneup);
+\draw[dashed] (\colthree, \rowoneup) -- (\colfour, \rowoneup);
+
+\draw (0,0) -- (\colone, \rowtwodown);
+\draw[dashed] (\colone, \rowtwodown) -- (\coltwo, \rowtwodown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowthreedown);
+\draw[dashed] (\colthree, \rowthreedown) -- (\colfour, \rowthreedown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowonedown);
+\draw[dashed] (\colthree, \rowonedown) -- (\colfour, \rowonedown);
+
+\node[label={\small \outAone,~\outAoneprob}] at (\midone,\rowtwoup) {};
+\node[label={\small \outAtwo,~\outAtwoprob}] at (\midone,\rowtwodown) {};
+\node[label={\small \outBone,~\outAoneBoneprob}] at (\midtwo,\rowthreeup) {};
+\node[label={\small \outBtwo,~\outAoneBtwoprob}] at (\midtwo,\rowoneup) {};
+\node[label={\small \outBtwo,~\outAtwoBtwoprob}] at (\midtwo,\rowthreedown) {};
+\node[label={\small \outBone,~\outAtwoBoneprob}] at (\midtwo,\rowonedown) {};
+
+\node at (\colfive,\rowthreeup) {\small $\outAoneprob \cdot \outAoneBoneprob=\ansa$};
+\node at (\colfive,\rowoneup) {\small $\outAoneprob \cdot \outAoneBtwoprob=\ansb$};
+\node at (\colfive,\rowonedown) {\small $\outAtwoprob \cdot \outAtwoBoneprob=\ansc$};
+\node at (\colfive,\rowthreedown) {\small $\outAtwoprob \cdot \outAtwoBtwoprob=\ansd$};
+
+\node[blue!50] at (\midone, \rowlabel) {\varA};
+\node[blue!50] at (\midtwo, \rowlabel) {\varB};
+\end{tikzpicture}
+\end{center}
+\end{example}
+\end{frame}
+
+\newcommand<>{\blanked}[1]{\alt#2{#1}{\phantom{#1}}}
+\begin{frame}
+\begin{example}
+Suppose that 13\% of students earned an A on the midterm. Of those students that earned an A, 47\% received an A on the final and 11\% of the student who earned a lower grade than an A on the midterm received an A on the final.\pause
+
+\vspace{-2mm}
+\begin{center}
+\begin{tikzpicture}
+\newcommand{\varA}{\variable{Midterm}}
+\newcommand{\varB}{\variable{Final}}
+\newcommand{\outAone}{\outcome{A}}
+\newcommand{\outAtwo}{\outcome{other}}
+\newcommand{\outBone}{\outcome{A}}
+\newcommand{\outBtwo}{\outcome{other}}
+\newcommand{\outAoneprob}{0.13}
+\newcommand{\outAtwoprob}{0.87}
+\newcommand{\outAoneBoneprob}{0.47}
+\newcommand{\outAoneBtwoprob}{0.53}
+\newcommand{\outAtwoBoneprob}{0.11}
+\newcommand{\outAtwoBtwoprob}{0.89}
+
+\newcommand{\rowlabel}{2.5}
+\newcommand{\rowthreeup}{1.5}
+\newcommand{\rowtwoup}{1.0}
+\newcommand{\rowoneup}{0.5}
+\newcommand{\rowonedown}{-0.5}
+\newcommand{\rowtwodown}{-1.0}
+\newcommand{\rowthreedown}{-1.5}
+
+\newcommand{\colone}{0.5}
+\newcommand{\coltwo}{3}
+\newcommand{\colthree}{3.5}
+\newcommand{\colfour}{6}
+\newcommand{\colfive}{8}
+
+\FPeval\midone{clip((\colone+\coltwo)/2)} % chktex 36
+\FPeval\midtwo{clip((\colthree+\colfour)/2)} % chktex 36
+\FPeval\ansa{clip(\outAoneprob * \outAoneBoneprob)} 
+\FPeval\ansa{round(ansa:4)}
+\FPeval\ansb{clip(\outAoneprob * \outAoneBtwoprob)} 
+\FPeval\ansb{round(ansb:4)}
+\FPeval\ansc{clip(\outAtwoprob * \outAtwoBoneprob)} 
+\FPeval\ansc{round(ansc:4)}
+\FPeval\ansd{clip(\outAtwoprob * \outAtwoBtwoprob)} 
+\FPeval\ansd{round(ansd:4)}
+
+\draw (0,0) -- (\colone, \rowtwoup);
+\draw[dashed] (\colone, \rowtwoup) -- (\coltwo, \rowtwoup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowthreeup);
+\draw[dashed] (\colthree, \rowthreeup) -- (\colfour, \rowthreeup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowoneup);
+\draw[dashed] (\colthree, \rowoneup) -- (\colfour, \rowoneup);
+
+\draw (0,0) -- (\colone, \rowtwodown);
+\draw[dashed] (\colone, \rowtwodown) -- (\coltwo, \rowtwodown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowthreedown);
+\draw[dashed] (\colthree, \rowthreedown) -- (\colfour, \rowthreedown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowonedown);
+\draw[dashed] (\colthree, \rowonedown) -- (\colfour, \rowonedown);
+
+\node[label={\small \outAone,~\outAoneprob}] at (\midone,\rowtwoup) {};
+\node[label={\small \outAtwo,\blanked<3->{~\outAtwoprob}}] at (\midone,\rowtwodown) {};
+\node[label={\small \outBone,~\outAoneBoneprob}] at (\midtwo,\rowthreeup) {};
+\node[label={\small \outBtwo,\blanked<4->{~\outAoneBtwoprob}}] at (\midtwo,\rowoneup) {};
+\node[label={\small \outBtwo,\blanked<5->{~\outAtwoBtwoprob}}] at (\midtwo,\rowthreedown) {};
+\node[label={\small \outBone,~\outAtwoBoneprob}] at (\midtwo,\rowonedown) {};
+
+\node at (\colfive,\rowthreeup) {\small \blanked<6->{$\outAoneprob \cdot \outAoneBoneprob=\ansa$}};
+\node at (\colfive,\rowoneup) {\small \blanked<6->{$\outAoneprob \cdot \outAoneBtwoprob=\ansb$}};
+\node at (\colfive,\rowonedown) {\small \blanked<6->{$\outAtwoprob \cdot \outAtwoBoneprob=\ansc$}};
+\node at (\colfive,\rowthreedown) {\small \blanked<6->{$\outAtwoprob \cdot \outAtwoBtwoprob=\ansd$}};
+
+\node[blue!50] at (\midone, \rowlabel) {\varA};
+\node[blue!50] at (\midtwo, \rowlabel) {\varB};
+\end{tikzpicture}
+\end{center}
+\onslide<7->
+\vspace{-3mm}
+\begin{equation*}
+\begin{aligned}
+\condprob{\text{\small\variable{midterm} is \outcome{A}}}{\text{\small\variable{final} is \outcome{A}}} \onslide<8->
+&=\dfrac{\jointprob{\text{\small\variable{midterm} is \outcome{A}}}{and}{{\text{\small\variable{final} is \outcome{A}}}}}{\prob{{\text{\small\variable{final} is \outcome{A}}}}}\\\onslide<9->
+&=\tfrac{0.0611}{0.1568} \onslide<10->
+= 0.3897 \approx 38.97\%
 \end{aligned}
 \end{equation*}
 \end{example}
