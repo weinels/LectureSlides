@@ -764,6 +764,51 @@ The Airbus 310 airliner has three independent hydraulic systems, so if one syste
 \end{frame}
 
 \begin{frame}
+\begin{block}{Sampling}
+Sampling methods are critically important, and the following relationships hold:
+\begin{itemize}
+\item Sampling \emph{with replacement}: Selections are \emph{independent} events.
+\item Sampling \emph{without replacement}: Selections are \emph{dependent} events.
+\end{itemize}
+\end{block}\pause
+
+\begin{block}{Treating Dependent Events as Independent}
+When sampling without replacement and the sample size is very small compared to the size of the population, treat the selections as being independent (even though they are actually dependent).
+\end{block}\pause
+
+\begin{note}
+A good rule of thumb is that the sample size is very small if it is less than 5\% of the total population size.
+\end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Assume that three adults are randomly selected without replacement from the $333,373,690$ adults in the United States. If we assume that 10\% of adults use drugs, lets calculate is the probability that the three selected adults all use drugs.\pause
+
+\vspace{1mm}
+Because the three adults are randomly selected without replacement, the three events are dependent. This means the exact probability is rather cumbersome to calculate:
+\vspace{-1mm}
+\begin{equation*}\small
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{\small $1^{\text{st}}$ uses drugs and $2^{\text{nd}}$ uses drugs and $3^{\text{rd}}$ uses drugs}}\\
+&=\left(\dfrac{33,337,369}{333,373,690}\right)\cdot\left(\dfrac{33,337,368}{333,373,689}\right)\cdot\left(\dfrac{33,337,367}{333,373,688}\right)\\
+&=0.000999999919\pause\quad\text{(Imagine selecting 10,000 adults!)}
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{-1mm}
+Since 3 adults is a very small part of the total population, we can simplify the calculations considerably:
+\vspace{-2mm}
+\begin{equation*}\small
+\begin{aligned}
+\prob{\text{\small all use drugs}} &= \prob{\text{$1^{\text{st}}$ uses drugs and $2^{\text{nd}}$ uses drugs and $3^{\text{rd}}$ uses drugs}}\\
+&=0.1\cdot0.1\cdot0.1=0.00100
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}
 \begin{note}
 We can also use the Multiplication Rule For Independent Events to check if two events are independent.
 \end{note}\pause
