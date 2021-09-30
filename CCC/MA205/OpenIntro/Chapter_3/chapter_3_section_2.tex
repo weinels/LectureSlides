@@ -264,9 +264,9 @@ Conditional probabilities are computed as:
 \begin{example}
 \begin{equation*}
 \begin{array}{l}
-\condprob{\text{\small\variable{truth} is \outcome{fashion}}}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}\\[2mm]
-\qquad= \dfrac{\jointprob{\text{\small\variable{truth} is \outcome{fashion}}}{and}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}{\prob{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}\\[2mm]
-\qquad=\dfrac{0.0615}{0.1696} \\[3mm]
+\condprob{\text{\small\variable{truth} is \outcome{fashion}}}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}\\[2mm]\pause
+\qquad= \dfrac{\jointprob{\text{\small\variable{truth} is \outcome{fashion}}}{and}{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}{\prob{\text{\small\variable{mach\_learn} is \outcome{pred\_fashion}}}}\\[2mm]\pause
+\qquad=\dfrac{0.0615}{0.1696} \\[3mm]\pause
 \qquad= 0.3626
 \end{array}
 \end{equation*}
@@ -307,17 +307,17 @@ The \dataset{smallpox} data set provides a sample of 6,224 individuals from the 
 &&\multicolumn{2}{c}{\variable{inoculated}} & & &\multicolumn{2}{c}{\variable{inoculated}} & \\\cline{3-4}\cline{7-8}
 &&\outcome{yes}&\outcome{no}&Total &&\outcome{yes}&\outcome{no}&Total  \\\cline{2-5}\cline{7-9}
 \multirow{2}{*}{\variable{result}} & \outcome{lived} & 238 & 5136 & 5374 && 0.0382 & 0.8252 & 0.8634  \\
-&\outcome{died} & 6 & 844 & 850 && \color<5>{red!75}{0.0010} & 0.1356 & 0.1366 \\\cline{2-5}\cline{7-9}
-&Total & 244 & 5980 & 6224 && \color<5>{blue!75}{0.0392} & 0.9608 & 1.0000
+&\outcome{died} & 6 & 844 & 850 && \color<4>{red!75}{0.0010} & 0.1356 & 0.1366 \\\cline{2-5}\cline{7-9}
+&Total & 244 & 5980 & 6224 && \color<4>{blue!75}{0.0392} & 0.9608 & 1.0000
 \end{tabular}
-\end{center}\pause
+\end{center}
 \question{What is the probability that a randomly selected inoculated person died from smallpox?}\pause
 \answer{%
 \vspace{-2mm}
 \begin{equation*}
 \begin{array}{l}
 \condprob{\text{\small\variable{result} is \outcome{died}}}{\text{\variable{inoculated} is \outcome{yes}}} \\[2mm]\pause\qquad=\dfrac{\jointprob{\text{\small\variable{result} is \outcome{died}}}{and}{\text{\small\variable{inoculated} is \outcome{yes}}}}{\prob{\text{\small\variable{inoculated} is \outcome{yes}}}} \\\pause
-\qquad=\dfrac{\color<5>{red!65}{0.0010}}{\color<5>{blue!65}{0.0392}} \\[4mm]\pause
+\qquad=\dfrac{\color<4>{red!65}{0.0010}}{\color<4>{blue!65}{0.0392}} \\[4mm]\pause
 \qquad=0.0255\approx 2.55\%
 \end{array}
 \end{equation*}}
@@ -333,7 +333,8 @@ The \dataset{smallpox} data set provides a sample of 6,224 individuals from the 
 The residents of Boston self-selected whether or not to be inoculated.
 
 \vspace{2mm}
-\question{Is this study observational or experimental?}\pause\answersingleline{Observational}\pause
+\question{Is this study observational or experimental?}\pause
+\answer{Observational}\pause
 
 \vspace{2mm}
 \question{Can we infer any causal connection using this data?}\pause
