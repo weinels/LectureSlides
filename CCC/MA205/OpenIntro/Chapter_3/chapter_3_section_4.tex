@@ -1,0 +1,51 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[inline]{asymptote}
+\usepackage{slide_helper}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{cancel}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usetikzlibrary{external}
+\tikzexternalize%
+
+\title[MA205 - Section 3.4]{Random Variables}
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\DeclareMathSymbol{\varclub}{\mathalpha}{extraup}{84} 
+\DeclareMathSymbol{\varspade}{\mathalpha}{extraup}{85}
+
+\newcommand{\suitheart}[1][]{{\color{red}\text{#1}\varheart}}
+\newcommand{\suitspade}[1][]{{\color{black}\text{#1}\spadesuit}}
+\newcommand{\suitdiamond}[1][]{{\color{red}\text{#1}\vardiamond}}
+\newcommand{\suitclub}[1][]{{\color{black}\text{#1}\varclub}}
+\newcommand{\card}[2]{{#1{\color{black}\text{#2}}}}
+
+\newcommand{\prob}[1]{P\left({#1}\right)}
+\newcommand{\jointprob}[3]{\prob{{#1}~\text{#2}~{#3}}}
+\newcommand{\condprob}[2]{\prob{{#1}~|~{#2}}}
+\newcommand{\comb}[2]{_{#1}C_{#2}}
+
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)]  % chktex 36 chktex 1
+    \node (X) [draw, shape=circle, inner sep=0, fill=yellow!10] {\strut #1};} % chktex 36 chktex 1
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+\end{document}
