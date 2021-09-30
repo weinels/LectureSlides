@@ -544,6 +544,7 @@ Suppose that 13\% of students earned an A on the midterm. Of those students that
 
 \vspace{-2mm}
 \begin{center}
+\scalebox{0.92}{%
 \begin{tikzpicture}
 \newcommand{\varA}{\variable{Midterm}}
 \newcommand{\varB}{\variable{Final}}
@@ -612,17 +613,195 @@ Suppose that 13\% of students earned an A on the midterm. Of those students that
 \node[blue!50] at (\midone, \rowlabel) {\varA};
 \node[blue!50] at (\midtwo, \rowlabel) {\varB};
 \end{tikzpicture}
+}
 \end{center}
 \onslide<7->
-\vspace{-3mm}
+\vspace{-2mm}
 \begin{equation*}
 \begin{aligned}
 \condprob{\text{\small\variable{midterm} is \outcome{A}}}{\text{\small\variable{final} is \outcome{A}}} \onslide<8->
 &=\dfrac{\jointprob{\text{\small\variable{midterm} is \outcome{A}}}{and}{{\text{\small\variable{final} is \outcome{A}}}}}{\prob{{\text{\small\variable{final} is \outcome{A}}}}}\\\onslide<9->
-&=\tfrac{0.0611}{0.1568} \onslide<10->
+&=\dfrac{0.0611}{0.1568} \onslide<10->
 = 0.3897 \approx 38.97\%
 \end{aligned}
 \end{equation*}
 \end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{false negative} is when a test incorrectly gives a negative result.
+\end{definition}\pause
+
+\begin{definition}
+A \textbf{false positive} is when a test incorrectly gives a positive result.
+\end{definition}\pause
+
+\begin{example}
+In Canada, about 0.35\% of women over 40 will develop breast cancer in any given year. A common screening test for cancer is the mammogram, but this test is not perfect.\pause
+
+\vspace{2mm}
+In about 11\% of patients with breast cancer, the test gives a false negative. That is, the mammogram indicated the woman does not have breast cancer, when she really does have breast cancer.\pause
+
+\vspace{2mm}
+In about 7\% of patients that do not have breast cancer, the test gives a true negative. That is, the mammogram indicated the woman does have breast cancer, when she really doesn't have breast cancer.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{canadian breast cancer}
+\vspace{-2mm}%beamer bug: extra space is added when a label is used, so this is to make this slide and the next look the same
+A question doctors and researchers have to answer is: If the mammogram comes back positive, what is the probability that the patient actually has breast cancer?\pause
+
+\vspace{1mm}
+We have enough information to build a tree diagram:
+
+\vspace{-2.5mm}
+\begin{center}
+\scalebox{0.75}{%
+\begin{tikzpicture}
+\newcommand{\varA}{\variable{Truth}}
+\newcommand{\varB}{\variable{Mammogram}}
+\newcommand{\outAone}{\outcome{cancer}}
+\newcommand{\outAtwo}{\outcome{no cancer}}
+\newcommand{\outBone}{\outcome{positive}}
+\newcommand{\outBtwo}{\outcome{negative}}
+\newcommand{\outAoneprob}{0.0035}
+\newcommand{\outAtwoprob}{0.9965}
+\newcommand{\outAoneBoneprob}{0.89}
+\newcommand{\outAoneBtwoprob}{0.11}
+\newcommand{\outAtwoBoneprob}{0.07}
+\newcommand{\outAtwoBtwoprob}{0.93}
+
+\newcommand{\rowlabel}{2.5}
+\newcommand{\rowthreeup}{1.5}
+\newcommand{\rowtwoup}{1.0}
+\newcommand{\rowoneup}{0.5}
+\newcommand{\rowonedown}{-0.5}
+\newcommand{\rowtwodown}{-1.0}
+\newcommand{\rowthreedown}{-1.5}
+
+\newcommand{\colone}{0.75}
+\newcommand{\coltwo}{3.75}
+\newcommand{\colthree}{4.5}
+\newcommand{\colfour}{7}
+\newcommand{\colfive}{9.5}
+
+\FPeval\midone{clip((\colone+\coltwo)/2)} % chktex 36
+\FPeval\midtwo{clip((\colthree+\colfour)/2)} % chktex 36
+\FPeval\ansa{clip(\outAoneprob * \outAoneBoneprob)} 
+\FPeval\ansa{round(ansa:5)}
+\FPeval\ansb{clip(\outAoneprob * \outAoneBtwoprob)} 
+\FPeval\ansb{round(ansb:5)}
+\FPeval\ansc{clip(\outAtwoprob * \outAtwoBoneprob)} 
+\FPeval\ansc{round(ansc:5)}
+\FPeval\ansd{clip(\outAtwoprob * \outAtwoBtwoprob)} 
+\FPeval\ansd{round(ansd:5)}
+
+\draw (0,0) -- (\colone, \rowtwoup);
+\draw[dashed] (\colone, \rowtwoup) -- (\coltwo, \rowtwoup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowthreeup);
+\draw[dashed] (\colthree, \rowthreeup) -- (\colfour, \rowthreeup);
+\draw (\coltwo, \rowtwoup) -- (\colthree, \rowoneup);
+\draw[dashed] (\colthree, \rowoneup) -- (\colfour, \rowoneup);
+
+\draw (0,0) -- (\colone, \rowtwodown);
+\draw[dashed] (\colone, \rowtwodown) -- (\coltwo, \rowtwodown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowthreedown);
+\draw[dashed] (\colthree, \rowthreedown) -- (\colfour, \rowthreedown);
+\draw (\coltwo, \rowtwodown) -- (\colthree, \rowonedown);
+\draw[dashed] (\colthree, \rowonedown) -- (\colfour, \rowonedown);
+
+\node[label={\small \outAone,~\outAoneprob}] at (\midone,\rowtwoup) {};
+\node[label={\small \outAtwo,~\outAtwoprob}] at (\midone,\rowtwodown) {};
+\node[label={\small {\color<5>{purple!60}{\outBone}},~\outAoneBoneprob}] at (\midtwo,\rowthreeup) {};
+\node[label={\small \outBtwo,~\outAoneBtwoprob}] at (\midtwo,\rowoneup) {};
+\node[label={\small \outBtwo,~\outAtwoBtwoprob}] at (\midtwo,\rowthreedown) {};
+\node[label={\small {\color<5>{orange!75}{\outBone}},~\outAtwoBoneprob}] at (\midtwo,\rowonedown) {};
+
+\node at (\colfive,\rowthreeup) {\small $\outAoneprob \cdot \outAoneBoneprob=\color<5>{purple!60}{\ansa}$};
+\node at (\colfive,\rowoneup) {\small $\outAoneprob \cdot \outAoneBtwoprob=\ansb$};
+\node at (\colfive,\rowonedown) {\small $\outAtwoprob \cdot \outAtwoBoneprob=\color<5>{orange!75}{\ansc}$};
+\node at (\colfive,\rowthreedown) {\small $\outAtwoprob \cdot \outAtwoBtwoprob=\ansd$};
+
+\node[blue!50] at (\midone, \rowlabel) {\varA};
+\node[blue!50] at (\midtwo, \rowlabel) {\varB};
+\end{tikzpicture}
+}
+\end{center}\pause
+\vspace{-3mm}
+So,
+
+\vspace{-6mm}
+\begin{equation*}
+\begin{aligned}
+\condprob{\text{\small has BC}}{\text{\small test positive}}\pause
+&= \dfrac{\jointprob{\text{\small has BC}}{and}{\text{\small test positive}}}{\prob{\text{\small test positive}}}\\\pause
+&= \dfrac{\color<5>{purple!60}{0.00312}}{\color<5>{purple!60}{0.00312} + \color<5>{orange!75}{0.06976}} \pause= 0.0428 \approx 4.28\%
+\end{aligned}
+\end{equation*}
+\end{example}
+\end{frame}
+
+\newcommand{\bayesterm}[2]{\condprob{#1}{#2}\prob{#2}}
+\begin{frame}
+\begin{note}
+There are times where we are given:
+
+\vspace{-4mm}
+\begin{equation*}
+\condprob{\text{\small statement about \variable{variable 1|}}}{\text{\small statement about \variable{variable 2}}}
+\end{equation*}
+
+\vspace{-1mm}
+but we would rather know the inverted conditional probability:
+
+\vspace{-4mm}
+\begin{equation*}
+\condprob{\text{\small statement about \variable{variable 2}}}{\text{\small statement about \variable{variable 1}}}
+\end{equation*}
+\end{note}\pause
+
+\begin{block}{Bayes' Theorem}
+Consider the following conditional probability for \variable{variable 1} and \variable{variable 2}:
+
+\vspace{-4mm}
+\begin{equation*}
+\condprob{\text{\small outcome $A_1$ of \variable{variable 1}}}{\text{\small outcome $B$ of \variable{variable 2}}}
+\end{equation*}
+
+\vspace{-1mm}
+Bayes' Theorem states that this conditional probability is the same as:
+
+\vspace{-2mm}
+\begin{equation*}
+\dfrac{\bayesterm{B}{A_1}}{\bayesterm{B}{A_1}+\bayesterm{B}{A_2}+\cdots+\bayesterm{B}{A_k}}
+\end{equation*}
+\small
+where $A_2$, $A_3$, \ldots, $A_k$ represent all other possible outcomes of \variable{variable 1}.
+\end{block}
+\end{frame}
+
+\newcommand{\testpositive}{\text{\small test pos}}
+\newcommand{\hasBC}{\text{\small has BC}}
+\newcommand{\noBC}{\text{\small no BC}}
+\begin{frame}
+\begin{example}
+In Example~\ref{canadian breast cancer}, we computed $\condprob{\text{\small has BC}}{\text{\small test positive}}$ using a tree diagram.\pause
+
+\vspace{2mm}
+We could have also used Bayes' Theorem:
+\begin{equation*}
+\begin{array}{l}
+\condprob{\hasBC}{\testpositive}\\
+\quad= \dfrac{\bayesterm{\testpositive}{\hasBC}}{\bayesterm{\testpositive}{\hasBC}+\bayesterm{\testpositive}{\noBC}} \\[4mm]\pause
+\quad= \dfrac{0.89\cdot 0.0035}{0.89\cdot0.0035 + 0.07\cdot 0.9965} \pause = \dfrac{0.03115}{0.07287} \pause = 0.0428 \approx 4.28\%
+\end{array}
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+This strategy of updating beliefs using Bayes' Theorem is the foundation of an entire branch of statistics called \textbf{Bayesian statistics}.
+\end{note}
 \end{frame}
 \end{document}
