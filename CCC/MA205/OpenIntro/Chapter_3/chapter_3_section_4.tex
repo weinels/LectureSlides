@@ -63,11 +63,11 @@ The university bookstore determined:
 \end{itemize}\pause
 
 \question{How many books should be expected to sell if 100 students enrolled?}\pause
-\answer{We expect about 25 students will buy none, 55 will buy just the textbook, and 25 will buy both. A total of $ 1\cdot 55 + 2\cdot 25 = 105$ books.}\pause
+\answer{We expect about 20 students will buy none, 55 will buy just the textbook, and 25 will buy both. A total of $ 1\cdot 55 + 2\cdot 25 = 105$ books.}\pause
 
 \vspace{2mm}
 \question{How much revenue should be expected to be made?}\pause
-\answer{$\$0\cdot 25 + \$137\cdot 55 + (\$137+\$33)\cdot 25\pause = \$7,535 + \$4,250 \pause = \$11,785$}\pause
+\answer{$\$0\cdot 20 + \$137\cdot 55 + (\$137+\$33)\cdot 25\pause = \$7,535 + \$4,250 \pause = \$11,785$}\pause
 
 \vspace{2mm}
 \question{What is the average revenue per student?}\pause
@@ -152,7 +152,7 @@ $i$ & 1 & 2 & 3 & Total \\\hline
 $x_i$ & 0 & 1 & 2 & -- \\
 $\prob{X=x_i}$ & 0.25 & 0.50 & 0.25 & 1.00\\\hline
 \end{tabular}
-\end{center}\pause
+\end{center}
 \end{example}
 \end{frame}
 
@@ -259,10 +259,18 @@ The Greek letter $\mu$ is sometimes used in place of $E(X)$.
 
 \begin{frame}
 \begin{example}
-In the casino game Roulette, a wheel with 38 numbered spaces is spun. There are 18 red spaces, 18 black spaces, and 2 green spaces. \pause
+In American Roulette, a wheel with 38 numbered spaces is spun. There are 18 red spaces, 18 black spaces, and 2 green spaces.
 
+\only<1 | handout:0>{%
+\begin{center}
+\vspace{8.65mm}
+\includegraphics[scale=0.6]{American_roulette.png}
+\vspace{8.65mm}
+\end{center}
+}
+\only<2->{%
 \vspace{1mm}
-In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.\pause
+In one possible bet, the players bet \$1 on a single number. If that number is spun on the wheel, then they receive \$36. Otherwise, they lose their \$1.\pause\pause
 
 \vspace{1mm}
 If $X$ is the net winnings, then the probability distribution is:
@@ -279,13 +287,14 @@ The expected value of $X$ is:
 \vspace{-2mm}
 \begin{equation*}
 \begin{aligned}
-E(X) &= x_1\cdot\prob{X=x_1} + x_2\cdot\prob{X=x_2} + x_3\cdot\prob{X=x_3} \\\pause
+E(X) &= x_1\cdot\prob{X=x_1} + x_2\cdot\prob{X=x_2} \\\pause
 &= \$35\cdot\dfrac{1}{38} + -\$1\cdot\dfrac{37}{38} \pause = \$0.9211 - \$0.9737 \pause \approx -\$0.053
 \end{aligned}
 \end{equation*}\pause
 
 \vspace{-3mm}
 On \emph{average}, the player will lose 5.3 cents per bet.
+}
 \end{example}
 \end{frame}
 
@@ -294,7 +303,7 @@ On \emph{average}, the player will lose 5.3 cents per bet.
 Suppose an individual has a 0.242\% risk of dying during the next year.
 
 \vspace{1mm}
-An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit. \pause
+An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit.
 
 \vspace{1mm}
 \question{What is the expected value for the person buying the insurance?}\pause
