@@ -35,8 +35,9 @@ class SQLitePool(CuttlePool):
             return False
 
 class HashDB:
-        def __init__(self, path):
+        def __init__(self, path, rebuild=False):
                 self.pool = SQLitePool(factory=sqlite3.connect, database=path, capacity=10)
+                self.rebuild = rebuild
                 
                 # Setup the database if it's empty.
                 with self.pool.get_resource() as c:
@@ -70,6 +71,9 @@ create table if not exists file_hashes (path text,
                 return ""
         
         def file_changed(self, f):
+                if self.rebuild:
+                        return True
+                
                 with self.pool.get_resource() as c:
                         hash_in_db = c.execute(('select hash '
                                           'from file_hashes '
@@ -199,5 +203,11 @@ def build_all_slides(d, pattern):
                 if p.is_file() and re.match(pattern, str(p.name)):
                         build_slides(p)
 
-db = HashDB('hashes.sqlite')
-build_all_slides(Path("./CCC/MA205/OpenIntro/"), r"chapter\_.\_section\_.\.tex")
+if __name__ == "__main__":
+        parser = argparse.ArgumentParser(description='Build slides and a handout version.')
+        parser.add_argument('--all', dest='rebuild', action='store_const',
+                            const=True, default=False,
+                            help='Rebuild all slides')
+        args = parser.parse_args()        
+        db = HashDB('hashes.sqlite', args.rebuild)
+        build_all_slides(Path("./CCC/MA205/OpenIntro/"), r"chapter\_.\_section\_.\.tex")
