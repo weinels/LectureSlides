@@ -165,18 +165,18 @@ Consider the following table:
 \begin{center}
 \begin{tabular}{llc}\hline
 $i$ & $x_i$ & $\prob{X=x_i}$ \\\hline
-1 & \text{Inappropriate attire} & 0.50 \\
-2 & \text{Being late} & 0.44 \\
-3 & \text{Lack of Eye Contact} & 0.33 \\
-4 & \text{Checking phone or texting} & 0.30 \\\hline
+1 & Inappropriate attire & 0.50 \\
+2 & Being late & 0.44 \\
+3 & Lack of Eye Contact & 0.33 \\
+4 & Checking phone or texting & 0.30 \\\hline
 \multicolumn{2}{r}{Total} & 1.57\\\hline
 \end{tabular}
 \end{center}
 \question{Is $X$ and random variable?}\pause
 \answer{%
 \begin{enumerate}
-\item The outcomes are not numerical, they are categorical.\pause
-\item $\sum \prob{X=x_i}=1.57\neq 1$\pause
+\item \answernospacing{The outcomes are not numerical, they are categorical.}\pause
+\item \answernospacing{$\sum \prob{X=x_i}=1.57\neq 1$}\pause
 \end{enumerate}
 So, we see that $X$ is not a random variable.}
 \end{example}
@@ -192,8 +192,8 @@ In Example~\ref{bookstore} the average revenue, \$117.85 per student, is the exp
 
 \begin{center}
 \begin{tikzpicture}
-\FPeval\expectedx{clip(4.987)} %chktex 36
-\FPeval\expectedy{clip(-0.05)} %chktex 36
+\FPset\expectedx{4.987} %chktex 36
+\FPset\expectedy{-0.05} %chktex 36
 
 \FPeval\expectedwidth{clip(0.25)} %chktex 36
 \FPeval\expectedheight{clip(0.15)} %chktex 36
@@ -290,55 +290,452 @@ On \emph{average}, the player will lose 5.3 cents per bet.
 \end{frame}
 
 \begin{frame}
-\begin{note}
-Pick back up here. The following slides need to be editied
+\begin{example}
+Suppose an individual has a 0.242\% risk of dying during the next year.
+
+\vspace{1mm}
+An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit. \pause
+
+\vspace{1mm}
+\question{What is the expected value for the person buying the insurance?}\pause
+\answer{%
+The probabilities distribution is:
+\begin{center}
+\begin{tabular}{lrrr} \hline
+$i$ & 1 & 2  & Total\\ \hline
+$x_i$ &  \$99,725 & -\$275 & -- \\
+$\prob{X=x_i}$ & 0.00242 & 0.99758 & 1.0\\\hline
+\end{tabular}
+\end{center}\pause
+
+\vspace{-2mm}
+The expected value is:
+
+\vspace{-3mm}
+\begin{equation*} 
+\begin{aligned}
+E(X) &= x_1\cdot\prob{X=x_1} + x_2\cdot\prob{X=x_2} \\\pause
+&= \$99,725\cdot 0.00242 -\$275\cdot0.99758 \pause
+= -\$33
+\end{aligned}
+\end{equation*}
+\vspace{-3mm}
+}
+\end{example}\pause
+\begin{note}\small
+It makes sense that an insurance policy would have a negative expected value, otherwise the insurance company couldn't stay in business.
 \end{note}
 \end{frame}
 
 \begin{frame}
 \begin{example}
-Suppose an individual has a 0.242\% risk of dying during the next year. An insurance company charges \$275 for a life-insurance policy that pays \$100,000 death benefit. What is the expected value for the person buying the insurance?\pause
+A company estimates that 0.7\% of their products will fail, with a replacement cost of \$350, after the original warranty period but within 2 years of the purchase. 
 
-\vspace{2mm}
+\vspace{1mm}
+\question{If they offer a 2 year extended warranty for \$48, what is the company's expected value?}\pause
+\answer{%
 The probabilities and values for the two outcomes are:
 \begin{center}
-\begin{tabular}{|r|r|} \hline
-Value & Probability \\ \hline
-\$100,000-\$275 = \$99,725 & 0.00242 \\ \hline
--\$275 & 1-0.00242 = 0.99758 \\ \hline
+\begin{tabular}{lrrr} \hline
+$i$ & 1 & 2 & Total \\\hline
+$x_i$ & -\$302 & \$48 & -- \\
+$\prob{X=x_i}$ & 0.007 & 0.993 & 1.0\\\hline 
 \end{tabular}
 \end{center}\pause
-The expected value is $\$99,725\cdot 0.00242 -\$275\cdot0.99758 = -\$33$.
-\end{example}\pause
-\begin{note}
-It makes sense that a insurance policy would have a negative expected value, otherwise the insurance company couldn't stay in business.
+The expected value is:
+\vspace{-2mm}
+\begin{equation*} 
+\begin{aligned}
+E(X) &= x_1\cdot\prob{X=x_1} + x_2\cdot\prob{X=x_2} \\\pause
+& =  -\$302\cdot 0.007 + \$48\cdot0.993 = \$45.55 \pause
+= -\$33
+\end{aligned}
+\end{equation*}
+\pause
 
-\vspace{2mm}
-The benefit for the consumer is the security that the policy provides.
+\vspace{-4mm}
+The company makes, on average, \$45.55 for each extended warranty.
+}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{note}
+If you ran the university bookstore in Example~\ref{bookstore}, then not only would you want to know your expected revenue, but also how much variability there is in your revenue.
+\end{note}\pause
+
+\begin{block}{General Variance Formula}
+If $X$ takes outcomes $x_1$, \ldots, $x_k$ with probabilities $\prob{X=x_1}$, \ldots, $\prob{X=x_k}$ and expected value $\mu=E(x)$, then the variance of $X$, denoted by $Var(X)$ or the symbol $\sigma^2$, is:
+\begin{equation*}
+\begin{aligned}
+\sigma^2 &= {(x_1 - \mu)}^2\cdot\prob{X=x_1} + \cdots + {(x_2 - \mu)}^2\cdot\prob{X=x_2} \\
+&= \sum_{j=1}^{k} {(x_j - \mu)}^2\cdot\prob{X=x_j}
+\end{aligned}
+\end{equation*}
+The standard deviation of $X$, denoted $\sigma$, is the square root of the variance.\ i.e.\ $\sigma = \sqrt{\sigma^2}$
+\end{block}
+\end{frame}
+
+\FPset\xione{0.00} %chktex 36
+\FPset\xitwo{137.00} %chktex 36
+\FPset\xithree{170.00} %chktex 36
+\FPset\Pxione{0.20} %chktex 36
+\FPset\Pxitwo{0.55} %chktex 36
+\FPset\Pxithree{0.25} %chktex 36
+\FPeval\Ptimesxione{round(\xione*\Pxione:2)} %chktex 36
+\FPeval\Ptimesxitwo{round(\xitwo*\Pxitwo:2)} %chktex 36
+\FPeval\Ptimesxithree{round(\xithree*\Pxithree:2)} %chktex 36
+\FPeval\expectedvalue{round(\Ptimesxione+\Ptimesxitwo+\Ptimesxithree:2)} %chktex 36
+\FPeval\xionemu{round(\xione-\expectedvalue:2)} %chktex 36
+\FPeval\xitwomu{round(\xitwo-\expectedvalue:2)} %chktex 36
+\FPeval\xithreemu{round(\xithree-\expectedvalue:2)} %chktex 36
+\FPeval\xionemusquared{round(\xionemu*\xionemu:2)} %chktex 36
+\FPeval\xitwomusquared{round(\xitwomu*\xitwomu:2)} %chktex 36
+\FPeval\xithreemusquared{round(\xithreemu*\xithreemu:2)} %chktex 36
+\FPeval\finalone{round(\xionemusquared*\Pxione:2)} %chktex 36
+\FPeval\finaltwo{round(\xitwomusquared*\Pxitwo:2)} %chktex 36
+\FPeval\finalthree{round(\xithreemusquared*\Pxithree:2)} %chktex 36
+\FPeval\variance{round(\finalone+\finaltwo+\finalthree:2)} %chktex 36
+\FPeval\stddev{round(root(2,\variance):2)} %chktex 36
+
+\begin{frame}
+\begin{example}
+Let us find the expected value of the bookstore in Example~\ref{bookstore}.\pause
+
+\vspace{1mm}
+It is useful to construct a table to hold the computations:
+
+\vspace{-5mm}
+\begin{center}
+\scalebox{0.96}{%
+\begin{tabular}{lrrrrl}\cline{1-5}
+\visible<2->{$i$ & 1 & 2 & 3 & Total &} \\\cline{1-5}
+\visible<3->{$x_i$ & \$\xione & \$\xitwo & \$\xithree & -- &}  \\
+\visible<4->{$\prob{x=x_i}$ & \Pxione & \Pxitwo & \Pxithree & -- &}\\
+\visible<5->{$x_i\cdot\prob{X=x_i}$ & \Ptimesxione & \Ptimesxitwo & \Ptimesxithree & \expectedvalue &} \visible<6->{$= \mu$} \\
+\visible<7->{$x_i-\mu$ & \xionemu & \xitwomu & \xithreemu & --} \\
+\visible<8->{${(x_i-\mu)}^2$ & \xionemusquared & \xitwomusquared & \xithreemusquared & --} \\
+\visible<9->{${(x_i-\mu)}^2\cdot\prob{X=x_i}$ & \finalone & \finaltwo & \finalthree & \variance &} \visible<10->{$=\sigma^2$} \\\cline{1-5}
+\end{tabular}
+}
+\end{center}
+
+\vspace{-1mm}
+\visible<11->{The variance of $X$ is $\sigma^2=\variance$ and so the standard deviation is $\sigma=\sqrt{\variance}=\$\stddev$.}
+
+\vspace{1mm}
+\visible<12->{So, on average, we can expect a variability of revenue of around \$$\stddev$ per student.}
+\end{example}
+\end{frame}
+
+\FPset\xione{0.00} %chktex 36
+\FPset\xitwo{159.00} %chktex 36
+\FPset\xithree{200.00} %chktex 36
+\FPset\Pxione{0.15} %chktex 36
+\FPset\Pxitwo{0.25} %chktex 36
+\FPset\Pxithree{0.60} %chktex 36
+\FPeval\Ptimesxione{round(\xione*\Pxione:2)} %chktex 36
+\FPeval\Ptimesxitwo{round(\xitwo*\Pxitwo:2)} %chktex 36
+\FPeval\Ptimesxithree{round(\xithree*\Pxithree:2)} %chktex 36
+\FPeval\expectedvalue{round(\Ptimesxione+\Ptimesxitwo+\Ptimesxithree:2)} %chktex 36
+\FPeval\xionemu{round(\xione-\expectedvalue:2)} %chktex 36
+\FPeval\xitwomu{round(\xitwo-\expectedvalue:2)} %chktex 36
+\FPeval\xithreemu{round(\xithree-\expectedvalue:2)} %chktex 36
+\FPeval\xionemusquared{round(\xionemu*\xionemu:2)} %chktex 36
+\FPeval\xitwomusquared{round(\xitwomu*\xitwomu:2)} %chktex 36
+\FPeval\xithreemusquared{round(\xithreemu*\xithreemu:2)} %chktex 36
+\FPeval\finalone{round(\xionemusquared*\Pxione:2)} %chktex 36
+\FPeval\finaltwo{round(\xitwomusquared*\Pxitwo:2)} %chktex 36
+\FPeval\finalthree{round(\xithreemusquared*\Pxithree:2)} %chktex 36
+\FPeval\variance{round(\finalone+\finaltwo+\finalthree:2)} %chktex 36
+\FPeval\stddev{round(root(2,\variance):2)} %chktex 36
+
+\begin{frame}
+\begin{example}
+The bookstore also offers a chemistry textbook for \$159 with a supplement for \$41. From past expereince, they know about 25\% of chemistry students just buy the textbook while 60\% buy both.\pause
+
+\vspace{1mm} Let us construct the same type of table:
+\vspace{-5mm}
+\begin{center}
+\scalebox{0.96}{%
+\begin{tabular}{lrrrrl}\cline{1-5}
+\visible<2->{$i$ & 1 & 2 & 3 & Total &} \\\cline{1-5}
+\visible<3->{$x_i$ & \$\xione & \$\xitwo & \$\xithree & -- &}  \\
+\visible<4->{$\prob{x=x_i}$ & \Pxione & \Pxitwo & \Pxithree & -- &}\\
+\visible<5->{$x_i\cdot\prob{X=x_i}$ & \Ptimesxione & \Ptimesxitwo & \Ptimesxithree & \expectedvalue &} \visible<6->{$= \mu$} \\
+\visible<7->{$x_i-\mu$ & \xionemu & \xitwomu & \xithreemu & --} \\
+\visible<8->{${(x_i-\mu)}^2$ & \xionemusquared & \xitwomusquared & \xithreemusquared & --} \\
+\visible<9->{${(x_i-\mu)}^2\cdot\prob{X=x_i}$ & \finalone & \finaltwo & \finalthree & \variance &} \visible<10->{$=\sigma^2$} \\\cline{1-5}
+\end{tabular}
+}
+\end{center}
+
+\vspace{-1mm}
+\visible<11->{The variance of $X$ is $\sigma^2=\variance$ and so the standard deviation is $\sigma=\sqrt{\variance}=\$\stddev$.}
+
+\vspace{1mm}
+\visible<12->{So, on average, we can expect a variability of revenue of around \$$\stddev$ per student.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{john travels}
+\vspace{-2mm}%beamer bug: extra space is added when a label is used, so this is to make this slide and the next look the same
+John travels to work five days a week.\pause
+
+\vspace{1mm}
+We will use:
+\begin{itemize}
+\item $X_1$ to represent his travel time on Monday
+\item $X_2$ to represent his travel time on Tuesday
+\item $X_3$ to represent his travel time on Wednesday
+\item $X_4$ to represent his travel time on Thursday
+\item $X_5$ to represent his travel time on Friday
+\end{itemize}\pause
+His total travel time for the week is the sum of the daily five values:
+
+\vspace{-3mm}
+\begin{equation*}
+W = X_1+X_2+X_3+X_4+X_5
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+By breaking the week into the individual days we can better understand the source of each randomness and is useful for modeling $W$.
 \end{note}
 \end{frame}
 
 \begin{frame}
 \begin{example}
-A company estimates that 0.7\% of their products will fail after the original warranty period but within 2 years of the purchase, with a replacement cost of \$350. If they offer a 2 year extended warranty for \$48, what is the company's expected value?\pause
+It takes John an average of $E(X_i)=18$ minutes each day to commute to work.\pause
 
-\vspace{2mm}
-The probabilities and values for the two outcomes are:
-\begin{center}
-\begin{tabular}{|r|r|} \hline
-Value & Probability \\ \hline
--\$350 + \$48 = -\$302 & 0.007 \\ \hline
-\$48 & 1-0.007 = 0.993 \\ \hline
-\end{tabular}
-\end{center}\pause
-The expected value is $-\$302\cdot 0.007 + \$48\cdot0.993 = \$45.55$.
+\vspace{1mm}
+To find the expected value of his average commute times for the week we can sum the expected time for each day:
 
-\vspace{2mm}
-The company makes, on average, \$45.55 on each extended warranty.
+\vspace{-3mm}
+\begin{equation*}
+\begin{aligned}
+E(W) &= E(X_1+X_2+X_3+X_4+X_5) \\
+&= E(X_1)+E(X_2)+E(X_3)+E(X_4)+E(X_5) \\
+&= 18 + 18 + 18 + 18 + 18 \\
+&= 90~\text{minutes}
+\end{aligned}
+\end{equation*}\pause
+
+\vspace{1mm}
+\question{Would you be surprised if John's weekly commute wasn't exactly 90 minutes long?}\pause
+\answer{There is always some variability with probabilities, so we can reasonably expect his commute to be a bit different from 90 minutes.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}\label{elena ebay}
+\vspace{-2mm}%beamer bug: extra space is added when a label is used, so this is to make this slide and the next look the same
+Elena is selling a TV on eBay and plans to use the money to buy a toaster oven.\pause
+
+\vspace{1mm}
+Let $X$ represent the profit for selling the TV and $Y$ represent the cost of the toaster oven.\pause
+
+\vspace{1mm}
+\question{What equation represents the net change in Elena's eBay account?}\pause
+\answer{The net change is money earned minus money spent: $X-Y$.}\pause
+
+\vspace{1mm}
+Based on past auctions, Elena figures she should expect to get about \$175 on the TV and pay about \$23 fo the toaster oven.\pause
+
+\vspace{1mm}
+\question{In total, how much should she expect to make or spend?}\pause
+\answer{%
+\begin{equation*}
+E(X-Y) 
+= E(X) - E(Y) \pause
+= 175-23 \pause
+=152 
+\end{equation*}\pause
+So, she should expect to make about \$152.
+}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{linear combination} of two random variables $X$ and $Y$ is
+
+\vspace{-3mm}
+\begin{equation*}
+aX+bY
+\end{equation*}
+
+\vspace{-2mm}
+where $a$ and $b$ are some fixed and known numbers.
+\end{definition}\pause
+
+\begin{example}
+In Example~\ref{elena ebay}, Elena's net change is the linear combination
+
+\vspace{-3mm}
+\begin{equation*}
+1\cdot X + (-1)\cdot Y
+\end{equation*}
 \end{example}\pause
 
+\begin{example}
+In Example~\ref{john travels}, John's weekly commute time is the linear combination 
+
+\vspace{-3mm}
+\begin{equation*}
+1\cdot X_1+1\cdot X_2+1\cdot X_3+1\cdot X_4+1\cdot X_5
+\end{equation*}
+\end{example}\pause
+
+\begin{block}{Expected Value of Linear Combinations of Random Variables}
+If $X$ and $Y$ are random variables, then
+
+\vspace{-3mm}
+\begin{equation*}
+E(aX+bY) = a\cdot E(X) + b\cdot E(Y)
+\end{equation*}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Leonard has invested \$6000 in Caterpiller Inc. (CAT) and \$2000 in Exxon Mobile Corp. (XOM).\pause
+
+\vspace{1mm}
+\begin{itemize}
+\item $X$ represents the change in Caterpiller's stock next month, and 
+\item $Y$ represents the change in Exxon Mobile's stock next month
+\end{itemize}\pause
+
+\question{What is the equation describing how much Leonard will make or lose next month?}\pause
+\answer{%
+\vspace{-6mm}
+\begin{equation*}
+\$6000\cdot X + \$2000\cdot Y
+\end{equation*}
+}\pause
+
+\vspace{-4mm}
+Caterpillar piller stock has recently been rising at 2.0\% and Exxon Mobil's at 0.2\% per month.\pause
+
+\vspace{1mm}
+\question{What is the expected change in Leonard's stock portfolio?}\pause
+\answer{%
+
+\vspace{-6mm}
+\begin{equation*}
+\begin{aligned}
+E(\$6000\cdot X + \$2000\cdot Y) 
+&=\$6000\cdot E(X) + \$2000\cdot Y \\\pause
+&=\$6000\cdot 0.02 + \$2000\cdot 0.002 \pause
+=\$124
+\end{aligned}
+\end{equation*}
+}\pause
+
+\vspace{-4mm}
+\question{Would it be surprising to learn Leonard actually had a loss this month?}\pause
+\answer{\small While stocks tend to rise over time, they are often volatile in the short term.}
+
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Variability of Linear Combinations of Random Variables}
+The variance of a linear combination is
+
+\vspace{-3mm}
+\begin{equation*}
+Var(aX+bY) = a^2\cdot Var(X) + b^2\cdot Var(y)
+\end{equation*}
+\end{block}\pause
+
 \begin{note}
-The expected value for the consumer may be different. The consumer is likely to pay the more to repair or replace the item out of warranty.\\ (The company pays manufacturing cost, consumer has to pay retail cost.)
+This formula only works if $X$ and $Y$ are independent random variables.
+\end{note}\pause
+
+\begin{note}
+Why the formula works and what happens if $X$ and $Y$ are dependent will be left to a dedicated probability course.
+\end{note}\pause
+
+\begin{note}
+As usual, you can get the standard deviation by taking the square root of the variance.
 \end{note}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+Suppose John's daily commute has a standard deviation of 4 minutes.
+
+\vspace{1mm}
+\question{What is the uncertainty in his total weekly commute?}\pause
+\answer{We start by noting that $Var(X_i) = \sigma^2 = 4^2 = 16$.\pause
+
+\vspace{1mm}
+Recall that that:
+
+\vspace{-4mm}
+\begin{equation*}
+W=1\cdot X_1+1\cdot X_2+1\cdot X_3+1\cdot X_4+1\cdot X_5
+\end{equation*}\pause
+
+\vspace{-5mm}
+So, 
+
+\vspace{-4mm}
+\begin{equation*}
+\begin{aligned}
+Var(W)
+&= Var(1\cdot X_1+1\cdot X_2+1\cdot X_3+1\cdot X_4+1\cdot X_5) \\\pause
+&= 1^2 \cdot 16 + 1^2 \cdot 16 + 1^2 \cdot 16 + 1^2 \cdot 16 + 1^2 \cdot 16 \\\pause
+&= 80 \\\pause
+\sigma &= \sqrt{Var(W)} \pause
+ = \sqrt{80} \pause
+ = 8.94
+\end{aligned}
+\end{equation*}
+
+\vspace{-2mm}
+The standard deviation for John's commute is about 9 minutes.
+}\pause
+
+\vspace{1mm}
+\question{Is is reasonable to assume each daily commute is independent?}\pause
+\answer{It depends on traffic patterns and what mode of transport John uses.}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+It is reasonable to assume that an eBay auction for a TV is more or less independent from one for a toaster oven.\pause
+
+\vspace{1mm}
+Suppose that the standard deviation of TV auctions is \$25 and toaster oven auctions is \$8.
+
+\vspace{1mm}
+\question{What is the standard deviation of Elena's net gain?}\pause
+\answer{%
+Recall:
+\begin{itemize}
+\item \answernospacing{$X$ is the profit from the TV, so $Var(X) = 25^2 = 625$, and }\pause
+\item \answernospacing{$Y$ is the cost of the toaster oven, so $Var(Y) = 8^2 = 64$.}\pause
+\item \answernospacing{The linear combination is $X-Y=1\cdot X + (-1)\cdot Y$.}
+\end{itemize}\pause
+
+Then,
+\vspace{-3mm}
+\begin{equation*}
+\begin{aligned}
+Var(1\cdot X + (-1)\cdot Y) &= 1^2 \cdot Var(X) + {(-1)}^2\cdot  Var(Y) \\\pause
+&= 1\cdot 625 + 1\cdot 64 \pause
+= 689 \\\pause
+\sigma &= \sqrt{689} \pause
+= 26.25
+\end{aligned}
+\end{equation*}
+The standard deviation for Elena's net gain is about \$26.25.
+}
+\end{example}
 \end{frame}
 \end{document}
