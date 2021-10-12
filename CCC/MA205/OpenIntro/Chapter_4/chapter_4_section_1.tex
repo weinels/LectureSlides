@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage[inline]{asymptote}
+\usepackage{asy_helper}
 \usepackage{slide_helper}
 \usepackage{multirow}
 \usepackage{tikz}
@@ -18,6 +19,72 @@
 \usetikzlibrary{external}
 \tikzexternalize%
 
+\begin{asydef}
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+	return graph(nd_func, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, b, xmax);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmax,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+	
+	draw(normal_dist(0, std_dev, -6,6));
+	shade_between(0,std_dev,-std_dev,std_dev);
+	draw((0,0)--(0,0.45));
+
+	label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+
+	xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+	yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+
+string axis_label(real x) 
+{ 
+	if (x == 0) 
+		return "$\mu$"; 
+	if (x == 1)
+		return "$\sigma$";
+	if (x == -1)
+		return "$-\sigma$";
+	return "$" + string(x) + "\sigma$";
+}
+
+real small_normal_size = 69;
+\end{asydef}
+
 \title[MA205 - Section 4.1]{Normal Distribution}
 
 \newcommand{\prob}[1]{P\left({#1}\right)}
@@ -30,4 +97,993 @@
 \titlepage
 \end{frame}
 
+%\begin{frame}
+%\begin{example}
+%\begin{columns}
+%\begin{column}{0.4\linewidth}
+%If a satellite crashes at a random point on the earth, what is the probability that it will crash on land?
+%
+%\vspace{2mm}
+%\onslide<2->{%
+%The surface of the earth is 
+%
+%\vspace{-6mm}
+%\begin{center}
+%\begin{tabular}{rr}
+%Land: & 54,255,000 sq mi\\
+%Water: & 142,715,000 sq mi
+%\end{tabular}
+%\end{center}
+%}
+%\onslide<3->{%
+%So the probability of crashing on land is
+%\begin{equation*}
+%\dfrac{54,255,000}{196,970,000}=0.275
+%\end{equation*}
+%}
+%\end{column}
+%\begin{column}{0.58\linewidth}
+%\begin{center}
+%\onslide<1->{%
+%\includegraphics[width=\linewidth]{earth.eps}
+%}
+%\end{center}
+%\end{column}
+%\end{columns}
+%\end{example}
+%\end{frame}
+
+\begin{frame}
+\begin{example}
+\begin{columns}
+\begin{column}{0.45\linewidth}
+\includegraphics[width=\linewidth]{popcorn.eps}
+\end{column}
+\begin{column}{0.5\linewidth}
+Consider making popcorn.\pause
+
+\vspace{1mm}
+You put some oil and corn kernels in a pan and start heating.\pause
+
+\vspace{1mm}
+For the first few minutes nothing happens, then a few kernels start to pop.\pause
+
+\vspace{1mm}
+A little while later more and more start to pop.\pause
+
+\vspace{1mm}
+This goes one for a minute or so, and the popping gradually tappers off.\pause
+
+\vspace{1mm}
+Most of the popping happens in that brief, noisy moment.\pause
+
+\vspace{1mm}
+This demonstrates a typical pattern that is part of many phenomena.
+\end{column}
+\end{columns}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+A \textbf{normal distribution} is a perfectly symmetric, bell-shaped distribution. It is also referred to as a \textbf{normal curve} or a \textbf{bell curve}.
+\begin{center}
+\begin{asy}
+size(320);
+
+shade_below(0, 0.3, 0, -1.5, 1.5);
+shade_above(0, 0.3, 0, -1.5, 1.5, yellow);
+draw(normal_dist(0, 0.3, -1.5, 1.5));
+draw((0,0)--(0,1.45));
+
+xaxis();
+//yaxis();
+
+label(minipage("Mean Median Mode", 30),(.8,1.1));
+draw((.8,1.25){up}..{left}(0.01,1.4),Arrow);
+
+label("Lower 50\%", (-0.3,0.15));
+label("Upper 50\%", (0.3,0.15));
+
+draw((-1,-0.1)--(1,-0.1), Arrows);
+label("Curves continues forever in both directions", (0, -0.2));
+
+label(minipage("Curve never touches the $x$-axis", 45), (-1.2,0.25));
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+The graph of any continuous probability distribution is called a \textbf{density curve} if the total area under the curve is exactly 1.
+\end{definition}\pause
+
+\begin{note}
+This means there is a correspondence between the area under a density curve and probabilies.
+\end{note}\pause
+
+\begin{definition}
+When $\mu=0$ and $\sigma=1$, the curve is called the \textbf{standard normal distribution}. The total area under the curve is exactly equal to 1.
+\begin{center}
+\begin{asy}
+size(300, 75, IgnoreAspect);
+
+draw((1,0)--(1,0.55), red);
+draw((-1,0)--(-1,0.55), red);
+
+draw(normal_dist(0, 1, -4, 4));
+draw((0,0)--(0,0.5));
+
+xaxis(Bottom(), RightTicks(size=nan));
+yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+
+label("$\mu+\sigma$", (1, 0.45), UnFill);
+label("$\mu-\sigma$", (-1, 0.45), UnFill);
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+The \textbf{empirical rule}, or \textbf{68-95-99.7 rule}, states approximately how much of the area is contained when stepping one, two, or three standard deviations from the mean.
+
+\vspace{0.5mm}
+One standard deviation from the mean.
+\begin{center}
+\begin{asy}
+size(300, 170, IgnoreAspect);
+
+shade_between(0,1,-1,1);
+draw(normal_dist(0, 1, -4, 4));
+draw((0,0)--(0,0.45));
+
+label("\Large\textbf{68\%}", (0,0.1), white);
+
+xaxis(Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+The \textbf{empirical rule}, or \textbf{68-95-99.7 rule}, states approximately how much of the area is contained when stepping one, two, or three standard deviations from the mean.
+
+\vspace{0.5mm}
+Two standard deviations from the mean.
+\begin{center}
+\begin{asy}
+size(300, 170, IgnoreAspect);
+
+shade_between(0,1,-2,2);
+draw(normal_dist(0, 1, -4, 4));
+draw((0,0)--(0,0.45));
+
+label("\Large\textbf{95\%}", (0,0.1), white);
+
+xaxis(Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+The \textbf{empirical rule}, or \textbf{68-95-99.7 rule}, states approximately how much of the area is contained when stepping one, two, or three standard deviations from the mean.
+
+\vspace{0.5mm}
+Three standard deviations from the mean.
+\begin{center}
+\begin{asy}
+size(300, 170, IgnoreAspect);
+
+shade_between(0,1,-3,3);
+draw(normal_dist(0, 1, -4, 4));
+draw((0,0)--(0,0.45));
+
+label("\Large\textbf{99.7\%}", (0,0.1), white);
+
+xaxis(Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+A \textbf{$\boldsymbol{z}$-score} is a measure of the number of standard deviations a particular data point is away from the mean.
+
+\vspace{-2mm}
+\begin{equation*}
+z=\dfrac{\left(\text{data point}\right)-\left(\text{mean}\right)}{\text{standard deviation}}=\dfrac{x-\mu}{\sigma}
+\end{equation*}
+\end{definition}\pause
+
+\begin{example}
+On a college entrance exam, the mean was 70, and the standard deviation was 8. Rose scored a 85, what is her $z$-score?\pause
+
+\vspace{-2mm}
+\begin{equation*}
+z=\dfrac{x-\mu}{\sigma}\pause=\dfrac{85-70}{8}\pause\approx 1.875
+\end{equation*}
+
+\vspace{-4.3mm}
+\end{example}\pause
+
+\vspace{-2mm}
+\begin{example}
+On the same exam, George has a $z$-score of $-1.3$. What was his score?\pause
+\begin{equation*}
+z=\dfrac{x-\mu}{\sigma}\pause
+~~\Rightarrow~~
+z\sigma=x-\mu\pause
+~~\Rightarrow~~
+x=z\sigma+\mu\pause = \left(-1.3\right)\left(8\right)+70=59.6
+\end{equation*}
+
+\vspace{-4.5mm}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+The mean on a exam was 82, with a standard deviation of 7 points. An \textquote{A} on the exam is a 93, what is the $z$-score?\pause
+\begin{equation*}
+z=\dfrac{x-\mu}{\sigma}=\dfrac{93-82}{7}\approx 1.57
+\end{equation*}
+\end{example}\pause
+
+\begin{note}
+We know from the empirical rule that roughly 68\% of the scores fall within one standard deviation of the mean.\pause 
+
+\vspace{1mm}
+This means that 68\% of the students scored between 75 and 89.\pause
+
+\vspace{1mm}
+Moreover, we know that roughly 95\% of the scores fall within two standard deviations of the mean. \pause
+
+\vspace{1mm}
+Which means that $95\%-68\%=27\%$ of the scores are more than one standard deviation from the mean, but less than two. \pause
+
+\vspace{1mm}
+Since the curve is symmetric, we know that 13.5\% of the students scored between 89 and 96, as well as 13.5\% between 68 and 75
+\end{note}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+The \textbf{empirical rule}, or \textbf{68-95-99.7 rule}, states approximately how much of the area is contained when stepping one, two, or three standard deviations from the mean.
+
+\vspace{0.5mm}
+For each standard deviation.
+\begin{center}
+\begin{asy}
+size(300, 170, IgnoreAspect);
+
+
+shade_between(0, 1,-4, -3, white);
+shade_between(0, 1,-3, -2, green);
+shade_between(0, 1,-2, -1, orange);
+shade_between(0, 1,-1,  0, royalblue);
+shade_between(0, 1, 0,  1, yellow);
+shade_between(0, 1, 1,  2, purple);
+shade_between(0, 1, 2,  3, mediumcyan);
+shade_between(0, 1, 3,  4, white);
+
+draw((0,0)--(0,0.45));
+
+real nd_func(real x, real mu, real sigma) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+void sndlabel(string s, pair pt, real offset=0.01)
+{
+	pair c = (pt.x, nd_func(pt.x, 0, 1) + offset);
+	
+	draw(pt -- c, EndArrow);
+	label(s , pt, UnFill());
+}
+
+sndlabel("34\%",   (-0.5, 0.43));
+sndlabel("34\%",   ( 0.5, 0.43));
+sndlabel("13.5\%",   (-1.5, 0.25));
+sndlabel("13.5\%",   ( 1.5, 0.25));
+sndlabel("2.35\%", (-2.5, 0.15));
+sndlabel("2.35\%", ( 2.5, 0.15));
+sndlabel("0.15\%",  (-3.5, 0.05));
+sndlabel("0.15\%",  ( 3.5, 0.05));
+
+xaxis(Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}
+An \textbf{inflection point} is where a curve changes from being concave up to concave down, or vice versa
+\end{definition}\pause
+
+\begin{note}
+A normal density curve always has two inflection points, each one standard deviation from the mean.
+\begin{center}
+\begin{asy}
+size(300, 140, IgnoreAspect);
+
+real nd_func(real x, real mu, real sigma) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+draw(normal_dist(0, 1, -5, 5));
+draw((0,0)--(0,nd_func(0,0,1)));
+
+draw((1,0) -- (1,0.45), red);
+draw((0,nd_func(1,0,1)) -- (1,nd_func(1,0,1)), red);
+dot((1,nd_func(1,0,1)), red);
+
+label("Inflection point", (1,nd_func(1,0,1)), E);
+
+draw((-1,0) -- (-1,0.45), red);
+draw((0,nd_func(-1,0,1)) -- (-1,nd_func(-1,0,1)), red);
+dot((-1,nd_func(-1,0,1)), red);
+
+label("Inflection point", (-1,nd_func(-1,0,1)), W);
+
+label("Concave up", (2,nd_func(2,0,1)), E);
+label("Concave up", (-2,nd_func(-2,0,1)), W);
+
+label("Concave down", (0,nd_func(0,0,1)), N);
+
+xaxis(Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{note}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{center}
+\begin{asy}
+size(300, 50, IgnoreAspect);
+
+draw(normal_dist(0, 1, -4, 4));
+shade_between(0,1,-4,0.8);
+//draw((0,0)--(0,0.5));
+
+xaxis(Bottom(), RightTicks(new real[] {0,0.8}, ticklabel=new string(real x) { if (x==0) return "0"; else return "$x$";}, size=nan));
+//yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+\end{asy}
+\end{center}
+The area of the shaded region is the probability that a $z$ score is less than or equal to $x$, $\prob{z\leq x}$.
+\end{example}\pause
+
+\begin{example}
+\begin{center}
+\begin{asy}
+size(300, 50, IgnoreAspect);
+
+draw(normal_dist(0, 1, -4, 4));
+shade_between(0,1,-0.8,4);
+//draw((0,0)--(0,0.5));
+
+xaxis(Bottom(), RightTicks(new real[] {0,-0.8}, ticklabel=new string(real x) { if (x==0) return "0"; else return "$x$";}, size=nan));
+//yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+\end{asy}
+\end{center}
+The area of the shaded region is the probability that a $z$ score is greater than or equal to $x$, $\prob{z\geq x}$.
+
+\vspace{1mm}
+Can also be calculated as $1 - \prob{z\leq x}$.
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+\begin{center}
+\begin{asy}
+size(300, 50, IgnoreAspect);
+
+draw(normal_dist(0, 1, -4, 4));
+shade_between(0,1,-0.7,1.2);
+//draw((0,0)--(0,0.5));
+
+xaxis(Bottom(), RightTicks(new real[] {0,-0.7, 1.2}, ticklabel=new string(real x) { if (x==0) return "0"; else if (x < 0) return "$x_1$"; else return "$x_2$";}, size=nan));
+//yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+\end{asy}
+\end{center}
+The area of the shaded region is the probability that a $z$ score lies between $x_1$ and $x_2$, $\prob{x_1\leq z\leq x_2}$. 
+\end{example}\pause
+
+\begin{note}
+\begin{center}
+\setlength\tabcolsep{1pt}
+\begin{tabular}{ccccc}
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_between(mu,sigma,x1,x2);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+&$=$&
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_below(mu,sigma,x2,-1.8,1.8);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+&$-$&
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_below(mu,sigma,x1,-1.8,1.8);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+\\
+$\prob{x_1\leq z\leq x_2}$ & & $\prob{z\leq x_2}$ & & $\prob{z\leq x_1}$
+\end{tabular}
+\end{center}
+\end{note}\pause
+
+\begin{note}
+%Can also be calculated as 1 - $\prob{z\leq x_1} - \prob{z\geq x_2}$.
+\begin{center}
+\setlength\tabcolsep{1pt}
+\begin{tabular}{ccccccc}
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_between(mu,sigma,x1,x2);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+&$=$&
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_between(mu,sigma,-1.8,1.8);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+&$-$&
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_below(mu,sigma,x1,-1.8,1.8);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+&$-$&
+\begin{asy}
+size(small_normal_size);
+
+real mu = 0;
+real sigma = 0.5;
+real x1 = mu - 0.7*sigma;
+real x2 = mu + 1.2*sigma;
+draw(normal_dist(mu, sigma, -1.8, 1.8));
+shade_above(mu,sigma,x2,-1.8,1.8);
+
+xaxis(Bottom(), NoTicks);
+\end{asy}
+\\
+$\prob{x_1\leq z\leq x_2}$ & & $1$ & & $\prob{z\leq x_1}$ & & $\prob{z\geq x_2}$
+\end{tabular}
+\end{center}
+\end{note}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Procedure for Finding Areas with a Nonstandard Normal Distribution}
+\begin{enumerate}
+\item Sketch a normal curve, label the mean and any specific $x$ values, and then shade the region representing the desired probability.
+\item \phantom{For each relevant $x$ value that is a boundary for the shaded region, convert that value to the equivalent $z$ score.}
+\item \phantom{Use technology to find the area of the shaded region.}
+\end{enumerate}
+\begin{center}
+\begin{asy}
+size(300, 130, IgnoreAspect);
+
+shade_between(0,1,-0.7,1.3);
+draw(normal_dist(0, 1, -4.5, 4.5));
+
+label("$x_1$",(-0.7,0),NW);
+dot((-0.7,0));
+label("$x_2$",(0.4,0),NE);
+dot((0.4,0));
+label("$x_3$",(1.3,0),NE);
+dot((1.3,0));
+label("$x_4$",(2.3,0),NW);
+dot((2.3,0));
+
+xaxis("$x$", Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan, ticklabel = axis_label));
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Procedure for Finding Areas with a Nonstandard Normal Distribution}
+\begin{enumerate}
+\item Sketch a normal curve, label the mean and any specific $x$ values, and then shade the region representing the desired probability.
+\item For each relevant $x$ value that is a boundary for the shaded region, convert that value to the equivalent $z$ score.
+\item \phantom{Use technology to find the area of the shaded region.}
+\end{enumerate}
+\begin{center}
+\begin{asy}
+size(300, 130, IgnoreAspect);
+
+shade_between(0,1,-0.7,1.3);
+draw(normal_dist(0, 1, -4.5, 4.5));
+
+label("$z_1$",(-0.7,0),NW,blue);
+dot((-0.7,0));
+label("$z_3$",(1.3,0),NE,blue);
+dot((1.3,0));
+
+
+xaxis("$z$",Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan));
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{block}{Procedure for Finding Areas with a Nonstandard Normal Distribution}
+\begin{enumerate}
+\item Sketch a normal curve, label the mean and any specific $x$ values, and then shade the region representing the desired probability.
+\item For each relevant $x$ value that is a boundary for the shaded region, convert that value to the equivalent $z$ score.
+\item Use technology to find the area of the shaded region.
+\end{enumerate}
+\begin{center}
+\begin{asy}
+size(300, 130, IgnoreAspect);
+
+shade_between(0,1,-0.7,1.3);
+draw(normal_dist(0, 1, -4.5, 4.5));
+
+label("$z_1$",(-0.7,0),NW,blue);
+dot((-0.7,0));
+label("$z_3$",(1.3,0),NE,blue);
+dot((1.3,0));
+
+real nd_func(real x, real mu, real sigma) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+
+label("$P(z_1\leq z\leq z_2)$",(0.3,0.4*nd_func(0,0,1)));
+
+xaxis("$z$",Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan));
+\end{asy}
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}
+The heights of men are normally distributed with a mean of 68.6 in\@. and a standard deviation of 2.8 in.\pause
+
+\vspace{1mm}
+Let's find the percentage of men who are taller than a shower head installed at a height of 72 in\@.\pause
+
+\vspace{1mm}
+We start by finding the $z$-value of the shower head.
+
+\vspace{-2mm}
+\begin{equation*}
+z=\dfrac{x-\mu}{\sigma}\pause = \dfrac{72-68.6}{2.8}\pause = 1.21
+\end{equation*}\pause
+
+\vspace{-4mm}
+Next, we sketch a picture and shade the area we wish to find:
+
+\vspace{-2mm}
+\begin{center}
+\begin{asy}
+size(225, 60, IgnoreAspect);
+
+real xmin=-4; real xmax=4;
+
+shade_between(0,1,1.21,xmax);
+draw(normal_dist(0, 1, xmin, xmax));
+
+label("$1.21$",(1.21,0),NW);
+dot((1.21,0));
+
+xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+\end{asy}
+\end{center}\pause
+
+\vspace{-3.5mm}
+We can then use technology to compute:
+
+\vspace{-3mm}
+\begin{equation*}
+\prob{z\geq 1.21} \approx 0.1123\quad\text{(rounded)}
+\end{equation*}\pause
+
+\vspace{-6mm}
+So, about 11.23\% of men are taller than the shower head.
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}\label{airforce_mens_example} 
+\vspace{-2mm}
+The U.S.\@ Air Force requires that pilots have heights between 64 and 77 in.\@ The heights of men are normally distributed with a mean of 68.6 in.\@ and a standard deviation of 2.8 in.\@
+
+\vspace{1mm}
+Let's find the percentage of men meet that requirement.\pause
+
+\vspace{1mm}
+We start by finding the $z$-values of the height requirements.
+
+\vspace{-5mm}
+\begin{equation*}
+z_1=\dfrac{x-\mu}{\sigma} = \dfrac{64-68.6}{2.8} = -1.64\pause
+~~\text{and}~~
+z_2=\dfrac{x-\mu}{\sigma} = \dfrac{77-68.6}{2.8} = 3.00
+\end{equation*}\pause
+
+\vspace{-5mm}
+Next, we sketch a picture and shade the area we wish to find:
+
+\vspace{-2mm}
+
+\begin{center}
+\begin{asy}
+size(225, 60, IgnoreAspect);
+
+real xmin=-3.34483; real xmax=5.27586;
+
+shade_between(0,1,-1.64,3);
+draw(normal_dist(0, 1, xmin, xmax));
+
+label("$-1.64$",(-1.64,0),NE);
+dot((-1.64,0));
+
+label("$3.00$",(3,0),N);
+dot((3,0));
+
+xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3,4,5}, size=nan));
+\end{asy}
+\end{center}\pause
+
+\vspace{-5mm}
+We can then use technology to compute:
+
+\vspace{-3mm}
+\begin{equation*}
+\prob{-1.64\leq z\leq 3.00} \approx 0.9484\quad\text{(rounded)}
+\end{equation*}\pause
+
+\vspace{-6mm}
+So, we see that about 94.84\% of men meet the requirements.
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}\label{airforce_womens_example} 
+\vspace{-2mm}
+The U.S.\@ Air Force requires that pilots have heights between 64 and 77 in.\@ The heights of women are normally distributed with a mean of 63.7 in.\@ and a standard deviation of 2.9 in.\@
+
+\vspace{1mm}
+Let's find the percentage of women meet that requirement.\pause
+
+\vspace{1mm}
+We start by finding the $z$-values of the height requirements.
+
+\vspace{-5mm}
+\begin{equation*}
+z_1=\dfrac{x-\mu}{\sigma} = \dfrac{64-63.7}{2.9} = 0.10\pause
+~~\text{and}~~
+z_2=\dfrac{x-\mu}{\sigma} = \dfrac{77-63.7}{2.9} = 4.59
+\end{equation*}\pause
+
+\vspace{-5mm}
+Next, we sketch a picture and shade the area we wish to find:
+
+\vspace{-2mm}
+
+\begin{center}
+\begin{asy}
+size(225, 60, IgnoreAspect);
+
+real xmin=-3.34483; real xmax=5.27586;
+
+shade_between(0,1,0.1,4.59);
+draw(normal_dist(0, 1, xmin, xmax));
+
+label("$0.10$",(0.1,0),NW);
+dot((0.1,0));
+
+label("$4.59$",(4.59,0),NW);
+dot((4.59,0));
+
+xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3,4,5}, size=nan));
+\end{asy}
+\end{center}\pause
+
+\vspace{-5mm}
+We can then use technology to compute:
+
+\vspace{-3mm}
+\begin{equation*}
+\prob{0.10\leq z\leq 4.59} \approx 0.4601\quad\text{(rounded)}
+\end{equation*}\pause
+
+\vspace{-6mm}
+So, we see that only about 46\% of women meet the requirements.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{block}{When Finding Values from Known Areas}
+\begin{itemize}[<+- | alert@+>]
+\item Draw a sketch of the graph.
+\item Don't confuse $z$ scores and areas.
+\item Choose the correct side of the graph.
+\item A $z$ score must be negative whenever it is located in the left half of the normal distribution.
+\item Areas are always between 0 and 1, and are never negative.
+\end{itemize}
+\end{block}
+
+\onslide<+->
+\begin{block}{Procedure}
+\begin{enumerate}[<+- | alert@+>]
+\item<.-> Sketch the normal distribution curve, write the given probability or percentage in the appropriate region of the graph, and identify the $x$ values being sought.
+\item Either use technology or a table to identify the $z$ scores corresponding to that area.
+\item Convert to $x$ values: $x=\mu + z\cdot\sigma$
+\item Use your sketch to verify that the solution makes sense.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+%\begin{frame}[fragile]
+%\begin{example}\label{airforce_womens_lower_example}
+%\vspace{-2mm}
+%When designing equipment, one common criterion is to use a design that accommodates 95\% of the population. In Example~\ref{airforce_womens_example} we saw that only 46\% of women satisfy the height requirement for U.S.\@ Air Force pilots. 
+%
+%\onslide<2->
+%\vspace{1mm}
+%What would be the maximum acceptable height of a woman if the requirements were changed to allow the shortest 95\% of women?
+%
+%\vspace{1mm}
+%\begin{overprint}
+%\onslide<3>
+%\begin{center}
+%\begin{asy}
+%size(300, 80, IgnoreAspect);
+%
+%real xmin=-3.5; real xmax=3.5;
+%
+%shade_between(0,1,xmin,1.645);
+%draw(normal_dist(0, 1, xmin, xmax));
+%
+%label("$95\%$", (0,0.5*nd_func(0,1,0)));
+%
+%label("$z=??$",(1.645,0),NW);
+%dot((1.645,0));
+%
+%xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+%\end{asy}
+%\end{center}
+%\onslide<4>
+%\begin{center}
+%\begin{asy}
+%size(300, 80, IgnoreAspect);
+%
+%real xmin=-3.5; real xmax=3.5;
+%
+%shade_between(0,1,xmin,1.645);
+%draw(normal_dist(0, 1, xmin, xmax));
+%
+%label("$95\%$", (0,0.5*nd_func(0,1,0)));
+%
+%label("$z=1.645$",(1.645,0),NW);
+%dot((1.645,0));
+%
+%xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+%\end{asy}
+%\end{center}
+%\vspace{-5mm}
+%Using either technology or a table, we find that $z=1.645$.
+%
+%\vspace{1mm}
+%\onslide<5->
+%\begin{center}
+%\begin{asy}
+%size(300, 80, IgnoreAspect);
+%
+%real xmin=53.55; real xmax=73.85;
+%
+%shade_between(63.7,2.9,xmin,68.4705);
+%draw(normal_dist(63.7, 2.9, xmin, xmax));
+%
+%label("$95\%$", (63.7,0.5*nd_func(63.7,2.9,63.7)));
+%
+%label("$x=68.4705$",(68.4705,0),NW);
+%dot((68.4705,0));
+%
+%xaxis("$x$",Bottom(), RightTicks(new real [] {55.0, 57.9, 60.8, 63.7, 66.6, 69.5, 72.4}, size=nan));
+%\end{asy}
+%\end{center}
+%\vspace{-5mm}
+%Using either technology or a table, we find that $z=1.645$.
+%
+%\vspace{1mm}
+%We then need to convert to the $x$ value.
+%\vspace{-2mm}
+%\begin{equation*}
+%x = \mu + z\cdot\sigma = 63.7 + 1.645\cdot 2.9 = 68.4705
+%\end{equation*}
+%
+%\vspace{-2mm}
+%\visible<6->{A requirement of a height less than or equal to 68.5 in.\@ would allow 95\% of women to be eligible.}
+%\end{overprint}
+%\end{example}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%\begin{example}\label{airforce_womens_middle_example}
+%What would be the maximum and minimum acceptable heights of a woman if the U.S.\@ Air Force requirements were changed to allow the middle 90\% of women?
+%
+%\vspace{2mm}
+%\begin{overprint}
+%\onslide<2>
+%\begin{center}
+%\begin{asy}
+%size(300, 95, IgnoreAspect);
+%
+%real mu = 0;
+%real sigma = 1;
+%
+%real xmin=mu-3.5*sigma; real xmax=mu+3.5*sigma;
+%
+%shade_between(mu,sigma,-1.645,1.645);
+%draw(normal_dist(mu, sigma, xmin, xmax));
+%
+%label("$90\%$", (mu,0.5*nd_func(mu,sigma,mu)));
+%
+%label("$z_2=??$",(1.645,0),NW);
+%dot((1.645,0));
+%
+%label("$z_1=??$",(-1.645,0),NE);
+%dot((-1.645,0));
+%
+%xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+%\end{asy}
+%\end{center}
+%\onslide<3>
+%\begin{center}
+%\begin{asy}
+%size(300, 95, IgnoreAspect);
+%
+%real mu = 0;
+%real sigma = 1;
+%
+%real xmin=mu-3.5*sigma; real xmax=mu+3.5*sigma;
+%
+%shade_between(mu,sigma,xmin,-1.645,mediumyellow);
+%shade_between(mu,sigma,1.645,xmax,mediumyellow);
+%shade_between(mu,sigma,-1.645,1.645);
+%draw(normal_dist(mu, sigma, xmin, xmax));
+%
+%label("$90\%$", (mu,0.5*nd_func(mu,sigma,mu)));
+%label("$5\%$", (-1.645,0),NW);
+%label("$5\%$", (1.645,0),NE);
+%
+%label("$z_2=??$",(1.645,0),NW);
+%dot((1.645,0));
+%
+%label("$z_1=??$",(-1.645,0),NE);
+%dot((-1.645,0));
+%
+%xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+%\end{asy}
+%\end{center}
+%\onslide<4>
+%\begin{center}
+%\begin{asy}
+%size(300, 95, IgnoreAspect);
+%
+%real mu = 0;
+%real sigma = 1;
+%
+%real xmin=mu-3.5*sigma; real xmax=mu+3.5*sigma;
+%
+%shade_between(mu,sigma,xmin,-1.645,mediumyellow);
+%shade_between(mu,sigma,1.645,xmax,mediumyellow);
+%shade_between(mu,sigma,-1.645,1.645);
+%draw(normal_dist(mu, sigma, xmin, xmax));
+%
+%label("$90\%$", (mu,0.5*nd_func(mu,sigma,mu)));
+%label("$5\%$", (-1.645,0),NW);
+%label("$5\%$", (1.645,0),NE);
+%
+%label("$z_2=1.645$",(1.645,0),NW);
+%dot((1.645,0));
+%
+%label("$z_1=-1.645$",(-1.645,0),NE);
+%dot((-1.645,0));
+%
+%xaxis("$z$",Bottom(), RightTicks(new real [] {-3,-2,-1,0,1,2,3}, size=nan));
+%\end{asy}
+%\end{center}
+%\vspace{-5mm}
+%Using either technology or a table, we find that $z_1=-1.645$ and $z_2=1.645$.
+%\onslide<5->
+%\begin{center}
+%\begin{asy}
+%size(300, 95, IgnoreAspect);
+%
+%real mu = 63.7;
+%real sigma = 2.9;
+%
+%real xmin=mu-3.5*sigma; real xmax=mu+3.5*sigma;
+%
+%shade_between(mu,sigma,xmin,58.9295,mediumyellow);
+%shade_between(mu,sigma,68.4705,xmax,mediumyellow);
+%shade_between(mu,sigma,58.9295,68.4705);
+%draw(normal_dist(mu, sigma, xmin, xmax));
+%
+%label("$90\%$", (mu,0.5*nd_func(mu,sigma,mu)));
+%label("$5\%$", (58.9295,0),NW);
+%label("$5\%$", (68.4705,0),NE);
+%
+%label("$x_2=68.4705$",(68.4705,0),NW);
+%dot((68.4705,0));
+%
+%label("$x_1=58.9295$",(58.9295,0),NE);
+%dot((58.9295,0));
+%
+%xaxis("$x$",Bottom(), RightTicks(new real [] {mu-3*sigma, mu-2*sigma, mu-sigma, mu, mu+sigma, mu+2*sigma, mu+3*sigma}, size=nan));
+%\end{asy}
+%\end{center}
+%\vspace{-5mm}
+%Using either technology or a table, we find that $z_1=-1.645$ and $z_2=1.645$.
+%
+%\vspace{1mm}
+%We then need to convert to the $x$ values.
+%\vspace{-3mm}
+%\begin{equation*}
+%\begin{aligned}
+%x_1 &= 63.7 - 1.645\cdot 2.9 = 58.9295 \\
+%x_2 &= 63.7 + 1.645\cdot 2.9 = 68.4705
+%\end{aligned}
+%\end{equation*}
+%
+%\vspace{-4.5mm}
+%\visible<6->{A requirement of a heights between 58.9 in.\@ and 68.5 in.\@ would allow 90\% of women to be eligible.}
+%\end{overprint}
+%\end{example}
+%\end{frame}
 \end{document}
