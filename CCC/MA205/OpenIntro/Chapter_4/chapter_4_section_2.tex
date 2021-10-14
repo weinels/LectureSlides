@@ -7,7 +7,7 @@
 \usepackage{asy_helper}
 \usepackage{slide_helper}
 
-\title[MA205 - Section 4.1]{Normal Distribution}
+\title[MA205 - Section 4.2]{Geometric Distribution}
 
 \newcommand{\prob}[1]{P\left({#1}\right)}
 \newcommand{\jointprob}[3]{\prob{{#1}~\text{#2}~{#3}}}
@@ -19,4 +19,121 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+  \begin{definition}
+    When an individual trial only has two possible outcomes, often labeled \texttt{success} or \texttt{failure}, it is called a \textbf{Bernoulli random variable}.
+  \end{definition}\pause
+
+  \begin{note}
+    It does not matter which outcome is labeled as \texttt{success} or \texttt{failure}, just that there are only two outcomes.
+  \end{note}\pause
+
+  \begin{note}
+    Bernoulli random variables are often denoted with
+    \begin{itemize}
+    \item 1 for \texttt{success}
+    \item 0 for \texttt{failure}
+    \end{itemize}
+  \end{note}\pause
+
+  \begin{note}
+    The events \texttt{success} and \texttt{failure} are complements.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{universal donor}
+    \vspace{-2mm}
+    Subjects are randomly selected for the National Health and Nutrition Examination Survey conducted by the National Center for Health Statistics, Centers for Disease Control and Prevention.\pause
+    
+    \vspace{1mm}
+    A person is a universal donor if they have group O and type Rh blood.\pause
+    
+    \vspace{1mm}
+    If we think of each subject as a trial then:\pause
+    \begin{itemize}
+    \item If a person is a universal donor, we label them a \texttt{success}.\pause
+    \item If a person is not a universal donor, we label them a \texttt{failure}.
+    \end{itemize}\pause
+
+    If there is a 6\% chance that a person is a universal donor, then:\pause
+    \begin{itemize}
+    \item The probability of a success is $p=0.06$\pause
+    \item The probability of a failure is $q=1-p=\pause 0.94$
+    \end{itemize}
+  \end{example}\pause
+
+  \begin{note}
+    \texttt{success} and \texttt{failure} are not moral descriptions. We could have just as easily labeled the universal donors as \texttt{failure}.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    The \textbf{sample proportion}, $\hat{p}$, is the sample mean:
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p} = \dfrac{\text{\# of successes}}{\text{\# of trials}}
+      \end{aligned}
+    \end{equation*}
+  \end{definition}\pause
+
+  \begin{example}
+    Suppose we observe the ten trials of a Bernoulli random variable:
+    \begin{equation*}
+      \begin{aligned}
+        1~1~1~0~1~0~0~1~1~0
+      \end{aligned}
+    \end{equation*}\pause
+    The sample proportion of these observations would be:
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p} = \dfrac{1+1+1+0+1+0+0+1+1+0}{10}\pause = 0.6
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Bernoulli Random Variable}
+    If $X$ is a random variable that takes value 1 with probability $p$ and 0 with probability $q=1-p$, then $X$ is a Bernoulli random variable with mean and standard deviation:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu=p
+        \qquad
+        \sigma=\sqrt{p(1-p)}
+      \end{aligned}
+    \end{equation*}
+  \end{block}\pause
+
+  \begin{example}
+    In Example~\ref{universal donor}, $X$ describes the chances a subject is a universal donor, with probability of success $p=0.06$.\pause
+
+    \vspace{1mm}
+    The mean of $X$ is:
+    \begin{equation*}
+      \begin{aligned}
+        \mu=p\pause
+        =0.06\pause
+      \end{aligned}
+    \end{equation*}
+    The standard deviation of $X$ is:
+    \begin{equation*}
+      \begin{aligned}
+        \sigma = \sqrt{p(1-p)}\pause
+        =\sqrt{0.06(1-0.06)}\pause
+        =\sqrt{0.0564}\pause
+        =0.237486842
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    The \textbf{geometric distribution} is used to describe how many trails it takes to observe a success.
+  \end{definition}
+\end{frame}
 \end{document}
