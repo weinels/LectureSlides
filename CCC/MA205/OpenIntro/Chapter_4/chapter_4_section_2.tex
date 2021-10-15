@@ -6,6 +6,13 @@
 \usepackage[inline]{asymptote}
 \usepackage{asy_helper}
 \usepackage{slide_helper}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usetikzlibrary{external}
+\tikzexternalize%
 
 \title[MA205 - Section 4.2]{Geometric Distribution}
 
@@ -133,7 +140,181 @@
 
 \begin{frame}
   \begin{definition}
-    The \textbf{geometric distribution} is used to describe how many trails it takes to observe a success.
-  \end{definition}
+    The \textbf{geometric distribution} is used to describe how many trials it takes to observe a success.
+  \end{definition}\pause
+
+  \begin{example}
+    If we are looking for universal donors as in Example~\ref{universal donor}, then the probability the first universal donor found is the first persion is $0.06$.\pause
+
+    \vspace{1mm}
+    The probability that the first universal donor is the second person.
+
+    \vspace{-6mm}
+    \begin{equation*}
+      \begin{aligned}
+        \jointprob{1^{\text{st}}~\text{no}}{and}{2^{\text{nd}}~\text{yes}} = (1-0.06)(0.06) = (0.94)(0.06) = 0.0564
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    The probability that the first universal donor is the third person.
+
+    \vspace{-6mm}
+    \begin{equation*}
+      \begin{aligned}
+        \jointprob{1^{\text{st}}~\text{no}~\text{and}~2^{\text{nd}}~\text{no}}{and}{3^{\text{rd}}~\text{yes}} = (0.94)(0.94)(0.06) = 0.053016
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    The probability that the first universal donor is the $n^{\text{th}}$ person.
+
+    \vspace{-6mm}
+    \begin{equation*}
+      \begin{aligned}
+        \jointprob{1^{\text{st}}~\text{through}~{(n-1)}^{\text{th}}~\text{no}}{and}{n^{\text{th}}~\text{yes}} &= (0.94)\cdots(0.94)(0.06)\\
+        &= {(0.94)}^{n-1}\cdot0.06
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Geometric Distribution}
+    If the probability of a success in one trial is $p$ and the probability of failure is $1-p$, then the probability of finding the first success in the ${n}^{\text{th}}$ trial is given by
+    \begin{equation*}
+      \begin{aligned}
+        {(1-p)}^{n-1}\cdot p
+      \end{aligned}
+    \end{equation*}
+    The mean, variance and standard deviation of this wait time are
+    \begin{equation*}
+      \begin{array}{lll}
+        \mu=\dfrac{1}{p} &
+        \sigma^2=\dfrac{1-p}{p^2} &
+        \sigma=\sqrt{\dfrac{1-p}{p^2}}
+      \end{array}
+    \end{equation*}
+  \end{block}\pause
+
+  \begin{note}
+    The trials need to be both independent and identical to use the geometric distribution.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    The geometric distribution for $p=0.7$ 
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[
+            height=5.85cm,
+            width=0.95\textwidth,
+            enlarge x limits=0.1,
+            ymajorgrids=true,
+            minor y tick num=1,
+            yminorgrids=true,
+            ylabel={Probability},
+            xlabel={Number of Trials Until a Success},
+            bar width=1cm,
+            ybar stacked,
+            ymin=0,
+            ymax=0.9,
+            ytick={0,0.2,...,1},
+            xtick=data,
+            legend style={fill=legend, fill opacity=1},
+          ]
+          \addplot+
+          coordinates
+          {
+            (1, .7)
+            (2, 0.21)
+            (3, 0.063)
+            (4, 0.0189)
+            (5, 0.00567)
+            (6, 0.001701)
+            (7, 0.00051)
+            (8, 0.000153)
+          };
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}\pause
+
+  \begin{note}
+    We call this the geometric distribution because the probabilities decrease exponentially fast as $n$ increases.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{note}
+    The expected value, $\mu$, tells us, on average, how many trials it takes to get a success. The higher $p$, the fewer it takes.
+  \end{note}\pause
+  
+  \begin{example}
+    Since the probability of someone being a universal donor is $p=0.06$, the expected value is:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu = \dfrac{1}{p}\pause
+        = \dfrac{1}{0.06}\pause
+        = 16.666666667
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    It should take, on average, 16.7 people until a universal donor is found.
+  \end{example}\pause
+
+  \begin{example}
+    The probability of getting a \textquote{heads} on a fair coin is $p=0.5$, so the expected value is:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu = \dfrac{1}{p}\pause
+        = \dfrac{1}{0.5}\pause
+        = 2
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    On average, it should only take two flips to get a \textquote{heads}.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    The probability that a universal donor is in the first three trials is:\pause
+
+    \vspace{-5mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{\text{first or second or third}}
+        &= \prob{\text{first}} + \prob{\text{second}} + \prob{\text{third}} \\\pause
+        &= {(1-.06)}^{1-1}\cdot0.06 + {(1-.06)}^{2-1}\cdot0.06\\\pause
+        &\hspace{3.62cm} + {(1-.06)}^{3-1}\cdot0.06 \\\pause
+        &= 0.169416
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-2mm}
+    There is roughly a 16.9\% chance a universal donor will be one of the first three people.
+  \end{example}\pause
+
+  \begin{note}
+    We could have also used complements:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{\text{first or second or third}}
+        &= 1 - \prob{\text{none in first three}} \\\pause
+        &= 1 - {(1-0.06)}^3 \\\pause
+        &= 0.169416
+      \end{aligned}
+    \end{equation*}
+  \end{note}
 \end{frame}
 \end{document}
