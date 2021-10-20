@@ -333,7 +333,7 @@
     \vspace{1mm}
     We know from Example~\ref{smokers} that $\prob{\text{no more than one}} = 0.6517$.\pause
 
-    \vspace{2mm}
+    \vspace{1.5mm}
     So,
 
     \vspace{-6mm}
@@ -363,6 +363,211 @@
       \vspace{-2mm}
       On average, we would expect 2.1 of 7 randomly chosen smokers to develop a severe lung condition.
       }
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{equation*}
+      \begin{aligned}
+        \binom{n}{0}\pause
+        &= \dfrac{n!}{0!(n-0)!}\pause
+        = \dfrac{n!}{n!}\pause
+        = 1\pause
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+
+  \begin{example}
+    \begin{equation*}
+      \begin{aligned}
+        \binom{n}{1}\pause
+        &= \dfrac{n!}{1!(n-1)!}\pause
+        = \dfrac{n!}{(n-1)!}\pause
+        = \dfrac{n\cdot(n-1)!}{(n-1)!}\pause
+        = n\pause
+      \end{aligned}
+    \end{equation*}
+    \end{example}
+
+    \begin{example}
+    \begin{equation*}
+      \begin{aligned}
+        \binom{n}{n-1}\pause
+        &= \dfrac{n!}{(n-1)!(n-(n-1))!}\pause
+        = \dfrac{n!}{(n-1)!1!}\pause
+        = \dfrac{n\cdot(n-1)!}{(n-1)!}\pause
+        = n\pause
+      \end{aligned}
+    \end{equation*}
+      \end{example}
+
+      \begin{example}
+    \begin{equation*}
+      \begin{aligned}
+        \binom{n}{n}\pause
+        &= \dfrac{n!}{n!(n-n)!}\pause
+        = \dfrac{n!}{n!0!}\pause
+        = \dfrac{n!}{n!}\pause
+        = 1
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{less smokers}
+    \vspace{-2mm}
+    Approximately 15\% of the US population smokes cigarettes.\pause
+
+    \vspace{1mm}
+    A local government believed their community has a lower smoker rate and commissioned a survey of 400 randomly selected individuals.\pause
+
+    \vspace{1mm}
+    The survey found that only 42 of the 400 participants smoke cigarettes.\pause
+
+    \vspace{1mm}
+    If the true proportion of smokers in the community was really 15\%, what is the probability of observing 42 or fewer smokers in a sample of 400 people?\pause
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        &\prob{k=0~\text{or}~k=1~\text{or}~\cdots~\text{or}~k=42}\\\pause
+        &\quad = \prob{k=0}+\prob{k=1}+\cdots+\prob{k=42} \\\pause
+        &\quad = 5.8558\times10^{-29} + 4.133335\times10^{-27}+\cdots+0.001985 \\\pause
+        &\quad = 0.0054
+      \end{aligned}
+    \end{equation*}
+  \end{example}\pause
+
+  \begin{note}
+    When certain conditions are met, we can actually use the normal distribution to approximate the binomial distribution.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \includegraphics[scale=0.7]{fourBinomialModelsShowingApproxToNormal.pdf}
+
+      \vspace{0mm}
+      Histograms of samples from the binomial model when $p=0.10$.
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Normal Approximation of the Binomial Distribution}
+    The binomial distribution with probability of success $p$ is approximately normal when the sample size $n$ is sufficiently large so that:
+    \begin{equation*}
+      \begin{aligned}
+        np \geq 10
+        \qquad\text{and}\qquad
+        n(1-p) \geq 10
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{1mm}
+    The approximate normal distribution has parameters corresponding to the mean and standard deviation of the binomial distribution:
+    \begin{equation*}
+      \begin{aligned}
+        \mu=np
+        \qquad\qquad\qquad
+        \sigma=\sqrt{np(1-p)}
+      \end{aligned}
+    \end{equation*}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Let us check to see if the binomial distribution in Example~\ref{less smokers} is approximately normal.\pause
+
+    \vspace{1mm}
+    Recall that $p=0.15$, $n=400$, so we check:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        np &=\pause 400\cdot0.15\pause = 60\pause \geq 10 \\\pause
+        n(1-p) &=\pause 400\cdot(1-0.15)\pause = 400\cdot0.85\pause = 340\pause \geq 10
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-3mm}
+    We may now use the normal distribution to approximate the binomial distribution for observing 42 or fewer smokers:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu &= np\pause = 60 \\\pause
+        \sigma &= \sqrt{np(1-p)}\pause = 7.14143 \\\pause
+        z &= \dfrac{x-\mu}{\sigma}\pause = \dfrac{42-60}{7.14143}\pause = -2.5205
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-3mm}
+    Using technology gives:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{z\leq -2.52} = 0.005859
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-2mm}
+    This is very close to the value of 0.0054 we calculated in Example~\ref{less smokers}.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Suppose we want to compute the probability of observing 49, 50, or 51 smokers in 400 when $p=0.15$.\pause
+
+    \vspace{1mm}
+    It's tempting to apply the normal approximation here, as well. But,
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \text{Binomial:}~0.0649
+        \qquad\qquad
+        \text{Normal:}~0.0421
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    \begin{center}
+      \includegraphics[scale=0.6]{normApproxToBinomFail.pdf}
+    \end{center}
+
+    \vspace{-2mm}
+    The area representing the binomial probability is outlined in red while the area representing the normal approximation is shaded in blue. Notice that the width of the normal approximation is too narrow.
+    
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Improving the Normal Approximation}
+    The normal approximation to the binomial distribution for intervals of values is usually improved if the cutoff values are modified slightly.
+
+    \vspace{1mm}
+    The cutoff values for the lower end of a shaded region should be reduced by 0.5.
+
+    \vspace{1mm}
+    The cutoff values for the upper end of a shaded region should be increased by 0.5.
+  \end{block}\pause
+
+  \begin{example}
+    For computing the probability of observing 49, 50, or 51 smokers in 400 when $p=0.15$ we get the three values:
+    \begin{equation*}
+      \begin{aligned}
+        \text{Binomial:}&~0.0649 \\
+        \text{Unmodified Normal:}&~0.0421 \\
+        \text{Modified Normal:}&~0.0633
+      \end{aligned}
+    \end{equation*}
   \end{example}
 \end{frame}
 \end{document}
