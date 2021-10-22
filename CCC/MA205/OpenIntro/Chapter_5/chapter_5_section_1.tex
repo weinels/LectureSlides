@@ -15,6 +15,59 @@
 \usetikzlibrary{external}
 \tikzexternalize%
 
+\begin{asydef}
+guide normal_dist(real mu, real sigma, real xmin, real xmax)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+	return graph(nd_func, xmin, xmax);
+}
+
+void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, xmin, b);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmin,0)--(b,0));
+}
+
+void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, b, xmax);
+	
+	filldraw(g -- (b,0) -- cycle, p, black);
+	
+	draw((xmax,0)--(b,0));
+}
+
+void shade_between(real mu, real sigma, real a, real b, pen p=royalblue)
+{
+	real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+		
+	guide g = graph(nd_func, a, b);
+	
+	filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
+}
+
+void multiple_nd_curves_example(real std_dev)
+{
+	size(300, 190, IgnoreAspect);
+	
+	draw(normal_dist(0, std_dev, -6,6));
+	shade_between(0,std_dev,-std_dev,std_dev);
+	draw((0,0)--(0,0.45));
+
+	label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
+
+	xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
+	yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
+}
+\end{asydef}
+
 \title[MA205 - Section 5.1]{Point Estimates and Sampling Variability}
 
 \newcommand{\prob}[1]{P\left({#1}\right)}
@@ -22,8 +75,383 @@
 \newcommand{\condprob}[2]{\prob{{#1}~|~{#2}}}
 \newcommand{\comb}[2]{_{#1}C_{#2}}
 
+% Gauss function, parameters mu and sigma
+\newcommand\gauss[2]{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))} % chktex 36
+
+
 \begin{document}
 \begin{frame}
 \titlepage
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    A \textbf{point estimate} is a single value used to estimate a parameter.
+  \end{definition}\pause
+
+  \begin{note}
+    The sample proportion, $\hat{p}$, the best point estimate of the population proportion $p$. But, is it a \emph{good} estimate?
+  \end{note}\pause
+
+  \begin{definition}
+    The difference between a point estimate and the true parameter is called the \textbf{error} in the estimate.
+  \end{definition}\pause
+
+  \begin{note}
+    In general, there are two sources of error: sampling error and bias.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \textbf{Sampling error} describes how much an estimate will tend to vary from one sample to the next.
+  \end{definition}\pause
+
+  \begin{example}
+    One sample may have $\hat{p}=1\%$ and another sample may have $\hat{p}=3\%$.
+  \end{example}\pause
+
+  \begin{note}
+    Much of statistics is focused on understanding and quantifying sampling error.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \textbf{Bias} describes a systematic tendency to over-estimate or under-estimate the true population value.
+  \end{definition}\pause
+
+  \begin{example}
+    If a university took a student poll asking about support for a new stadium, they'd get a biased response if they asked:
+
+    \vspace{-2.5mm}
+    \begin{center}\small
+      \textquote{Do you support your school by supporting funding for the new stadium?}
+    \end{center}
+  \end{example}\pause
+
+  \begin{note}
+    We try to minimize bias by using thoughtful data collection procedures.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{solar energy}
+    \vspace{-2mm} %beamer bug
+    Suppose the proportion of American adults who support the expansion of solar energy is $p=0.88$.\pause
+
+    \vspace{1mm}
+    If we take a poll of 1000 American adults on this topic, the estimate would not be perfect. But, how close can we expect $\hat{p}$ to be to $p$?\pause
+
+    \vspace{1mm}
+    We can simulate such a sample:
+    \begin{enumerate}
+    \item As of 2021, there are about 258 million adults in America. Let us get 258 million slips of paper and write \textquote{support} on 88\% of them and \textquote{not} on the remaining 12\%.\pause
+    \item Mix up the slips and pull out 1000, to represent our sample.\pause
+    \item Compute the fraction of the sample that says \textquote{support}.\pause
+    \end{enumerate}
+  \end{example}
+
+  \begin{note}
+    While this method seems silly, a compute can do these steps in a short amount of time.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    I wrote a short program to run this simulation, but one simulation isn't enough to get a sense of the distribution of the point estimates.\pause
+
+    \vspace{1mm}
+    So, I ran nine simulations:
+    \begin{center}
+      \begin{tabular}{cr|cr|cr}
+        $\hat{p}$ & Error & $\hat{p}$ & Error & $\hat{p}$ & Error \\\hline
+        0.867 & -0.013 & 0.876 & -0.004 & 0.883 & 0.003 \\
+        0.889 & 0.009 & 0.887 & 0.007 & 0.874 & -0.006 \\
+        0.896 & 0.016 & 0.898 & 0.018 & 0.874 & -0.006 \\
+      \end{tabular}
+    \end{center}
+
+    Notice that they are all kinda close to $p=0.88$, but there is variation.\pause
+
+    \vspace{1mm}
+    The mean of all these $\hat{p}$ values is $0.8827$, which is pretty close to $p$.
+  \end{example}\pause
+
+  \begin{definition}
+    The \textbf{sampling distribution} is the distribution of sample proportions.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Running the simulation 10,000 times gives the histogram:
+
+    \vspace{-3mm}
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[
+            small,
+            height=5.0cm,
+            width=11.8cm,
+            enlarge x limits=false,
+            enlarge y limits=false,
+            %ybar,
+            ymajorgrids=true,
+            minor y tick num=1,
+            yminorgrids=true,
+            ylabel={Frequency},
+            xlabel={Sample Proportions},
+            xtick={0.84,0.85,0.86,...,1},
+            xmin=0.84,
+            xmax=0.92,
+            ymin=0,
+            ymax=900
+          ]
+          \addplot [ybar, fill=blue!30!white, hist={bins=40}]
+          table [y=data] {solar_sampling_dist_n_1000.dat};
+          \only<5->{\addplot[red, thick, domain={0.84:0.92},yscale=19.94,samples=150]{\gauss{0.881}{0.0102761}};}
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}\pause
+
+    \vspace{-5mm}
+    \begin{description}
+    \item[Center]: The center of this distribution is $\bar{x}_{\hat{p}}=0.8799$, which is very close to $p=0.88$.\pause
+    \item[Spread]: The standard deviation of this distribution is $s_{\hat{p}}= 0.0102$.\pause\ This is often called the \textbf{standard error}.\pause
+    \item[Shape]: This distribution is approximately normal.
+    \end{description}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    What if we used a much smaller sample size of $n=50$?\pause
+    
+    \vspace{0mm}
+    \begin{description}
+    \item[Center]: The center of this distribution is $\bar{x}_{\hat{p}}=0.8791$, which is still very close to $p=0.88$.\pause
+    \item[Spread]: The standard deviation of this distribution is $s_{\hat{p}}= 0.0462$, which is much bigger.\pause
+    \end{description}
+  \end{example}
+
+  \begin{note}
+    This highlights an important property: a bigger sample tends to provide a more precise point estimate than a smaller sample.
+  \end{note}\pause
+
+  \begin{note}
+    In real-world applications, we never actually observe the sampling distribution, yet it is useful to always think of a point estimate as coming from a hypothetical distribution.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Central Limit Theorem}
+    When observations are independent and the sample size, $n$, is sufficiently large, the sample proportions $\hat{p}$ will tend to follow a normal distribution with the following mean and standard deviation:
+
+    \vspace{-1mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu_{\hat{p}}=p
+        \qquad\text{and}\qquad
+        \sigma_{\hat{p}}={SE}_{\hat{p}}=\sqrt{\dfrac{p(1-p)}{n}}
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-1mm}
+    In order for the Central Limit Theorem to hold, the sample size is typically considered sufficiently large when
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        np\geq 10
+        \qquad\text{and}\qquad
+        n(1-p)\geq 10
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-2mm}
+    which is called the \textbf{success-failure conditions}.
+  \end{block}\pause
+
+  \begin{note}
+    The Central Limit Theorem is incredibly important, and provides a foundation for much of statistics.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{solar CLT}
+    \vspace{-2mm}% beamer bug
+    In Example~\ref{solar energy}, we had a sample size of $n=1000$ and $p=0.88$.\pause
+
+    \vspace{1mm}
+    Before we can apply the Central Limit Theorem, we need to check the success-failure conditions:
+    \begin{equation*}
+      \begin{aligned}
+        np &= \pause
+        1000\cdot 0.88\pause
+        = 880\pause
+        \geq 10~{\color{green!70!black}\checkmark} \\\pause
+        n(1-p) &= \pause
+        1000(1-0.88)\pause
+        = 1000\cdot 0.12\pause
+        = 120\pause
+        \geq~{\color{green!70!black}\checkmark}
+      \end{aligned}
+    \end{equation*}\pause
+
+    Applying the Central Limit Theorem gives:
+    \begin{equation*}
+      \begin{aligned}
+        \mu_{\hat{p}} &=\pause
+        p = 0.88 \\\pause
+        {SE}_{\hat{p}} &= \pause
+        \sqrt{\dfrac{p(1-p)}{n}}\pause
+        = \sqrt{\dfrac{0.88(1-0.12)}{1000}}\pause
+        = 0.0103
+      \end{aligned}
+    \end{equation*}\pause
+    This is very close to the observed standard error, $0.0102$.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{How to Verify Sample Observations are Independent}
+    \begin{itemize}
+    \item Subjects in an experiment are considered independent if they undergo random assignment to the treatment groups.\pause
+    \item If the observations are from a simple random sample, then they are independent.\pause
+    \item If a sample is from a seemingly random process, e.g.\  an occasional error on an assembly line, checking independence is more difficult. In this case, use your best judgment.
+    \end{itemize}
+  \end{block}\pause
+
+  \begin{note}
+    If a sample is larger than 10\% of the population, the methods we discuss tend to overestimate the sampling error slightly. In these cases more advanced methods are needed.
+  \end{note}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}
+    Using $n=1000$ and $p=0.88$ from Example~\ref{solar energy}, let us find out how often $\hat{p}$ is within 0.02 (2\%) of the population value $p=0.88$.\pause
+
+    \vspace{1mm}
+    In Example~\ref{solar CLT}, we applied the Central Limit Theorem, getting $\mu_{\hat{p}} = 0.88$ and ${SE}_{\hat{p}}=0.0103$.\pause
+
+    \vspace{1mm}
+    We start by calculating the $z$-values:
+
+    \vspace{-5mm}
+    \begin{equation*}
+      \begin{aligned}
+        z_{0.86} &= \pause
+        \dfrac{0.86-0.88}{0.0103}\pause
+        = -1.942 \pause
+        \quad\text{and}\quad
+        z_{0.90} = \pause
+        \dfrac{0.90-0.88}{0.0103}\pause
+        = 1.942
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    \begin{center}
+      \begin{asy}
+        size(300, 70, IgnoreAspect);
+
+        shade_between(0,1,-1.94175,1.94175);
+        draw(normal_dist(0, 1, -4.5, 4.5));
+
+        label("$z_{0.86}$",(-1.94175,0),SE,blue);
+        dot((-1.94175,0));
+        label("$z_{0.90}$",(1.94175,0),SW,blue);
+        dot((1.94175,0));
+
+        xaxis("$z$",Bottom(), RightTicks(new real [] {-4,-3,-2,-1,0,1,2,3,4}, size=nan));
+      \end{asy}
+    \end{center}\pause
+
+    \vspace{-4mm}
+    Using technology gives:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{-1.94175 \leq z \leq 1.94175} = 0.947833
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    We expect $\hat{p}$ to be within 0.02 of 0.88 about 94.78\% of the time.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    We do not actually know the population proportion unless we conduct a full census of the entire population.\pause
+
+    \vspace{1mm}
+    The value $p=0.88$ was based on a Pew Research poll of 1000 adults that found $\hat{p}=0.887$ of them favored expanding solar energy.\pause
+
+    \vspace{1mm}
+    A question the researchers might have asked is:
+
+    \vspace{-3mm}
+    \begin{center}\small
+      \textquote{Does the sample proportion from the poll approximately\\ follow a normal distribution?}
+    \end{center}\pause
+
+    \vspace{-4mm}
+    %We can check the requirements of the Central Limit Theorem:
+    \begin{description}
+    \item[Independence] Pew Research is a well known non-profit think tank, so we can believe that the poll is a simple random sample, and hence the observations are independent.\pause
+    \item[Success-Failure Conditions] Since we don't actually know $p$, the next best thing we have is $\hat{p}$.
+
+      \vspace{-6.5mm}
+      \begin{equation*}
+        \begin{aligned}
+          n\hat{p} &= \pause
+          1000\cdot 0.887\pause
+          =887\pause
+          \geq 10~{\color{green!70!black}\checkmark} \\\pause
+          n(1-\hat{p}) &=\pause
+          1000(1-0.887)\pause
+          = 1000\cdot 0.113 \pause
+          = 113\pause
+          \geq 10~{\color{green!70!black}\checkmark}
+        \end{aligned}
+      \end{equation*}\pause
+
+      \vspace{-4.5mm}
+      Because $n\hat{p}$ and $n(1-\hat{p})$ are both well above 10, we can conclude that $\hat{p}$ is a reasonable substitute for $p$.
+    \end{description}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Substitution Approximation}
+    When $np$ and $n(1-p)$ are much larger than 10, we can use $\hat{p}$ in place of $p$ and the Centeral Limit Theorem becomes:
+    \begin{equation*}
+      \begin{aligned}
+        \mu_{\hat{p}}&=p\approx \hat{p} \\
+        {SE}_{\hat{p}}&=\sqrt{\dfrac{p(1-p)}{n}}\approx \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}
+      \end{aligned}
+    \end{equation*}
+  \end{block}\pause
+
+  \begin{example}
+    For $n=1000$, $p-0.88$, $\hat{p}=0.887$:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        {SE}_{\hat{p}}&=\pause
+        \sqrt{\dfrac{p(1-p)}{n}} \pause
+        = \sqrt{\dfrac{0.88(1-0.88)}{1000}}\pause
+        = 0.010276 \\\pause
+        {SE}_{\hat{p}}&\approx \pause
+        \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\pause
+        = \sqrt{\dfrac{0.887(1-0.887)}{1000}}\pause
+        = 0.010012
+      \end{aligned}
+    \end{equation*}\pause
+    These values are the same to three decimal places, so using the substitution approximation won't make a major difference.
+  \end{example}
 \end{frame}
 \end{document}
