@@ -459,7 +459,12 @@ void multiple_nd_curves_example(real std_dev)
   \begin{block}{Trends in the Sampling Distribution}
     \begin{itemize}
     \item The smaller either $np$ or $n(1-p)$ is, the more discrete the sampling distribution is.\pause
-    \item When $np$ or $n(1-p)$ is smaller than 10, the distribution is skewed.\pause
+    \item When $np$ or $n(1-p)$ is smaller than 10, the skew in the distribution is more pronounced.\pause
+      \begin{itemize}
+      \item If $p$ is close to 0, the distribution will be more right skewed.\pause
+      \item If $p$ is close to 1, the distribution will be more left skewed.\pause
+      \item if $p$ is close to 0.5, the distribution will be more symmetric.\pause
+      \end{itemize}
     \item The larger both $np$ and $n(1-p)$ are, the more normal the sampling distribution is.\pause
       \begin{itemize}
       \item This may be harder to see for larger sample sizes, as the variability also becomes smaller.\pause
