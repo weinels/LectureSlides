@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{helvet}
@@ -74,7 +74,7 @@
 \end{asydef}
 
 \begin{asydef}
-  pair ex2 = (300, 80);
+  pair ex2 = (250, 70);
   pair blkpq = (90, 90);
 \end{asydef}
 
@@ -272,22 +272,18 @@
 
 \begin{frame}[fragile]
   \begin{example}
-    Let us find the critical value $z^*$ corresponding to a 95\% confidence level.
+    Let us find the critical value corresponding to a 95\% confidence level.
 
     \vspace{1mm}
     \visible<2->{A 95\% confidence interval gives $\alpha=0.05$ and $\alpha/2=0.025$.}
 
     \vspace{1mm}
-    \visible<3->{To find the $z$ value using the inverse normal distribution, we need to know the cumulative area to the left of the right tail, $0.025+0.95=0.9750$.}
+    \visible<3->{To find the $z$ value using the inverse normal distribution, we need to know the area to the left of the right tail, $0.025+0.95=0.9750$.}
 
     \vspace{1mm}
-    \visible<4->{Using technology we get
-      \begin{equation*}
-        \begin{aligned}
-          z^* &= 1.96
-        \end{aligned}
-      \end{equation*}}
-    \vspace{3mm}
+    \visible<4->{Using technology we get $z^* = 1.96$.}
+    
+    \vspace{1mm}
     \begin{overprint}
       \onslide<1 | handout:0>
       \begin{center}
@@ -311,6 +307,10 @@
           draw((right,0)--(right,0.53));
           draw((left,0.5)--(right,0.5), Arrows);
           label("Confidence Level 95\%",(0,0.5), UnFill);
+
+          label("$1-\alpha=0.95$", (mu,0.4*nd_func(mu,sigma,mu)), invisible);
+          label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW, invisible);
+          label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE, invisible);
 
           //label("$-z^*$",(left,0),S);
           //dot((left,0));
@@ -339,8 +339,8 @@
           shade_between(mu,sigma,right,xmax);
           draw(normal_dist(mu, sigma, xmin, xmax));
 
-          label("$1-\alpha=0.95$", (mu,0.5*nd_func(mu,sigma,mu)));
-          //label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW);
+          label("$1-\alpha=0.95$", (mu,0.4*nd_func(mu,sigma,mu)));
+          label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW);
           label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE);
 
           label("$z^*$",(right,0),S);
@@ -371,13 +371,16 @@
           shade_between(mu,sigma,right,xmax);
           draw(normal_dist(mu, sigma, xmin, xmax));
 
-          label("$0.9750$", (mu,0.5*nd_func(mu,sigma,mu)));
+          label("$0.9750$", (mu,0.4*nd_func(mu,sigma,mu)));
           //label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE);
 
           draw((left,0)--(left,0.53), invisible);
           draw((right,0)--(right,0.53), invisible);
           draw((left,0.5)--(right,0.5), invisible, Arrows);
           label("Confidence Level 95\%",(0,0.5), invisible,  UnFill);
+          label("$1-\alpha=0.95$", (mu,0.4*nd_func(mu,sigma,mu)), invisible);
+          label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW, invisible);
+          label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE, invisible);
 
           label("$z^*$",(right,0),S);
           dot((right,0));
@@ -402,15 +405,18 @@
           shade_between(mu,sigma,right,xmax);
           draw(normal_dist(mu, sigma, xmin, xmax));
 
-          label("$0.9750$", (mu,0.5*nd_func(mu,sigma,mu)));
+          label("$0.9750$", (mu,0.4*nd_func(mu,sigma,mu)));
           //label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE);
 
           draw((left,0)--(left,0.53), invisible);
           draw((right,0)--(right,0.53), invisible);
           draw((left,0.5)--(right,0.5), invisible, Arrows);
           label("Confidence Level 95\%",(0,0.5), invisible,  UnFill);
+          label("$1-\alpha=0.95$", (mu,0.4*nd_func(mu,sigma,mu)), invisible);
+          label("$\alpha/2=0.025$", (left,nd_func(mu,sigma, left)),NW, invisible);
+          label("$\alpha/2=0.025$", (right,nd_func(mu,sigma, right)),NE, invisible);
           
-          label("$z^*=-1.96$",(right,0),S);
+          label("$z^*=1.96$",(right,0),S);
           dot((right,0));
 
           xaxis(Bottom(), RightTicks(new real [] {mu}, size=nan));
@@ -418,10 +424,9 @@
       \end{center}
     \end{overprint}
   \end{example}
-\end{frame}
 
-\begin{frame}
-  \begin{block}{Common Confidence Levels}
+  \onslide<5->
+  \begin{block}{Common Confidence Levels}\small
     \begin{center}
       \begin{tabular}{|c|c|c|}\hline
         \textbf{Confidence Level} & $\boldsymbol{\alpha}$ & \textbf{Critical Value}\\\hline
@@ -433,326 +438,327 @@
   \end{block}
 \end{frame}
 
-%% \begin{frame}
-%%   \begin{definition}
-%%     When data from a simple random sample are used to estimate a population proportion $p$, the difference between the sample proportion $\hat{p}$ and the population proportion $p$ is an error.\pause
+\begin{frame}
+  \begin{definition}
+    Anytime a point estimate is used to estimate a parameter, there will be some amount of error.\pause
 
-%%     \vspace{2mm}
-%%     The maximum likely amount of error is the \textbf{margin of error}, denoted by $\boldsymbol{E}$. \pause
+    \vspace{1mm}
+    The maximum likely amount of error is called the \textbf{margin of error}\pause
 
-%%     \vspace{2mm}
-%%     There is a probability of $1-\alpha$ that $\hat{p} - E < p < \hat{p} + E$.\pause
-%%   \end{definition}
+    \vspace{1mm}
+    When the point estimate closely follows a normal model, the margin of error is found by multiplying the critical value and the standard error:
 
-%%   \begin{note}
-%%     The margin of error $E$ is also called the \textbf{maximum error of the estimate} and can be found by multiplying the critical value and the estimated standard deviation of sample proportions.
-%%     \begin{equation*}
-%%       E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}
-%%     \end{equation*}
-%%   \end{note}
-%% \end{frame}
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        z^{*} \cdot SE
+      \end{aligned}
+    \end{equation*}
+  \end{definition}\pause
 
-%% \begin{frame}
-%%   \begin{block}{Procedure for Constructing a Confidence Interval for $p$}
-%%     \begin{enumerate}[<+- | alert@+>]
-%%     \item Verify that the following requirements are satisfied:
-%%       \begin{itemize}
-%%       \item The sample is a simple random sample.
-%%       \item The conditions for the binomial distribution are satisfied.
-%%       \item There are at least 5 successes and at least 5 failures.
-%%       \end{itemize}
-%%     \item Use technology to find the critical value $z_{\alpha/2}$.
-%%     \item Evaluate the margin of error $E$.
-%%     \item Using the value of the calculated margin of error $E$ and the value of the sample proportion $\hat{p}$, find the values of the confidence interval limits $\hat{p}-E$ and $\hat{p}+E$.
-%%     \item Round the resulting confidence interval limits to three significant digits.
-%%     \end{enumerate}
-%%   \end{block}
-%%   \onslide<+->
-%%   \begin{note}
-%%     Statistics software, such as Statdisk, can calculate the confidence interval for you.
-%%   \end{note}
-%% \end{frame}
+  \begin{note}
+    The margin of error for $\hat{p}$ is:
+    \begin{equation*}
+      z^{*}\cdot {SE}_{\hat{p}} = z^{*}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}
+    \end{equation*}
+  \end{note}
+\end{frame}
 
-%% \begin{frame}
-%%   \begin{example}
-%%     A Gallup poll of 1487 adults showed that 43\% of the respondents have Facebook pages. Let us calculate a 95\% confidence interval by hand.
+\begin{frame}
+  \begin{block}{Procedure for Constructing a Confidence Interval for $p$}
+    \begin{enumerate}[<+- | alert@+>]
+    \item Verify that $\hat{p}$ is nearly normal:
+      \begin{itemize}
+      \item The observations are independent.
+      \item $n\hat{p}\geq 10$ and $n(1-\hat{p})\geq 10$.
+      \end{itemize}
+    \item Find the critical value $z^{*}$.
+    \item Evaluate the margin of error: $E=z^{*} \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}$
+    \item Construct the interval: $\interval{\open{\hat{p} - E}}{\open{\hat{p} + E}}$
+    \item Interpret the confidence interval in the context of the problem.
+    \end{enumerate}
+  \end{block}
+  \onslide<+->
+  \begin{note}
+    Statistics software and graphing calculators, can calculate the confidence interval for you.
+  \end{note}
+  \onslide<+->
+  \begin{note}
+    Round the confidence interval limits to four digits.
+  \end{note}
+\end{frame}
 
-%%     \vspace{1mm}
-%%     \begin{enumerate}[<+->]
-%%     \item The critical value for 95\% confidence interval is $z_{\alpha/2}$ is 1.96.
-%%     \item The margin of error is 
-%%       \begin{equation*}
-%%         E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\onslide<+->
-%%         =1.96\sqrt{\dfrac{0.43(1-0.43)}{1487}}\onslide<+->
-%%         =0.0251636
-%%       \end{equation*}
-%%       \vspace{-5mm}
-%%     \item The confidence interval is
-%%       \begin{equation*}
-%%         \begin{matrix}
-%%           \hat{p} - E &<& p &<& \hat{p} + E\\\onslide<+->
-%%           0.43 - 0.0251636 &<& p &<& 0.43 + 0.0251636 \\\onslide<+->
-%%           0.405 &<& p &<& 0.455 \\
-%%         \end{matrix}
-%%       \end{equation*}
-%%     \end{enumerate}
-%%     \vspace{-6mm}
-%%   \end{example}
+\begin{frame}
+  \begin{example}
+    A 2018 Pew Research poll found that 88.7\% of a random sample of 1000 American adults supported expanding solar power. Let's compute a 90\% confidence interval.\pause
 
-%%   \onslide<+->
-%%   \begin{note}
-%%     Looking at the confidence interval we can conclude that less than half of adults have a Facebook page.
-%%   \end{note}
-%% \end{frame}
+    \vspace{1mm}
+    \begin{enumerate}
+    \item $n\hat{p}=\pause 1000\cdot 0.887\pause =887\geq 10$\\\pause $n(1-\hat{p})=\pause1000\cdot(1-0.887)\pause=113\geq 10$\pause
+    \item The critical value for 90\% confidence interval is $z^{*}$ is 1.645.\pause
+    \item The margin of error is
 
-%% \begin{frame}
-%%   \begin{block}{Analyzing Polls}
-%%     When analyzing results from polls, consider the following:
-%%     \begin{itemize}[<+- | alert@+>]
-%%     \item The sample should be a simple random sample.
-%%     \item The confidence interval should be provided.
-%%     \item The sample size should be provided.
-%%     \item Except for relatively rare cases, the quality of the poll results depends on the sampling method and the size of the sample, but the size of the population is usually not a factor.
-%%     \end{itemize}
-%%   \end{block}
-%%   \onslide<+->
-%%   \begin{block}{Caution}
-%%     Never think that poll results are unreliable if the sample size if a small percentage of the population size.
-%%   \end{block}
-%% \end{frame}
+      \vspace{-6mm}
+      \begin{equation*}
+        E=z^{*}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\pause
+        =1.645\sqrt{\dfrac{0.887(1-0.887)}{1000}}\pause
+        = 0.016469\pause
+      \end{equation*}
+      \vspace{-5mm}
+    \item The confidence interval is
 
-%% \begin{frame}
-%%   \begin{block}{Finding $\hat{p}$ from a Confidence Interval}
-%%     If you know the confidence interval limits, we can calculate the point estimate:
-%%     \begin{equation*}
-%%       \hat{p} = \dfrac{(\text{upper confidence interval limit})+(\text{lower confidence interval limit})}{2}
-%%     \end{equation*}
-%%   \end{block}\pause
+      \vspace{-3mm}
+      \begin{equation*}
+        \begin{matrix}
+          ( & \hat{p} - E &,& \hat{p} + E & )\\\pause
+          ( & 0.887 - 0.016469 &,& 0.887 + 0.016469 & ) \\\pause
+          ( & 0.8705 &,& 0.9035 & ) \\
+        \end{matrix}
+      \end{equation*}
 
-%%   \begin{block}{Finding $E$ from a Confidence Interval}
-%%     If you know the confidence interval limits, we can calculate the margin of error:
-%%     \begin{equation*}
-%%       E = \dfrac{(\text{upper confidence interval limit})-(\text{lower confidence interval limit})}{2}
-%%     \end{equation*}
-%%   \end{block}
-%% \end{frame}
+      \vspace{-2mm}\pause
+      \item We are 90\% confident that between 87.1\% and 90.4\% of American adults supported the expansion of solar power in 2018.
+    \end{enumerate}
+  \end{example}
+\end{frame}
 
-%% \begin{frame}
-%%   \begin{example}
-%%     The article \textquote{High-Dose Nicotine Patch Therapy}, by Dale, Hurt, et al. (\emph{Journal of the American Medical Association}, Vol 274, No. 17) includes the statement:
-%%     \vspace{-1mm}
-%%     \begin{center}
-%%       Of the 71 subjects, 70\% were abstinent from smoking at 8 weeks (95\% confidence interval [CI], 58\% to 81\%).
-%%     \end{center}\pause
+\begin{frame}
+  \begin{block}{Interpreting a Confidence Interval}
+    For the confidence interval $\interval{\open{0.8705}}{\open{0.9035}}$ there is one correct interpretation and many creatively incorrect interpretations.
+    \begin{description}
+    \item[\textbf{Correct:}]<2-| alert@2> \textquote{We are 90\% confident that the interval from 0.8705 to 0.9035 actually does contain the true value of the population proportion $p$.}
+    \item[\textbf{Reason:}]<2- | alert@2> The confidence level 95\% refers to the success rate of the process used to estimate the population proportion.
+    \item[\textbf{Incorrect:}]<3- | alert@3> \textquote{There is a 90\% chance that the true value of $p$ will fall between 0.8705 and 0.9035.}
+    \item[\textbf{Reason:}]<3- | alert@3> The population proportion $p$ is a fixed value.
+    \item[\textbf{Incorrect:}]<4- | alert@4> \textquote{90\% of sample proportions will fall between 0.8705 and 0.9035.}
+    \item[\textbf{Reason:}]<4- | alert@4> The values 0.8705 and 0.9035 result from one sample, they are not parameters describing the behavior of all samples.
+    \end{description}
+  \end{block}
+\end{frame}
 
-%%     \vspace{-2mm}
-%%     The point estimate $\hat{p}$ is
-%%     \begin{equation*}
-%%       \begin{aligned}
-%%         \hat{p} &= \dfrac{(\text{upper confidence interval limit})+(\text{lower confidence interval limit})}{2} \\\pause
-%%         &= \dfrac{0.81+0.58}{2}\pause
-%%         = 0.695\pause
-%%       \end{aligned}
-%%     \end{equation*}
+\begin{frame}
+  \begin{block}{Analyzing Polls}
+    When analyzing results from polls, consider the following:
+    \begin{itemize}[<+- | alert@+>]
+    \item The sample should be a simple random sample.
+    \item The confidence interval should be provided.
+    \item The sample size should be provided.
+    \item Except for relatively rare cases, the quality of the poll results depends on the sampling method and the size of the sample, but the size of the population is usually not a factor.
+    \end{itemize}
+  \end{block}
+  \onslide<+->
+  \begin{block}{Caution}
+    Never think that poll results are unreliable if the sample size if a small percentage of the population size.
+  \end{block}
+\end{frame}
 
-%%     The margin of error $E$ is
-%%     \begin{equation*}
-%%       \begin{aligned}
-%%         E &= \dfrac{(\text{upper confidence interval limit})-(\text{lower confidence interval limit})}{2} \\\pause
-%%         &= \dfrac{0.81-0.58}{2}\pause
-%%         = 0.115
-%%       \end{aligned}
-%%     \end{equation*}
-%%   \end{example}
-%% \end{frame}
+\begin{frame}
+  \begin{block}{Finding $\hat{p}$ from a Confidence Interval}
+    If you know the confidence interval, $\interval{\open{\text{upper limit}}}{\open{\text{lower limit}}}$, we can calculate the point estimate:
+    \begin{equation*}
+      \hat{p} = \dfrac{(\text{upper limit})+(\text{lower limit})}{2}
+    \end{equation*}
+  \end{block}\pause
 
-%% \begin{frame}
-%%   \begin{example}\label{ex:online}
-%%     Let us assume a researcher can find no information about the percentage of adults who make online purchases. This information is extremely important to online stores, so the researcher decides to conduct a survey.\pause
+  \begin{block}{Finding $E$ from a Confidence Interval}
+    If you know the confidence interval, $\interval{\open{\text{upper limit}}}{\open{\text{lower limit}}}$, we can calculate the margin of error:
+    \begin{equation*}
+      E = \dfrac{(\text{upper limit})-(\text{lower limit})}{2}
+    \end{equation*}
+  \end{block}
+\end{frame}
 
-%%     \vspace{1mm}
-%%     How many adults must be surveyed in order to be 95\% confident that the sample percentage is in error by no more than three percentage points?\pause
+\begin{frame}
+  \begin{example}
+    The article \textquote{High-Dose Nicotine Patch Therapy}, by Dale, Hurt, et al. (\emph{Journal of the American Medical Association}, Vol 274, No. 17) includes the statement:
+    \vspace{-1mm}
+    \begin{center}
+      Of the 71 subjects, 70\% were abstinent from smoking at 8 weeks\\ (95\% confidence interval [CI], 58\% to 81\%).
+    \end{center}\pause
 
-%%     \vspace{1mm}
-%%     We can solve the margin of error equation for $n$:
-%%     \begin{equation*}
-%%       E=z_{\alpha/2}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \pause
-%%       \quad\Rightarrow\quad
-%%       n=\dfrac{ {(z_{\alpha/2})}^2 \hat{p} (1-\hat{p}) }{E^2}
-%%     \end{equation*}\pause
-%%     We have $z_{\alpha/2}=1.96$ and $E=0.03$, but what about $\hat{p}$?
-%%   \end{example}
-%% \end{frame}
+    \vspace{-1mm}
+    The point estimate $\hat{p}$ is
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p} &= \dfrac{(\text{upper limit})+(\text{lower limit})}{2} \pause
+        = \dfrac{0.81+0.58}{2}\pause
+        = 0.695\pause
+      \end{aligned}
+    \end{equation*}
 
-%% \begin{frame}
-%%   \begin{block}{Sample Size Required to Estimate a Population Proportion}
-%%     The sample must be a simple random sample of independent sample units.\pause
+    The margin of error $E$ is
+    \begin{equation*}
+      \begin{aligned}
+        E &= \dfrac{(\text{upper limit})-(\text{lower limit})}{2} \pause
+        = \dfrac{0.81-0.58}{2}\pause
+        = 0.115
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%%     \vspace{2mm}
-%%     If a reasonable estimate of $\hat{p}$ can be made by using previous samples, a pilot study, or someone's expert knowledge:
-%%     \begin{equation*}
-%%       n=\dfrac{ {(z_{\alpha/2})}^2 \hat{p} (1-\hat{p}) }{E^2}
-%%     \end{equation*}\pause
+\begin{frame}
+  \begin{example}\label{ex:online}
+    \vspace{-2mm} % beamer bug
+    Let us assume a researcher can find no information about the percentage of adults who make online purchases. This information is extremely important to online stores, so the researcher decides to conduct a survey.\pause
 
-%%     \vspace{-3mm}
-%%     If nothing is known about the value $\hat{p}$:
-%%     \begin{equation*}
-%%       n=\dfrac{ {(z_{\alpha/2})}^2 0.25 }{E^2}
-%%     \end{equation*}
-%%   \end{block}\pause
+    \vspace{1mm}
+    How many adults must be surveyed in order to be 95\% confident that the sample percentage is in error by no more than three percentage points?\pause
 
-%%   \begin{block}{Rounding}
-%%     If the computed sample size $n$ is not a whole number, round the value of $n$ up to the next larger whole number.
-%%   \end{block}
-%% \end{frame}
+    \vspace{1mm}
+    We can solve the margin of error equation for $n$:
+    \begin{equation*}
+      E=z^{*}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \pause
+      \quad\Rightarrow\quad
+      n=\dfrac{ {(z^{*})}^2 \hat{p} (1-\hat{p}) }{E^2}
+    \end{equation*}\pause
+    We have $z^{*}=1.96$ and $E=0.03$, but what about $\hat{p}$?
+  \end{example}
+\end{frame}
 
-%% \begin{frame}[fragile]
-%%   \begin{block}{Why 0.25?}
-%%     If $\hat{p}=0.5$ then the product $\hat{p} (1-\hat{p})=0.25$ is the largest possible product.
+\begin{frame}
+  \begin{block}{Sample Size Required to Estimate a Population Proportion}
+    The sample must be a simple random sample of independent sample units.\pause
 
-%%     \begin{overprint}
-%%       \onslide<2>
-%%       \vspace{1mm}
-%%       To see why, consider the rectangle:
-%%       \begin{center}
-%%         \begin{asy}
-%%           size(blkpq.x, blkpq.y);
+    \vspace{2mm}
+    If a reasonable estimate of $\hat{p}$ can be made by using previous samples, a pilot study, or someone's expert knowledge:
+    \begin{equation*}
+      n=\dfrac{ {(z^{*})}^2 \hat{p} (1-\hat{p}) }{E^2}
+    \end{equation*}\pause
 
-%%           draw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle);
+    \vspace{-3mm}
+    If nothing is known about the value $\hat{p}$:
+    \begin{equation*}
+      n=\dfrac{ {(z^{*})}^2 0.25 }{E^2}
+    \end{equation*}
+  \end{block}\pause
 
-%%           label("$W$", (0,0),S);
-%%           label("$L$", (1,0.5),E);
-%%         \end{asy}
-%%       \end{center}
-%%       \onslide<3>
-%%       \vspace{1mm}
-%%       To see why, consider the rectangle:
-%%       \begin{center}
-%%         \begin{asy}
-%%           size(blkpq.x, blkpq.y);
+  \begin{block}{Rounding}
+    If the computed sample size $n$ is not a whole number, round the value of $n$ up to the next larger whole number.
+  \end{block}
+\end{frame}
 
-%%           draw(( 1,1)--( 1,0),red);
-%%           draw(( 1,0)--(-1,0),green);
-%%           draw((-1,0)--(-1,1),red);
-%%           draw((-1,1)--( 1,1),green);
+\begin{frame}[fragile]
+  \begin{block}{Why 0.25?}
+    If $\hat{p}=0.5$, then $\hat{p} (1-\hat{p})=0.25$ is the largest possible product.
 
-%%           label("$W$", (0,0),S,green);
-%%           label("$L$", (1,0.5),E,red);
-%%         \end{asy}
-%%       \end{center}
-%%       Let us assume that the perimeter of this rectangle is 2, which means:
-%%       \begin{equation*}
-%%         {\color{red}2L}+{\color{green}2W}=2 
-%%         \phantom{\qquad\Rightarrow\qquad
-%%           L+W=1}
-%%       \end{equation*}
-%%       \onslide<4>
-%%       \vspace{1mm}
-%%       To see why, consider the rectangle:
-%%       \begin{center}
-%%         \begin{asy}
-%%           size(blkpq.x, blkpq.y);
+    \vspace{-2mm}
+    \begin{overprint}
+      \onslide<2 | handout:0>
+      \vspace{1mm}
+      To see why, consider the rectangle:
+      \begin{center}
+        \begin{asy}
+          size(blkpq.x, blkpq.y);
 
-%%           draw(( 1,1)--( 1,0),red);
-%%           draw(( 1,0)--(-1,0),green);
-%%           draw((-1,0)--(-1,1));
-%%           draw((-1,1)--( 1,1));
+          draw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle);
 
-%%           label("$W$", (0,0),S,green);
-%%           label("$L$", (1,0.5),E,red);
-%%         \end{asy}
-%%       \end{center}
-%%       Let us assume that the perimeter of this rectangle is 2, which means:
-%%       \begin{equation*}
-%%         2L+2W=2 
-%%         \qquad\Rightarrow\qquad
-%%             {\color{red}L}+{\color{green}W}=1
-%%       \end{equation*}
-%%       \onslide<5->
-%%       \vspace{1mm}
-%%       To see why, consider the rectangle:
-%%       \begin{center}
-%%         \begin{asy}
-%%           size(blkpq.x, blkpq.y);
+          label("$W$", (0,0),S);
+          label("$L$", (1,0.5),E);
+        \end{asy}
+      \end{center}
+      \onslide<3 | handout:0>
+      \vspace{1mm}
+      To see why, consider the rectangle:
+      \begin{center}
+        \begin{asy}
+          size(blkpq.x, blkpq.y);
 
-%%           filldraw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle, pink,black);
-%%           label("Area",(0,0.5));
+          draw(( 1,1)--( 1,0),red);
+          draw(( 1,0)--(-1,0),green*0.92);
+          draw((-1,0)--(-1,1),red);
+          draw((-1,1)--( 1,1),green*0.92);
 
-%%           label("$W$", (0,0),S);
-%%           label("$L$", (1,0.5),E);
-%%         \end{asy}
-%%       \end{center}
-%%       Let us assume that the perimeter of this rectangle is 2, which means
-%%       \begin{equation*}
-%%         2L+2W=2 
-%%         \qquad\Rightarrow\qquad
-%%         L+W=1
-%%       \end{equation*}
-%%       We can then write the area of this rectangle as
-%%       \begin{equation*}
-%%         \text{Area} = LW = L(1-L) = -L^2+L
-%%       \end{equation*}
-%%       \visible<6->{Since this is a parabola that opens down, we know that the vertex $(0.5,0.5)$ is the maximum value.}
-%%     \end{overprint}
-%%   \end{block}
-%% \end{frame}
+          label("$W$", (0,0),S,green*0.92);
+          label("$L$", (1,0.5),E,mediumred);
+        \end{asy}
+      \end{center}
+      Let us assume that the perimeter of this rectangle is 2, which means:
 
-%% \begin{frame}
-%%   \begin{example}
-%%     Let us return to Example~\ref{ex:online}, finding the sample size for a survey.\pause
+      \vspace{-2mm}
+      \begin{equation*}
+        {\color{red!80}2L}+{\color{green!85!black}2W}=2 
+        \phantom{\qquad\Rightarrow\qquad
+          L+W=1}
+      \end{equation*}
+      \onslide<4 | handout:0>
+      \vspace{1mm}
+      To see why, consider the rectangle:
+      \begin{center}
+        \begin{asy}
+          size(blkpq.x, blkpq.y);
 
-%%     \vspace{1mm}
-%%     We have $z_{\alpha/2}=1.96$ and $E=0.03$, but we know nothing about $\hat{p}$.\pause
-%%     \begin{equation*}
-%%       n=\dfrac{ {(z_{\alpha/2})}^2 0.25 }{E^2} \pause
-%%       =\dfrac{ {(1.96)}^2 0.25 }{{(0.03)}^2}\pause
-%%       =1067.11 \pause
-%%     \end{equation*}
-%%     So, we need at least 1068 adults in our survey.\pause
-%%   \end{example}
-%%   \begin{block}{Caution}
-%%     \begin{enumerate}
-%%     \item Don't make the mistake of using $E=3$ as the margin of error corresponding to \textquote{three percentage points.}\pause
-%%     \item Be sure to substitute correct the critical $z$ score for $z_{\alpha/2}$ for the confidence level.\pause
-%%     \item Be sure to \emph{round up to the next highest integer}, do not round using the usual rounding rules.
-%%     \end{enumerate}
-%%   \end{block}
-%% \end{frame}
+          draw(( 1,1)--( 1,0),red);
+          draw(( 1,0)--(-1,0),green*0.92);
+          draw((-1,0)--(-1,1));
+          draw((-1,1)--( 1,1));
 
-%% \begin{frame}
-%%   \begin{note}
-%%     We have been discussing what is called the \textbf{Wald} confidence interval.
-%%   \end{note}\pause
+          label("$W$", (0,0),S,green*0.92);
+          label("$L$", (1,0.5),E,red);
+        \end{asy}
+      \end{center}
+      Let us assume that the perimeter of this rectangle is 2, which means:
 
-%%   \begin{block}{Plus Four Method}
-%%     An easy improvement of the Wald Confidence Interval is:
-%%     \begin{enumerate}
-%%     \item Add two to the number of successes.
-%%     \item Add two to the number of failures
-%%     \item Calculate the Wald confidence interval.
-%%     \end{enumerate}
-%%   \end{block}\pause
+      \vspace{-2mm}
+      \begin{equation*}
+        2L+2W=2 
+        \qquad\Rightarrow\qquad
+            {\color{red!80}L}+{\color{green!85!black}W}=1
+      \end{equation*}
+      \onslide<5- | hanout:1>
+      \vspace{1mm}
+      To see why, consider the rectangle:
+      \begin{center}
+        \begin{asy}
+          size(blkpq.x, blkpq.y);
 
-%%   \begin{note}
-%%     There are other types of confidence intervals:
-%%     \begin{itemize}
-%%     \item The Wilson score.
-%%     \item The Clopper-Pearson Method.
-%%     \end{itemize}
-%%   \end{note}
-%% \end{frame}
+          filldraw((1,1)--(1,0)--(-1,0)--(-1,1)--cycle, pink,black);
+          label("Area",(0,0.5));
 
-%% \begin{frame}
-%%   \begin{block}{Interpreting a Confidence Interval}
-%%     For the confidence interval $0.405<p<0.455$ there is one correct interpretation and many creatively incorrect interpretations.
-%%     \begin{description}
-%%     \item[\textbf{Correct:}]<2-| alert@2> \textquote{We are 95\% confident that the interval from 0.405 to 0.455 actually does contain the true value of the population proportion $p$.}
-%%     \item[\textbf{Reason:}]<2- | alert@2> The confidence level 95\% refers to the success rate of the process used to estimate the population proportion.
-%%     \item[\textbf{Incorrect:}]<3- | alert@3> \textquote{There is a 95\% chance that the true value of $p$ will fall between 0.405 and 0.455.}
-%%     \item[\textbf{Reason:}]<3- | alert@3> The population proportion $p$ is a fixed value, it is not a random variable.
-%%     \item[\textbf{Incorrect:}]<4- | alert@4> \textquote{95\% of sample proportions will fall between 0.405 and 0.455.}
-%%     \item[\textbf{Reason:}]<4- | alert@4> The values 0.405 and 0.455 result from one sample, they are not parameters describing the behavior of all samples.
-%%     \end{description}
-%%   \end{block}
-%% \end{frame}
+          label("$W$", (0,0),S);
+          label("$L$", (1,0.5),E);
+        \end{asy}
+      \end{center}
+      Let us assume that the perimeter of this rectangle is 2, which means
+
+      \vspace{-2mm}
+      \begin{equation*}
+        2L+2W=2 
+        \qquad\Rightarrow\qquad
+        L+W=1
+      \end{equation*}
+
+      We can then write the area of this rectangle as
+
+      \vspace{-2mm}
+      \begin{equation*}
+        \text{Area} = LW = L(1-L) = -L^2+L
+      \end{equation*}
+
+      \visible<6->{Since this is a parabola that opens down, we know that the\\ vertex, $(0.5,0.5)$, is the maximum value.}
+    \end{overprint}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Let us return to Example~\ref{ex:online}, finding the sample size for a survey.\pause
+
+    \vspace{1mm}
+    We have $z^{*}=1.96$ and $E=0.03$, but we know nothing about $\hat{p}$.\pause
+    \begin{equation*}
+      n=\dfrac{ {(z^{*})}^2 0.25 }{E^2} \pause
+      =\dfrac{ {(1.96)}^2 0.25 }{{(0.03)}^2}\pause
+      =1067.11 \pause
+    \end{equation*}
+    So, we need at least 1068 adults in our survey.\pause
+  \end{example}
+  \begin{block}{Caution}
+    \begin{enumerate}
+    \item Don't make the mistake of using $E=3$ as the margin of error corresponding to \textquote{three percentage points.}\pause
+    \item Be sure to substitute correct the critical $z$ score for $z^{*}$ for the confidence level.\pause
+    \item Be sure to \emph{round up to the next highest integer}, do not round using the usual rounding rules.
+    \end{enumerate}
+  \end{block}
+\end{frame}
 \end{document}
