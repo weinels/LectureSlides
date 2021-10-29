@@ -523,6 +523,39 @@
 \end{frame}
 
 \begin{frame}
+  \begin{example}
+    A 2014 NBC 4 New York/The Wallstreet Journal/Marist Poll found 82\% of the 1,042 NYC adults polled favored a \textquote{mandatory 21-day quarantine for anyone who has come in contact with an Ebola patient}. Lets compute a 95\% confidence interval.\pause
+
+    \vspace{1mm}
+    \begin{enumerate}
+    \item $n\hat{p}=\pause 1042\cdot 0.82\pause = 854.44\geq 10$\\\pause $n(1-\hat{p})=\pause1042\cdot(1-0.82)\pause=187.56\geq 10$\pause
+    \item The critical value for 95\% confidence interval is $z^{*}$ is 1.96.\pause
+    \item The margin of error is
+
+      \vspace{-3mm}
+      \begin{equation*}
+        E=z^{*}\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\pause
+        =1.96\sqrt{\dfrac{0.82(1-0.82)}{1042}}\pause
+        = 0.023327\pause
+      \end{equation*}
+      \vspace{-5mm}
+    \item The confidence interval is
+
+      \vspace{-3mm}
+      \begin{equation*}
+        \begin{matrix}
+          ( & 0.82 - 0.023327 &,& 0.82 + 0.023327 & ) \\\pause
+          ( & 0.7967 &,& 0.8433 & ) \\
+        \end{matrix}
+      \end{equation*}
+
+      \vspace{-2mm}\pause
+      \item We are 95\% confident that between 79.7\% and 84.3\% of NYC adults supported the mandatory Ebola quarantine in 2014.
+    \end{enumerate}
+  \end{example}
+\end{frame}
+
+\begin{frame}
   \begin{block}{Interpreting a Confidence Interval}
     For the confidence interval $\interval{\open{0.8705}}{\open{0.9035}}$ there is one correct interpretation and many creatively incorrect interpretations.
     \begin{description}
