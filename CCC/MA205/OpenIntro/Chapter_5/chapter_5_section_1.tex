@@ -68,6 +68,8 @@ void multiple_nd_curves_example(real std_dev)
 }
 \end{asydef}
 
+\newcommand{\satisfied}[0]{{\color{green!70!black}\checkmark}}
+
 \title[MA205 - Section 5.1]{Point Estimates and Sampling Variability}
 
 \newcommand{\prob}[1]{P\left({#1}\right)}
@@ -139,6 +141,7 @@ void multiple_nd_curves_example(real std_dev)
   \begin{example}\label{solar energy}
     \vspace{-2mm} %beamer bug
     Suppose the proportion of American adults who support the expansion of solar energy is $p=0.88$.\pause
+
 
     \vspace{1mm}
     If we take a poll of 1000 American adults on this topic, the estimate would not be perfect. But, how close can we expect $\hat{p}$ to be to $p$?\pause
@@ -289,12 +292,12 @@ void multiple_nd_curves_example(real std_dev)
         np &= \pause
         1000\cdot 0.88\pause
         = 880\pause
-        \geq 10~{\color{green!70!black}\checkmark} \\\pause
+        \geq 10~\satisfied \\\pause
         n(1-p) &= \pause
         1000(1-0.88)\pause
         = 1000\cdot 0.12\pause
         = 120\pause
-        \geq 10~{\color{green!70!black}\checkmark}
+        \geq 10~\satisfied
       \end{aligned}
     \end{equation*}\pause
 
