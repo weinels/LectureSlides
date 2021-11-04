@@ -6,6 +6,7 @@
 \usepackage[inline]{asymptote}
 \usepackage{asy_helper}
 \usepackage{slide_helper}
+\usepackage{multirow}
 \usepackage{cancel}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
@@ -328,313 +329,511 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
   \end{note}
 \end{frame}
 
-%% \begin{frame}
-%% \begin{note}
-%% If you are conducting a study and want to use a hypothesis test to \emph{support} your claim, your claim must be worded such that it becomes the alternative hypothesis and can be expressed using only the symbols $>$, $<$, or $\neq$.
-%% \end{note}\pause
+\begin{frame}
+  \begin{definition}
+    A \textbf{Type 1 Error} is rejecting $H_0$, when $H_0$ is actually true.
 
-%% \begin{block}{Caution}
-%% You \emph{never} support a claim that a parameter is equal to a specified value.
-%% \end{block}
-%% \end{frame}
+    \vspace{1mm}
+    A \textbf{Type 2 Error} is failing to reject $H_0$,  when $H_A$ is actually true.
 
-%% \begin{frame}
-%% \begin{definition}
-%% The \textbf{significance level $\boldsymbol{\alpha}$} for a hypothesis test is the probability value used as the cutoff for determining when the sample evidence constitutes significant evidence against the null hypothesis. 
-%% \end{definition}\pause
+    \begin{center}
+      \begin{tabular}{rccc}
+        &&\multicolumn{2}{c}{Test conclusion}\\\cline{3-4}
+        &&do not reject $H_0$&reject $H_0$ in favor of $H_A$ \\\cline{2-4}
+        \multirow{2}{*}{Truth} & $H_0$ true & okay & \textbf{Type 1 Error} \\
+        & $H_A$ true & \textbf{Type 2 Error} & okay \\\cline{2-4}
+      \end{tabular}
+    \end{center}
+  \end{definition}\pause
 
-%% \begin{note}
-%% By its nature, the significance level $\alpha$ is the probability of mistakely rejecting the null hypothesis when it is true:
-%% \begin{equation*}
-%% \text{Significance level $\alpha$} = \prob{\text{rejecting $H_0$ when $H_0$ is true}}
-%% \end{equation*}
-%% \end{note}\pause
+  \begin{example}
+    In a US court, the defendant is either innocent ($H_0$) or guilty ($H_A$).
 
-%% \begin{note}
-%% The significance level $\alpha$ is the same $\alpha$ we talked about in Chapter 7, when discussing confidence intervals.
-%% \end{note}
-%% \end{frame}
+    \vspace{1mm}
+    \question{What does a Type 1 Error represent in this context?}\pause
+    \answer{The defendant is innocent, but wrongly convicted.}\pause
 
-%% \begin{frame}
-%% \begin{definition}
-%% The \textbf{test statistic} is a value used in making a decision about the null hypotheses. It is found by converting the sample statistic to a score with the assumption that the null hypothesis is true.
-%% \end{definition}\pause
+    \vspace{1mm}
+    \question{What does a Type 2 Error represent in this context?}\pause
+    \answer{The defendant really did commit the crime, but was not found guilty.}
+  \end{example}
+\end{frame}
 
-%% \begin{block}{Test Statistic for Proportion $p$}
-%% \begin{description}
-%% \item[\textbf{Sampling Distribution:}] Normal ($z$)
-%% \item[\textbf{Requirements:}] $np\geq5$ and $nq\geq5$
-%% \item[\textbf{Test Statistic:}] $z=\dfrac{\hat{p}-p}{\sqrt{\dfrac{pq}{n}}}$
-%% \end{description}
-%% \end{block}
-%% \end{frame}
+\begin{frame}
+  \begin{note}
+    Confidence intervals quickly get clunky, so we will talk about a tool that will let us work with more complicated data scenarios.
+  \end{note}\pause
+  
+  \begin{definition}
+    The \textbf{p-value} is the probability of observing data at least as favorable to the alternative hypothesis as out current data set, if the null hypothesis were true.
+  \end{definition}\pause
 
-%% \begin{frame}
-%% \begin{example}
-%% In Example~\ref{exp_drones} we made a claim about the population proportion $p$, where we have $n=1009$ and $x=545$.\pause
+  \begin{note}
+    We typically use a summary statistic of the data, in this section the sample proportion, to help compute the p-value and evaluate the hypotheses.
+  \end{note}
+\end{frame}
 
-%% \vspace{2mm}
-%% This means we have
-%% \begin{equation*}
-%% \hat{p}=\dfrac{x}{n}\pause
-%% =\dfrac{545}{1009}\pause
-%% =0.540
-%% \end{equation*}\pause
+\begin{frame}
+  \begin{example}
+    Pew Research asked a random sample of 1000 American adults whether the supported the increased usage of coal to produce energy.\pause
 
-%% The null hypotheses is $\nullhypothesis{p=0.5}$.\pause
+    \vspace{1mm}
+    The uninteresting result is that there is no majority either way: Half of Americans support and the other half oppose expanding the use of coal to produce energy.
 
-%% \vspace{2mm}
-%% Which means we are working form the assumption that $p=0.5$ and so $q=1-p=0.5$.\pause
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        H_0: p=0.5
+      \end{aligned}
+    \end{equation*}\pause
 
-%% \vspace{2mm}
-%% The test statistic is then
-%% \begin{equation*}
-%% z=\dfrac{\hat{p}-p}{\sqrt{\dfrac{pq}{n}}}\pause
-%% =\dfrac{0.540-0.5}{\sqrt{\dfrac{0.5\cdot 0.5}{1009}}}\pause
-%% =2.54
-%% \end{equation*}
-%% \end{example}
-%% \end{frame}
+    \vspace{-4mm}
+    The alternative hypothesis would be that the majority either supports or opposes expanding the use of coal to produce energy, though we don't know which one.
 
-%% \begin{frame}
-%% \begin{block}{Test Statistic for Mean $\mu$}
-%% \begin{description}
-%% \item[\textbf{Sampling Distribution:}] Student $t$
-%% \item[\textbf{Requirements:}] Both of the following:
-%% \begin{itemize}
-%% \item $\sigma$ not known.
-%% \item Normally distributed or $n>30$.
-%% \end{itemize}
-%% \item[\textbf{Test Statistic:}] $t=\dfrac{\bar{x}-\mu}{\dfrac{s}{\sqrt{n}}}$
-%% \end{description}
-%% \end{block}\pause
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        H_A: p\neq 0.5
+      \end{aligned}
+    \end{equation*}
+  \end{example}\pause
 
-%% \begin{block}{Test Statistic for Mean $\mu$}
-%% \begin{description}
-%% \item[\textbf{Sampling Distribution:}] Normal ($z$)
-%% \item[\textbf{Requirements:}] Both of the following:
-%% \begin{itemize}
-%% \item $\sigma$ known.
-%% \item Normally distributed or $n>30$.
-%% \end{itemize}
-%% \item[\textbf{Test Statistic:}] $z=\dfrac{\bar{x}-\mu}{\dfrac{\sigma}{\sqrt{n}}}$
-%% \end{description}
-%% \end{block}
-%% \end{frame}
+  \begin{note}
+    In this case, the null value would be $p_0=0.5$.
+  \end{note}
+\end{frame}
 
-%% \begin{frame}[fragile]
-%% \begin{definition}
-%% The \textbf{critical region} (or \textbf{rejection region}) is the area corresponding to all values of the test statistic that cause us to reject the null hypothesis.
-%% \end{definition}\pause
+\begin{frame}
+  \begin{example}
+    Pew Research's sample show that 37\% of American adults support the increased usage of coal.\pause
 
-%% \begin{definition}
-%% In a hypothesis test, the \textbf{$\boldsymbol{P}$-value} is the probability of getting a value of the test statistic that is at least as extreme as the test statistic obtained from the sample data, assuming that the null hypothesis is true.
-%% \end{definition}\pause
+    \vspace{1mm}
+    It is natural to wonder if 37\% represents a real difference from the null hypothesis of 50\%. That is, if we assume the null hypothesis were true, how likely is a sample with $\hat{p}=0.37$?\pause
 
-%% \begin{block}{Caution}
-%% Be careful not to confuse the notation.
-%% \begin{center}
-%% \begin{tabular}{ll}
-%% \textbf{$\boldsymbol{P}$-value} & The probability of a test statistic at least as extreme as \\
-%% &the one obtained.\\
-%% $\boldsymbol{p}$ & The population proportion.\\
-%% $\boldsymbol{\hat{p}}$ & The sample proportion.
-%% \end{tabular}
-%% \end{center}
-%% \end{block}
-%% \end{frame}
+    \vspace{1mm}
+    \textbf{Independence.} The poll was based on a random sample.\pause
 
-%% \begin{frame}[fragile]
-%% \begin{block}{Two-tailed Test $\left(\althypothesis{\neq}\right)$}
-%% The critical region is in the two extreme regions under the curve.
-%% \begin{center}
-%% \begin{asy}
-%% size(crit.x,crit.y,IgnoreAspect);
-%% real xmin=-4; 
-%% real xmax=4;
+    \vspace{1mm}
+    \textbf{Success-Failure.} Based on the poll's sample size $n=1000$:
 
-%% draw(normal_dist(0,1,xmin,xmax));
-%% shade_between(0,1,xmin,a,orange);
-%% shade_between(0,1,b,xmax,orange);
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        np\pause &\overset{H_0}{=} 1000\cdot 0.5\pause = 500\pause \geq 10\\\pause
+        n(1-p)\pause &\overset{H_0}{=} 1000(1-0.5)\pause = 500\pause \geq 10
+      \end{aligned}
+    \end{equation*}
 
-%% real y = nd_func(0,1,0)/5;
-%% draw((a-0.25,y)--(b+0.25,y),Arrows(TeXHead));
-%% label("$P$-value",(0,y),UnFill);
+    \vspace{-1mm}
+    So, if the null hypothesis is true, the sampling distribution would be approximately normal, with:
 
-%% xaxis();
-%% \end{asy}
-%% \end{center}
-%% \end{block}\pause
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \mu_{\hat{p}} &= p\pause \overset{H_0}{=} 0.5 \\\pause
+        SE_{\hat{p}} &= \sqrt{\dfrac{p(1-p)}{n}}\pause \overset{H_0}{=} \sqrt{\dfrac{0.5(1-0.5)}{1000}}\pause = 0.016
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%% \begin{block}{Left-tailed Test $\left(\althypothesis{<}\right)$}
-%% The critical region is in the extreme left region under the curve.
-%% \begin{center}
-%% \begin{asy}
-%% size(crit.x,crit.y,IgnoreAspect);
-%% real xmin=-4; 
-%% real xmax=4;
+\begin{frame}[fragile]
+  \begin{definition}
+    When we identify the sampling distribution under the null hypothesis, it is called the \textbf{null distribution}.
+  \end{definition}\pause
 
-%% draw(normal_dist(0,1,xmin,xmax));
-%% shade_between(0,1,xmin,a,orange);
+  \begin{note}
+    The p-value represents the probability of the observed $\hat{p}$, or a $\hat{p}$ that is more extreme, if the null hypothesis is true.
 
-%% real y = nd_func(0,1,0)/5;
-%% draw((a-0.25,y)--(0,y),Arrows(TeXHead));
-%% label("$P$-value",(0,y),UnFill);
+    \begin{center}
+      \begin{asy}
+        size(300, 55, IgnoreAspect);
 
-%% xaxis();
-%% \end{asy}
-%% \end{center}
-%% \end{block}\pause
+        real mu = 0.50;
+        real sigma = 0.016;
 
-%% \begin{block}{Right-tailed Test $\left(\althypothesis{>}\right)$}
-%% The critical region is in the extreme right region under the curve.
-%% \begin{center}
-%% \begin{asy}
-%% size(crit.x,crit.y,IgnoreAspect);
-%% real xmin=-4; 
-%% real xmax=4;
+        real left = mu-1.2*sigma;
+        real right = mu+1.2*sigma;
 
-%% draw(normal_dist(0,1,xmin,xmax));
-%% shade_between(0,1,b,xmax,orange);
+        real xmin=mu-2.5*sigma; real xmax=mu+2.5*sigma;
 
-%% real y = nd_func(0,1,0)/5;
-%% draw((0,y)--(b+0.25,y),Arrows(TeXHead));
-%% label("$P$-value",(0,y),UnFill);
+        shade_between(mu,sigma,xmin,left, red);
+        shade_between(mu,sigma,right,xmax, red);
+        draw(normal_dist(mu, sigma, xmin, xmax));
 
-%% xaxis();
-%% \end{asy}
-%% \end{center}
-%% \end{block}
-%% \end{frame}
+        xaxis(Bottom(), RightTicks(new string(real x) {
+          if (x == left) { return "$-z_{\hat{p}}$"; }
+          if (x == right) { return "$z_{\hat{p}}$"; }
+          if (x == mu) { return "$0$"; }
+          return "";}, new real[] {left, mu, right}));
+      \end{asy}
+    \end{center}
+  \end{note}
+\end{frame}
 
-%% \begin{frame}
-%% \begin{block}{Decision Criteria}
-%% \begin{itemize}
-%% \item If $P$-value $\leq\alpha$, reject $H_0$.
-%% \item If $P$-value $\geq\alpha$, fail to reject $H_0$.
-%% \end{itemize}
-%% \end{block}\pause
+\begin{frame}[fragile]
+  \begin{example}
+    With $\mu=0.5$ and $\sigma=0.016$, the $z$-value for $\hat{p}=0.37$ is:
 
-%% \begin{example}
-%% In Example~\ref{exp_drones} we made a claim about the population proportion $p$, where we have $n=1009$ and $x=545$.\pause
+    \vspace{-2.5mm}
+    \begin{equation*}
+      \begin{aligned}
+        z=\dfrac{x-\mu}{\sigma}
+        =\dfrac{0.37-0.5}{0.016}
+        =-8.125
+      \end{aligned}
+    \end{equation*}
 
-%% \vspace{2mm}
-%% The alternative hypothesis is $\althypothesis{p>0.5}$, so this is a right-tailed test.\pause
+    \vspace{-0.5mm}
+    This gives the $z$-value for the left tail. But, we also need to consider being as extreme, but on the right, $z=8.125$.
 
-%% \vspace{2mm}
-%% The test statistic is $z=2.54$ and the area to the right of $z$ is 0.0055.\pause
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        x=\mu+z\sigma
+        =0.5+8.125\cdot0.016
+        =0.63
+      \end{aligned}
+    \end{equation*}
 
-%% \vspace{2mm}
-%% If we are working with a significance level $\alpha=0.05$, so we reject the null hypothesis.
-%% \end{example}\pause
+    \vspace{-0.5mm}
+    So, we need to find the area that is either to the left of 0.37 or to the right of 0.63.
 
-%% \begin{note}
-%% Technology will compute $P$-values for you.
-%% \end{note}
-%% \end{frame}
+    \vspace{-4mm}
+    \begin{center}
+      \begin{asy}
+        size(300, 50, IgnoreAspect);
 
-%% \begin{frame}
-%% \begin{block}{Restate the Decision Using Nontechnical Terms}
-%% After you have decided to reject or not reject the null hypothesis, you need to restate the decision in terms that a layperson can understand.
-%% \end{block}\pause
+        real mu = 0.50;
+        real sigma = 0.016;
 
-%% \begin{example}
-%% In Example~\ref{exp_drones} we restate the decision to reject the null hypothesis as:
-%% \begin{center}
-%% \textquote{There is sufficient evidence to support the claim that the majority of consumers are uncomfortable with drone deliveries.}
-%% \end{center}
-%% \end{example}
-%% \end{frame}
+        real left = 0.37;
+        real right = 0.63;
 
-%% \begin{frame}
-%% \begin{block}{Helpful Wording}
-%% Original claim does not include equality and you reject $H_0$:
-%% \begin{center}\small
-%% \textquote{There is sufficient evidence to support the claim that \ldots (claim).}
-%% \end{center}\pause
+        real xmin=mu-11*sigma; real xmax=mu+11*sigma;
 
-%% Original claim does not include equality and you fail to reject $H_0$:
-%% \begin{center}\small
-%% \textquote{There is not sufficient evidence to support the claim that \ldots (claim).}
-%% \end{center}\pause
+        //shade_between(mu,sigma,xmin,xmax);
+        draw(normal_dist(mu, sigma, xmin, xmax));
 
-%% Original claim includes equality and you reject $H_0$:
-%% \begin{center}\small
-%% \textquote{There is sufficient evidence to warrant rejection the claim that \ldots (claim).}
-%% \end{center}\pause
+        dot((left,0), red);
+        draw((xmin,0) -- (left,0), red+1bp);
+        
+        dot((right,0), red);
+        draw((right,0) -- (xmax,0), red+1bp);
 
-%% Original claim includes equality and you fail to reject $H_0$:
-%% \begin{center}\small
-%% \textquote{There is not sufficient evidence to warrant rejection the claim that \ldots (claim).}
-%% \end{center}
-%% \end{block}\pause
+        xaxis(Bottom(), RightTicks(new real[] {left, mu, right}));
+      \end{asy}
+    \end{center}
 
-%% \begin{block}{Caution}
-%% We say \textquote{fail to reject the null hypothesis} instead of \textquote{accept the null hypothesis.}
-%% \end{block}
-%% \end{frame}
+    \vspace{-2mm}
+    The probability of falling into the red area is:
 
-%% \begin{frame}
-%% \begin{block}{Procedure for Hypothesis Tests Flow Chart}
-%% Page 360 in your textbook contains a summary of all the steps.
-%% \end{block}\pause
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \jointprob{z\leq -8.125}{or}{z\geq 8.125} = 4.4\times10^{-16}
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%% \begin{note}
-%% A confidence interval estimate of a population parameter contains the likely values of that parameter. 
+\begin{frame}
+  \begin{note}
+    The p-value of $4.4\times10^{-16}$ gives two possible scenarios:\pause
+    \begin{enumerate}
+    \item The null hypothesis is true, and we just happened to observe something so extreme that it only happens once in every 23 quadrillion times.\pause
+    \item The alternative hypothesis is true, which would be consistent with observing a sample proportion far from 0.5.
+    \end{enumerate}\pause
 
-%% \vspace{2mm}
-%% We should therefore reject a claim that the population parameter has a value that is not included in the confidence interval.
-%% \end{note}
-%% \end{frame}
+    The first scenario is so improbable, that it's much more likely the second scenario is true.
+  \end{note}\pause
 
-%% \begin{frame}
-%% \begin{definition}
-%% A \textbf{type I error} is the mistake of rejecting the null hypothesis when it is actually true.
+  \begin{block}{Inferential Statistics}
+      If, under an given assumption, the probability of a particular observed event is very small, we conclude that the assumption is probably nor correct.
+  \end{block}
+\end{frame}
 
-%% \vspace{2mm}
-%% The symbol $\alpha$ is used to represent the probability of a type I error.
-%% \begin{equation*}
-%% \alpha = \prob{\text{type I error}} = \prob{\text{rejecting $H_0$ when $H_0$ is true}}
-%% \end{equation*}
-%% \end{definition}\pause
+\begin{frame}
+  \begin{block}{Hypothesis Testing for a Single Proportion}
+    Once you've determined a one-proportion hypothesis test is the correct procedure:\pause
+    \begin{description}
+    \item[Prepare:] Identify the parameter of interest, list hypotheses, identify the significance level $\alpha$, and identify $\hat{p}$ and $n$.\pause
+    \item[Check:] Verify conditions to ensure $\hat{p}$ is nearly normal under $H_0$. Use the null-value to check the success-failure condition.\pause
+    \item[Calculate:] Using the null value, compute the standard error, the $z$-score, and the p-value.\pause
+    \item[Conclude:] If the p-value is less than $\alpha$, reject $H_0$. Otherwise, fail to reject $H_0$.
+    \end{description}
+  \end{block}\pause
 
-%% \begin{definition}
-%% A \textbf{type II error} is the mistake of failing to reject the null hypothesis when it is actually false.
+  \begin{note}
+    Make sure to provide a conclusion in the context of the problem. Most people don't understand what rejecting or failing to reject $H_0$ means.
+  \end{note}
+\end{frame}
 
-%% \vspace{2mm}
-%% The symbol $\beta$ is used to represent the probability of a type II error.
-%% \begin{equation*}
-%% \beta = \prob{\text{type II error}} = \prob{\text{failing to reject $H_0$ when $H_0$ is false}}
-%% \end{equation*}
-%% \end{definition}\pause
+\begin{frame}[fragile]
+  \begin{example}
+    A simple random sample of 1028 US adults in March 2013 show that 56\% support nuclear arms reduction.\pause
 
-%% \begin{block}{Describing Type I and Type II Errors}
-%% When wording a statement representing a type I / II error, be sure that the conclusion addresses the original claim, which may or may not be $H_0$.
-%% \end{block}
-%% \end{frame}
+    \vspace{1mm}
+    Does this provide convincing evidence that a majority of Americans supported nuclear arms reduction at the 5\% significance level?\pause
 
-%% \begin{frame}
-%% \begin{example}
-%% Consider the claim that a medical procedure designed to increase the likelihood of a baby girl is effective, which means the probability of a baby girl is $p>0.5$.\pause
+    \vspace{1mm}
+    We have $\alpha=0.05$, $\hat{p}=0.56$, and $n=1028$.\pause
 
-%% \vspace{2mm}
-%% Given the following null and alternative hypotheses
-%% \begin{equation*}
-%% \begin{aligned}
-%% \nullhypothesis{p=0.5} \\
-%% \althypothesis{p>0.5}
-%% \end{aligned}
-%% \end{equation*}
-%% what is a statement that describes a type I error?\pause
+    \vspace{1mm}
+    The hypotheses are $H_0: p = 0.5$ and $H_A: p\neq 0.5$.\pause
 
-%% \vspace{2mm}
-%% In reality $p=0.5$, but sample evidence leads us to conclude the $p>0.5$. That is, we conclude that the medical procedure is effective when it reality it has no effect.\pause
+    \vspace{1mm}
+    Next, we check the success-failure conditions using the null value:
 
-%% \vspace{2mm}
-%% What is a statement that describes a type II error?\pause
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        np = n(1-p) =\pause 1028\cdot 0.5\pause = 514 \geq 10
+      \end{aligned}
+    \end{equation*}\pause
 
-%% \vspace{2mm}
-%% In reality $p>0.5$, but we fail to support that conclusion. That is, we conclude that the medical procedure has no effect, when it really is effective in increasing the likelihood of a baby girl.
-%% \end{example}
-%% \end{frame}
+    \vspace{-6mm}
+    Next the standard error and $z$-score:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        SE_{\hat{p}} &\overset{H_0}{=}\pause \sqrt{p(1-p)/n}\pause = \sqrt{0.5(1-0.5)/1028}\pause =0.0156 \\\pause
+        z &= (\hat{p}-\text{null value})/SE_{\hat{p}}\pause = (0.56-0.5)/0.0156\pause = 3.85
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    \begin{center}
+      \begin{asy}
+        size(200, 33, IgnoreAspect);
+
+        real mu = 0.0;
+        real sigma = 1;
+
+        real left = -3.85;
+        real right = 3.85;
+
+        real xmin=mu-4.75*sigma; real xmax=mu+4.75*sigma;
+
+        //shade_between(mu,sigma,xmin,xmax);
+        draw(normal_dist(mu, sigma, xmin, xmax));
+
+        dot((left,0), red);
+        draw((xmin,0) -- (left,0), red+1bp);
+        
+        dot((right,0), red);
+        draw((right,0) -- (xmax,0), red+1bp);
+
+        xaxis(Bottom(), RightTicks(new string(real x) { if (x != 0) { return "$z=" + string(x) + "$"; } return string(x); }, new real[] {left, mu, right}));
+      \end{asy}
+    \end{center}
+
+    \vspace{-4mm}
+    The p-value is 0.0002,\pause~which is smaller than $\alpha=0.05$, so we reject $H_0$.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Choosing a Significance Level}
+    Traditionally a significance level of $\alpha=0.05$ is used.\pause
+
+    \vspace{1mm}
+    If making a Type I Error is dangerous or costly, we want to be very cautious about rejecting the null hypothesis, and we should choose a smaller significance level. (i.e. $\alpha=0.01$)\pause
+
+    \vspace{1mm}
+    If a Type 2 Error is relatively more dangerous or much more costly than a Type 1 Error, then we want to be very cautious about failing to reject the null hypothesis, and we should choose a larger significance level. (i.e. $\alpha=0.1$)
+  \end{block}\pause
+
+  \begin{note}
+    Type 2 Errors can be reduced by collecting more data, without affecting Type I Errors. But this often adds time and expense to a study. There is typically a cost-befit analysis to be considered.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    A car manufacturer is considering switching to a new, higher quality piece of equipment that constructs vehicle door hinges.\pause
+
+    \vspace{1mm}
+    They figure that they will save money in the long run if this new machine produces hinges that have flaws less than 0.2\% of the time.\pause
+
+    \vspace{1mm}
+    However, if the hinges are flawed more than 0.2\% of the time, they wouldn't get a good enough return-on-investment from the new piece of equipment.\pause
+
+    \vspace{1mm}
+    The hypotheses are:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        H_0 &: \text{Rate of flawed hinges is 0.2\%} \\
+        H_A &: \text{Rate of flawed hinges is different than 0.2\%}
+      \end{aligned}
+    \end{equation*}\pause
+    
+    \vspace{-2mm}
+    \question{What significance level should be used in such a hypothesis test?}\pause
+    \answer{Since neither Type 1 nor Type 2 errors should be dangerous or, relatively, much more expensive, 5\% would be a reasonable choice.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    The same car manufacturer is considering a slightly more expensive supplier for parts related to safety, instead of door hinges.\pause
+
+    \vspace{1mm}
+    If the durability of these safety components is shown to be better than the current supplier, they will switch manufacturers.\pause
+
+    \vspace{1mm}
+    The hypotheses are:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        H_0 &: \text{The parts are equally reliable.} \\
+        H_A &: \text{The parts are not equally reliable.}
+      \end{aligned}
+    \end{equation*}\pause
+    
+    \vspace{-2mm}
+    \question{What significance level should be used in such a hypothesis test?}\pause
+    \answer{Since safety is involved, the car manufacturer should be eager to switch to the slightly more expensive supplier. A slightly larger significance level, such as $\alpha=0.1$, might be appropriate.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    A part in a machine is very expensive to replace. However, the machine usually functions properly even if this part is broken.\pause
+
+    \vspace{1mm}
+    This means that the part is only replaces if we are extremely certain it is broken based on a series of measurements.\pause
+
+    \vspace{1mm}
+    The hypotheses are:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        H_0 &: \text{The part is not broken.} \\
+        H_A &: \text{The part is broken.}
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-2mm}
+    \question{What significance level should be used in such a hypothesis test?}\pause
+    \answer{Since it doesn't seem to be a major problem if the part stays broken, we require very strong evidence before we pay to replace the part. A small significance, such as $\alpha=0.01$, might be appropriate.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{note}
+    So far, we have considered what are called \textbf{two-sided hypothesis tests}, where are care about detecting whether $p$ is either above for below some null value.
+  \end{note}\pause
+
+  \begin{definition}
+    A hypothesis test is called \textbf{one-sided} if it takes one of following forms:\pause
+    \begin{itemize}
+    \item There's only one value detecting if the population parameter is \emph{less than} some value $p_0$. In this case, the alternative hypothesis is written $p<p_0$ for some null value $p_0$.\pause
+    \item There's only one value detecting if the population parameter is \emph{more than} some value $p_0$. In this case, the alternative hypothesis is written $p>p_0$ for some null value $p_0$.\pause
+    \end{itemize}
+  \end{definition}
+
+  \begin{note}
+    When using a one-sided hypothesis test, there is a risk of overlooking data supporting the opposite conclusion.
+  \end{note}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{Two-sided Test $\left(H_A:\neq\right)$}
+    The critical region is in the two extreme regions under the curve.
+    \begin{center}
+      \begin{asy}
+        size(150,33,IgnoreAspect);
+        real xmin=-4; 
+        real xmax=4;
+
+        real a=-1.25;
+        real b=1.25;
+
+        draw(normal_dist(0,1,xmin,xmax));
+        shade_between(0,1,xmin,a,red);
+        shade_between(0,1,b,xmax,red);
+
+        real y = nd_func(0,1,0)/5;
+        draw((a-0.25,y)--(b+0.25,y),Arrows(TeXHead));
+        label("p-value",(0,y),UnFill);
+
+        xaxis();
+      \end{asy}
+    \end{center}
+  \end{block}\pause
+
+  \begin{block}{Left-sided Test $\left(H_A:<\right)$}
+    The critical region is in the extreme left region under the curve.
+    \begin{center}
+      \begin{asy}
+        size(150,33,IgnoreAspect);
+        real xmin=-4; 
+        real xmax=4;
+
+        real a=-1.25;
+        real b=1.25;
+
+        draw(normal_dist(0,1,xmin,xmax));
+        shade_between(0,1,xmin,a,red);
+
+        real y = nd_func(0,1,0)/5;
+        draw((a-0.25,y)--(0,y),Arrows(TeXHead));
+        label("p-value",(0,y),UnFill);
+
+        xaxis();
+      \end{asy}
+    \end{center}
+  \end{block}\pause
+
+  \begin{block}{Right-sided Test $\left(H_A:>\right)$}
+    The critical region is in the extreme right region under the curve.
+    \begin{center}
+      \begin{asy}
+        size(150,33,IgnoreAspect);
+        real xmin=-4; 
+        real xmax=4;
+
+        real a=-1.25;
+        real b=1.25;
+
+        draw(normal_dist(0,1,xmin,xmax));
+        shade_between(0,1,b,xmax,red);
+
+        real y = nd_func(0,1,0)/5;
+        draw((0,y)--(b+0.25,y),Arrows(TeXHead));
+        label("p-value",(0,y),UnFill);
+
+        xaxis();
+      \end{asy}
+    \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    In section 1.1, we considered a study where doctors were interested in determining whether stents would help people who had a high risk of strokes.\pause
+
+    \vspace{1mm}
+    The researchers believed the stents would help, unfortunately, the data showed the opposite.\pause
+
+    \vspace{1mm}
+    If the researchers had used a one-sided test, they would have limited their ability to identify the potential harm to patients.
+  \end{example}\pause
+
+  \begin{note}
+    You should use one-sided tests very rarely.\pause
+
+    \vspace{1mm}
+    When considering one, ask yourself:
+    \begin{center}
+      \emph{What would I, or others, conclude if the data happens to go clearly in the opposite direction than my alternative hypothesis?}
+    \end{center}
+  \end{note}
+\end{frame}
 \end{document}
