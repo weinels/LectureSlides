@@ -88,4 +88,174 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \begin{example}\label{CPR}
+    \vspace{-2mm}
+    Consider an experiment for patients who underwent cardiopulmonary resucitation (CPR) for a hear attack and we subsequently admitted to a hospital.\pause
+
+    \vspace{1mm}
+    These patients were randomly divided into a treatment group, where they received a blood thinner or the control group where they did not receive a blood thinner.\pause
+
+    \vspace{1mm}
+    The variable of interest was whether they survived for at least 24 hours.\pause
+
+    \vspace{1mm}
+    We really have two samples, and hence two sample proportions:
+    \begin{itemize}
+    \item The proportion of the treatment group that survived: $\hat{p}_{t}$
+    \item The proportion of the control group that survived: $\hat{p}_{c}$
+    \end{itemize}\pause
+
+    \question{How would we determine if blood thinners actually make a difference with these patients?}\pause
+    \answer{We can look at $\hat{p}_{t} - \hat{p}_{c}$.}\pause
+
+    \vspace{1mm}
+    But, what we really want to know is, if blood thinners have an effect of heart attack survival rates in the general population?
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{note}
+    The best point estimate for $p_1-p_2$ is\pause~$\hat{p}_1-\hat{p}_2$.
+  \end{note}\pause
+
+  \begin{block}{\normalsize Conditions For The Sampling Distribution Of $\hat{p}_1-\hat{p}_2$ To Be Normal}
+    $\hat{p}_1-\hat{p}_2$ can be modeled using a normal distribution when:\pause
+    \begin{description}
+    \item[Independence:] The data are independent within and between the two groups. Generally this is satisfied if the data come from a randomized experiment.\pause
+    \item[Success-Failure:] The success-failure condition holds for both groups, where we check successes and failures in each group separately.\pause
+    \end{description}
+
+    When these conditions are satisfied, the standard error of $\hat{p}_1-\hat{p}_2$ is
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        SE = \sqrt{\dfrac{p_1(1-p_1)}{n_1}+\dfrac{p_2(1-p_2)}{n_2}}
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-1mm}
+    where $p_1$ and $p_2$ represent the population proportions, and $n_1$ and $n_2$ represent the sample sizes.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Confidence Intervals for $\hat{p}_1-\hat{p}_2$}
+    When the independence and success-failure conditions are met, we can build confidence interval in the same general manner and before:
+    \begin{equation*}
+      \begin{array}{rcl}
+        \text{point estimate} & \pm & z^*\cdot SE \\
+        &\Downarrow\\
+        \hat{p}_1-\hat{p}_2 & \pm & z^*\sqrt{\dfrac{p_1(1-p_1)}{n_1}+\dfrac{p_2(1-p_2)}{n_2}}
+      \end{array}
+    \end{equation*}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    We can summarize the results from the experiment in Example~\ref{CPR}:
+    \begin{center}
+      \begin{tabular}{lccc}\hline
+        & Survived & Died & Total \\\hline
+        Control & 11 & 29 & 50 \\
+        Treatment & 14 & 26 & 40 \\\hline
+        Total & 25 & 65 & 90\\\hline
+      \end{tabular}
+    \end{center}\pause
+
+    \question{Is independence satisfied?}\pause
+    \answer{This is a randomized experiment, so yes.}\pause
+
+    \vspace{1mm}
+    \question{Are the success-failure conditions satisfied?}\pause
+    \answer{The treatment group had 11 survivals and 29 deaths, and the control group had 14 survivals and 26 deaths. All are more than 10, so yes.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    Let us create a 90\% confidence interval.\pause
+
+    \vspace{1mm}
+    We first need to calculate the point estimate:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p}_{t} - \hat{p}_c\pause
+        &= \dfrac{14}{40} - \dfrac{11}{50}\pause
+        = 0.35 - 0.22\pause
+        = 0.13
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    Next, the standard error:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        SE \approx \pause \sqrt{\dfrac{0.35(1-0.35)}{40}+\dfrac{0.22(1-0.22)}{50}}\pause
+        =0.095
+      \end{aligned}
+    \end{equation*}
+
+    Recall that the critical value for 90\% confidence is 1.65.\pause
+
+    \vspace{1mm}
+    The confidence interval is:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p}_{t} - \hat{p}_c \pm z^*\cdot SE \pause
+        \rightarrow
+        0.13 \pm 1.65\cdot0.095 \pause
+        \rightarrow
+        \interval{\open{-0.027}}{\open{0.287}} \pause
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-1mm}
+    We are 90\% confident that blood thinners have a difference of -2.7\% to 28.7\% percentage point impact on survival rate for patients.\pause
+
+    \vspace{1mm}
+    \question{What can be conclude about whether blood thinners help or harm?}\pause
+    \answer{Since 0\% is in the confidence interval, we don't have enough evidence to say if blood thinners had any impact.}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    A 5-year experiment was conducted to evaluate the effectiveness of fish oils on reducing cardiovascular events, where each subject was randomized into one of two groups.\pause
+
+    \vspace{1mm}
+    We'll consider heart attack outcomes in these patients:
+    \begin{center}
+      \begin{tabular}{lccc}\hline
+        & heart attack & no event & Total \\\hline
+        fish oil & 145 & 12788 & 12933 \\
+        placebo & 200 & 12738 & 12938 \\\hline
+      \end{tabular}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+
+  \end{example}
+  \addtocounter{theorem}{-1}
+  \begin{example}[Continued]
+
+  \end{example}
+  \begin{example}
+
+  \end{example}
+  \begin{examplecont}
+
+  \end{examplecont}
+\end{frame}
 \end{document}
