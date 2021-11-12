@@ -170,7 +170,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 
 \begin{frame}
   \begin{example}
-    In Example~\ref{infant vaccination} we has three choices for the question:
+    In Example~\ref{infant vaccination} we had three choices for the question:
     
     \vspace{1mm}
     \emph{How many of the world's 1 year old children today have been vaccinated against some disease?}
@@ -206,7 +206,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 \end{frame}
 
 \begin{frame}
-  \begin{example}
+  \begin{examplecont}
     It may seem incredibly unlikely that the proportion of people who get the correct answer is \emph{exactly} 33.3\%.
 
     \vspace{1mm}
@@ -215,7 +215,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 
       \vspace{1mm}
       Even if we don't believe the proportion is \emph{exactly} 33.3\%, that doesn't tell us anything useful about if people do better or worse than random guessing.}
-  \end{example}
+  \end{examplecont}
 \end{frame}
 
 \begin{frame}
@@ -404,7 +404,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 \end{frame}
 
 \begin{frame}
-  \begin{example}
+  \begin{examplecont}
     Pew Research's sample show that 37\% of American adults support the increased usage of coal.\pause
 
     \vspace{1mm}
@@ -434,7 +434,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
         SE_{\hat{p}} &= \sqrt{\dfrac{p(1-p)}{n}}\pause \overset{H_0}{=} \sqrt{\dfrac{0.5(1-0.5)}{1000}}\pause = 0.016
       \end{aligned}
     \end{equation*}
-  \end{example}
+  \end{examplecont}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -472,29 +472,29 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 \end{frame}
 
 \begin{frame}[fragile]
-  \begin{example}
+  \begin{examplecont}
     With $\mu=0.5$ and $\sigma=0.016$, the $z$-value for $\hat{p}=0.37$ is:
 
     \vspace{-2.5mm}
     \begin{equation*}
       \begin{aligned}
-        z=\dfrac{x-\mu}{\sigma}
-        =\dfrac{0.37-0.5}{0.016}
+        z=\dfrac{x-\mu}{\sigma}\pause
+        =\dfrac{0.37-0.5}{0.016}\pause
         =-8.125
       \end{aligned}
-    \end{equation*}
+    \end{equation*}\pause
 
     \vspace{-0.5mm}
-    This gives the $z$-value for the left tail. But, we also need to consider being as extreme, but on the right, $z=8.125$.
+    This gives the $z$-value for the left tail. But, we also need to consider being as extreme, but on the right, $z=8.125$.\pause
 
     \vspace{-3mm}
     \begin{equation*}
       \begin{aligned}
-        x=\mu+z\sigma
-        =0.5+8.125\cdot0.016
+        x=\mu+z\sigma\pause
+        =0.5+8.125\cdot0.016\pause
         =0.63
       \end{aligned}
-    \end{equation*}
+    \end{equation*}\pause
 
     \vspace{-0.5mm}
     So, we need to find the area that is either to the left of 0.37 or to the right of 0.63.
@@ -523,7 +523,7 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
 
         xaxis(Bottom(), RightTicks(new real[] {left, mu, right}));
       \end{asy}
-    \end{center}
+    \end{center}\pause
 
     \vspace{-2mm}
     The probability of falling into the red area is:
@@ -531,10 +531,10 @@ The \textbf{alternative hypotheses} ($H_A$) represents an alternative claim unde
     \vspace{-4mm}
     \begin{equation*}
       \begin{aligned}
-        \jointprob{z\leq -8.125}{or}{z\geq 8.125} = 4.4\times10^{-16}
+        \jointprob{z\leq -8.125}{or}{z\geq 8.125}\pause = 4.4\times10^{-16}
       \end{aligned}
     \end{equation*}
-  \end{example}
+  \end{examplecont}
 \end{frame}
 
 \begin{frame}
