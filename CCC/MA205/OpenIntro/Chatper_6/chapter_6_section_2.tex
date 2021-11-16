@@ -202,7 +202,7 @@
       \end{aligned}
     \end{equation*}
 
-    Recall that the critical value for 90\% confidence is 1.65.\pause
+    Recall that the critical value for a 90\% confidence is 1.65.\pause
 
     \vspace{1mm}
     The confidence interval is:
@@ -219,7 +219,7 @@
     \end{equation*}
 
     \vspace{-1mm}
-    We are 90\% confident that blood thinners have a difference of -2.7\% to 28.7\% percentage point impact on survival rate for patients.\pause
+    We are 90\% confident that blood thinners have a difference of -2.7 to 28.7 percentage point impact on survival rate for patients.\pause
 
     \vspace{1mm}
     \question{What can be conclude about whether blood thinners help or harm?}\pause
@@ -229,7 +229,7 @@
 
 \begin{frame}
   \begin{example}
-    A 5-year experiment was conducted to evaluate the effectiveness of fish oils on reducing cardiovascular events, where each subject was randomized into one of two groups.\pause
+    A 5-year experiment was conducted to evaluate the effectiveness of fish oils on reducing cardiovascular events, where each subject was randomized into one of two groups.
 
     \vspace{1mm}
     We'll consider heart attack outcomes in these patients:
@@ -239,7 +239,251 @@
         fish oil & 145 & 12788 & 12933 \\
         placebo & 200 & 12738 & 12938 \\\hline
       \end{tabular}
+    \end{center}\pause
+
+    Let's create a 95\% confidence interval.\pause
+
+    \vspace{1mm}
+    We first need to calculate the point estimate:
+
+    \vspace{-6mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p}_{\text{fish oil}} - \hat{p}_{\text{placebo}}\pause
+        &= \dfrac{145}{12933} - \dfrac{200}{12938}\pause
+        = 0.0112 - 0.0155\pause
+        = -0.0043
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    Next, the standard error:
+
+    \vspace{-6mm}
+    \begin{equation*}
+      \begin{aligned}
+        SE \approx \pause \sqrt{\dfrac{0.0112(1-0.0112)}{12933}+\dfrac{0.0155(1-0.0155)}{12938}}\pause
+        =0.00145
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    Recall that the critical value for a 95\% confidence is 1.96.\pause
+
+    \vspace{1mm}
+    The confidence interval is:
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{p}_{\text{fish oil}} - \hat{p}_{\text{placebo}} \pm z^*\cdot SE \pause
+        &\rightarrow
+        -0.0043 \pm 1.96\cdot0.00145 \\\pause
+        &\rightarrow
+        \interval{\open{-0.0071}}{\open{-0.0015}} \pause
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-1mm}
+    We are 95\% confident that fish oils decreases heart attacks by 0.15 to 0.71 percentage points.\pause
+
+    \vspace{1mm}
+    \question{What can we conclude about the effect of fish oils and heart attacks?}\pause
+    \answer{Since the entire interval is negative, we have strong evidence that fish oil supplements reduce heart attacks.}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    A mammogram is an X-ray procedure used to check for breast cancer. Whether mammograms should be used is part of a controversial discussion.\pause
+
+    \vspace{1mm}
+    A 30-year study was conducted with nearly 90,000 female participants. During a 5-year screening period, each woman was randomized to one of two groups:\pause
+    \begin{itemize}
+    \item The first received regular mammograms screenings.\pause
+    \item The second received regular non-mammogram screenings.\pause
+    \end{itemize}
+    No intervention was made during the following 25 years of the study, and we consider death resulting from breast cancer over the full 30-year period.\pause
+
+    \vspace{-2mm}
+    \begin{center}
+      \begin{tabular}{rcc}
+        &\multicolumn{2}{c}{Death from breast cancer?}\\\cline{2-3}
+        & Yes & No \\\hline
+        Mammogram & 500 & 44,425 \\
+        Control & 505 & 44,405 \\\hline
+      \end{tabular}
     \end{center}
   \end{example}
+\end{frame}
+
+\newcommand{\pmgm}[0]{p_{\text{mgm}}}
+\newcommand{\nmgm}[0]{n_{\text{mgm}}}
+\newcommand{\pctrl}[0]{p_{\text{ctrl}}}
+\newcommand{\nctrl}[0]{n_{\text{ctrl}}}
+\newcommand{\pooled}[0]{\hat{p}_{\text{pooled}}}
+
+\begin{frame}
+  \begin{examplecont}
+    \question{Is this a experiment or an observational study?}\pause
+    \answer{Because patients were randomized to receive mammograms or a standard breast cancer exam, this is an experiment.}\pause
+
+    \vspace{1mm}
+    \question{What are the hypotheses to test whether there was a difference in breast cancer deaths in the mammogram and control groups?}
+    \answer{%
+      \vspace{-6mm}
+      \begin{equation*}
+        \begin{aligned}
+          H_0: &\visible<4->{\text{The breast cancer death rate for patients screened using}} \\
+            &\visible<4->{\text{mammograms is the same as the breast cancer death rate for}} \\
+              &\visible<4->{\text{patients in the control.}}~\visible<5->{\left(\pmgm-\pctrl=0\right)} \\
+          H_A: &\visible<6->{\text{The breast cancer death rate for patients screened using}} \\
+          &\visible<6->{\text{mammograms is different than the breast cancer death rate for}} \\
+          &\visible<6->{\text{patients in the control}}~\visible<7->{\left(\pmgm-\pctrl\neq 0\right)}
+        \end{aligned}
+      \end{equation*}
+      }
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    When the null hypothesis is that $p_1-p_2=0$, we use a special proportion called the \textbf{pooled proportion} to check the success-failure condition and compute the standard error:
+    \begin{equation*}
+      \begin{aligned}
+        \pooled &= \dfrac{\text{number of \textquote{successes}}}{\text{number of cases}}
+        = \dfrac{\hat{p_1}n_1 + \hat{p_2}n_2}{n_1+n_2}
+      \end{aligned}
+    \end{equation*}
+  \end{definition}\pause
+
+  \begin{examplecont}
+    \begin{equation*}
+      \begin{aligned}
+        \pooled &= \dfrac{\text{\# of patients who died from breast cancer in the entire study}}{\text{\# of patients in the entire study}} \\\pause
+        &= \dfrac{500+505}{500+44,425+505+44,405} \\\pause
+        &= 0.0112
+      \end{aligned}
+    \end{equation*}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    Lets check if it's reasonable to model the difference in proportion using a normal distribution in this study?\pause
+
+    \vspace{1mm}
+    Because the patients are randomized, they can be treated as independent.\pause
+
+    \vspace{1mm}
+    Remember that we check the success-failure condition under the assumption that the null hypothesis is true. We must also check for each group:
+    \begin{equation*}
+      \begin{aligned}
+        \pooled\cdot\nmgm &= \visible<4->{0.0112\cdot 44,925}\visible<5->{=503}\visible<12->{\geq 10} \\
+        (1-\pooled)\nmgm &= \visible<6->{0.9888\cdot 44,925}\visible<7->{=44,422}\visible<12->{\geq 10} \\
+        \pooled\cdot\nctrl &= \visible<8->{0.0112\cdot 44,910}\visible<9->{=503}\visible<12->{\geq 10} \\
+        (1-\pooled)\cdot\nctrl &= \visible<10->{0.9888\cdot 44,910}\visible<11->{=44,407}\visible<12->{\geq 10} \\
+      \end{aligned}
+    \end{equation*}
+    \onslide<12->
+    Since each is at least 10, we can safely model the difference in proportions using a normal distribution.
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    The point estimate for the difference in breast cancer rates is:
+
+    \vspace{-2mm}
+    \begin{equation*}
+      \begin{aligned}
+        \pmgm-\pctrl &=\pause
+        \dfrac{500}{500+44,425} + \dfrac{505}{505+44,405} \\\pause
+        &= 0.01113 - 0.01125 \pause
+        = -0.00012
+      \end{aligned}
+    \end{equation*}\pause
+
+    The standard error is:
+    \begin{equation*}
+      \begin{aligned}
+        SE &= \sqrt{\dfrac{\pooled(1-\pooled)}{\nmgm}+\dfrac{\pooled(1-\pooled)}{\nctrl}} \\\pause
+        &= \sqrt{\dfrac{0.0112(1-0.0112)}{500+44,425}+\dfrac{0.0112(1-0.0112)}{505+44,405}} \pause
+        = 0.00070
+      \end{aligned}
+    \end{equation*}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{examplecont}
+    Next, we calculate the $z$-score:
+    \begin{equation*}
+      \begin{aligned}
+        z&=\dfrac{\text{point estimate - null value}}{\text{SE}} \\\pause
+        &=\dfrac{-0.00012 - 0}{0.00070}\pause
+        = -0.17
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-2mm}
+    The $p$-value is the area in both tails:
+    \begin{center}
+      \begin{asy}
+        size(300, 50, IgnoreAspect);
+
+        real mu = 0.0;
+        real sigma = 0.00070;
+        real z = -0.17;
+        real left = mu + z * sigma;
+        real right = mu - z * sigma;
+
+        real xmin=mu-3.0*sigma; real xmax=mu+3.0*sigma;
+
+        shade_between(mu,sigma,xmin,left, red);
+        shade_between(mu,sigma,right,xmax, red);
+        draw(normal_dist(mu, sigma, xmin, xmax));
+
+        xaxis(Bottom(), RightTicks(new real[] {-0.0014, 0, 0.0014}));
+      \end{asy}
+    \end{center}\pause
+
+    \vspace{-3mm}
+    The left tail has area 0.4325 and so the total area is 0.8560. We do not reject the null hypothesis.\pause
+
+    \vspace{1mm}
+    That is, the difference between breast cancer death rates is reasonably explained by random chance, and we do not observe benefits or harm from mammograms relative to a regular breast exam.
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    When reviewing this study, or any other study, it's important to keep the following considerations in mind:\pause
+    \begin{itemize}
+    \item We do not accept null hypothesis, which means we don't have sufficient evidence to conclude that mammograms reduce or increase breast cancer deaths.\pause
+    \item If mammograms are helpful or harmful, the data suggests the effect isn't very large.\pause
+    \item Are mammograms more or less expensive than a non-mammogram breast exam?\pause
+      \begin{itemize}
+      \item If one option is much more expensive than the other and doesn't offer clear benefits, then we should lean towards the less expensive option.
+      \end{itemize}
+    \end{itemize}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    \begin{itemize}
+    \item The study's authors also found that mammograms led to overdiagosis of breast cancer:
+      \begin{itemize}
+      \item This means that some breast cancers were found, or thought to be found, but that these cancers would not cause symptoms during the patients' lifetimes.\pause
+      \item That is, something else would kill the patient before breast cancer symptoms appeared.\pause
+      \item This means some patients may have been treated for breast cancer unnecessarily, and this treatment is another cost to consider.\pause
+      \item Overdiagnosis can cause unnecessary physical and emotional harm to patients.
+      \end{itemize}
+    \end{itemize}
+  \end{examplecont}
 \end{frame}
 \end{document}
