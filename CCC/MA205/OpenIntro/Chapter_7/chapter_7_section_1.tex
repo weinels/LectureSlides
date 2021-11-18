@@ -36,49 +36,26 @@
     return graph(f, xmin, xmax);
   }
 
-  void shade_below(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+  void shade_below(real df, real b, real xmin, real xmax, pen p=royalblue)
   {
-    real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+    real t_func(real x) { return pdf_tdist(x, df);}
     
-    guide g = graph(nd_func, xmin, b);
+    guide g = graph(t_func, xmin, b);
     
-    filldraw(g -- (b,0) -- cycle, p, black);
+    filldraw(g -- (b,0) -- (xmin,0) --  cycle, p, black);
     
     draw((xmin,0)--(b,0));
   }
 
-  void shade_above(real mu, real sigma, real b, real xmin, real xmax, pen p=royalblue)
+  void shade_above(real df, real b, real xmin, real xmax, pen p=royalblue)
   {
-    real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
+    real t_func(real x) { return pdf_tdist(x, df);}
     
-    guide g = graph(nd_func, b, xmax);
+    guide g = graph(t_func, b, xmax);
     
-    filldraw(g -- (b,0) -- cycle, p, black);
+    filldraw(g -- (xmax,0) -- (b,0) -- cycle, p, black);
     
     draw((xmax,0)--(b,0));
-  }
-
-  void shade_between(real mu, real sigma, real a, real b, pen p=royalblue)
-  {
-    real nd_func(real x) { return 1/sqrt(2*pi*sigma*sigma)*exp((-1*(x-mu)*(x-mu))/(2*sigma*sigma)); }
-    
-    guide g = graph(nd_func, a, b);
-    
-    filldraw((a,0) -- g -- (b,0) -- cycle, p, black);
-  }
-
-  void multiple_nd_curves_example(real std_dev)
-  {
-    size(300, 190, IgnoreAspect);
-    
-    draw(normal_dist(0, std_dev, -6,6));
-    shade_between(0,std_dev,-std_dev,std_dev);
-    draw((0,0)--(0,0.45));
-
-    label("$\sigma="+format("%#.2f", std_dev)+"$", (-4.2,0.45), Fill(paleyellow));
-
-    xaxis(Bottom(), RightTicks(new real[] {-6,-4,-2,0,2,4,6}));
-    yaxis(Left(), LeftTicks(size=nan),ymin = 0, ymax = 0.5);
   }
 \end{asydef}
 
@@ -296,7 +273,7 @@
           draw(t_dist(2, xmin, xmax), invisible, "$\phantom{df=2}$");
           draw(t_dist(1, xmin, xmax), invisible, "$\phantom{df=1}$");
 
-          xaxis(Ticks(new real[] {0}));
+          xaxis(RightTicks(new real[] {0}));
 
           attach(legend(), truepoint(E), 10E, UnFill);
         \end{asy}
@@ -315,7 +292,7 @@
           draw(t_dist(2, xmin, xmax), invisible, "$\phantom{df=2}$");
           draw(t_dist(1, xmin, xmax), palered, "$df=1$");
           
-          xaxis(Ticks(new real[] {0}));
+          xaxis(RightTicks(new real[] {0}));
 
           attach(legend(), truepoint(E), 10E, UnFill);
         \end{asy}
@@ -334,7 +311,7 @@
           draw(t_dist(2, xmin, xmax), lightred, "$df=2$");
           draw(t_dist(1, xmin, xmax), palered, "$df=1$");
 
-          xaxis(Ticks(new real[] {0}));
+          xaxis(RightTicks(new real[] {0}));
 
           attach(legend(), truepoint(E), 10E, UnFill);
         \end{asy}
@@ -353,7 +330,7 @@
           draw(t_dist(2, xmin, xmax), lightred, "$df=2$");
           draw(t_dist(1, xmin, xmax), palered, "$df=1$");
                 
-          xaxis(Ticks(new real[] {0}));
+          xaxis(RightTicks(new real[] {0}));
 
           attach(legend(), truepoint(E), 10E, UnFill);
         \end{asy}
@@ -372,7 +349,7 @@
           draw(t_dist(2, xmin, xmax), lightred, "$df=2$");
           draw(t_dist(1, xmin, xmax), palered, "$df=1$");
           
-          xaxis(Ticks(new real[] {0}));
+          xaxis(RightTicks(new real[] {0}));
 
           attach(legend(), truepoint(E), 10E, UnFill);
         \end{asy}
@@ -394,276 +371,452 @@
   \end{note}
 \end{frame}
 
-%% \begin{frame}[fragile]
-%%   \begin{example}
-%%     Let us find the critical value corresponding to a 95\% confidence level, given that the sample size is $n=15$.\pause
+\begin{frame}[fragile]
+  \begin{example}
+    The $t$-distribution with 13 degrees of freedom is shown.
 
-%%     \vspace{2mm}
-%%     The degrees of freedom is $n-1=15-1=14$.\pause
+    \vspace{1mm}
+    \begin{overprint}
+      \onslide<1 | handout: 0>
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%%     \vspace{2mm}
-%%     We can then use technology to find the critical value.
+          real xmin = -5; real xmax = 5;
 
-%%     \begin{center}
-%%       \begin{asy}
-%%         size(200,100, IgnoreAspect);
+          real df = 13;
 
-%%         real xmin = -3.5; real xmax = 3.5;
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+      \onslide<2->
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%%         real a = -2.145;
-%%         real b = 2.145;
+          real xmin = -5; real xmax = 5;
 
-%%         guide g = t_dist(14, xmin, a);
-%%         filldraw((xmin,0) -- g -- (a,0) -- cycle, orange, black);
-%%         guide g = t_dist(14, b, xmax);
-%%         filldraw((b,0) -- g -- (xmax,0) -- cycle, orange, black);
-%%         guide g = t_dist(14, a, b);
-%%         filldraw((a,0) -- g -- (b,0) -- cycle, yellow, black);
-%%         draw(t_dist(14, xmin, xmax), black);
+          real t = -2.10;
+          real df = 13;
 
-%%         label("0.95", (0, 0.5*pdf_tdist(0,14)));
-%%         label("0.025", (a, pdf_tdist(a,14)), 3W);
-%%         label("0.025", (b, pdf_tdist(b,14)), 3E);
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          shade_below(df, t, xmin, xmax);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+    \end{overprint}
+    \onslide<2->
+    The area to the left of $t=-2.1$ is:
 
-%%         draw_tick("$t=0$", (0,0));
-%%         draw_tick("$t_{\alpha/2}=2.145$", (2.145,0));
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{t \leq 2.1} \approx 0.0279
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%%         xaxis();
+\begin{frame}[fragile]
+  \begin{example}
+    The $t$-distribution with 20 degrees of freedom is shown.
 
-%%         attach(legend(), truepoint(E), 10E, UnFill);
-%%       \end{asy}
-%%     \end{center}
-%%   \end{example}
-%% \end{frame}
+    \vspace{1mm}
+    \begin{overprint}
+      \onslide<1 | handout: 0>
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%% \begin{frame}
-%%   \begin{block}{Procedure for Constructing a Confidence Interval for $\mu$}
-%%     \begin{enumerate}[<+- | alert@+>]
-%%     \item Verify that the following requirements are satisfied:
-%%       \begin{itemize}
-%%       \item<.-> The sample is a simple random sample.
-%%       \item<.-> Population is normally distributed or $n>30$.
-%%       \end{itemize}
-%%     \item Use technology to find the critical value $t_{\alpha/2}$.
-%%       \begin{itemize}
-%%       \item<.-> When $\sigma$ is unknown, use $n-1$ degrees of freedom.
-%%       \end{itemize}
-%%     \item Calculate the margin of error.
-%%       \begin{equation*}
-%%         E=t_{\alpha/2}\cdot\dfrac{s}{\sqrt{n}}
-%%       \end{equation*}
-%%     \item Using the value of the calculated margin of error $E$ and the value of the sample mean $\bar{x}$, find the values of the confidence interval limits $\bar{x}-E$ and $\bar{x}+E$.
-%%     \item Round the resulting confidence interval limits:
-%%       \begin{itemize}
-%%       \item<.-> With an original data set, round to three significant digits.
-%%       \item<.-> When using summary statistics, round to the same number of decimal places.
-%%       \end{itemize}
-%%     \end{enumerate}
-%%   \end{block}
-%% \end{frame}
+          real xmin = -5; real xmax = 5;
 
-%% \begin{frame}
-%%   \begin{example}
-%%     The weights (in hectograms, hg) of randomly selected girls at birth are
+          real df = 20;
 
-%%     \vspace{-7mm}
-%%     \begin{center}
-%%       \begin{tabular}{ccccccccccccccc}
-%%         33 & 28 & 33 & 37 & 31 & 32 & 31 & 28 & 34 & 28 & 33 & 26 & 30 & 31 & 28
-%%       \end{tabular}
-%%     \end{center}
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+      \onslide<2->
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%%     \vspace{-3mm}
-%%     (Based on data from the National Center for Health Statistics.)\pause
+          real xmin = -5; real xmax = 5;
 
-%%     \vspace{1mm}
-%%     The summary statistics for this sample are
-%%     \vspace{-2mm}
-%%     \begin{equation*}
-%%       n = 15
-%%       \qquad\qquad \bar{x} = 30.9
-%%       \qquad\qquad s  = 2.9
-%%     \end{equation*}\pause
+          real t = 1.65;
+          real df = 20;
 
-%%     \vspace{-7mm}
-%%     Let's construct a 95\% confidence interval for the mean birth weight of girls.\pause
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          shade_above(df, t, xmin, xmax);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+    \end{overprint}
+    \onslide<2->
+    The area to the right of $t=1.65$ is:
 
-%%     \vspace{1mm}
-%%     The margin of error is
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{t \geq 1.65} \approx 0.0573
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%%     \vspace{-3mm}
-%%     \begin{equation*}
-%%       E=t_{\alpha/2}\cdot\dfrac{s}{\sqrt{n}}\pause
-%%       =2.145\cdot\dfrac{2.9}{\sqrt{15}}\pause
-%%       =1.606126
-%%     \end{equation*}\pause
+\begin{frame}[fragile]
+  \begin{example}
+    The $t$-distribution with 2 degrees of freedom is shown.
 
-%%     \vspace{-4mm}
-%%     The confidence interval is
+    \vspace{1mm}
+    \begin{overprint}
+      \onslide<1 | handout: 0>
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%%     \vspace{-3mm}
-%%     \begin{equation*}
-%%       \begin{matrix}
-%%         \bar{x} - E &<& \mu &<& \bar{x} + E\\\pause
-%%         30.9 - 1.606126 &<& \mu &<& 30.9 + 1.606126 \\\pause
-%%         29.3~\text{hg} &<& \mu &<& 32.5~\text{hg} \\
-%%       \end{matrix}
-%%     \end{equation*}\pause
+          real xmin = -5; real xmax = 5;
 
-%%     \vspace{-3mm}
-%%     We are 95\% confident that the interval from 29.2 hg to 32.5 hg actually does contain the true value of $\mu$.
-%%   \end{example}
-%% \end{frame}
+          real df = 2;
 
-%% \begin{frame}
-%%   \begin{block}{Finding $\bar{x}$ from a Confidence Interval}
-%%     If you know the confidence interval limits, we can calculate the point estimate:
-%%     \begin{equation*}
-%%       \bar{x} = \dfrac{(\text{upper confidence interval limit})+(\text{lower confidence interval limit})}{2}
-%%     \end{equation*}
-%%   \end{block}\pause
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+      \onslide<2->
+      \begin{center}
+        \begin{asy}
+          size(250,95, IgnoreAspect);
 
-%%   \begin{block}{Finding $E$ from a Confidence Interval}
-%%     If you know the confidence interval limits, we can calculate the margin of error:
-%%     \begin{equation*}
-%%       E = \dfrac{(\text{upper confidence interval limit})-(\text{lower confidence interval limit})}{2}
-%%     \end{equation*}
-%%   \end{block}
-%% \end{frame}
+          real xmin = -5; real xmax = 5;
 
-%% \begin{frame}[fragile]
-%%   \begin{example}
-%%     We can compare the confidence intervals of the mean cotinine level in each of three samples (Data Set 12).
-%%     \begin{center}
-%%       \begin{asy}
-%%         size(200,60, IgnoreAspect);
+          real t = 3;
+          real df = 2;
 
-%%         void draw_CI(real l, real r, real h, pen p)
-%%         {
-%% 	  draw((l,h) -- (r,h), p+1bp);
-%% 	  dot((l,h), p);
-%% 	  dot((r,h), p);
-%%         }
+          draw(normal_dist(0,1,xmin,xmax), invisible);
+          draw(t_dist(df, xmin, xmax), black);
+          shade_below(df, -t, xmin, xmax);
+          shade_above(df, t, xmin, xmax);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+      \end{center}
+    \end{overprint}
+    \onslide<2->
+    The area more than three units from the mean is:
 
-%%         draw_CI(0, 40, 1, blue);
-%%         label("People not exposed to smoke", (40,1), E);
-%%         draw_CI(25, 110, 2, red);
-%%         label("People exposed to smoke", (110,2), E);
-%%         draw_CI(140, 220, 3, yellow);
-%%         label("Smokers", (140,3), W);
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \prob{t \leq -3~\text{or}~t \geq 3} \approx 0.0955
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 
-%%         draw((-25,0)--(225,0));
-%%         for(real i=-25; i<=225; i +=25)
-%% 	draw_tick(string(i),(i,0),.1);
-%%       \end{asy}
-%%     \end{center}
-%%     Because cotinine is produced in the body when nicotine is absorbed, cotinine is a good indication of nicotine intake.\pause
+\begin{frame}[fragile]
+  \begin{example}
+    Let us find the critical value, $t^*_{df}$, corresponding to a 95\% confidence level, given that the sample size is $n=15$.\pause
 
-%%     \vspace{2mm}
-%%     We see that the confidence interval for smokers does not overlap the other confidence intervals, so it appears that the mean cotinine level of smokers is different from that of the other two groups.\pause
+    \vspace{1mm}
+    The degrees of freedom is $df=n-1\pause =15-1 =14$.\pause
 
-%%     \vspace{2mm}
-%%     The two non-smoking groups have overlapping confidence intervals, so it possible that they have the same mean cotinine level.
-%%   \end{example}
-%% \end{frame}
+    \vspace{1mm}
+    We need to find the $t$-value that has $0.95+0.025=0.975$ to the left.
 
-%% \begin{frame}
-%%   \begin{block}{Caution}
-%%     Confidence intervals can be used to \emph{informally} compare different data sets, but the overlapping of confidence intervals \emph{should not } be used for making formal and final conclusions about equality of means.
-%%   \end{block}\pause
+    \begin{center}
+      \begin{asy}
+        size(250,85, IgnoreAspect);
 
-%%   \begin{block}{Sample Size Required to Estimate a Population Mean}
-%%     The sample must be a simple random sample of independent sample units.\pause
+        real xmin = -4; real xmax = 4;
 
-%%     \vspace{2mm}
-%%     We must know, or have estimated, the population standard deviation $\sigma$.\pause
+        real a = -2.145;
+        real b = 2.145;
 
-%%     \vspace{2mm}
-%%     The required sample size is
+        guide g = t_dist(14, xmin, a);
+        filldraw((xmin,0) -- g -- (a,0) -- cycle, orange, black);
+        guide g = t_dist(14, b, xmax);
+        filldraw((b,0) -- g -- (xmax,0) -- cycle, orange, black);
+        guide g = t_dist(14, a, b);
+        filldraw((a,0) -- g -- (b,0) -- cycle, yellow, black);
+        draw(t_dist(14, xmin, xmax), black);
 
-%%     \vspace{-2mm}
-%%     \begin{equation*}
-%%       n={\left(\dfrac{z_{\alpha/2}\cdot\sigma}{E}\right)}^2
-%%     \end{equation*}
-%%     (Recall that $z_{\alpha/2}$ is the critical value for the standard normal distribution.)
-%%   \end{block}\pause
+        label("0.95", (0, 0.5*pdf_tdist(0,14)));
+        label("0.025", (a*1.1, pdf_tdist(a,14)), 3W);
+        label("0.025", (b*1.1, pdf_tdist(b,14)), 3E);
 
-%%   \begin{block}{Rounding}
-%%     If the computed sample size $n$ is not a whole number, round the value of $n$ up to the next larger whole number.
-%%   \end{block}
-%% \end{frame}
+        dot((b,0));
+        label("$t^*_{14}$", (b,0), S);
+        
+        xaxis(RightTicks(new real[] {0}));
+      \end{asy}
+    \end{center}\pause
 
-%% \begin{frame}
-%%   \begin{block}{Dealing with Unknown $\sigma$ When Finding Sample Size}
-%%     \begin{enumerate}[<+- | alert@+>]
-%%     \item Use the range rule of thumb:
-%%       \begin{equation*}
-%%         \sigma\approx \text{range}/4
-%%       \end{equation*}
-%%     \item Start the sample collection process without knowing $\sigma$ and, using the first several values, calculate the sample standard deviation $s$ and use it in place of $\sigma$.
-%%       \begin{itemize}
-%%       \item The estimate for $\sigma$ can be improved as more sample data are collected, and the required sample size can be adjusted along the way.
-%%       \end{itemize}
-%%     \item Estimate the value of $\sigma$ by using the results of some other earlier study.
-%%     \end{enumerate}
-%%   \end{block}
+    \vspace{-2mm}
+    Using technology we get $t^*_{14}=2.145$
+  \end{example}\pause
 
-%%   \onslide<+->
-%%   \begin{block}{Caution}
-%%     When determining the sample size $n$, any errors should always be conservative in the sense that they make the sample size too large instead of too small.
-%%   \end{block}
-%% \end{frame}
+  \begin{note}
+    The critical value $t^*_{df}$ must be found every time, since the $t$-distribution changes for different sample sizes.
+  \end{note}
+\end{frame}
 
-%% \begin{frame}
-%%   \begin{example}
-%%     Suppose that we want the mean IQ for the population of all Colby students. \pause
+\begin{frame}
+  \begin{block}{Confidence Interval For A Single Mean}
+    \begin{description}
+    \item[Prepare:] Identify $\bar{x}$, $s$, $n$, and what confidence level to use.\pause
+    \item[Check:] Verify the conditions to ensure $\bar{x}$ is nearly normal:\pause
+      \begin{itemize}
+      \item The sample observations are nearly normal.\pause
+      \item The population is normally distributed or $n\geq 30$.\pause
+      \end{itemize}
+    \item[Calculate:] If the conditions hold, compute:\pause
+      \begin{itemize}
+      \item The degrees of freedom: $df=n-1$\pause
+      \item The critical value: $t^*_{df}$\pause
+      \item The standard error: $SE=\dfrac{s}{\sqrt{n}}$\pause
+      \item The confidence interval:
 
-%%     \vspace{1mm}
-%%     How many Colby students must be randomly selected for IQ tests if we want 95\% confidence that the sample mean is within 3 IQ points of the population mean?\pause
+        \vspace{-4mm}
+        \begin{equation*}
+          \begin{aligned}
+            \text{point estimate} \pm t^*_{df}\cdot SE\pause
+            \quad\rightarrow\quad
+            \bar{x} \pm t^*_{df}\cdot \dfrac{s}{\sqrt{n}}
+          \end{aligned}
+        \end{equation*}
+      \end{itemize}\pause
 
-%%     \vspace{1mm}
-%%     For a 95\% confidence interval, we have $\alpha=0.5$, so $z_{\alpha/2}=1.96$. \pause
+      \vspace{-1mm}
+    \item[Conclude:] Interpret the confidence interval in the context of the problem.
+    \end{description}
+  \end{block}
+\end{frame}
 
-%%     \vspace{1mm}
-%%     Our desired margin of error is $E=3$.\pause
+\begin{frame}
+  \begin{example}
+    The weights (in hectograms, hg) of randomly selected girls at birth are
 
-%%     \vspace{1mm}
-%%     Wechsler IQ tests are designed so that the standard deviation is 15.\pause
+    \vspace{-7mm}
+    \begin{center}
+      {%
+      \vspace{4.5mm}
+      \setlength{\tabcolsep}{.4em}
+      \begin{tabular}{ccccccccccccccc}
+        33 & 28 & 33 & 37 & 31 & 32 & 31 & 28 & 34 & 28 & 33 & 26 & 30 & 31 & 28
+      \end{tabular}
+      }
+    \end{center}
 
-%%     \vspace{1mm} 
-%%     While we don't know the $\sigma$ of all Colby students, we can safely assume that they are a more homogeneous group than the general population, and hence have a standard deviation less than 15. Thus, we can use $\sigma=15$.\pause
+    \vspace{-3mm}
+    (Based on data from the National Center for Health Statistics.)\pause
 
-%%     Using the formula for sample size we get
-%%     \vspace{-1mm}
-%%     \begin{equation*}
-%%       n={\left(\dfrac{z_{\alpha/2}\cdot\sigma}{E}\right)}^2\pause
-%%       ={\left(\dfrac{1.96\cdot 15}{3}\right)}^2\pause
-%%       = 96.04
-%%     \end{equation*}\pause
+    \vspace{1mm}
+    The summary statistics for this sample are
+    \vspace{-3mm}
+    \begin{equation*}
+      n = 15
+      \qquad\qquad \bar{x} = 30.9
+      \qquad\qquad s  = 2.9
+    \end{equation*}\pause
 
-%%     \vspace{-4mm}
-%%     To be 95\% confident that out interval contains the true population standard deviation, we would need a sample size of at least 97.
-%%   \end{example}
-%% \end{frame}
+    \vspace{-8mm}
+    Construct a 95\% confidence interval for the mean birth weight of girls.\pause
 
-%% \begin{frame}
-%%   \begin{note}
-%%     If we somehow know the population standard deviation but do not know the population mean, then we calculate the confidence interval using the methods in section 7.1.
-%%   \end{note}\pause
+    \vspace{1mm}
+    The margin of error is
 
-%%   \begin{block}{Choosing the Appropriate Distribution}
-%%     \begin{center}
-%%       \begin{tabular}{|c|c|}\hline
-%%         \textbf{Conditions} & \textbf{Method}\\\hline
-%%         $\sigma$ not known and normal population & Student $t$ distribution\\
-%%         or&\\
-%%         $\sigma$ not known and $n>30$&\\\hline
-%%         $\sigma$ known and normal population & Normal distribution\\
-%%         or&\\
-%%         $\sigma$ known and $n>30$&\\\hline
-%%         Population is not normal and $n\leq30$ & Use other methods.\\\hline
-%%       \end{tabular}
-%%     \end{center}
-%%   \end{block}
-%% \end{frame}
+    \vspace{-3mm}
+    \begin{equation*}
+      E=t^*_{14}\cdot\dfrac{s}{\sqrt{n}}\pause
+      =2.145\cdot\dfrac{2.9}{\sqrt{15}}\pause
+      =1.606126
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    The confidence interval is
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{matrix}
+        \bar{x} - E &<& \mu &<& \bar{x} + E\\\pause
+        30.9 - 1.606126 &<& \mu &<& 30.9 + 1.606126 \\\pause
+        29.3~\text{hg} &<& \mu &<& 32.5~\text{hg} \\
+      \end{matrix}
+    \end{equation*}\pause
+
+    \vspace{-3mm}
+    We are 95\% confident that the interval from 29.2 hg to 32.5 hg actually does contain the true value of $\mu$.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Hypothesis Testing For A Single Mean}
+    \begin{description}
+    \item[Prepare:] Identify the parameter of interest, list out hypotheses, identify $\bar{x}$, $s$, $n$, and what confidence level to use.\pause
+    \item[Check:] Verify the conditions to ensure $\bar{x}$ is nearly normal:\pause
+      \begin{itemize}
+      \item The sample observations are nearly normal.\pause
+      \item The population is normally distributed or $n\geq 30$.\pause
+      \end{itemize}
+    \item[Calculate:] If the conditions hold, compute:\pause
+      \begin{itemize}
+      \item The degrees of freedom: $df=n-1$\pause
+      \item The standard error: $SE=\dfrac{s}{\sqrt{n}}$\pause
+      \item The $t$-score: $t = \dfrac{\bar{x} - \text{null value}}{SE}$\pause
+      \item The $p$-value.\pause
+      \end{itemize}
+    \item[Conclude:] Evaluate the hypothesis test by comparing the $p$-value to $\alpha$, and provide a conclusion in the context of the problem.
+    \end{description}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    The Cheery Blossom Race is a 10-mile race in Washington, D.C. held every spring.\pause
+
+    \vspace{1mm}
+    The average time for all runners who finished the Cherry Blossom Race in 2006 was 93.29 minutes.\pause
+
+    \vspace{1mm}
+    We want to determine using data from 100 participants in the 2017 Cherry Blossom Race whether runners are getting faster or slower.\pause
+
+    \vspace{1mm}
+    \question{What are the null and alternative hypotheses?}\pause
+    \answer{%
+
+      \vspace{-8mm}
+      \begin{equation*}
+        \begin{aligned}
+          H_0: & \text{The average time was the same in 2007 and 2017}\\
+          &\mu=93.29 \\
+          H_A: & \text{The average time was different in 2017 compared to 2007}\\
+          &\mu\neq93.29
+        \end{aligned}
+      \end{equation*}
+    }
+
+    \vspace{-4mm}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    The histogram shows the times for 100 of the runners in the 2017 race.
+
+    \vspace{-6mm}
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[
+            small,
+            height=5.5cm,
+            width=12.0cm,
+            enlarge x limits=false,
+            enlarge y limits=false,
+            %ybar interval,
+            grid=both,
+            %minor y tick num=1,
+            %minor x tick num=1,
+            ylabel={Frequency},
+            xlabel={Time (Minutes)},
+            %x tick label style={rotate=0,anchor=south east},
+            tick align=outside, % <-- this positions the ticks "outside"
+            xtick={0, 10,...,300},
+            ytick={0, 5,...,300},
+            ymin=0,
+            ymax=25,
+            xmin=50,
+            xmax=140,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=0},
+            xticklabel=
+            \pgfmathprintnumber\tick,%--\pgfmathprintnumber\nexttick\%,
+          ]
+          \draw [blue,fill=blue!30!white] (axis cs: 50,0) rectangle (axis cs: 60,2);
+          \draw [blue,fill=blue!30!white] (axis cs: 60,0) rectangle (axis cs: 70,6);
+          \draw [blue,fill=blue!30!white] (axis cs: 70,0) rectangle (axis cs: 80,7);
+          \draw [blue,fill=blue!30!white] (axis cs: 80,0) rectangle (axis cs: 90,20);
+          \draw [blue,fill=blue!30!white] (axis cs: 90,0) rectangle (axis cs: 100,21);
+          \draw [blue,fill=blue!30!white] (axis cs: 100,0) rectangle (axis cs: 110,19);
+          \draw [blue,fill=blue!30!white] (axis cs: 110,0) rectangle (axis cs: 120,16);
+          \draw [blue,fill=blue!30!white] (axis cs: 120,0) rectangle (axis cs: 130,7);
+          \draw [blue,fill=blue!30!white] (axis cs: 130,0) rectangle (axis cs: 140,3);
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-2mm}
+    \question{Is the normality condition satisfied?}\pause
+    \answer{We have more than 30 observations and there are no outliers, so yes.}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    In 2007, the average time was 93.29 minutes. Our sample of 100 runners from 2017 have a mean of 97.32 minutes and standard deviation of 16.98 minutes.\pause
+
+    \vspace{1mm}
+    The degrees of freedom are $df=n-1\pause =100-1=99$.\pause
+
+    \vspace{1mm}
+    The standard error is:
+    \begin{equation*}
+      \begin{aligned}
+        SE &= \dfrac{s}{\sqrt{n}}\pause = \dfrac{16.98}{\sqrt{100}} = 1.70
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-6mm}
+    The $t$-score is:
+    \begin{equation*}
+      \begin{aligned}
+        t = \dfrac{\bar{x} - \text{null value}}{SE}\pause = \dfrac{97.32-93.29}{1.70} = 2.37
+      \end{aligned}
+    \end{equation*}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{examplecont}
+    So, we wish to find the area of the tails:
+    \begin{center}
+        \begin{asy}
+          size(250,90, IgnoreAspect);
+
+          real xmin = -5; real xmax = 5;
+
+          real t = 2.37;
+          real df = 99;
+
+          draw(t_dist(df, xmin, xmax), black);
+          shade_below(df, -t, xmin, xmax, red);
+          shade_above(df, t, xmin, xmax, red);
+          
+          xaxis(RightTicks(new real[] {0, 1, -1, 2, -2, 3, -3, 4, -4}));
+        \end{asy}
+    \end{center}\pause
+
+    Using technology, we get a $p$-value of 0.02.\pause
+
+    \vspace{1mm}
+    \question{Do we reject or fail to reject $H_0$?}\pause
+    \answer{Because $0.02 < 0.05$, we reject the null hypothesis.}\pause
+
+    \vspace{1mm}
+    Because we reject the null hypothsis, we have evidence that there is a difference in average race times between the 2007 and 2017 races.\pause
+
+    \vspace{1mm}
+    Since the average in 2017 (97.32 minutes) is larger than the average in 2007 (93.29 minutes), it is likely that racers in 2017 were slower.
+  \end{examplecont}
+\end{frame}
 \end{document}
