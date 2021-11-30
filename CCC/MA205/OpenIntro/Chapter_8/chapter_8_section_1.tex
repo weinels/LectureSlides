@@ -11,10 +11,25 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
 \usepackage{pgfplots}
+\usepackage{pgfplotstable}
 \pgfplotsset{compat=1.5} 
 \usepgfplotslibrary{statistics}
 \usetikzlibrary{external}
 \tikzexternalize%
+
+\pgfplotsset{%
+  filter discard warning=false,
+    discard if not/.style 2 args={%
+        x filter/.code={%
+            \edef\tempa{\thisrow{#1}}%
+            \edef\tempb{#2}%
+            \ifx\tempa\tempb%
+            \else%
+                \def\pgfmathresult{inf}%
+            \fi% 
+        }
+    }
+}
 
 \title[MA205 - Section 8.1]{Fitting a Line, Residuals, and Correlation}
 
@@ -23,4 +38,867 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \begin{definition}
+    \textbf{Linear Regression} is the statistical method for fitting a line to data where the relationship between two variables, $x$ and $y$, can be modeled by a straight line with some error:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        y = \beta_0 + \beta_1 x + \epsilon
+      \end{aligned}
+    \end{equation*}
+  \end{definition}\pause
+
+  \begin{note}
+    We don't use $y=mx+b$ because the format $y=b_0+b_1 x$ can easily be expanded in include more variables:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      y=\beta_0+\beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \cdots
+    \end{equation*}
+
+    \vspace{-2mm}
+    This is used when performing a multiple regression.
+  \end{note}\pause
+
+  \begin{definition}
+    We call $x$ the \textbf{explanatory variable}or  \textbf{predictor variable}.
+  \end{definition}\pause
+
+  \begin{definition}
+    We call $y$ the \textbf{response variable}.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=8cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            ymin=-50,
+            ymax=60,
+            xmin=-60,
+            xmax=60,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{1}] {simulated_scatter.csv};
+          \addplot[domain=-60:60, color=red]{-0.8046264645323266 * x + 13.524779728906694};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=8cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-40,
+            ymax=24000,
+            xmin=520,
+            xmax=1900,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{2}] {simulated_scatter.csv};
+          \addplot[domain=520:1900, color=red]{7.481971646848163 * x + 1082.3905257569718};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}    
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=8cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            ymin=-195,
+            ymax=380,
+            xmin=-15,
+            xmax=55,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{3}] {simulated_scatter.csv};
+          \addplot[domain=-15:55, color=red]{-0.21040134542259065 * x + 133.07988554369706};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+    Even though this looks like just a cloud, the linear model may be useful.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=7.5cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=0,
+            ymax=15,
+            xmin=0,
+            xmax=90,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{5}] {simulated_scatter.csv};
+          \addplot[domain=0:90, color=red]{1.9596137434921878e-17 * x + 8.967409971878514};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+    Because, there is a clear non-linear pattern, the linear model is a poor choice for this data.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Brushtail possums are a marsupial that lives in Australia.\pause
+
+    \vspace{1mm}
+    Researchers captured 104 of these animal and took body measurements before releasing the animals back into the wild.\pause
+
+    \vspace{1mm}
+    We will consider two measurements:
+    \begin{itemize}
+    \item The length of each possum from head to tail.
+    \item The length of each possum's head.
+    \end{itemize}
+
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=5cm,
+            xlabel={Total Length (cm)},
+            ylabel={Head Length (mm)},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=80,
+            ymax=105,
+            xmin=73,
+            xmax=98,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{31}] {simulated_scatter.csv};
+          %\addplot[domain=0:90, color=red]{41 + 0.59x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    We could fit the linear relationship by eye, giving the equation:
+    \begin{equation*}
+      \begin{aligned}
+        \hat{y} &= 41 + 0.59x
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-6mm}
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4.5cm,
+            xlabel={Total Length (cm)},
+            ylabel={Head Length (mm)},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=80,
+            ymax=105,
+            xmin=73,
+            xmax=98,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{31}] {simulated_scatter.csv};
+          \addplot[domain=73:98, color=red]{41 + 0.59 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}\pause
+
+    \vspace{-4mm}
+    This allows us to make estimates of the possum population.\pause
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{y} = 41 + 0.59 (80) = 88.2
+      \end{aligned}
+    \end{equation*}
+
+    \vspace{-1mm}
+    We expect that a possum with a total length of 80cm would have a head length of about 88.2mm.
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{definition}
+    \textbf{Residuals} are the leftover variation in the data after accounting for the model fit:
+    \begin{equation*}
+      \begin{aligned}
+        \text{Data} = \text{Fit} + \text{Residual}
+      \end{aligned}
+    \end{equation*}
+
+    \begin{center}
+      \begin{asy}
+        size(240, 150, IgnoreAspect);
+
+        real min_x = 0;
+        real max_x = 9;
+        real min_y = 0;
+        real max_y = 20;
+
+        real sc = 0.79;
+
+        real m = 3;
+        real b = -1;
+        
+        real f(real x) { return m*x+b; }
+
+        draw(graph(f,min_x, max_x), red+1bp);
+        label(scale(sc)*Label("$\hat{y}=\beta_0+\beta_1 x$"), (2,f(2)), SE, red);
+
+        dot((5,f(5)), red);
+        dot((5,19));
+
+        void note(string st, string sb, pair top, pair bottom, real swap=1)
+        {
+	  real sl = 0.2*swap;
+	  real sr = 0.5*swap;
+	  real sh = 0.4;
+	  real sn = 1.8*swap;
+	  real sm = 0.25;
+	  pen p = blue;
+	  Label Lt = scale(sc)*Label(st);
+	  Label Lb = scale(sc)*Label(sb);
+	  real ls = 0; //0.5;
+
+	  pair mid = ((top.x+bottom.x)/2, (top.y+bottom.y)/2);
+	  
+	  path b = (top.x + sl, top.y-0.1) -- (top.x + sr, top.y-sh) -- (top.x + sr, mid.y+sm) -- (top.x+sn,mid.y) -- (top.x+sr, mid.y-sm) -- (bottom.x + sr, bottom.y+sh) -- (bottom.x + sl, bottom.y+0.1);
+	  if (swap > 0)
+	  {
+	    label(Lt,(mid.x+sn, mid.y+ls),E,p);
+	    label(Lb,(mid.x+sn, mid.y-ls),E,p);
+	  }
+	  else
+	  {
+	    label(Lt,(mid.x+sn, mid.y+ls),W,p);
+	    label(Lb,(mid.x+sn, mid.y-ls),W,p);	
+	  }
+	  
+	  draw(b, p );
+        }
+
+        note("Residual ($e_i$)", "", (5,19), (5,f(5)));
+        note("Fit ($\hat{y_i}$)", "", (5,f(5)), (5,0));
+        note("Data ($y_i$)", "", (5,19), (5,0), -1);
+
+        limits((min_x, min_y), (max_x, max_y), Crop);
+
+        real[] tx = {2,4,6,8, 10, 12};
+        real[] ty = {5,10,15,20, 25, 30};
+        xaxis("$x$", YEquals(0), RightTicks(tx));
+        yaxis("$y$", XEquals(0), LeftTicks(ty));
+      \end{asy}
+    \end{center}
+
+    \vspace{-4mm}
+    The residuals are calculated as:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        e_i = y_i - \hat{y}_i
+      \end{aligned}
+    \end{equation*}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    Let's calculate the residual for the observation $(85.0, 96.6)$.
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4.5cm,
+            xlabel={Total Length (cm)},
+            ylabel={Head Length (mm)},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=80,
+            ymax=105,
+            xmin=73,
+            xmax=98,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{31}] {simulated_scatter.csv};
+          \addplot[domain=73:98, color=red]{41 + 0.59 * x};
+          \addplot[mark=x, thick, orange, mark size=4pt] coordinates { (85.0, 98.6) };
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}\pause
+
+    \vspace{-4mm}
+    We first need to find $\hat{y}$:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{y}_{\color{orange}\times} = \pause 41 + 0.59 (85)\pause = 91.15
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-4mm}
+    Next, the residual:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        e_{\color{orange}\times} = \pause y_{\color{orange}\times} - \hat{y}_{\color{orange}\times}\pause = 96.6-91.15\pause = 7.45
+      \end{aligned}
+    \end{equation*}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    If the residual for each point is calculated, the corresponding graph is called a \textbf{residual plot}.
+  \end{definition}\pause
+
+  \begin{examplecont}
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4.5cm,
+            xlabel={Total Length (cm)},
+            ylabel={Head Length (mm)},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-10,
+            ymax=10,
+            xmin=73,
+            xmax=98,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{31}] {residuals.csv};
+          \addplot[domain=73:98, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{examplecont}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot with linear regression:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-9,
+            ymax=1,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{6}] {simulated_scatter.csv};
+          \addplot[domain=0:1, color=red]{-8.53960933407856 * x + 0.2402480567744385};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-2,
+            ymax=2,
+            xmin=0,
+            xmax=1.0,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{6}] {residuals.csv};
+          \addplot[domain=0:1, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+   \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot with linear regression:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=3.5cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-29,
+            ymax=1,
+            xmin=0,
+            xmax=4,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{7}] {simulated_scatter.csv};
+          \addplot[domain=0:4, color=red]{-8.007341341280465 * x + 5.734798131432777};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=3.5cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-5,
+            ymax=5,
+            xmin=0,
+            xmax=4,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{7}] {residuals.csv};
+          \addplot[domain=0:4, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}\pause
+    
+      \vspace{-2mm}
+      Since there is a clear curve in the residual plot, we should not use a linear model. A more advanced method is needed.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot with linear regression:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-2,
+            ymax=2,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{8}] {simulated_scatter.csv};
+          \addplot[domain=0:1, color=red]{0.6425701453508648 * x + -0.3747573610359961};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            ymajorgrids=true,
+            xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\pgfmathprintnumber{\tick},
+            %xtick={0,2,...,14},
+            %ytick={-5,0,...,35},
+            scaled y ticks=base 10:0,
+            ytick scale label code/.code={},
+            ymin=-2,
+            ymax=2,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{8}] {residuals.csv};
+          \addplot[domain=0:1, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    \textbf{Correlation}, which is always between -1 and 1, describes the strength of the linear relationship between two values. We denote the correlation by $R$.
+  \end{definition}\pause
+
+  \begin{note}
+    While technology is often used, the formula for correlation is:
+    \begin{equation*}
+      \begin{aligned}
+        R=\dfrac{1}{n-1} \sum_{i=1}^{n} \left(\dfrac{x_i-\bar{x}}{s_x}\cdot\dfrac{y_i-\bar{y}}{s_y}\right)
+      \end{aligned}
+    \end{equation*}
+  \end{note}
+\end{frame}
+
+\newcommand{\corrgraph}[6]{%
+  \begin{tikzpicture}
+    \pgfkeys{/pgf/number format/.cd,
+      fixed,
+      precision=999,
+      set thousands separator={},
+      1000 sep in fractionals=false,
+    }
+    \begin{axis}[
+        width=4cm,
+        height=4cm,
+        xlabel={$R=#2$},
+        ylabel={},
+        ymajorgrids=false,
+        xmajorgrids=false,
+        %enlarge x limits=false,
+        %enlarge y limits=false,
+        xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+        xticklabel=\pgfmathprintnumber{\tick},
+        xticklabels={,,},
+        yticklabels={,,},
+        scaled y ticks=base 10:0,
+        ytick scale label code/.code={},
+        ymin=#5,
+        ymax=#6,
+        xmin=#3,
+        xmax=#4,
+        scatter/use mapped color={
+          %draw=mapped color,
+          fill=blue,
+        },
+      ]
+      \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+      table [x=x, y=y, col sep=comma, discard if not={group}{#1}] {simulated_scatter.csv};
+    \end{axis}
+  \end{tikzpicture}
+}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \corrgraph{9}{0.33}{-0.2}{4.2}{-9}{17}
+      \corrgraph{10}{0.69}{-0.2}{4.2}{-2.5}{4.5}
+      \corrgraph{11}{0.98}{-0.2}{4.2}{-2}{9.6}
+      \corrgraph{12}{1.00}{-0.03}{1.03}{-0.1}{1.1}
+    \end{center}
+
+    \begin{center}
+      \corrgraph{13}{0.08}{-0.2}{4.2}{-17}{14}
+      \corrgraph{14}{-0.64}{-5.2}{5.2}{-12}{10}
+      \corrgraph{15}{-0.92}{-0.03}{1.03}{-10}{2}
+      \corrgraph{16}{-1.00}{-0.03}{1.03}{-1.2}{0.2}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{center}
+      \corrgraph{17}{-0.23}{-2}{2.2}{-49}{8}
+      \corrgraph{18}{0.31}{-19}{9}{-1110}{792}
+      \corrgraph{19}{0.50}{-1}{4}{-0.2}{2}
+    \end{center}\pause
+
+    Since each of these scatter plots has a clear non-linear pattern, a linear model is not appropriate and correlation shouldn't have been calculated.
+  \end{example}\pause
+
+  \begin{note}
+    Given a table of $x$ and $y$ values, a computer will happily compute correlation. It is your job to determine if a linear model makes sense. 
+  \end{note}
+\end{frame}
 \end{document}
