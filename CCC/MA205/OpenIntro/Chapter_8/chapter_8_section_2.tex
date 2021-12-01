@@ -38,4 +38,175 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \begin{example}
+    Gift aid is financial aid that does not need to be paid back.
+
+    \vspace{1mm}
+    A sample of 50 random freshmen at Elmhurst College is shown, comparing the student's family income against gift aid received.
+    
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.9\linewidth,
+            height=4.9cm,
+            xlabel={Family Income},
+            ylabel={Gift Aid From School},
+            %ymajorgrids=true,
+            %xmajorgrids=true,
+            %enlarge x limits=false,
+            %enlarge y limits=false,
+            xticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            xticklabel=\$\pgfmathprintnumber{\tick}k,
+            yticklabel style={/pgf/number format/.cd,fixed,precision=1},
+            yticklabel=\$\pgfmathprintnumber{\tick}k,
+            xtick={0,50,100,...,1000},
+            ytick={0,10,20,...,1000},
+            ymin=5,
+            ymax=35,
+            xmin=-5,
+            xmax=300,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=family_income, y=gift_aid, col sep=comma] {elmhurst.csv};
+          \only<2>{\addplot[domain=-5:300, color=red]{-0.0431 * x + 24.319};}
+          \only<3->{\addplot[domain=-5:300, color=green!75!black]{-0.0431 * x + 24.319};}
+          \only<2->{\addplot[domain=-5:300, color=red]{-0.04 * x + 24.7};}
+          \only<2->{\addplot[domain=-5:300, color=red]{-0.05 * x + 24};}
+          \only<2->{\addplot[domain=-5:300, color=red]{-0.0431 * x + 26};}
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}\pause
+
+    \vspace{-4mm}
+    \question{Which of the lines best fits the data?}\pause
+    \answer{Without an objective definition of measure of \textquote{best}, the answer will vary from person to person.}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{What does \textquote{best} mean?}
+    A reasonable idea of best, is if we make the sum of the residuals as small as possible:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \abs{e_1}+\abs{e_2}+\cdots+\abs{e_n}
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-3mm}
+    A more common practice is to choose a line that minimizes the sum of the squared residuals:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        e^2_1+e^2_2+\cdots+e^2_n
+      \end{aligned}
+    \end{equation*}
+  \end{block}\pause
+
+  \begin{definition}
+    The line that minimizes the sum of the squares of the residuals is called the \textbf{least squares line}.
+  \end{definition}\pause
+
+  \begin{note}
+    In many applications, a residual twice as large as another is more than twice as bad. Squaring the residuals helps account for this discrepancy.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Conditions for the Least Squares Line}
+    \begin{description}
+    \item[Linearity:] The data should show a linear trend. If there is a non-linear trend a more advanced method is needed.\pause
+    \item[Near Normal Residuals:] When this condition is found unreasonable, it is usually because of outliers or concerns about influential points.\pause
+    \item[Constant Variability:] The variability of points around the least squares line remains roughly constant.\pause
+    \item[Independent Observations:] Be careful about applying regression to \textbf{time series} data, which are sequential observations in time such as a stock price each day.
+    \end{description}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot where linearity fails:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-2,
+            ymax=11,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{20}] {simulated_scatter.csv};
+          \addplot[domain=0:1, color=red]{5.2033747528001175 * x + 3.4442315838402804};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-5.5,
+            ymax=5,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{20}] {residuals.csv};
+          \addplot[domain=0:4, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
 \end{document}
