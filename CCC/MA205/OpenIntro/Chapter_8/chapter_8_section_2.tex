@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[inline]{asymptote}
+\usepackage{asy_helper}
+\usepackage{slide_helper}
+\usepackage{multirow}
+\usepackage{cancel}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.5} 
+\usepgfplotslibrary{statistics}
+\usetikzlibrary{external}
+\tikzexternalize%
+
+\pgfplotsset{%
+  filter discard warning=false,
+    discard if not/.style 2 args={%
+        x filter/.code={%
+            \edef\tempa{\thisrow{#1}}%
+            \edef\tempb{#2}%
+            \ifx\tempa\tempb%
+            \else%
+                \def\pgfmathresult{inf}%
+            \fi% 
+        }
+    }
+}
+
+\title[MA205 - Section 8.2]{Least Squares Regression}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\end{document}
