@@ -839,8 +839,8 @@
       1000 sep in fractionals=false,
     }
     \begin{axis}[
-        width=4cm,
-        height=4cm,
+        width=4.4cm,
+        height=4.4cm,
         xlabel={$R=#2$},
         ylabel={},
         ymajorgrids=false,
@@ -849,6 +849,8 @@
         %enlarge y limits=false,
         xticklabel style={/pgf/number format/.cd,fixed,precision=1},
         xticklabel=\pgfmathprintnumber{\tick},
+        xtick=\empty,
+        ytick=\empty,
         xticklabels={,,},
         yticklabels={,,},
         scaled y ticks=base 10:0,
