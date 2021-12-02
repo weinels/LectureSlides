@@ -284,7 +284,7 @@
 
 \begin{frame}
   \begin{example}
-    Scatter plot where there are clear outliers:
+    Scatter plot where the variability around the line isn't constant:
     \begin{center}
       \begin{tikzpicture}
         \pgfkeys{/pgf/number format/.cd,
@@ -435,12 +435,12 @@
     \vspace{-4mm}
     \begin{equation*}
       \begin{aligned}
-        \hat{y} = \beta_{0} + \beta{1} x
+        \hat{y} = \beta_{0} + \beta_{1} x
       \end{aligned}
     \end{equation*}\pause
 
     \vspace{-5mm}
-    While technology is usually used to find $\beta_0$ and $\beta_1$, we can use the following properties to estimate them by had:
+    While technology is usually used to find $\beta_0$ and $\beta_1$, we can use the following properties to estimate them by hand:\pause
     \begin{itemize}
     \item The slope of the least squares line can be estimated by
 
@@ -583,7 +583,7 @@
     If we apply our least squares line, then this model reduces our uncertainty in predicting aid using a student's family income.\pause
 
     \vspace{1mm}
-    The variability in the residuals describes how much variation remains after using the model: $s_{residuals}^2\approx 22.4$.\pause
+    The variability in the residuals describes how much variation remains after using the model: $s_{residuals}^2\approx 22.4~\text{million}$.\pause
 
     \vspace{1mm}
     This means we have a reduction of
