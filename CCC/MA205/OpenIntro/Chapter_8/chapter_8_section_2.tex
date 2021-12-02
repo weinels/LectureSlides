@@ -138,7 +138,7 @@
 
 \begin{frame}
   \begin{example}
-    Scatter plot where linearity fails:
+    Scatter plot where the linearity condition fails:
     \begin{center}
       \begin{tikzpicture}
         \pgfkeys{/pgf/number format/.cd,
@@ -149,7 +149,7 @@
         }
         \begin{axis}[
             width=0.7\linewidth,
-            height=4cm,
+            height=5.5cm,
             xlabel={},
             ylabel={},
             xtick=\empty,
@@ -202,11 +202,410 @@
           ]
           \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
           table [x=x, y=y, col sep=comma, discard if not={group}{20}] {residuals.csv};
-          \addplot[domain=0:4, color=red]{0 * x};
+          \addplot[domain=0:1, color=red]{0 * x};
         \end{axis}
       \end{tikzpicture}
     \end{center}
   \end{example}
 \end{frame}
 
+\begin{frame}
+  \begin{example}
+    Scatter plot where there are clear outliers:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=5.5cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-16,
+            ymax=26,
+            xmin=-0.7,
+            xmax=1.1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{21}] {simulated_scatter.csv};
+          \addplot[domain=-1:1.1, color=red]{24.033896862467678 * x + 0.5315380596430936};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-3.5,
+            ymax=9,
+            xmin=-0.7,
+            xmax=1.1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{21}] {residuals.csv};
+          \addplot[domain=-1:1.1, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot where there are clear outliers:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=5.5cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=0,
+            ymax=6,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{22}] {simulated_scatter.csv};
+          \addplot[domain=0:1, color=red]{4.939997747516614 * x + 0.020156186535077454};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-2.5,
+            ymax=1.5,
+            xmin=0,
+            xmax=1,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{22}] {residuals.csv};
+          \addplot[domain=0:1, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Scatter plot using time series data:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=5.5cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=0.86,
+            ymax=1.03,
+            xmin=0,
+            xmax=61,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{23}] {simulated_scatter.csv};
+          \addplot[domain=0:61, color=red]{-0.0013372904437959792 * x + 0.9840752827021301};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+
+    \vspace{-3mm}
+    Residual plot:
+    \begin{center}
+      \begin{tikzpicture}
+        \pgfkeys{/pgf/number format/.cd,
+          fixed,
+          precision=999,
+          set thousands separator={},
+          1000 sep in fractionals=false,
+        }
+        \begin{axis}[
+            width=0.7\linewidth,
+            height=4cm,
+            xlabel={},
+            ylabel={},
+            xtick=\empty,
+            ytick=\empty,
+            xticklabels={,,},
+            yticklabels={,,},
+            ymin=-0.06,
+            ymax=0.05,
+            xmin=0,
+            xmax=61,
+            scatter/use mapped color={
+              %draw=mapped color,
+              fill=blue,
+            },
+          ]
+          \addplot[scatter, only marks, blue, scatter src=y, mark size=1pt]
+          table [x=x, y=y, col sep=comma, discard if not={group}{23}] {residuals.csv};
+          \addplot[domain=0:61, color=red]{0 * x};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Finding the Least Squares Line}
+    The least squares regression line will have form:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        \hat{y} = \beta_{0} + \beta{1} x
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-5mm}
+    While technology is usually used to find $\beta_0$ and $\beta_1$, we can use the following properties to estimate them by had:
+    \begin{itemize}
+    \item The slope of the least squares line can be estimated by
+
+      \vspace{-2mm}
+      \begin{equation*}
+        \begin{aligned}
+          b_1 = \dfrac{s_y}{s_x} R
+        \end{aligned}
+      \end{equation*}\pause
+
+      \vspace{-4mm}
+      \item The point $(\bar{x},\bar{y})$ is on the least squares line.
+    \end{itemize}
+  \end{block}\pause
+
+  \begin{note}
+    Recall from Algebra that if we know the slope, $m$, of a line and a point, $(x_0,y_0)$, on that line, then:
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        y-y_0=m(x-x_0)
+      \end{aligned}
+    \end{equation*}
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    The summary statistics of the Elmhurst College data set are:
+    \begin{center}
+      \begin{tabular}{lrrrr}\hline
+        & \multicolumn{2}{c}{Family Income ($x$)} & \multicolumn{2}{c}{Gift Aid ($y$)} \\\hline
+        mean & $\bar{x}=$&$\$101,780$ & $\bar{y}=$&$\$19,940$ \\
+        std. dev. & $s_x=$&$\$63,200$ & $s_y=$&$\$5,460$ \\\hline
+      \end{tabular}
+    \end{center}\pause
+
+    The correlation of the data set is $R=-0.499$, so
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        b_1 = \dfrac{s_y}{s_x} R\pause
+        = \dfrac{5,460}{63,200} (-0.499)\pause
+        = -0.0431 
+      \end{aligned}
+    \end{equation*}\pause
+
+    \vspace{-3mm}
+    Since $(\bar{x},\bar{y})=(101,780, 19,940)$ is on the least squares line, we have $x_0=101,780$ and $y_0=19,940$ which gives\pause
+
+    \vspace{-3mm}
+    \begin{equation*}
+      \begin{aligned}
+        y-y_0 &= m(x-x_0) \\\pause
+        y-19,940 &= -0.0431(x-101,780) \\\pause
+        y-19,940 &= -0.0431x + 4386.72\\\pause
+        y &= -0.0431x + 4386.72 + 19,940\\\pause
+        y &= 24,327 - 0.0431x
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Process for estimating the least squares line}
+    \begin{enumerate}
+    \item Estimate the slope parameter: $b_1=\dfrac{s_y}{s_x} R$
+    \item Since $(\bar{x}, \bar{y})$ is on the least squares line, use $x_0=\bar{x}$ and $y_0=\bar{y}$
+    \item Using the point-slope form: $b_0=\bar{y}-b_1 x$
+    \end{enumerate}
+  \end{block}\pause
+
+  \begin{note}
+    The slope, $b_1$, describes the estimated difference in the $y$ variable if the explanatory variable $x$ for a case happened to be one unit larger.
+  \end{note}\pause
+
+  \begin{note}
+    The intercept, $b_0$, describes the average outcome of $y$ if $x=0$ and the linear model is valid all the way to $x=0$.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{examplecont}
+    The slope, $b_1=-0.0431$, means that for each \$1,000 family income, we would expect a student to receive a net difference of
+    \begin{equation*}
+      \begin{aligned}
+        \$1,000 \cdot (-0.0431) = -\$43.10
+      \end{aligned}
+    \end{equation*}\pause
+    Which means, on average, \$43.10 less in gift aid.\pause
+
+    \vspace{2mm}
+    The intercept, $b_0=\$24,319$, gives the gift aid, on average, a student would receive if their family had no income.
+  \end{examplecont}\pause
+
+  \begin{note}
+    We must be cautious about interpreting a causal connection between these variables because this data is observational, not experimental.
+  \end{note}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    When a regression is used to predict from a $x$ value in between the maximum and minimum values, it is called \textbf{interpolation}.
+  \end{definition}\pause
+
+  \begin{definition}
+    When a regression is used to predict from a $x$ value bigger than the maximum or smaller than the minimum, it is called \textbf{extrapolation}. 
+  \end{definition}\pause
+
+  \begin{example}
+    The largest family income in the Elmhurst data set is \$271,974.\pause
+
+    \vspace{1mm}
+    If we use the least squares line to estimate the aid of a student with a family income of \$1,000,000, we would get:
+    \begin{equation*}
+      \begin{aligned}
+        24,319 - 0.0431 (1,000,000) = -18,781
+      \end{aligned}
+    \end{equation*}\pause
+    The financial aid a school gives a student can never be less than zero!
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Strength of Fit}
+    We have used the correlation $R$ to describe the linear relationship between two variable, but it is more common to use $R^2$, called \textbf{R-squared}.\pause
+
+    \vspace{2mm}
+    The $R^2$ of a linear model describes what percent of the variation in the response that is explained by the least squares line.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    With the Elmhurst College data, the variance of the response variable is $s_{\text{aid}}^2={(5,460)}^2\approx 29.8~\text{million}$.\pause
+
+    \vspace{1mm}
+    If we apply our least squares line, then this model reduces our uncertainty in predicting aid using a student's family income.\pause
+
+    \vspace{1mm}
+    The variability in the residuals describes how much variation remains after using the model: $s_{residuals}^2\approx 22.4$.\pause
+
+    \vspace{1mm}
+    This means we have a reduction of
+    \begin{equation*}
+      \begin{aligned}
+        \dfrac{s_{aid}^2 - s_{residuals}^2}{s_{aid}^2} =\pause
+        \dfrac{29,800,000 - 22,400,000}{29,800,000}\pause
+        = \dfrac{7,500,000}{29,800,000}\pause
+        \approx 0.25
+      \end{aligned}
+    \end{equation*}\pause
+    Which means a reduction of about 25\% by using information about family income for predicting aid.\pause
+
+    \vspace{1mm}
+    Note that for this data set we have $R=-0.499$ and
+
+    \vspace{-4mm}
+    \begin{equation*}
+      \begin{aligned}
+        R^2 = {(-0.4999)}^2 \approx 0.25
+      \end{aligned}
+    \end{equation*}
+  \end{example}
+\end{frame}
 \end{document}
